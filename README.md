@@ -1,7 +1,8 @@
-# dbt_starter
-DBT Starter Template Repository with macros, CI/CD Templates/ Folder Structure which are commonly used in Dalgo's DBT Projects
+# dbt_bhumi
+Bhumi DBT Repository 
+This repository contains the dbt project for Bhumi, which is designed to transform and model data for analytics purposes.
 
-### Using the starter project
+### Using this project
 
 Try running the following commands:
 - dbt run
