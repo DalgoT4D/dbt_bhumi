@@ -3,27 +3,23 @@
 
     {%- if custom_schema_name is none -%}
 
-        {# Handle specific cases based on folder names or tags #}
-        {% if 'elementary' in node.fqn %}
-            {{ target.schema }}_elementary
+        {# Use the first folder under /models as the schema prefix #}
+        {% set prefix = node.fqn[1] %}
 
-        {% elif 'staging' in node.fqn and node.fqn.index('staging') + 1 < node.fqn | length %}
-            {% set prefix = node.fqn[node.fqn.index('staging')] %}
-            intermediate_{{ prefix | trim }}
-
-        {% elif 'marts' in node.fqn and node.fqn.index('marts') + 1 < node.fqn | length %}
-            {% set prefix = node.fqn[node.fqn.index('marts')] %}
-            {{ target.schema }}_{{ prefix | trim }}
-
-        {# Fallback to default schema if no specific case matches #}
+        {# Staging models can be same for prod or dev profiles/target schema #}
+        {% if 'prod' in default_schema or 'seed_data' in node.fqn %}
+            {{ prefix | trim }}
         {% else %}
-            {{ default_schema }}
+            {{ default_schema }}_{{ prefix | trim }}
         {% endif %}
 
     {%- else -%}
 
-        {{ default_schema }}_{{ custom_schema_name | trim }}
+        {% if 'elementary' not in custom_schema_name %}
+            {{ default_schema }}_{{ custom_schema_name | trim }}
+        {% else %}
+            {{ custom_schema_name | trim }}
+        {% endif %}
 
     {%- endif -%}
-
 {%- endmacro %}

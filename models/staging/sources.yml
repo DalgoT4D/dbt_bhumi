@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: fellowship_24_25_data
+    schema: fellowship_24_25
+    tables:
+      - name: Raw_Data_Baseline
+        identifier: Raw_Data_sample
+        description: This is a placeholder table & will be replaced with original. This table contains data of the baseline assessment for AY 24-25, for students in all classrooms. This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet 'Baseline 2024_Overall Analysis'
+      - name: Raw_Data_Midline
+        identifier: Raw_Data_Midline
+        description: This table contains data of the midline assessment for AY 24-25, for students in all classrooms. This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet 'Midline 2024_Overall Analysis'
+      - name: Raw_Data_Endline
+        identifier: Raw_Data_Endline
+        description: This table contains data of the endline assessment for AY 24-25, for students in all classrooms. This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet 'Endline 2025_Overall data'
+  
