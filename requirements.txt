@@ -1,5 +1,5 @@
-sqlfluff==3.0.0
+sqlfluff
 dbt-postgres
-sqlfluff-templater-dbt==3.2.5
-pre_commit==4.3.0
-dbt-osmosis==1.1.17
+sqlfluff-templater-dbt
+pre_commit
+dbt-osmosis
