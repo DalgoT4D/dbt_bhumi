@@ -13,4 +13,17 @@ sources:
       - name: Raw_Data_Endline
         identifier: Raw_Data_Endline
         description: This table contains data of the endline assessment for AY 24-25, for students in all classrooms. This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet 'Endline 2025_Overall data'
+   
+  - name: ecochamps25_26
+    schema: ecochamps25_26
+    tables:
+      - name: Student___Session_Data
+        identifier: Student___Session_Data
+        description: This is a placeholder table Eco Champs 25&26
+      - name: RAG_MATRIX
+        identifier: RAG_MATRIX
+        description: RAG_MATRIX
+      - name: Data_Tracker
+        identifier: Data_Tracker
+        description: Data Tracker
   

@@ -7,3 +7,4 @@ venv/
 profiles.yml
 profiles.yaml
 .user.yml
+package-lock.yml
