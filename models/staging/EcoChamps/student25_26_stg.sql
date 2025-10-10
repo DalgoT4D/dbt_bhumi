@@ -3,8 +3,8 @@ select
   nullif(trim("School_ID"), '') as "School_ID",                          -- string
   nullif(trim("Grade"), '') as "Grade",                                  -- string
   cast(nullif(trim("Student_Count"), '') as integer) as "Student_Count", -- integer
-  nullif(trim("CenterCoordiantor (1)"), '') as "Center_Coordiantor_1",    -- string
-  nullif(trim("CenterCoordianator (2)"), '') as "Center_Coordianator_2",    -- string
+  nullif(trim("Center_Coordiantor_(1)"), '') as "Center_Coordiantor_1",    -- string
+  nullif(trim("Center_Coordianator_(2)"), '') as "Center_Coordianator_2",    -- string
   cast(nullif(trim("Baseline"), '') as numeric) as "Baseline",           -- numeric/float
   nullif(trim("Kitchen_Garden"), '') as "Kitchen_Garden",                -- string
   nullif(trim("Waste_Management"), '') as "Waste_Management",            -- string
