@@ -27,3 +27,10 @@ sources:
         identifier: Data_Tracker
         description: Data Tracker
   
+  - name: fellowship_25_26
+    schema: fellowship_25_26
+    tables:
+      - name: Raw_Data_Baseline_2025
+        identifier: Raw_Data_Baseline_2025
+        description: Baseline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
+  
