@@ -14,13 +14,7 @@ select
   cast(nullif(trim("Endline"), '') as numeric) as "Endline",             -- numeric/float
   nullif(trim("Mo"), '') as "Mo",                                        -- string
   nullif(trim("Session_Completion_Status"), '') as "Session_Completion_Status", -- string
-  cast(nullif(
-    case
-      when trim("Classroom_Attendance") = '' then ''
-      when char_length(trim("Classroom_Attendance")) = 1 then trim("Classroom_Attendance")
-      else left(trim("Classroom_Attendance"), char_length(trim("Classroom_Attendance")) - 1)
-    end
-  , '') as integer) as "Classroom_Attendance", -- integer
+  cast(nullif(rtrim(trim("Classroom_Attendance"), '%'), '') as integer) as "Classroom_Attendance", -- integer
   cast(nullif(trim("Progress_Bar__Q2___Target___2_Modules_"), '') as numeric) as "Progress_Bar_Q2", -- numeric/float
   cast(nullif(trim("Total_Students_Count"), '') as integer) as "Total_Students_Count", -- integer
   nullif(trim("Donor_Mapped"), '') as "Donor_Mapped"                     -- string
