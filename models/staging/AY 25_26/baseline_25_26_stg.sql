@@ -87,7 +87,18 @@ SELECT DISTINCT
     b."Baseline Total in Mensuration" AS baseline_total_in_mensuration_base,
     b."Baseline Total in Time" AS baseline_total_in_time_base,
     b."Baseline Total in Operations" AS baseline_total_in_operations_base,
-    b."Baseline Total in Data" AS baseline_total_in_data_base
+    b."Baseline Total in Data" AS baseline_total_in_data_base,
+    b."RF Level Baseline" AS rf_level_baseline_base,
+    b."RF Baseline Growth" AS rf_baseline_growth_base,
+    b."Baseline Letter sounds" AS baseline_letter_sounds_base,
+    b."Baseline CVC words" AS baseline_cvc_words_base,
+    b."Baseline Blends" AS baseline_blends_base,
+    b."Baseline Consonant diagraph" AS baseline_consonant_diagraph_base,
+    b."Baseline Magic E words" AS baseline_magic_e_words_base,
+    b."Baseline Vowel diagraphs" AS baseline_vowel_diagraphs_base,
+    b."Baseline Multi syllabelle words" AS baseline_multi_syllabelle_words_base,
+    b."Baseline Passage 1" AS baseline_passage_1_base,
+    b."Baseline Passage 2" AS baseline_passage_2_base
 FROM baseline b
 WHERE b."Student ID" <> ''
 
