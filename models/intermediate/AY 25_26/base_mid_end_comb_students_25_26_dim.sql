@@ -1,22 +1,23 @@
 with all_student_id as (
-    (select distinct 
+    select distinct 
         student_id_base as student_id
     from {{ref('baseline_25_26_stg')}}
-    where student_id_base is not null)
+    where student_id_base is not null
     
+    -- Uncomment the following unions if needed
     -- union
 
-    -- (select distinct 
+    -- select distinct 
     --     student_id_mid as student_id
     -- from {{ref('midline_2425_stg')}}
-    -- where student_id_mid is not null)
+    -- where student_id_mid is not null
 
     -- union
 
-    -- (select distinct 
+    -- select distinct 
     --     student_id_end as student_id
     -- from {{ref('endline_2425_stg')}}
-    -- where student_id_end is not null)
+    -- where student_id_end is not null
 )
 
 select 
@@ -30,7 +31,7 @@ select
     b.school_name_base,
     b.fellow_name_base,
     b.cohort_base,
-    b.student_grade_base,
+    b.student_grade_base
     -- Midline columns
     -- case when m.student_id_mid is null then False else True end as midline_attendence,
     -- m.city_mid,
