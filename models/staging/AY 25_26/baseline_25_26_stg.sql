@@ -56,6 +56,7 @@ WITH baseline AS (
 )
 
 SELECT DISTINCT
+    b."Student ID" AS student_id_base,
     b."Acadamic year" AS acadamic_year_base,
     b."City" AS city_base,
     b."PM Name" AS pm_name_base,
@@ -64,7 +65,6 @@ SELECT DISTINCT
     b."Fellow name" AS fellow_name_base,
     b."Cohort" AS cohort_base,
     b."Student grade" AS student_grade_base,
-    b."Student ID" AS student_id_base,
     b."Student name" AS student_name_base,
     b."RC level Baseline" AS rc_level_baseline_base,
     b."RC Grade level Baseline" AS rc_grade_level_baseline_base,
