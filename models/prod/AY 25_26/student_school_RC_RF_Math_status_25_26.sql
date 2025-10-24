@@ -9,6 +9,7 @@ with student_school_baseline as (
         d.student_grade_base,
         f.rc_learning_level_status_baseline_base,
         f.math_learning_level_status_baseline_base,
+        f.rf_level_baseline_base,
         d.baseline_attendence
     from 
         {{ref('base_mid_end_comb_scores_25_26_fct')}} f
@@ -85,6 +86,7 @@ select
     b.student_grade_base,
     b.rc_learning_level_status_baseline_base,
     b.math_learning_level_status_baseline_base,
+    b.rf_level_baseline_base,
     b.baseline_attendence
     
     -- -- Midline Details
