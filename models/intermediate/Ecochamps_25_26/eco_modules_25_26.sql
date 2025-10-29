@@ -1,25 +1,6 @@
 WITH base AS (
-
     SELECT
-        "Student Unique ID",
-        "Chapter",
-        "School",
-        "Grade",
-        "School ID",
-        "Student Name",
-        'Baseline' AS module,
-        CASE 
-            WHEN LEFT("Baseline", 1) = 'P' THEN 'P'
-            WHEN LEFT("Baseline", 1) = 'A' THEN 'A'
-            ELSE NULL
-        END AS attendance,
-        NULLIF(regexp_replace("Baseline", '.*\(([^)]+)\)', '\1'), "Baseline") AS raw_date
-    FROM {{ ref('eco_student25_26_stg') }}
-
-    UNION ALL
-
-    SELECT
-        "Student Unique ID",
+        "Roll No",
         "Chapter",
         "School",
         "Grade",
@@ -31,13 +12,16 @@ WITH base AS (
             WHEN LEFT("Kitchen Garden", 1) = 'A' THEN 'A'
             ELSE NULL
         END AS attendance,
-        NULLIF(regexp_replace("Kitchen Garden", '.*\(([^)]+)\)', '\1'), "Kitchen Garden") AS raw_date
+        CASE 
+            WHEN "Kitchen Garden" ~ '\\(\\w{3} \\d{1,2} \\d{4}\\)' THEN TO_DATE(regexp_replace("Kitchen Garden", '.*\\(([^)]+)\\)', '\\1'), 'Mon DD YYYY')
+            ELSE NULL
+        END AS date
     FROM {{ ref('eco_student25_26_stg') }}
 
     UNION ALL
 
     SELECT
-        "Student Unique ID",
+        "Roll No",
         "Chapter",
         "School",
         "Grade",
@@ -49,13 +33,16 @@ WITH base AS (
             WHEN LEFT("Waste Management", 1) = 'A' THEN 'A'
             ELSE NULL
         END AS attendance,
-        NULLIF(regexp_replace("Waste Management", '.*\(([^)]+)\)', '\1'), "Waste Management") AS raw_date
+        CASE 
+            WHEN "Waste Management" ~ '\\(\\w{3} \\d{1,2} \\d{4}\\)' THEN TO_DATE(regexp_replace("Waste Management", '.*\\(([^)]+)\\)', '\\1'), 'Mon DD YYYY')
+            ELSE NULL
+        END AS date
     FROM {{ ref('eco_student25_26_stg') }}
 
     UNION ALL
 
     SELECT
-        "Student Unique ID",
+        "Roll No",
         "Chapter",
         "School",
         "Grade",
@@ -67,13 +54,16 @@ WITH base AS (
             WHEN LEFT("Water Conservation", 1) = 'A' THEN 'A'
             ELSE NULL
         END AS attendance,
-        NULLIF(regexp_replace("Water Conservation", '.*\(([^)]+)\)', '\1'), "Water Conservation") AS raw_date
+        CASE 
+            WHEN "Water Conservation" ~ '\\(\\w{3} \\d{1,2} \\d{4}\\)' THEN TO_DATE(regexp_replace("Water Conservation", '.*\\(([^)]+)\\)', '\\1'), 'Mon DD YYYY')
+            ELSE NULL
+        END AS date
     FROM {{ ref('eco_student25_26_stg') }}
 
     UNION ALL
 
     SELECT
-        "Student Unique ID",
+        "Roll No",
         "Chapter",
         "School",
         "Grade",
@@ -85,13 +75,16 @@ WITH base AS (
             WHEN LEFT("Climate", 1) = 'A' THEN 'A'
             ELSE NULL
         END AS attendance,
-        NULLIF(regexp_replace("Climate", '.*\(([^)]+)\)', '\1'), "Climate") AS raw_date
+        CASE 
+            WHEN "Climate" ~ '\\(\\w{3} \\d{1,2} \\d{4}\\)' THEN TO_DATE(regexp_replace("Climate", '.*\\(([^)]+)\\)', '\\1'), 'Mon DD YYYY')
+            ELSE NULL
+        END AS date
     FROM {{ ref('eco_student25_26_stg') }}
 
     UNION ALL
 
     SELECT
-        "Student Unique ID",
+        "Roll No",
         "Chapter",
         "School",
         "Grade",
@@ -103,31 +96,15 @@ WITH base AS (
             WHEN LEFT("Life Style & Choices", 1) = 'A' THEN 'A'
             ELSE NULL
         END AS attendance,
-        NULLIF(regexp_replace("Life Style & Choices", '.*\(([^)]+)\)', '\1'), "Life Style & Choices") AS raw_date
-    FROM {{ ref('eco_student25_26_stg') }}
-
-    UNION ALL
-
-    SELECT
-        "Student Unique ID",
-        "Chapter",
-        "School",
-        "Grade",
-        "School ID",
-        "Student Name",
-        'Endline' AS module,
         CASE 
-            WHEN LEFT("Endline", 1) = 'P' THEN 'P'
-            WHEN LEFT("Endline", 1) = 'A' THEN 'A'
+            WHEN "Life Style & Choices" ~ '\\(\\w{3} \\d{1,2} \\d{4}\\)' THEN TO_DATE(regexp_replace("Life Style & Choices", '.*\\(([^)]+)\\)', '\\1'), 'Mon DD YYYY')
             ELSE NULL
-        END AS attendance,
-        NULLIF(regexp_replace("Endline", '.*\(([^)]+)\)', '\1'), "Endline") AS raw_date
+        END AS date
     FROM {{ ref('eco_student25_26_stg') }}
-
 )
 
 SELECT
-    "Student Unique ID",
+    "Roll No",
     "Chapter",
     "School",
     "Grade",
@@ -135,9 +112,5 @@ SELECT
     "Student Name",
     module,
     attendance,
-    CASE
-        WHEN raw_date IS NULL THEN NULL
-        WHEN raw_date ~ '/' THEN TO_DATE(raw_date, 'MM/DD/YY')
-        ELSE TO_DATE(raw_date, 'Mon DD YYYY')
-    END AS date
+    date
 FROM base

@@ -1,51 +1,47 @@
-WITH clean AS (
-    SELECT
-        -- Basic Info
-        COALESCE(INITCAP(BTRIM("Chapter"::TEXT)), '') AS "Chapter",
-        COALESCE(INITCAP(BTRIM("School"::TEXT)), '') AS "School",
+WITH data_tracker_clean AS (
+    SELECT DISTINCT
+        COALESCE(BTRIM("School"::TEXT), '') AS "School",
         COALESCE(BTRIM("Grade"::TEXT), '') AS "Grade",
-        CASE WHEN BTRIM("School_ID"::TEXT) ~ '^\d+$' THEN ("School_ID"::TEXT)::BIGINT ELSE NULL END AS "School ID",
-        COALESCE(INITCAP(BTRIM("_Student_Name_"::TEXT)), '') AS "Student Name",
-        COALESCE(INITCAP(BTRIM("Center_Coordiantor__1_"::TEXT)), '') AS "Center Coordiantor (1)",
-        COALESCE(INITCAP(BTRIM("Center_Coordianator__2_"::TEXT)), '') AS "Center Coordianator (2)",
-        COALESCE(BTRIM("Student_Status"::TEXT), '') AS "Student Status",
+        COALESCE(BTRIM("Donor_Mapped"::TEXT), '') AS "Donor Mapped"
+    FROM {{ source('ecochamps25_26', 'Data_Tracker') }}
+    WHERE "Donor_Mapped" IS NOT NULL
+),
 
-        -- Generate a random 10-character alphanumeric unique ID
-        upper(substring(replace(gen_random_uuid()::text, '-', '') from 1 for 10)) as "Student Unique ID",
+clean AS (
+    SELECT
+        COALESCE(INITCAP(BTRIM(ssd."Chapter"::TEXT)), '') AS "Chapter",
+        COALESCE(INITCAP(BTRIM(ssd."School"::TEXT)), '') AS "School",
+        COALESCE(BTRIM(ssd."Grade"::TEXT), '') AS "Grade",
+        CASE WHEN BTRIM(ssd."School_ID"::TEXT) ~ '^\d+$' THEN (ssd."School_ID"::TEXT)::BIGINT ELSE NULL END AS "School ID",
+        CASE WHEN BTRIM(ssd."Roll_No_"::TEXT) ~ '^\d+$' THEN (ssd."Roll_No_"::TEXT)::BIGINT ELSE NULL END AS "Roll No",
+        COALESCE(INITCAP(BTRIM(ssd."_Student_Name_"::TEXT)), '') AS "Student Name",
+        COALESCE(INITCAP(BTRIM(ssd."Center_Coordiantor__1_"::TEXT)), '') AS "Center Coordiantor (1)",
+        COALESCE(INITCAP(BTRIM(ssd."Center_Coordianator__2_"::TEXT)), '') AS "Center Coordianator (2)",
+        COALESCE(BTRIM(ssd."Student_Status"::TEXT), '') AS "Student Status",
 
-        -- Baseline & Scores
-        CASE 
-            WHEN BTRIM("Baseline_Score"::TEXT) ~ '^[0-9]+$' 
-            THEN ("Baseline_Score"::TEXT)::INT 
-            ELSE NULL 
-        END AS "Baseline Score",
+        dt."Donor Mapped" AS "Donor Mapped",
 
-        COALESCE(BTRIM("Baseline"::TEXT), '') AS "Baseline",
-        COALESCE(BTRIM("Kitchen_Garden"::TEXT), '') AS "Kitchen Garden",
-        COALESCE(BTRIM("Waste_Management"::TEXT), '') AS "Waste Management",
-        COALESCE(BTRIM("Water_Conservation"::TEXT), '') AS "Water Conservation",
-        COALESCE(BTRIM("Climate"::TEXT), '') AS "Climate",
-        COALESCE(BTRIM("Life_Style___Choices"::TEXT), '') AS "Life Style & Choices",
-        COALESCE(BTRIM("Endline"::TEXT), '') AS "Endline",
+        CASE WHEN BTRIM(ssd."Baseline_Score"::TEXT) ~ '^[0-9]+$' THEN (ssd."Baseline_Score"::TEXT)::INT ELSE NULL END AS "Baseline Score",
 
-        -- Additional Metrics
-        CASE 
-            WHEN BTRIM("Modlues_Completed"::TEXT) ~ '^\d+$' 
-            THEN ("Modlues_Completed"::TEXT)::INT 
-            ELSE 0 
-        END AS "Modlues Completed",
+        COALESCE(BTRIM(ssd."Baseline"::TEXT), '') AS "Baseline",
+        COALESCE(BTRIM(ssd."Kitchen_Garden"::TEXT), '') AS "Kitchen Garden",
+        COALESCE(BTRIM(ssd."Waste_Management"::TEXT), '') AS "Waste Management",
+        COALESCE(BTRIM(ssd."Water_Conservation"::TEXT), '') AS "Water Conservation",
+        COALESCE(BTRIM(ssd."Climate"::TEXT), '') AS "Climate",
+        COALESCE(BTRIM(ssd."Life_Style___Choices"::TEXT), '') AS "Life Style & Choices",
+        COALESCE(BTRIM(ssd."Endline"::TEXT), '') AS "Endline",
 
-        CASE 
-            WHEN BTRIM("Attendance__"::TEXT) ~ '^[0-9.]+%?$' 
-            THEN REPLACE("Attendance__", '%', '')::NUMERIC 
-            ELSE NULL 
-        END AS "Attendance %"
+        CASE WHEN BTRIM(ssd."Modlues_Completed"::TEXT) ~ '^\d+$' THEN (ssd."Modlues_Completed"::TEXT)::INT ELSE 0 END AS "Modlues Completed",
+        CASE WHEN BTRIM(ssd."Attendance__"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE(ssd."Attendance__", '%', '')::NUMERIC ELSE NULL END AS "Attendance %"
 
-    FROM {{ source('ecochamps25_26', 'Student___Session_Data') }}
+    FROM {{ source('ecochamps25_26', 'Student___Session_Data') }} ssd
+    LEFT JOIN data_tracker_clean dt
+        ON INITCAP(BTRIM(ssd."School"::TEXT)) = INITCAP(BTRIM(dt."School"::TEXT))
+       AND BTRIM(ssd."Grade"::TEXT) = BTRIM(dt."Grade"::TEXT)
 )
 
-SELECT DISTINCT
-    "Student Unique ID",
+SELECT DISTINCT ON ("School ID", "Roll No", "Student Name")
+    "Roll No",
     "Chapter",
     "School",
     "Grade",
@@ -54,6 +50,7 @@ SELECT DISTINCT
     "Center Coordiantor (1)",
     "Center Coordianator (2)",
     "Student Status",
+    "Donor Mapped",
     "Baseline Score",
     "Baseline",
     "Kitchen Garden",
@@ -65,4 +62,5 @@ SELECT DISTINCT
     "Modlues Completed",
     "Attendance %"
 FROM clean
-WHERE "Student Name" <> ''
+WHERE "Roll No" IS NOT NULL
+ORDER BY "School ID", "Roll No", "Student Name"
