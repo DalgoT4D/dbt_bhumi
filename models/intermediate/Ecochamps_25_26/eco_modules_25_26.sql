@@ -113,4 +113,4 @@ SELECT
     module,
     attendance,
     date
-FROM bas
+FROM base
