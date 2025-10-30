@@ -33,6 +33,7 @@ select
     
     -- Mathematics Core Metrics
     -- Baseline
+    b.math_level_baseline_base,
     b.math_baseline_grade_base,
     b.math_learning_level_status_baseline_base,
     b.math_endline_baseline_growth_base,
@@ -47,6 +48,7 @@ select
     
     -- Mathematics Subject-wise Scores
     -- Baseline
+    b.final_baseline_level_mastery_base,
     b.baseline_numbers_base,
     b.baseline_patterns_base,
     b.baseline_geometry_base,

@@ -21,7 +21,7 @@ clean AS (
 
         dt."Donor Mapped" AS "Donor Mapped",
 
-        CASE WHEN BTRIM(ssd."Baseline_Score"::TEXT) ~ '^[0-9]+$' THEN (ssd."Baseline_Score"::TEXT)::INT ELSE NULL END AS "Baseline Score",
+        CASE WHEN BTRIM(ssd."Baseline_Score"::TEXT) IS NOT NULL THEN BTRIM(ssd."Baseline_Score"::TEXT) ELSE NULL END AS "Baseline Score",
 
         COALESCE(BTRIM(ssd."Baseline"::TEXT), '') AS "Baseline",
         COALESCE(BTRIM(ssd."Kitchen_Garden"::TEXT), '') AS "Kitchen Garden",
