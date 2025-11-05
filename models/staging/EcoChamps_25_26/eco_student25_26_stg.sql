@@ -24,13 +24,17 @@ clean AS (
         -- Baseline and Endline scores
         CASE 
             WHEN BTRIM(ssd."Baseline_Score"::TEXT) ~ '^[0-9]+(\.[0-9]+)?$' 
-            THEN (ssd."Baseline_Score"::TEXT)::NUMERIC 
+                THEN (ssd."Baseline_Score"::TEXT)::NUMERIC 
+            WHEN UPPER(BTRIM(ssd."Baseline_Score"::TEXT)) = 'A' 
+                THEN 0 
             ELSE NULL 
         END AS "Baseline Score",
 
         CASE 
             WHEN BTRIM(ssd."EndlineScore"::TEXT) ~ '^[0-9]+(\.[0-9]+)?$' 
-            THEN (ssd."EndlineScore"::TEXT)::NUMERIC 
+                THEN (ssd."EndlineScore"::TEXT)::NUMERIC 
+            WHEN UPPER(BTRIM(ssd."EndlineScore"::TEXT)) = 'A' 
+               THEN 0 
             ELSE NULL 
         END AS "Endline Score",
 
