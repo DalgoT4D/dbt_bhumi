@@ -6,42 +6,135 @@ WITH base AS (
         "Grade",
         "School ID",
         "Student Name",
-        'Kitchen Garden' AS module,
-        TRIM(SPLIT_PART("Kitchen Garden", '(', 1)) AS raw_value,
-        TRIM(REGEXP_REPLACE("Kitchen Garden", '.*\(\s*([^)]+)\s*\).*', '\1')) AS raw_date
-    FROM {{ ref('eco_student25_26_stg') }}
+        "Center Coordiantor (1)",
+        "Center Coordianator (2)",
+        "Student Status",
+        "Donor Mapped",
+        "Modlues Completed",
+        "Attendance %",
 
-    UNION ALL
-    SELECT
-        "Roll No", "Chapter", "School", "Grade", "School ID", "Student Name",
-        'Waste Management',
-        TRIM(SPLIT_PART("Waste Management", '(', 1)),
-        TRIM(REGEXP_REPLACE("Waste Management", '.*\(\s*([^)]+)\s*\).*', '\1'))
-    FROM {{ ref('eco_student25_26_stg') }}
+        -- Kitchen Garden
+        CASE 
+            WHEN "Kitchen Garden" ~ '^P' THEN 'Present'
+            WHEN "Kitchen Garden" ~ '^A' THEN 'Absent'
+            ELSE NULL 
+        END AS kitchen_garden_attendance,
+        CASE
+            WHEN "Kitchen Garden" ~ '^[PA]\s*\('
+            THEN NULLIF(TRIM(REGEXP_REPLACE("Kitchen Garden", '^[PA]\s*\((.*?)\)', '\1')), '')
+            ELSE NULL
+        END AS kitchen_garden_date,
 
-    UNION ALL
-    SELECT
-        "Roll No", "Chapter", "School", "Grade", "School ID", "Student Name",
-        'Water Conservation',
-        TRIM(SPLIT_PART("Water Conservation", '(', 1)),
-        TRIM(REGEXP_REPLACE("Water Conservation", '.*\(\s*([^)]+)\s*\).*', '\1'))
-    FROM {{ ref('eco_student25_26_stg') }}
+        -- Waste Management
+        CASE 
+            WHEN "Waste Management" ~ '^P' THEN 'Present'
+            WHEN "Waste Management" ~ '^A' THEN 'Absent'
+            ELSE NULL 
+        END AS waste_management_attendance,
+        CASE
+            WHEN "Waste Management" ~ '^[PA]\s*\('
+            THEN NULLIF(TRIM(REGEXP_REPLACE("Waste Management", '^[PA]\s*\((.*?)\)', '\1')), '')
+            ELSE NULL
+        END AS waste_management_date,
 
-    UNION ALL
-    SELECT
-        "Roll No", "Chapter", "School", "Grade", "School ID", "Student Name",
-        'Climate',
-        TRIM(SPLIT_PART("Climate", '(', 1)),
-        TRIM(REGEXP_REPLACE("Climate", '.*\(\s*([^)]+)\s*\).*', '\1'))
-    FROM {{ ref('eco_student25_26_stg') }}
+        -- Water Conservation
+        CASE 
+            WHEN "Water Conservation" ~ '^P' THEN 'Present'
+            WHEN "Water Conservation" ~ '^A' THEN 'Absent'
+            ELSE NULL 
+        END AS water_conservation_attendance,
+        CASE
+            WHEN "Water Conservation" ~ '^[PA]\s*\('
+            THEN NULLIF(TRIM(REGEXP_REPLACE("Water Conservation", '^[PA]\s*\((.*?)\)', '\1')), '')
+            ELSE NULL
+        END AS water_conservation_date,
 
-    UNION ALL
-    SELECT
-        "Roll No", "Chapter", "School", "Grade", "School ID", "Student Name",
-        'Life Style & Choices',
-        TRIM(SPLIT_PART("Life Style & Choices", '(', 1)),
-        TRIM(REGEXP_REPLACE("Life Style & Choices", '.*\(\s*([^)]+)\s*\).*', '\1'))
+        -- Climate
+        CASE 
+            WHEN "Climate" ~ '^P' THEN 'Present'
+            WHEN "Climate" ~ '^A' THEN 'Absent'
+            ELSE NULL 
+        END AS climate_attendance,
+        CASE
+            WHEN "Climate" ~ '^[PA]\s*\('
+            THEN NULLIF(TRIM(REGEXP_REPLACE("Climate", '^[PA]\s*\((.*?)\)', '\1')), '')
+            ELSE NULL
+        END AS climate_date,
+
+        -- Life Style & Choices
+        CASE 
+            WHEN "Life Style & Choices" ~ '^P' THEN 'Present'
+            WHEN "Life Style & Choices" ~ '^A' THEN 'Absent'
+            ELSE NULL 
+        END AS lifestyle_choices_attendance,
+        CASE
+            WHEN "Life Style & Choices" ~ '^[PA]\s*\('
+            THEN NULLIF(TRIM(REGEXP_REPLACE("Life Style & Choices", '^[PA]\s*\((.*?)\)', '\1')), '')
+            ELSE NULL
+        END AS lifestyle_choices_date
+
     FROM {{ ref('eco_student25_26_stg') }}
+),
+
+parsed_dates AS (
+    SELECT 
+        *,
+        -- Kitchen Garden
+        CASE 
+            WHEN kitchen_garden_date IS NOT NULL THEN
+                CASE 
+                    WHEN kitchen_garden_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(kitchen_garden_date, 'DD Mon YYYY')
+                    WHEN kitchen_garden_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(kitchen_garden_date, 'Mon DD YYYY')
+                    ELSE NULL
+                END
+            ELSE NULL 
+        END AS kitchen_garden_date_parsed,
+
+        -- Waste Management
+        CASE 
+            WHEN waste_management_date IS NOT NULL THEN
+                CASE 
+                    WHEN waste_management_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(waste_management_date, 'DD Mon YYYY')
+                    WHEN waste_management_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(waste_management_date, 'Mon DD YYYY')
+                    ELSE NULL
+                END
+            ELSE NULL 
+        END AS waste_management_date_parsed,
+
+        -- Water Conservation
+        CASE 
+            WHEN water_conservation_date IS NOT NULL THEN
+                CASE 
+                    WHEN water_conservation_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(water_conservation_date, 'DD Mon YYYY')
+                    WHEN water_conservation_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(water_conservation_date, 'Mon DD YYYY')
+                    ELSE NULL
+                END
+            ELSE NULL 
+        END AS water_conservation_date_parsed,
+
+        -- Climate
+        CASE 
+            WHEN climate_date IS NOT NULL THEN
+                CASE 
+                    WHEN climate_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(climate_date, 'DD Mon YYYY')
+                    WHEN climate_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(climate_date, 'Mon DD YYYY')
+                    ELSE NULL
+                END
+            ELSE NULL 
+        END AS climate_date_parsed,
+
+        -- Life Style & Choices
+        CASE 
+            WHEN lifestyle_choices_date IS NOT NULL THEN
+                CASE 
+                    WHEN lifestyle_choices_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(lifestyle_choices_date, 'DD Mon YYYY')
+                    WHEN lifestyle_choices_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(lifestyle_choices_date, 'Mon DD YYYY')
+                    ELSE NULL
+                END
+            ELSE NULL 
+        END AS lifestyle_choices_date_parsed
+
+    FROM base
 )
 
 SELECT
@@ -51,19 +144,20 @@ SELECT
     "Grade",
     "School ID",
     "Student Name",
-    module,
-    CASE 
-        WHEN raw_value ILIKE 'P%' THEN 'P'
-        WHEN raw_value ILIKE 'A%' THEN 'A'
-        ELSE NULL
-    END AS attendance,
-    CASE
-        WHEN raw_date ~ '^[A-Za-z]+[[:space:]]+[0-9]{1,2}[[:space:]]+[0-9]{4}$' 
-            THEN TO_DATE(raw_date, 'Mon DD YYYY')
-        WHEN raw_date ~ '^[0-9]{1,2}[[:space:]]+[A-Za-z]+[[:space:]]+[0-9]{4}$' 
-            THEN TO_DATE(raw_date, 'DD Mon YYYY')
-        ELSE NULL
-    END AS date
-FROM base
-WHERE TRIM(raw_value) <> ''
-ORDER BY "School ID", "Grade", "Roll No", module
+    "Center Coordiantor (1)",
+    "Center Coordianator (2)",
+    "Student Status",
+    "Donor Mapped",
+    "Modlues Completed",
+    "Attendance %",
+    kitchen_garden_attendance,
+    kitchen_garden_date_parsed   AS kitchen_garden_date,
+    waste_management_attendance,
+    waste_management_date_parsed AS waste_management_date,
+    water_conservation_attendance,
+    water_conservation_date_parsed AS water_conservation_date,
+    climate_attendance,
+    climate_date_parsed          AS climate_date,
+    lifestyle_choices_attendance,
+    lifestyle_choices_date_parsed AS lifestyle_choices_date
+FROM parsed_dates
