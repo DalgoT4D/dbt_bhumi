@@ -6,18 +6,79 @@ WITH base AS (
         "Grade",
         "School ID",
         "Student Name",
-        'Baseline' AS Assessment,
-        TRIM(SPLIT_PART("Baseline", '(', 1)) AS raw_value,
-        TRIM(REGEXP_REPLACE("Baseline", '.*\(\s*([^)]+)\s*\).*', '\1')) AS raw_date
-    FROM {{ ref('eco_student25_26_stg') }}
+        "Center Coordiantor (1)",
+        "Center Coordianator (2)",
+        "Student Status",
+        "Donor Mapped",
+        "Modlues Completed",
+        "Attendance %",
 
-    UNION ALL
-    SELECT
-        "Roll No", "Chapter", "School", "Grade", "School ID", "Student Name",
-        'Endline' AS Assessment,
-        TRIM(SPLIT_PART("Endline", '(', 1)),
-        TRIM(REGEXP_REPLACE("Endline", '.*\(\s*([^)]+)\s*\).*', '\1'))
+        -- Baseline score (already present in source)
+        "Baseline Score" AS baseline_score,
+        "Baseline" AS baseline_raw,
+
+        -- Endline score / raw
+        "Endline Score" AS endline_score,
+        "Endline" AS endline_raw,
+
+        -- Baseline attendance: P->Present, A->Absent, numeric-start -> Present
+        CASE
+            WHEN "Baseline" ~ '^P' THEN 'Present'
+            WHEN "Baseline" ~ '^A' THEN 'Absent'
+            WHEN "Baseline" ~ '^\s*\d' THEN 'Present'
+            ELSE NULL
+        END AS baseline_attendance,
+
+        -- Baseline date only when parentheses exist
+        CASE
+            WHEN "Baseline" ~ '\('
+            THEN NULLIF(TRIM(REGEXP_REPLACE("Baseline", '^[^\(]*\((.*?)\).*$', '\1')), '')
+            ELSE NULL
+        END AS baseline_date_text,
+
+        -- Endline attendance: same logic
+        CASE
+            WHEN "Endline" ~ '^P' THEN 'Present'
+            WHEN "Endline" ~ '^A' THEN 'Absent'
+            WHEN "Endline" ~ '^\s*\d' THEN 'Present'
+            ELSE NULL
+        END AS endline_attendance,
+
+        CASE
+            WHEN "Endline" ~ '\('
+            THEN NULLIF(TRIM(REGEXP_REPLACE("Endline", '^[^\(]*\((.*?)\).*$', '\1')), '')
+            ELSE NULL
+        END AS endline_date_text
+
     FROM {{ ref('eco_student25_26_stg') }}
+),
+
+parsed_dates AS (
+    SELECT
+        *,
+        -- parse baseline_date_text to true date
+        CASE
+            WHEN baseline_date_text IS NOT NULL THEN
+                CASE
+                    WHEN baseline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'DD Mon YYYY')
+                    WHEN baseline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'Mon DD YYYY')
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS baseline_date_parsed,
+
+        -- parse endline_date_text to true date
+        CASE
+            WHEN endline_date_text IS NOT NULL THEN
+                CASE
+                    WHEN endline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'DD Mon YYYY')
+                    WHEN endline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'Mon DD YYYY')
+                    ELSE NULL
+                END
+            ELSE NULL
+        END AS endline_date_parsed
+
+    FROM base
 )
 
 SELECT
@@ -27,19 +88,21 @@ SELECT
     "Grade",
     "School ID",
     "Student Name",
-    Assessment,
-    CASE 
-        WHEN raw_value ILIKE 'P%' THEN 'P'
-        WHEN raw_value ILIKE 'A%' THEN 'A'
-        ELSE NULL
-    END AS attendance,
-    CASE
-        WHEN raw_date ~ '^[A-Za-z]+[[:space:]]+[0-9]{1,2}[[:space:]]+[0-9]{4}$' 
-            THEN TO_DATE(raw_date, 'Mon DD YYYY')
-        WHEN raw_date ~ '^[0-9]{1,2}[[:space:]]+[A-Za-z]+[[:space:]]+[0-9]{4}$' 
-            THEN TO_DATE(raw_date, 'DD Mon YYYY')
-        ELSE NULL
-    END AS date
-FROM base
-WHERE TRIM(raw_value) <> ''
-ORDER BY "School ID", "Grade", "Roll No", Assessment
+    "Center Coordiantor (1)",
+    "Center Coordianator (2)",
+    "Student Status",
+    "Donor Mapped",
+    "Modlues Completed",
+    "Attendance %",
+
+    -- Baseline fields
+    baseline_score,
+    baseline_attendance,
+    baseline_date_parsed AS baseline_date,
+
+    -- Endline fields
+    endline_score,
+    endline_attendance,
+    endline_date_parsed AS endline_date
+
+FROM parsed_dates

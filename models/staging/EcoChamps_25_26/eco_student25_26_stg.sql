@@ -21,7 +21,9 @@ clean AS (
 
         dt."Donor Mapped" AS "Donor Mapped",
 
+        -- Baseline and Endline scores
         CASE WHEN BTRIM(ssd."Baseline_Score"::TEXT) IS NOT NULL THEN BTRIM(ssd."Baseline_Score"::TEXT) ELSE NULL END AS "Baseline Score",
+        CASE WHEN BTRIM(ssd."EndlineScore"::TEXT) IS NOT NULL THEN BTRIM(ssd."EndlineScore"::TEXT) ELSE NULL END AS "Endline Score",
 
         COALESCE(BTRIM(ssd."Baseline"::TEXT), '') AS "Baseline",
         COALESCE(BTRIM(ssd."Kitchen_Garden"::TEXT), '') AS "Kitchen Garden",
@@ -52,6 +54,7 @@ SELECT DISTINCT ON ("School ID", "Roll No", "Student Name")
     "Student Status",
     "Donor Mapped",
     "Baseline Score",
+    "Endline Score",
     "Baseline",
     "Kitchen Garden",
     "Waste Management",
