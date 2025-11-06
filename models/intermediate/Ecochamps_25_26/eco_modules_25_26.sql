@@ -98,7 +98,7 @@ parsed_dates AS (
                     WHEN waste_management_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(waste_management_date, 'Mon DD YYYY')
                     ELSE NULL
                 END
-            ELSE NULL 
+            ELSE NULL
         END AS waste_management_date_parsed,
 
         -- Water Conservation
@@ -109,7 +109,7 @@ parsed_dates AS (
                     WHEN water_conservation_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(water_conservation_date, 'Mon DD YYYY')
                     ELSE NULL
                 END
-            ELSE NULL 
+            ELSE NULL
         END AS water_conservation_date_parsed,
 
         -- Climate
@@ -120,7 +120,7 @@ parsed_dates AS (
                     WHEN climate_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(climate_date, 'Mon DD YYYY')
                     ELSE NULL
                 END
-            ELSE NULL 
+            ELSE NULL
         END AS climate_date_parsed,
 
         -- Life Style & Choices
@@ -131,7 +131,7 @@ parsed_dates AS (
                     WHEN lifestyle_choices_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(lifestyle_choices_date, 'Mon DD YYYY')
                     ELSE NULL
                 END
-            ELSE NULL 
+            ELSE NULL
         END AS lifestyle_choices_date_parsed
 
     FROM base
@@ -159,5 +159,36 @@ SELECT
     climate_attendance,
     climate_date_parsed          AS climate_date,
     lifestyle_choices_attendance,
-    lifestyle_choices_date_parsed AS lifestyle_choices_date
+    lifestyle_choices_date_parsed AS lifestyle_choices_date,
+
+    -- Modules attendance %:
+    -- count of Present / count of modules that have attendance recorded (non-NULL)
+    CASE
+        WHEN (
+            (CASE WHEN kitchen_garden_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+            (CASE WHEN waste_management_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+            (CASE WHEN water_conservation_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+            (CASE WHEN climate_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+            (CASE WHEN lifestyle_choices_attendance IS NOT NULL THEN 1 ELSE 0 END)
+        ) = 0 THEN NULL
+        ELSE
+            ROUND(
+                (
+                    (CASE WHEN kitchen_garden_attendance = 'Present' THEN 1 ELSE 0 END) +
+                    (CASE WHEN waste_management_attendance = 'Present' THEN 1 ELSE 0 END) +
+                    (CASE WHEN water_conservation_attendance = 'Present' THEN 1 ELSE 0 END) +
+                    (CASE WHEN climate_attendance = 'Present' THEN 1 ELSE 0 END) +
+                    (CASE WHEN lifestyle_choices_attendance = 'Present' THEN 1 ELSE 0 END)
+                )::NUMERIC
+                /
+                (
+                    (CASE WHEN kitchen_garden_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+                    (CASE WHEN waste_management_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+                    (CASE WHEN water_conservation_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+                    (CASE WHEN climate_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+                    (CASE WHEN lifestyle_choices_attendance IS NOT NULL THEN 1 ELSE 0 END)
+                ) * 100
+            , 2)
+    END AS "Modules Attendance %"
+
 FROM parsed_dates
