@@ -11,7 +11,6 @@ WITH base AS (
         "Student Status",
         "Donor Mapped",
         "Modlues Completed",
-        "Attendance %",
 
         -- Baseline score (already present in source)
         "Baseline Score" AS baseline_score,
@@ -93,7 +92,6 @@ SELECT
     "Student Status",
     "Donor Mapped",
     "Modlues Completed",
-    "Attendance %",
 
     -- Baseline fields
     baseline_score,
@@ -103,6 +101,26 @@ SELECT
     -- Endline fields
     endline_score,
     endline_attendance,
-    endline_date_parsed AS endline_date
+    endline_date_parsed AS endline_date,
+
+    -- Assessment Attendance %: percent of Present across baseline & endline,
+    -- denominator = number of non-NULL assessments (baseline/endline)
+    CASE
+        WHEN (
+            (CASE WHEN baseline_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+            (CASE WHEN endline_attendance IS NOT NULL THEN 1 ELSE 0 END)
+        ) = 0 THEN NULL
+        ELSE ROUND(
+            (
+                (CASE WHEN baseline_attendance = 'Present' THEN 1 ELSE 0 END) +
+                (CASE WHEN endline_attendance = 'Present' THEN 1 ELSE 0 END)
+            )::NUMERIC
+            /
+            (
+                (CASE WHEN baseline_attendance IS NOT NULL THEN 1 ELSE 0 END) +
+                (CASE WHEN endline_attendance IS NOT NULL THEN 1 ELSE 0 END)
+            ) * 100
+        , 2)
+    END AS "Assessment Attendance %"
 
 FROM parsed_dates
