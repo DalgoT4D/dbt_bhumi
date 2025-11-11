@@ -20,9 +20,9 @@ sources:
       - name: Student___Session_Data
         identifier: Student___Session_Data
         description: This is a placeholder table Eco Champs 25&26
-      - name: RAG_MATRIX
-        identifier: RAG_MATRIX
-        description: RAG_MATRIX
+      - name: Center_Coordiantors
+        identifier: Center_Coordiantors
+        description: Center_Coordiantors 
       - name: Data_Tracker
         identifier: Data_Tracker
         description: Data Tracker
