@@ -31,9 +31,9 @@ clean AS (
         END AS "Baseline Score",
 
         CASE 
-            WHEN BTRIM(ssd."EndlineScore"::TEXT) ~ '^[0-9]+(\.[0-9]+)?$' 
-                THEN (ssd."EndlineScore"::TEXT)::NUMERIC 
-            WHEN UPPER(BTRIM(ssd."EndlineScore"::TEXT)) = 'A' 
+            WHEN BTRIM(ssd."Endline_Sore"::TEXT) ~ '^[0-9]+(\.[0-9]+)?$' 
+                THEN (ssd."Endline_Sore"::TEXT)::NUMERIC 
+            WHEN UPPER(BTRIM(ssd."Endline_Sore"::TEXT)) = 'A' 
                THEN 0 
             ELSE NULL 
         END AS "Endline Score",
