@@ -61,6 +61,8 @@ parsed_dates AS (
                 CASE
                     WHEN baseline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'DD Mon YYYY')
                     WHEN baseline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'Mon DD YYYY')
+                    WHEN baseline_date_text ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(baseline_date_text, 'DD/MM/YY')
+                    WHEN baseline_date_text ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(baseline_date_text, 'DD/MM/YYYY')
                     ELSE NULL
                 END
             ELSE NULL
@@ -72,6 +74,8 @@ parsed_dates AS (
                 CASE
                     WHEN endline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'DD Mon YYYY')
                     WHEN endline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'Mon DD YYYY')
+                    WHEN endline_date_text ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(endline_date_text, 'DD/MM/YY')
+                    WHEN endline_date_text ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(endline_date_text, 'DD/MM/YYYY')
                     ELSE NULL
                 END
             ELSE NULL

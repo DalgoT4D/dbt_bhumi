@@ -85,6 +85,8 @@ parsed_dates AS (
                 CASE 
                     WHEN kitchen_garden_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(kitchen_garden_date, 'DD Mon YYYY')
                     WHEN kitchen_garden_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(kitchen_garden_date, 'Mon DD YYYY')
+                    WHEN kitchen_garden_date ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(kitchen_garden_date, 'DD/MM/YY')
+                    WHEN kitchen_garden_date ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(kitchen_garden_date, 'DD/MM/YYYY')
                     ELSE NULL
                 END
             ELSE NULL 
@@ -96,6 +98,8 @@ parsed_dates AS (
                 CASE 
                     WHEN waste_management_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(waste_management_date, 'DD Mon YYYY')
                     WHEN waste_management_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(waste_management_date, 'Mon DD YYYY')
+                    WHEN waste_management_date ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(waste_management_date, 'DD/MM/YY')
+                    WHEN waste_management_date ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(waste_management_date, 'DD/MM/YYYY')
                     ELSE NULL
                 END
             ELSE NULL
@@ -107,6 +111,8 @@ parsed_dates AS (
                 CASE 
                     WHEN water_conservation_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(water_conservation_date, 'DD Mon YYYY')
                     WHEN water_conservation_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(water_conservation_date, 'Mon DD YYYY')
+                    WHEN water_conservation_date ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(water_conservation_date, 'DD/MM/YY')
+                    WHEN water_conservation_date ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(water_conservation_date, 'DD/MM/YYYY')
                     ELSE NULL
                 END
             ELSE NULL
@@ -118,6 +124,8 @@ parsed_dates AS (
                 CASE 
                     WHEN climate_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(climate_date, 'DD Mon YYYY')
                     WHEN climate_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(climate_date, 'Mon DD YYYY')
+                    WHEN climate_date ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(climate_date, 'DD/MM/YY')
+                    WHEN climate_date ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(climate_date, 'DD/MM/YYYY')
                     ELSE NULL
                 END
             ELSE NULL
@@ -129,6 +137,8 @@ parsed_dates AS (
                 CASE 
                     WHEN lifestyle_choices_date ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(lifestyle_choices_date, 'DD Mon YYYY')
                     WHEN lifestyle_choices_date ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(lifestyle_choices_date, 'Mon DD YYYY')
+                    WHEN lifestyle_choices_date ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(lifestyle_choices_date, 'DD/MM/YY')
+                    WHEN lifestyle_choices_date ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(lifestyle_choices_date, 'DD/MM/YYYY')
                     ELSE NULL
                 END
             ELSE NULL
@@ -162,7 +172,6 @@ SELECT
     lifestyle_choices_date_parsed AS lifestyle_choices_date,
 
     -- Modules attendance %:
-    -- count of Present / count of modules that have attendance recorded (non-NULL)
     CASE
         WHEN (
             (CASE WHEN kitchen_garden_attendance IS NOT NULL THEN 1 ELSE 0 END) +
