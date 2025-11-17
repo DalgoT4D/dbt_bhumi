@@ -192,13 +192,77 @@ modules_only as (
 		  and b."School ID" = m."School ID"
 		  and b."Student Name" = m."Student Name"
 	)
-)
+),
 
 -- final union: matched by roll, matched by school+name (fallback), plus only-ones
-select * from matched_by_roll
-union all
-select * from matched_by_school_name
-union all
-select * from base_only
-union all
-select * from modules_only
+combined_data as (
+	select * from matched_by_roll
+	union all
+	select * from matched_by_school_name
+	union all
+	select * from base_only
+	union all
+	select * from modules_only
+)
+
+select
+	*,
+	
+	-- Calculate quarters for each assessment/module based on date values
+	case
+		when baseline_date between date '2025-04-01' and date '2025-06-30' then 'Q1'
+		when baseline_date between date '2025-07-01' and date '2025-09-30' then 'Q2'
+		when baseline_date between date '2025-10-01' and date '2025-12-31' then 'Q3'
+		when baseline_date between date '2026-01-01' and date '2026-03-31' then 'Q4'
+		else null
+	end as q_baseline,
+	
+	case
+		when endline_date between date '2025-04-01' and date '2025-06-30' then 'Q1'
+		when endline_date between date '2025-07-01' and date '2025-09-30' then 'Q2'
+		when endline_date between date '2025-10-01' and date '2025-12-31' then 'Q3'
+		when endline_date between date '2026-01-01' and date '2026-03-31' then 'Q4'
+		else null
+	end as q_endline,
+	
+	case
+		when kitchen_garden_date between date '2025-04-01' and date '2025-06-30' then 'Q1'
+		when kitchen_garden_date between date '2025-07-01' and date '2025-09-30' then 'Q2'
+		when kitchen_garden_date between date '2025-10-01' and date '2025-12-31' then 'Q3'
+		when kitchen_garden_date between date '2026-01-01' and date '2026-03-31' then 'Q4'
+		else null
+	end as q_kitchen_garden,
+	
+	case
+		when waste_management_date between date '2025-04-01' and date '2025-06-30' then 'Q1'
+		when waste_management_date between date '2025-07-01' and date '2025-09-30' then 'Q2'
+		when waste_management_date between date '2025-10-01' and date '2025-12-31' then 'Q3'
+		when waste_management_date between date '2026-01-01' and date '2026-03-31' then 'Q4'
+		else null
+	end as q_waste_management,
+	
+	case
+		when water_conservation_date between date '2025-04-01' and date '2025-06-30' then 'Q1'
+		when water_conservation_date between date '2025-07-01' and date '2025-09-30' then 'Q2'
+		when water_conservation_date between date '2025-10-01' and date '2025-12-31' then 'Q3'
+		when water_conservation_date between date '2026-01-01' and date '2026-03-31' then 'Q4'
+		else null
+	end as q_water_conservation,
+	
+	case
+		when climate_date between date '2025-04-01' and date '2025-06-30' then 'Q1'
+		when climate_date between date '2025-07-01' and date '2025-09-30' then 'Q2'
+		when climate_date between date '2025-10-01' and date '2025-12-31' then 'Q3'
+		when climate_date between date '2026-01-01' and date '2026-03-31' then 'Q4'
+		else null
+	end as q_climate,
+	
+	case
+		when lifestyle_choices_date between date '2025-04-01' and date '2025-06-30' then 'Q1'
+		when lifestyle_choices_date between date '2025-07-01' and date '2025-09-30' then 'Q2'
+		when lifestyle_choices_date between date '2025-10-01' and date '2025-12-31' then 'Q3'
+		when lifestyle_choices_date between date '2026-01-01' and date '2026-03-31' then 'Q4'
+		else null
+	end as q_lifestyle_choices
+
+from combined_data
