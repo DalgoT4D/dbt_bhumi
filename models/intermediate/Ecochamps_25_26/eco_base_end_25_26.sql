@@ -6,11 +6,8 @@ WITH base AS (
         "Grade",
         "School ID",
         "Student Name",
-        "Center Coordiantor (1)",
-        "Center Coordianator (2)",
         "Student Status",
         "Donor Mapped",
-        "Modlues Completed",
 
         -- Baseline score (already present in source)
         "Baseline Score" AS baseline_score,
@@ -91,11 +88,8 @@ SELECT
     "Grade",
     "School ID",
     "Student Name",
-    "Center Coordiantor (1)",
-    "Center Coordianator (2)",
     "Student Status",
     "Donor Mapped",
-    "Modlues Completed",
 
     -- Baseline fields
     baseline_score,
@@ -106,6 +100,14 @@ SELECT
     endline_score,
     endline_attendance,
     endline_date_parsed AS endline_date,
+
+    NULLIF(
+        (
+            (CASE WHEN baseline_attendance IS NOT NULL AND TRIM(baseline_attendance) <> '' THEN 1 ELSE 0 END)
+            + (CASE WHEN endline_attendance IS NOT NULL AND TRIM(endline_attendance) <> '' THEN 1 ELSE 0 END)
+        ),
+        0
+    ) AS "Assessment completed",
 
     -- Assessment Attendance %: percent of Present across baseline & endline,
     -- denominator = number of non-NULL assessments (baseline/endline)

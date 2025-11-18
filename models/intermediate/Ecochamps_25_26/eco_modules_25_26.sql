@@ -6,12 +6,8 @@ WITH base AS (
         "Grade",
         "School ID",
         "Student Name",
-        "Center Coordiantor (1)",
-        "Center Coordianator (2)",
         "Student Status",
         "Donor Mapped",
-        "Modlues Completed",
-        "Attendance %",
 
         -- Kitchen Garden
         CASE 
@@ -154,12 +150,8 @@ SELECT
     "Grade",
     "School ID",
     "Student Name",
-    "Center Coordiantor (1)",
-    "Center Coordianator (2)",
     "Student Status",
     "Donor Mapped",
-    "Modlues Completed",
-    "Attendance %",
     kitchen_garden_attendance,
     kitchen_garden_date_parsed   AS kitchen_garden_date,
     waste_management_attendance,
@@ -170,6 +162,18 @@ SELECT
     climate_date_parsed          AS climate_date,
     lifestyle_choices_attendance,
     lifestyle_choices_date_parsed AS lifestyle_choices_date,
+
+    -- number of modules completed: sum of module attendance flags (1 when attendance present/non-empty)
+    NULLIF(
+        (
+            (CASE WHEN kitchen_garden_attendance IS NOT NULL AND TRIM(kitchen_garden_attendance) <> '' THEN 1 ELSE 0 END)
+            + (CASE WHEN waste_management_attendance IS NOT NULL AND TRIM(waste_management_attendance) <> '' THEN 1 ELSE 0 END)
+            + (CASE WHEN water_conservation_attendance IS NOT NULL AND TRIM(water_conservation_attendance) <> '' THEN 1 ELSE 0 END)
+            + (CASE WHEN climate_attendance IS NOT NULL AND TRIM(climate_attendance) <> '' THEN 1 ELSE 0 END)
+            + (CASE WHEN lifestyle_choices_attendance IS NOT NULL AND TRIM(lifestyle_choices_attendance) <> '' THEN 1 ELSE 0 END)
+        ),
+        0
+    ) AS "Modules completed",
 
     -- Modules attendance %:
     CASE
