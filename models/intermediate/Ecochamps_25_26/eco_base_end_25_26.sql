@@ -101,7 +101,7 @@ SELECT
     endline_attendance,
     endline_date_parsed AS endline_date,
 
-    NULLIF(
+    COALESCE(
         (
             (CASE WHEN baseline_attendance IS NOT NULL AND TRIM(baseline_attendance) <> '' THEN 1 ELSE 0 END)
             + (CASE WHEN endline_attendance IS NOT NULL AND TRIM(endline_attendance) <> '' THEN 1 ELSE 0 END)

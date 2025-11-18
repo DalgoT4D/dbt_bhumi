@@ -163,8 +163,8 @@ SELECT
     lifestyle_choices_attendance,
     lifestyle_choices_date_parsed AS lifestyle_choices_date,
 
-    -- number of modules completed: sum of module attendance flags (1 when attendance present/non-empty)
-    NULLIF(
+    -- number of modules completed: sum of module attendance flags (1 when attendance present/non-empty), default 0 if null
+    COALESCE(
         (
             (CASE WHEN kitchen_garden_attendance IS NOT NULL AND TRIM(kitchen_garden_attendance) <> '' THEN 1 ELSE 0 END)
             + (CASE WHEN waste_management_attendance IS NOT NULL AND TRIM(waste_management_attendance) <> '' THEN 1 ELSE 0 END)
