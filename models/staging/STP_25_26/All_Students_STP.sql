@@ -31,7 +31,7 @@ select
     ) as "Contact Number",
     
     -- Parents Info
-    coalesce(initcap(trim("Father Name"::text)), '') as "Father Name",
+    coalesce(initcap(trim("Father_Name"::text)), '') as "Father Name",
     coalesce(
         case 
             when trim("Father_Phone"::text) ~ '^\d{10}$' then trim("Father_Phone"::text)
