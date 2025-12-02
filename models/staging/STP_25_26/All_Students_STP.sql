@@ -3,98 +3,98 @@
 
 select
     -- Identifiers
-    coalesce(nullif(trim("ID"::text), ''), null)::bigint as student_id,
-    coalesce(nullif(trim("Student Adhar Card Number"::text), ''), null) as aadhar_number,
-    coalesce(nullif(trim("Student School Roll no."::text), ''), null) as roll_number,
+    coalesce(nullif(trim("ID"::text), ''), null)::bigint as "Student ID",
+    coalesce(nullif(trim("Student_Adhar_Card_Number"::text), ''), null) as "Aadhar Number",
+    coalesce(nullif(trim("Student_School_Roll_no_"::text), ''), null) as "Roll Number",
     
     -- Basic Info
-    coalesce(initcap(trim("Name"::text)), '') as student_name,
-    coalesce(trim("Gender"::text), '') as gender,
+    coalesce(initcap(trim("Name"::text)), '') as "Student Name",
+    coalesce(trim("Gender"::text), '') as Gender,
     case 
-        when trim("Academic Year"::text) ~ '^\d{4}-\d{4}$' then trim("Academic Year"::text)
+        when trim("Academic_Year"::text) ~ '^\d{4}-\d{4}$' then trim("Academic_Year"::text)
         else null
-    end as academic_year,
+    end as "Academic Year",
     
     -- School Info
-    coalesce(initcap(trim("School Name"::text)), '') as school_name,
-    coalesce(trim("Class"::text), '') as class,
-    coalesce(trim("Class Division"::text), '') as class_division,
+    coalesce(initcap(trim("School_Name"::text)), '') as "School Name",
+    coalesce(trim("Class"::text), '') as Class,
+    coalesce(trim("Class_Division"::text), '') as "Class Division",
     
     -- Contact Info
     coalesce(
         case 
-            when trim("Contact Number"::text) ~ '^\d{10}$' then trim("Contact Number"::text)
-            when trim("Contact Number"::text) ~ '^\+91\d{10}$' then substring(trim("Contact Number"::text), 4)
+            when trim("Contact_Number"::text) ~ '^\d{10}$' then trim("Contact_Number"::text)
+            when trim("Contact_Number"::text) ~ '^\+91\d{10}$' then substring(trim("Contact_Number"::text), 4)
             else null
         end,
         ''
-    ) as contact_number,
+    ) as "Contact Number",
     
     -- Parents Info
-    coalesce(initcap(trim("Father Name"::text)), '') as father_name,
+    coalesce(initcap(trim("Father Name"::text)), '') as "Father Name",
     coalesce(
         case 
-            when trim("Father Phone"::text) ~ '^\d{10}$' then trim("Father Phone"::text)
-            when trim("Father Phone"::text) ~ '^\+91\d{10}$' then substring(trim("Father Phone"::text), 4)
+            when trim("Father_Phone"::text) ~ '^\d{10}$' then trim("Father_Phone"::text)
+            when trim("Father_Phone"::text) ~ '^\+91\d{10}$' then substring(trim("Father_Phone"::text), 4)
             else null
         end,
         ''
-    ) as father_phone,
-    coalesce(trim("Father Email"::text), '') as father_email,
+    ) as "Father Phone",
+    coalesce(trim("Father_Email"::text), '') as "Father Email",
     coalesce(
         case 
-            when trim("Father Income"::text) ~ '^\d+(\.\d{1,2})?$' then (trim("Father Income"::text))::numeric
+            when trim("Father_Income"::text) ~ '^\d+(\.\d{1,2})?$' then (trim("Father_Income"::text))::numeric
             else null
         end
-    ) as father_income,
+    ) as "Father Income",
     
-    coalesce(initcap(trim("Mother Name"::text)), '') as mother_name,
+    coalesce(initcap(trim("Mother_Name"::text)), '') as "Mother Name",
     coalesce(
         case 
-            when trim("Mother Phone"::text) ~ '^\d{10}$' then trim("Mother Phone"::text)
-            when trim("Mother Phone"::text) ~ '^\+91\d{10}$' then substring(trim("Mother Phone"::text), 4)
+            when trim("Mother_Phone"::text) ~ '^\d{10}$' then trim("Mother_Phone"::text)
+            when trim("Mother_Phone"::text) ~ '^\+91\d{10}$' then substring(trim("Mother_Phone"::text), 4)
             else null
         end,
         ''
-    ) as mother_phone,
-    coalesce(trim("Mother Email"::text), '') as mother_email,
+    ) as "Mother Phone",
+    coalesce(trim("Mother_Email"::text), '') as "Mother Email",
     coalesce(
         case 
-            when trim("Mother Income"::text) ~ '^\d+(\.\d{1,2})?$' then (trim("Mother Income"::text))::numeric
+            when trim("Mother_Income"::text) ~ '^\d+(\.\d{1,2})?$' then (trim("Mother_Income"::text))::numeric
             else null
         end
-    ) as mother_income,
+    ) as "Mother Income",
     
     -- Status & Admin
-    coalesce(trim("Status"::text), '') as student_status,
-    coalesce(initcap(trim("Donor"::text)), '') as donor,
-    coalesce(trim("Project Name"::text), '') as project_name,
+    coalesce(trim("Status"::text), '') as "Status",
+    coalesce(initcap(trim("Donor"::text)), '') as Donor,
+    coalesce(trim("Project_Name"::text), '') as "Project Name",
     
     -- Location Info
-    coalesce(trim("State"::text), '') as state,
-    coalesce(trim("District"::text), '') as district,
+    coalesce(trim("State"::text), '') as "State",
+    coalesce(trim("District"::text), '') as District,
     
     -- Staff Info
-    coalesce(initcap(trim("Trainer Name"::text)), '') as trainer_name,
-    coalesce(initcap(trim("Reporting Manager"::text)), '') as reporting_manager,
-    coalesce(initcap(trim("Zonal Manager"::text)), '') as zonal_manager,
+    coalesce(initcap(trim("Trainer_Name"::text)), '') as "Trainer Name",
+    coalesce(initcap(trim("Reporting_Manager"::text)), '') as "Reporting Manager",
+    coalesce(initcap(trim("Zonal_Manager"::text)), '') as "Zonal Manager",
     
     -- Dates
     case 
-        when trim("Date of Joining the School"::text) ~ '^\d{4}-\d{2}-\d{2}$' 
-            then (trim("Date of Joining the School"::text))::date
-        when trim("Date of Joining the School"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$'
-            then to_date(trim("Date of Joining the School"::text), 'DD/MM/YYYY')
-        when trim("Date of Joining the School"::text) ~ '^\d{1,2}/\d{1,2}/\d{2}$'
-            then to_date(trim("Date of Joining the School"::text), 'DD/MM/YY')
+        when trim("Date_of_Joining_the_School"::text) ~ '^\d{4}-\d{2}-\d{2}$' 
+            then (trim("Date_of_Joining_the_School"::text))::date
+        when trim("Date_of_Joining_the_School"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$'
+            then to_date(trim("Date_of_Joining_the_School"::text), 'DD/MM/YYYY')
+        when trim("Date_of_Joining_the_School"::text) ~ '^\d{1,2}/\d{1,2}/\d{2}$'
+            then to_date(trim("Date_of_Joining_the_School"::text), 'DD/MM/YY')
         else null
-    end as date_of_joining,
+    end as "Date of Joining the School",
     
     case 
-        when trim("Added Time"::text) ~ '^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$'
-            then (trim("Added Time"::text))::timestamp
+        when trim("Added_Time"::text) ~ '^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$'
+            then (trim("Added_Time"::text))::timestamp
         else null
-    end as record_added_time
+    end as "Added Time"
 
 from {{ source('STP_25-26', 'All_Students') }}
 where "ID" is not null
