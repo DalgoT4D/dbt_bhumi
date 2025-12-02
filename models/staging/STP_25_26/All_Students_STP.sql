@@ -98,4 +98,4 @@ select
 
 from {{ source('STP_25-26', 'All_Students') }}
 where "ID" is not null
-order by student_id
+order by "Student ID"
