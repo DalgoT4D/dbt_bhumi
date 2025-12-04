@@ -53,4 +53,4 @@ SELECT
   *
 
 FROM {{ source('STP_25-26', 'All_Session_Plannings') }}
-
+where "ID" is not null
