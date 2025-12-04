@@ -1,6 +1,7 @@
 -- Cleaned STP 25-26 Session Attendances
 -- Source: STP_25-26.All_Session_Attendances
 
+WITH clean AS (
 SELECT
   -- canonical identifier
   CASE
@@ -89,4 +90,34 @@ SELECT
   -- Keep the original raw row as jsonb to preserve any columns not explicitly selected
   to_jsonb(src) AS raw_record
 
-FROM {{ source('STP_25-26', 'All_Session_Attendances') }} AS src;
+FROM {{ source('STP_25-26', 'All_Session_Attendances') }} AS src
+)
+
+-- Clean and format EcoChamps 25-26 All sesion Attendance
+SELECT DISTINCT ON (id)
+    id,
+    was_class_combined_text,
+    was_class_combined,
+    academic_year,
+    school_name,
+    class_type,
+    trainer_name,
+    class,
+    class_division,
+    intervention_name,
+    session_type,
+    session_date,
+    present_students,
+    absent_students,
+    total_students,
+    added_time,
+    present_students_list_text,
+    present_students_list_arr,
+    absent_students_list_text,
+    absent_students_list_arr,
+    volunteer_engaged,
+    volunteering_hours,
+    donor,
+    raw_record
+FROM clean 
+Where id is not null
