@@ -1,123 +1,94 @@
 -- Cleaned STP 25-26 Session Attendances
 -- Source: STP_25-26.All_Session_Attendances
 
-WITH clean AS (
 SELECT
   -- canonical identifier
   CASE
-    WHEN trim(src."ID"::text) ~ '^\d+$' THEN trim(src."ID"::text)::BIGINT
+    WHEN trim(src."id"::text) ~ '^\d+$' THEN trim(src."id"::text)::BIGINT
     ELSE NULL
   END AS id,
 
   -- Was this class combined with another section? -> normalized boolean + raw text
-    NULLIF(trim(src."Was_this_class_combined_with_another_section_"::text), '') AS was_class_combined_text,
+    NULLIF(trim(src."was_this_class_combined_with_another_section_"::text), '') AS was_class_combined_text,
   CASE
-    WHEN lower(trim(src."Was_this_class_combined_with_another_section_"::text)) ~ '^(yes|y|true|1)$' THEN TRUE
-    WHEN lower(trim(src."Was_this_class_combined_with_another_section_"::text)) ~ '^(no|n|false|0)$' THEN FALSE
+    WHEN lower(trim(src."was_this_class_combined_with_another_section_"::text)) ~ '^(yes|y|true|1)$' THEN TRUE
+    WHEN lower(trim(src."was_this_class_combined_with_another_section_"::text)) ~ '^(no|n|false|0)$' THEN FALSE
     ELSE NULL
   END AS was_class_combined,
 
   -- Academic Year (expecting format YYYY-YYYY)
   CASE
-      WHEN trim(src."Academic_Year"::text) ~ '^\d{4}-\d{4}$' THEN trim(src."Academic_Year"::text)
+      WHEN trim(src."academic_year"::text) ~ '^\d{4}-\d{4}$' THEN trim(src."academic_year"::text)
     ELSE NULL
   END AS academic_year,
 
   -- School & class info
-    NULLIF(initcap(trim(src."School_Name"::text)), '') AS school_name,
-    NULLIF(initcap(trim(src."Class_Type"::text)), '') AS class_type,
-    NULLIF(initcap(trim(src."Trainer"::text)), '') AS trainer_name,
-    NULLIF(trim(src."Class"::text), '') AS class,
-    NULLIF(trim(src."Class_Division"::text), '') AS class_division,
+    NULLIF(initcap(trim(src."school_name"::text)), '') AS school_name,
+    NULLIF(initcap(trim(src."class_type"::text)), '') AS class_type,
+    NULLIF(initcap(trim(src."trainer"::text)), '') AS trainer_name,
+    NULLIF(trim(src."class"::text), '') AS class,
+    NULLIF(trim(src."class_division"::text), '') AS class_division,
 
   -- Intervention and session metadata
-    NULLIF(initcap(trim(src."Intervension_Name"::text)), '') AS intervention_name,
-    NULLIF(initcap(trim(src."Session_Type"::text)), '') AS session_type,
+    NULLIF(initcap(trim(src."intervension_name"::text)), '') AS intervention_name,
+    NULLIF(initcap(trim(src."session_type"::text)), '') AS session_type,
 
-  -- Session_Date: try several common formats, return as date
+  -- session_date: try several common formats, return as date
   CASE
-    WHEN trim(src."Session_Date"::text) ~ '^\d{4}-\d{2}-\d{2}$' THEN to_date(trim(src."Session_Date"::text), 'YYYY-MM-DD')
-    WHEN trim(src."Session_Date"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN to_date(trim(src."Session_Date"::text), 'DD/MM/YYYY')
-    WHEN trim(src."Session_Date"::text) ~ '^\d{1,2}-[A-Za-z]{3}-\d{2,4}$' THEN to_date(trim(src."Session_Date"::text), 'DD-Mon-YYYY')
-    WHEN trim(src."Session_Date"::text) ~ '^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(:\d{2})?$' THEN to_timestamp(trim(src."Session_Date"::text), 'YYYY-MM-DD HH24:MI:SS')::date
+    WHEN trim(src."session_date"::text) ~ '^\d{4}-\d{2}-\d{2}$' THEN to_date(trim(src."session_date"::text), 'YYYY-MM-DD')
+    WHEN trim(src."session_date"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN to_date(trim(src."session_date"::text), 'DD/MM/YYYY')
+    WHEN trim(src."session_date"::text) ~ '^\d{1,2}-[A-Za-z]{3}-\d{2,4}$' THEN to_date(trim(src."session_date"::text), 'DD-Mon-YYYY')
+    WHEN trim(src."session_date"::text) ~ '^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}(:\d{2})?$' THEN to_timestamp(trim(src."session_date"::text), 'YYYY-MM-DD HH24:MI:SS')::date
     ELSE NULL
   END AS session_date,
 
   -- Present / Absent / Total -> integers
-    CASE WHEN trim(src."Present_Students"::text) ~ '^\d+$' THEN trim(src."Present_Students"::text)::INT ELSE NULL END AS present_students,
-    CASE WHEN trim(src."Absent_Students"::text) ~ '^\d+$' THEN trim(src."Absent_Students"::text)::INT ELSE NULL END AS absent_students,
-    CASE WHEN trim(src."Total_Student"::text) ~ '^\d+$' THEN trim(src."Total_Student"::text)::INT ELSE NULL END AS total_students,
+    CASE WHEN trim(src."present_students"::text) ~ '^\d+$' THEN trim(src."present_students"::text)::INT ELSE NULL END AS present_students,
+    CASE WHEN trim(src."absent_students"::text) ~ '^\d+$' THEN trim(src."absent_students"::text)::INT ELSE NULL END AS absent_students,
+    CASE WHEN trim(src."total_student"::text) ~ '^\d+$' THEN trim(src."total_student"::text)::INT ELSE NULL END AS total_students,
 
-  -- Added_Time -> timestamp
+  --"added_time -> timestamp
   CASE
-        WHEN trim(src."Added_Time"::text) ~ '^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$' THEN (trim(src."Added_Time"::text))::timestamp
-        WHEN trim(src."Added_Time"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}\s+\d{2}:\d{2}:\d{2}$' THEN to_timestamp(trim(src."Added_Time"::text), 'DD/MM/YYYY HH24:MI:SS')
-        WHEN trim(src."Added_Time"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN to_date(trim(src."Added_Time"::text), 'DD/MM/YYYY')::timestamp
+        WHEN trim(src."added_time"::text) ~ '^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$' THEN (trim(src."added_time"::text))::timestamp
+        WHEN trim(src."added_time"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}\s+\d{2}:\d{2}:\d{2}$' THEN to_timestamp(trim(src."added_time"::text), 'DD/MM/YYYY HH24:MI:SS')
+        WHEN trim(src."added_time"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN to_date(trim(src."added_time"::text), 'DD/MM/YYYY')::timestamp
     ELSE NULL
-  END AS added_time,
+  END AS"added_time",
 
   -- Present / Absent student lists: keep raw text + parse into array (comma or semicolon separated)
-    NULLIF(trim(src."Present_Students_List"::text), '') AS present_students_list_text,
+    NULLIF(trim(src."present_students_list"::text), '') AS present_students_list_text,
   CASE
-    WHEN trim(src."Present_Students_List"::text) = '' THEN NULL
-    ELSE regexp_split_to_array(trim(src."Present_Students_List"::text), '\s*[,;]\s*')
+    WHEN trim(src."present_students_list"::text) = '' THEN NULL
+    ELSE regexp_split_to_array(trim(src."present_students_list"::text), '\s*[,;]\s*')
   END AS present_students_list_arr,
 
-    NULLIF(trim(src."Absent_Students_List"::text), '') AS absent_students_list_text,
+    NULLIF(trim(src."absent_students_list"::text), '') AS absent_students_list_text,
   CASE
-    WHEN trim(src."Absent_Students_List"::text) = '' THEN NULL
-    ELSE regexp_split_to_array(trim(src."Absent_Students_List"::text), '\s*[,;]\s*')
+    WHEN trim(src."absent_students_list"::text) = '' THEN NULL
+    ELSE regexp_split_to_array(trim(src."absent_students_list"::text), '\s*[,;]\s*')
   END AS absent_students_list_arr,
 
   -- Volunteer engaged -> boolean + raw
-    NULLIF(trim(src."Volunteer_Engaged"::text), '') AS volunteer_engaged_text,
+    NULLIF(trim(src."volunteer_engaged"::text), '') AS volunteer_engaged_text,
   CASE
-    WHEN lower(trim(src."Volunteer_Engaged"::text)) ~ '^(yes|y|true|1)$' THEN TRUE
-    WHEN lower(trim(src."Volunteer_Engaged"::text)) ~ '^(no|n|false|0)$' THEN FALSE
+    WHEN lower(trim(src."volunteer_engaged"::text)) ~ '^(yes|y|true|1)$' THEN TRUE
+    WHEN lower(trim(src."volunteer_engaged"::text)) ~ '^(no|n|false|0)$' THEN FALSE
     ELSE NULL
   END AS volunteer_engaged,
 
   -- Volunteering hours -> numeric (allow decimals)
   CASE
-      WHEN trim(src."Volunteering_hrs_Engaged"::text) ~ '^[\\d\\.,]+$' THEN
-        (regexp_replace(trim(src."Volunteering_hrs_Engaged"::text), ',', '.', 'g'))::NUMERIC
+      WHEN trim(src."volunteering_hrs_engaged"::text) ~ '^[\\d\\.,]+$' THEN
+        (regexp_replace(trim(src."volunteering_hrs_engaged"::text), ',', '.', 'g'))::NUMERIC
     ELSE NULL
   END AS volunteering_hours,
 
   -- Donor
-    NULLIF(initcap(trim(src."Donor"::text)), '') AS donor,
+    NULLIF(initcap(trim(src."donor"::text)), '') AS donor,
 
   -- Keep the original raw row as jsonb to preserve any columns not explicitly selected
   to_jsonb(src) AS raw_record
 
 FROM {{ source('STP_25-26', 'All_Session_Attendances') }} AS src
-)
+Where id IS NOT NUll
 
--- Clean and format EcoChamps 25-26 All sesion Attendance
-SELECT DISTINCT ON (id)
-    id,
-    was_class_combined_text,
-    was_class_combined,
-    academic_year,
-    school_name,
-    class_type,
-    trainer_name,
-    class,
-    class_division,
-    intervention_name,
-    session_type,
-    session_date,
-    present_students,
-    absent_students,
-    total_students,
-    added_time,
-    present_students_list_text,
-    present_students_list_arr,
-    absent_students_list_text,
-    absent_students_list_arr,
-    volunteer_engaged,
-    volunteering_hours,
-    donor,
-    raw_record
-FROM clean 
-Where id is not null
