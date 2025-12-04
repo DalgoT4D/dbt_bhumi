@@ -11,18 +11,8 @@ SELECT
   -- Trainer name cleaned
   NULLIF(initcap(trim("trainer_name"::text)), '') AS "Trainer Name",
 
-  -- Session month: try parsing common formats to the first day of the month
-  CASE
-    WHEN trim("session_month"::text) ~ '^\d{4}-\d{2}$' THEN to_date(trim("session_month"::text) || '-01', 'YYYY-MM-DD')
-    WHEN trim("session_month"::text) ~ '^\d{4}-\d{2}-\d{2}$' THEN to_date(trim("session_month"::text), 'YYYY-MM-DD')
-    WHEN trim("session_month"::text) ~ '^[A-Za-z]{3}\s+\d{4}$' THEN to_date(trim("session_month"::text), 'Mon YYYY')
-    WHEN trim("session_month"::text) ~ '^[A-Za-z]{3,9}\s+\d{4}$' THEN to_date(substring(trim("session_month"::text) from 1 for 3) || ' ' || substring(trim("session_month"::text) from '\\d{4}$'), 'Mon YYYY')
-    WHEN trim("session_month"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN to_date(trim("session_month"::text), 'DD/MM/YYYY')
-    ELSE NULL
-  END AS "Session Month",
-
   -- raw/text fallback of session month for cases we couldn't parse
-  NULLIF(trim("session_month"::text), '') AS "Session Month text",
+  NULLIF(trim("session_month"::text), '') AS "Session Month",
 
   -- class info
   NULLIF(trim("class"::text), '') AS Class,

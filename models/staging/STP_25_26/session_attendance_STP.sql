@@ -9,7 +9,6 @@ SELECT
   END AS id,
 
   -- Was this class combined with another section? -> normalized boolean + raw text
-    NULLIF(trim(src."was_this_class_combined_with_another_section_"::text), '') AS was_class_combined_text,
   CASE
     WHEN lower(trim(src."was_this_class_combined_with_another_section_"::text)) ~ '^(yes|y|true|1)$' THEN TRUE
     WHEN lower(trim(src."was_this_class_combined_with_another_section_"::text)) ~ '^(no|n|false|0)$' THEN FALSE
