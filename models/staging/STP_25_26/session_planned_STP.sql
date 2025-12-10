@@ -25,7 +25,7 @@ SELECT
   NULLIF(initcap(trim("school_name"::text)), '') AS "School Name",
 
   -- session details
-  NULLIF(trim("session_planned"::text), '') AS "Session Planned",
+  CASE WHEN trim("session_planned"::text) ~ '^\d+$' THEN (trim("session_planned"::text))::INT ELSE NULL END AS "Session Planned",
   NULLIF(trim("experiment_planned"::text), '') AS "Experiment Planned",
 
   -- donor
