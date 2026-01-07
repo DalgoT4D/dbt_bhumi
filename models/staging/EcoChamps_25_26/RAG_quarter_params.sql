@@ -1,13 +1,13 @@
 WITH RAG_Quarter_Params_raw AS (
     SELECT DISTINCT
-        COALESCE(BTRIM(year::TEXT), '') AS "Year",
-        COALESCE(BTRIM(quarter::TEXT), '') AS "Quarter",
-        COALESCE(BTRIM("quarter_start_date"::TEXT), '') AS "Quarter Start Date",
-        COALESCE(BTRIM("quarter_end_date"::TEXT), '') AS "Quarter End Date",
-        COALESCE(BTRIM("target_modules"::TEXT), '') AS "Target Modules",
-        COALESCE(BTRIM("green_percent_comp"::TEXT), '') AS "Green Percent Comp",
-        COALESCE(BTRIM("amber_percent_comp"::TEXT), '') AS "Amber Percent Comp",
-        COALESCE(BTRIM("red_percent_comp"::TEXT), '') AS "Red Percent Comp"
+        COALESCE(BTRIM("Year"::TEXT), '') AS "Year",
+        COALESCE(BTRIM("Quarter"::TEXT), '') AS "Quarter",
+        COALESCE(BTRIM("Quarter_Start_Date"::TEXT), '') AS "Quarter Start Date",
+        COALESCE(BTRIM("Quarter_End_Date"::TEXT), '') AS "Quarter End Date",
+        COALESCE(BTRIM("Target_Modules"::TEXT), '') AS "Target Modules",
+        COALESCE(BTRIM("Green_Percent_Comp"::TEXT), '') AS "Green Percent Comp",
+        COALESCE(BTRIM("Amber_Percent_Comp"::TEXT), '') AS "Amber Percent Comp",
+        COALESCE(BTRIM("Red_Percent_Comp"::TEXT), '') AS "Red Percent Comp"
     FROM {{ source('ecochamps25_26', 'RAG_Quarter_Params') }}
 ),
 
