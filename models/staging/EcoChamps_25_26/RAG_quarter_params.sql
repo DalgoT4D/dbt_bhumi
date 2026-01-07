@@ -1,7 +1,7 @@
 WITH RAG_Quarter_Params_raw AS (
     SELECT DISTINCT
-        COALESCE(BTRIM("year"::TEXT), '') AS "Year",
-        COALESCE(BTRIM("quarter"::TEXT), '') AS "Quarter",
+        COALESCE(BTRIM(year::TEXT), '') AS "Year",
+        COALESCE(BTRIM(quarter::TEXT), '') AS "Quarter",
         COALESCE(BTRIM("quarter_start_date"::TEXT), '') AS "Quarter Start Date",
         COALESCE(BTRIM("quarter_end_date"::TEXT), '') AS "Quarter End Date",
         COALESCE(BTRIM("target_modules"::TEXT), '') AS "Target Modules",
