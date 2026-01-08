@@ -79,7 +79,7 @@ SELECT
     nullif(initcap(trim(src."Donor"::text)), '') AS donor,
 
     -- Keep the original raw row as jsonb to preserve any columns not explicitly selected
-    to_jsonb(src.src) AS raw_record
+    to_jsonb(src) AS raw_record
 
 FROM {{ source('STP_25-26', 'All_Session_Attendances') }} AS src
 WHERE "ID" IS NOT NULL

@@ -34,10 +34,8 @@ SELECT
         WHEN trim("Added_Time"::text) ~ '^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}$' THEN (trim("Added_Time"::text))::timestamp
         WHEN trim("Added_Time"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}\s+\d{2}:\d{2}:\d{2}$' THEN to_timestamp(trim("Added_Time"::text), 'DD/MM/YYYY HH24:MI:SS')
         WHEN trim("Added_Time"::text) ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN to_date(trim("Added_Time"::text), 'DD/MM/YYYY')::timestamp
-    END AS "Added Time",
+    END AS "Added Time"
 
-    -- source raw (keep full raw row as jsonb, avoid selecting * which can duplicate named columns)
-    to_jsonb(Src) AS Raw_record
 
 FROM {{ source('STP_25-26', 'All_Session_Plannings') }}
 WHERE "ID" IS NOT NULL
