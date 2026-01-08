@@ -11,8 +11,8 @@ with math_analysis_baseline as (
         avg(f.baseline_total_in_operations_base) as avg_perc_operations_base,
         avg(f.baseline_total_in_data_base) as avg_perc_data_handling_base
     from 
-        {{ref('base_mid_end_comb_scores_25_26_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_25_26_dim')}} d
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
         on f.student_id = d.student_id
     where d.baseline_attendence = True
     group by d.city_base, d.student_grade_base
@@ -31,8 +31,8 @@ with math_analysis_baseline as (
 --         avg(f.math_perc_operations_mid) as avg_perc_mastery_operations_mid,
 --         avg(f.math_perc_data_handling_mid) as avg_perc_mastery_data_handling_mid
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.midline_attendence = True
 --     group by d.city_mid, d.grade_taught_mid
@@ -51,8 +51,8 @@ with math_analysis_baseline as (
 --         avg(f.math_perc_operations_end) as avg_perc_mastery_operations_end,
 --         avg(f.math_perc_data_handling_end) as avg_perc_mastery_data_handling_end
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.endline_attendence = True
 --     group by d.city_end, d.grade_taught_end
@@ -110,10 +110,11 @@ select
     -- e.avg_perc_mastery_operations_end,
     -- e.avg_perc_mastery_data_handling_end
     
-from all_combinations ac
-left join math_analysis_baseline b
-    on ac.city = b.city 
-    and ac.grade = b.grade
+from all_combinations as ac
+left join math_analysis_baseline as b
+    on
+        ac.city = b.city 
+        and ac.grade = b.grade
 -- left join math_analysis_midline m
 --     on ac.city = m.city 
 --     and ac.grade = m.grade

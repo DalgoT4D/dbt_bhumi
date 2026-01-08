@@ -19,22 +19,19 @@ clean AS (
         -- volunteer hours: numeric(10,2); accepts "12", "12.5", "12 hrs"
         CASE
             WHEN "Volunteer Hours" ~ '^[0-9]+(\.[0-9]+)?(\s*hrs?)?$'
-                THEN regexp_replace("Volunteer Hours", '\s*hrs?$', '', 'i')::NUMERIC(10,2)
-            ELSE NULL
+                THEN REGEXP_REPLACE("Volunteer Hours", '\s*hrs?$', '', 'i')::NUMERIC(10,2)
         END AS "Volunteer Hours",
 
         -- total sessions: integer
         CASE
             WHEN "Total Sessions Attended" ~ '^\d+$'
                 THEN "Total Sessions Attended"::INT
-            ELSE NULL
         END AS "Total Sessions Attended",
 
         -- attendance %: numeric(5,2) (strips % if present)
         CASE
             WHEN "Attendance Percentage" ~ '^[0-9]+(\.[0-9]+)?%?$'
                 THEN REPLACE("Attendance Percentage", '%', '')::NUMERIC(5,2)
-            ELSE NULL
         END AS "Attendance Percentage"
 
     FROM center_raw

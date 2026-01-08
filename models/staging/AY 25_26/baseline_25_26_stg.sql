@@ -6,8 +6,8 @@ WITH baseline AS (
         COALESCE(INITCAP(BTRIM("School_Name"::TEXT)), '') AS "School Name",
         COALESCE(INITCAP(BTRIM("Classroom_ID"::TEXT)), '') AS "Classroom ID",
         COALESCE(INITCAP(BTRIM("Fellow_name"::TEXT)), '') AS "Fellow name",
-        CASE WHEN BTRIM("Cohort"::TEXT) ~ '^\d+$' THEN ("Cohort"::TEXT)::INTEGER ELSE NULL END AS "Cohort",
-        CASE WHEN BTRIM("Student_grade"::TEXT) ~ '^\d+$' THEN ("Student_grade"::TEXT)::INTEGER ELSE NULL END AS "Student grade",
+        CASE WHEN BTRIM("Cohort"::TEXT) ~ '^\d+$' THEN ("Cohort"::TEXT)::INTEGER END AS "Cohort",
+        CASE WHEN BTRIM("Student_grade"::TEXT) ~ '^\d+$' THEN ("Student_grade"::TEXT)::INTEGER END AS "Student grade",
         COALESCE(BTRIM("Student_ID"::TEXT), '') AS "Student ID",
         COALESCE(INITCAP(BTRIM("Student_name"::TEXT)), '') AS "Student name",
 
@@ -18,39 +18,39 @@ WITH baseline AS (
         NULLIF(BTRIM("RC_Endline_Baseline_Growth"::TEXT), '') AS "RC Endline Baseline Growth",
 
         -- RC Baseline Scores
-        CASE WHEN BTRIM("Baseline_Factual"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Factual", '%','')::NUMERIC ELSE NULL END AS "Baseline Factual",
-        CASE WHEN BTRIM("Baseline_Inference"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Inference", '%','')::NUMERIC ELSE NULL END AS "Baseline Inference",
-        CASE WHEN BTRIM("Baseline_Critical_Thinking"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Critical_Thinking", '%','')::NUMERIC ELSE NULL END AS "Baseline Critical Thinking",
-        CASE WHEN BTRIM("Baseline_Vocabulary"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Vocabulary", '%','')::NUMERIC ELSE NULL END AS "Baseline Vocabulary",
-        CASE WHEN BTRIM("Baseline_Grammar"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Grammar", '%','')::NUMERIC ELSE NULL END AS "Baseline Grammar",
-        CASE WHEN BTRIM("Baseline_Assessed_Percentage"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Assessed_Percentage", '%','')::NUMERIC ELSE NULL END AS "Baseline Assessed Percentage",
+        CASE WHEN BTRIM("Baseline_Factual"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Factual", '%','')::NUMERIC END AS "Baseline Factual",
+        CASE WHEN BTRIM("Baseline_Inference"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Inference", '%','')::NUMERIC END AS "Baseline Inference",
+        CASE WHEN BTRIM("Baseline_Critical_Thinking"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Critical_Thinking", '%','')::NUMERIC END AS "Baseline Critical Thinking",
+        CASE WHEN BTRIM("Baseline_Vocabulary"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Vocabulary", '%','')::NUMERIC END AS "Baseline Vocabulary",
+        CASE WHEN BTRIM("Baseline_Grammar"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Grammar", '%','')::NUMERIC END AS "Baseline Grammar",
+        CASE WHEN BTRIM("Baseline_Assessed_Percentage"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Assessed_Percentage", '%','')::NUMERIC END AS "Baseline Assessed Percentage",
 
         -- Math Baseline
         COALESCE(BTRIM("Math_Level_Baseline_"::TEXT), '') AS "Math Level Baseline",
-        CASE WHEN BTRIM("Final_Baseline_Level_Mastery"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Final_Baseline_Level_Mastery", '%','')::NUMERIC ELSE NULL END AS "Final Baseline Level Mastery",
-        CASE WHEN BTRIM("Math_Baseline_Grade"::TEXT) ~ '^\d+$' THEN ("Math_Baseline_Grade"::TEXT)::INTEGER ELSE NULL END AS "Math Baseline Grade",
+        CASE WHEN BTRIM("Final_Baseline_Level_Mastery"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Final_Baseline_Level_Mastery", '%','')::NUMERIC END AS "Final Baseline Level Mastery",
+        CASE WHEN BTRIM("Math_Baseline_Grade"::TEXT) ~ '^\d+$' THEN ("Math_Baseline_Grade"::TEXT)::INTEGER END AS "Math Baseline Grade",
         COALESCE(BTRIM("Math_Learning_level_status_Baseline"::TEXT), '') AS "Math Learning Level Status Baseline",
         NULLIF(BTRIM("Math_Endline_Baseline_Growth"::TEXT), '') AS "Math Endline Baseline Growth",
-        CASE WHEN BTRIM("Baseline_Numbers"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Numbers", '%','')::NUMERIC ELSE NULL END AS "Baseline Numbers",
-        CASE WHEN BTRIM("Baseline_Patterns"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Patterns", '%','')::NUMERIC ELSE NULL END AS "Baseline Patterns",
-        CASE WHEN BTRIM("Baseline_Geometry"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Geometry", '%','')::NUMERIC ELSE NULL END AS "Baseline Geometry",
-        CASE WHEN BTRIM("Baseline_Total_in_Mensuration"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Mensuration", '%','')::NUMERIC ELSE NULL END AS "Baseline Total in Mensuration",
-        CASE WHEN BTRIM("Baseline_Total_in_Time"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Time", '%','')::NUMERIC ELSE NULL END AS "Baseline Total in Time",
-        CASE WHEN BTRIM("Baseline_Total_in_Operations"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Operations", '%','')::NUMERIC ELSE NULL END AS "Baseline Total in Operations",
-        CASE WHEN BTRIM("Baseline_Total_in_Data"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Data", '%','')::NUMERIC ELSE NULL END AS "Baseline Total in Data",
+        CASE WHEN BTRIM("Baseline_Numbers"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Numbers", '%','')::NUMERIC END AS "Baseline Numbers",
+        CASE WHEN BTRIM("Baseline_Patterns"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Patterns", '%','')::NUMERIC END AS "Baseline Patterns",
+        CASE WHEN BTRIM("Baseline_Geometry"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Geometry", '%','')::NUMERIC END AS "Baseline Geometry",
+        CASE WHEN BTRIM("Baseline_Total_in_Mensuration"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Mensuration", '%','')::NUMERIC END AS "Baseline Total in Mensuration",
+        CASE WHEN BTRIM("Baseline_Total_in_Time"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Time", '%','')::NUMERIC END AS "Baseline Total in Time",
+        CASE WHEN BTRIM("Baseline_Total_in_Operations"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Operations", '%','')::NUMERIC END AS "Baseline Total in Operations",
+        CASE WHEN BTRIM("Baseline_Total_in_Data"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Total_in_Data", '%','')::NUMERIC END AS "Baseline Total in Data",
 
         -- RF Baseline
         COALESCE(BTRIM("RF_Level_Baseline"::TEXT), '') AS "RF Level Baseline",
         NULLIF(BTRIM("RF_Baseline_Growth"::TEXT), '') AS "RF Baseline Growth",
-        CASE WHEN BTRIM("Baseline_Letter_sounds"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Letter_sounds"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Letter sounds",
-        CASE WHEN BTRIM("Baseline_CVC_words"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_CVC_words"::TEXT)::NUMERIC ELSE NULL END AS "Baseline CVC words",
-        CASE WHEN BTRIM("Baseline_Blends"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Blends"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Blends",
-        CASE WHEN BTRIM("Baseline_Consonant_diagraph"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Consonant_diagraph"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Consonant diagraph",
-        CASE WHEN BTRIM("Baseline_Magic_E_words"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Magic_E_words"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Magic E words",
-        CASE WHEN BTRIM("Baseline_Vowel_diagraphs"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Vowel_diagraphs"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Vowel diagraphs",
-        CASE WHEN BTRIM("Baseline_Multi_syllabelle_words"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Multi_syllabelle_words"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Multi syllabelle words",
-        CASE WHEN BTRIM("Baseline_Passage_1"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Passage_1"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Passage 1",
-        CASE WHEN BTRIM("Baseline_Passage_2"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Passage_2"::TEXT)::NUMERIC ELSE NULL END AS "Baseline Passage 2"
+        CASE WHEN BTRIM("Baseline_Letter_sounds"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Letter_sounds"::TEXT)::NUMERIC END AS "Baseline Letter sounds",
+        CASE WHEN BTRIM("Baseline_CVC_words"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_CVC_words"::TEXT)::NUMERIC END AS "Baseline CVC words",
+        CASE WHEN BTRIM("Baseline_Blends"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Blends"::TEXT)::NUMERIC END AS "Baseline Blends",
+        CASE WHEN BTRIM("Baseline_Consonant_diagraph"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Consonant_diagraph"::TEXT)::NUMERIC END AS "Baseline Consonant diagraph",
+        CASE WHEN BTRIM("Baseline_Magic_E_words"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Magic_E_words"::TEXT)::NUMERIC END AS "Baseline Magic E words",
+        CASE WHEN BTRIM("Baseline_Vowel_diagraphs"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Vowel_diagraphs"::TEXT)::NUMERIC END AS "Baseline Vowel diagraphs",
+        CASE WHEN BTRIM("Baseline_Multi_syllabelle_words"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Multi_syllabelle_words"::TEXT)::NUMERIC END AS "Baseline Multi syllabelle words",
+        CASE WHEN BTRIM("Baseline_Passage_1"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Passage_1"::TEXT)::NUMERIC END AS "Baseline Passage 1",
+        CASE WHEN BTRIM("Baseline_Passage_2"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Passage_2"::TEXT)::NUMERIC END AS "Baseline Passage 2"
 
     FROM {{ source('fellowship_25_26', 'Raw_Data_Baseline_2025') }}
 )
@@ -99,7 +99,5 @@ SELECT DISTINCT
     b."Baseline Multi syllabelle words" AS baseline_multi_syllabelle_words_base,
     b."Baseline Passage 1" AS baseline_passage_1_base,
     b."Baseline Passage 2" AS baseline_passage_2_base
-FROM baseline b
+FROM baseline AS b
 WHERE b."Student ID" <> ''
-
-

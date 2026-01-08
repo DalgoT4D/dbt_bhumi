@@ -1,107 +1,110 @@
-with RC_analysis_baseline as (
+with RC_ANALYSIS_BASELINE as (
     select
-        d.city_base as city, 
-        d.grade_taught_base as grade,
-        avg(f.factual_base) as factual_base,
-        avg(f.inference_base) as inference_base,
-        avg(f.critical_thinking_base) as critical_thinking_base,
-        avg(f.vocabulary_base) as vocabulary_base,
-        avg(f.grammar_base) as grammar_base
+        D.CITY_BASE as CITY, 
+        D.GRADE_TAUGHT_BASE as GRADE,
+        avg(F.FACTUAL_BASE) as FACTUAL_BASE,
+        avg(F.INFERENCE_BASE) as INFERENCE_BASE,
+        avg(F.CRITICAL_THINKING_BASE) as CRITICAL_THINKING_BASE,
+        avg(F.VOCABULARY_BASE) as VOCABULARY_BASE,
+        avg(F.GRAMMAR_BASE) as GRAMMAR_BASE
     from 
-        {{ref('base_mid_end_comb_scores_2425_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
-        on f.student_id = d.student_id
-    where d.baseline_attendence = True
-    group by d.city_base, d.grade_taught_base
+        {{ ref('base_mid_end_comb_scores_2425_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_2425_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.BASELINE_ATTENDENCE = True
+    group by D.CITY_BASE, D.GRADE_TAUGHT_BASE
 ),
 
-RC_analysis_midline as (
+RC_ANALYSIS_MIDLINE as (
     select
-        d.city_mid as city,
-        d.grade_taught_mid as grade,
-        avg(f.factual_mid) as factual_mid,
-        avg(f.inference_mid) as inference_mid,
-        avg(f.critical_thinking_mid) as critical_thinking_mid,
-        avg(f.vocabulary_mid) as vocabulary_mid,
-        avg(f.grammar_mid) as grammar_mid
+        D.CITY_MID as CITY,
+        D.GRADE_TAUGHT_MID as GRADE,
+        avg(F.FACTUAL_MID) as FACTUAL_MID,
+        avg(F.INFERENCE_MID) as INFERENCE_MID,
+        avg(F.CRITICAL_THINKING_MID) as CRITICAL_THINKING_MID,
+        avg(F.VOCABULARY_MID) as VOCABULARY_MID,
+        avg(F.GRAMMAR_MID) as GRAMMAR_MID
     from 
-        {{ref('base_mid_end_comb_scores_2425_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
-        on f.student_id = d.student_id
-    where d.midline_attendence = True
-    group by d.city_mid, d.grade_taught_mid
+        {{ ref('base_mid_end_comb_scores_2425_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_2425_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.MIDLINE_ATTENDENCE = True
+    group by D.CITY_MID, D.GRADE_TAUGHT_MID
 ),
 
-RC_analysis_endline as (
+RC_ANALYSIS_ENDLINE as (
     select
-        d.city_end as city,
-        d.grade_taught_end as grade,
-        avg(f.factual_end) as factual_end,
-        avg(f.inference_end) as inference_end,
-        avg(f.critical_thinking_end) as critical_thinking_end,
-        avg(f.vocabulary_end) as vocabulary_end,
-        avg(f.grammar_end) as grammar_end
+        D.CITY_END as CITY,
+        D.GRADE_TAUGHT_END as GRADE,
+        avg(F.FACTUAL_END) as FACTUAL_END,
+        avg(F.INFERENCE_END) as INFERENCE_END,
+        avg(F.CRITICAL_THINKING_END) as CRITICAL_THINKING_END,
+        avg(F.VOCABULARY_END) as VOCABULARY_END,
+        avg(F.GRAMMAR_END) as GRAMMAR_END
     from 
-        {{ref('base_mid_end_comb_scores_2425_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
-        on f.student_id = d.student_id
-    where d.endline_attendence = True
-    group by d.city_end, d.grade_taught_end
+        {{ ref('base_mid_end_comb_scores_2425_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_2425_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.ENDLINE_ATTENDENCE = True
+    group by D.CITY_END, D.GRADE_TAUGHT_END
 ),
 
-all_combinations as (
+ALL_COMBINATIONS as (
     select distinct
-        city,
-        grade
-    from RC_analysis_baseline
+        CITY,
+        GRADE
+    from RC_ANALYSIS_BASELINE
     
     union
     
     select distinct
-        city,
-        grade
-    from RC_analysis_midline
+        CITY,
+        GRADE
+    from RC_ANALYSIS_MIDLINE
     
     union
     
     select distinct
-        city,
-        grade
-    from RC_analysis_endline
+        CITY,
+        GRADE
+    from RC_ANALYSIS_ENDLINE
 )
 
 select 
-    ac.city,
-    ac.grade,
+    AC.CITY,
+    AC.GRADE,
     -- Factual scores
-    b.factual_base,
-    m.factual_mid,
-    e.factual_end,
+    B.FACTUAL_BASE,
+    M.FACTUAL_MID,
+    E.FACTUAL_END,
     -- Inference scores
-    b.inference_base,
-    m.inference_mid,
-    e.inference_end,
+    B.INFERENCE_BASE,
+    M.INFERENCE_MID,
+    E.INFERENCE_END,
     -- Critical Thinking scores
-    b.critical_thinking_base,
-    m.critical_thinking_mid,
-    e.critical_thinking_end,
+    B.CRITICAL_THINKING_BASE,
+    M.CRITICAL_THINKING_MID,
+    E.CRITICAL_THINKING_END,
     -- Vocabulary scores
-    b.vocabulary_base,
-    m.vocabulary_mid,
-    e.vocabulary_end,
+    B.VOCABULARY_BASE,
+    M.VOCABULARY_MID,
+    E.VOCABULARY_END,
     -- Grammar scores
-    b.grammar_base,
-    m.grammar_mid,
-    e.grammar_end
+    B.GRAMMAR_BASE,
+    M.GRAMMAR_MID,
+    E.GRAMMAR_END
     
-from all_combinations ac
-left join RC_analysis_baseline b
-    on ac.city = b.city 
-    and ac.grade = b.grade
-left join RC_analysis_midline m
-    on ac.city = m.city 
-    and ac.grade = m.grade
-left join RC_analysis_endline e
-    on ac.city = e.city 
-    and ac.grade = e.grade
-order by ac.city, ac.grade
+from ALL_COMBINATIONS as AC
+left join RC_ANALYSIS_BASELINE as B
+    on
+        AC.CITY = B.CITY 
+        and AC.GRADE = B.GRADE
+left join RC_ANALYSIS_MIDLINE as M
+    on
+        AC.CITY = M.CITY 
+        and AC.GRADE = M.GRADE
+left join RC_ANALYSIS_ENDLINE as E
+    on
+        AC.CITY = E.CITY 
+        and AC.GRADE = E.GRADE
+order by AC.CITY, AC.GRADE

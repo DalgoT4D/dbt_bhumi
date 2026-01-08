@@ -8,15 +8,16 @@ with student_attendance as (
         -- Count distinct class dates across all module/assessment types
         round(
             (
-                coalesce(count(distinct case when kitchen_garden_date is not null then kitchen_garden_date end), 0) +
-                coalesce(count(distinct case when waste_management_date is not null then waste_management_date end), 0) +
-                coalesce(count(distinct case when water_conservation_date is not null then water_conservation_date end), 0) +
-                coalesce(count(distinct case when climate_date is not null then climate_date end), 0) +
-                coalesce(count(distinct case when lifestyle_choices_date is not null then lifestyle_choices_date end), 0) +
-                coalesce(count(distinct case when baseline_date is not null then baseline_date end), 0) +
-                coalesce(count(distinct case when endline_date is not null then endline_date end), 0)
-            ) / 7.0 * 100
-        , 2) as attendance_percentage
+                coalesce(count(distinct kitchen_garden_date), 0)
+                + coalesce(count(distinct waste_management_date), 0)
+                + coalesce(count(distinct water_conservation_date), 0)
+                + coalesce(count(distinct climate_date), 0)
+                + coalesce(count(distinct lifestyle_choices_date), 0)
+                + coalesce(count(distinct baseline_date), 0)
+                + coalesce(count(distinct endline_date), 0)
+            ) / 7.0 * 100,
+            2
+        ) as attendance_percentage
     
     from {{ ref('combine_eco_25_26') }}
     where "School" is not null
@@ -33,4 +34,4 @@ select
         else 'Red'
     end as rag_status
 from student_attendance
-order by attendance_percentage desc, "School"
+order by attendance_percentage desc, "School" asc

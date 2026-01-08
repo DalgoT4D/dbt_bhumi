@@ -12,8 +12,8 @@ with student_school_baseline as (
         f.rf_level_baseline_base,
         d.baseline_attendence
     from 
-        {{ref('base_mid_end_comb_scores_25_26_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_25_26_dim')}} d
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
         on f.student_id = d.student_id
     where d.baseline_attendence = True
 ),
@@ -31,8 +31,8 @@ with student_school_baseline as (
 --         f.math_learning_level_status_baseline_base,
 --         d.midline_attendence
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.midline_attendence = True
 -- ),
@@ -50,15 +50,14 @@ with student_school_baseline as (
 --         f.math_learning_level_status_baseline_base,
 --         d.endline_attendence
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.endline_attendence = True
 -- ),
 
 all_combinations as (
-    select distinct
-        student_id
+    select distinct student_id
     from student_school_baseline
     
     -- union
@@ -80,7 +79,7 @@ select
     -- Baseline Details
     b.student_name_base,
     b.city_base,
-    b.PM_name_base,
+    b.pm_name_base,
     b.school_name_base,
     b.fellow_name_base,
     b.student_grade_base,
@@ -112,8 +111,8 @@ select
     -- e.RC_status_end,
     -- e.RF_status_end,
     -- e.endline_attendence
-from all_combinations ac
-left join student_school_baseline b
+from all_combinations as ac
+left join student_school_baseline as b
     on ac.student_id = b.student_id
 -- left join student_school_midline m
 --     on ac.student_id = m.student_id

@@ -5,7 +5,7 @@ with baseline as (
         d.fellow_name_base as fellow,
         d.student_grade_base as grade,
         count(distinct d.student_id) as baseline_count
-    from {{ ref('base_mid_end_comb_students_25_26_dim') }} d
+    from {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
     where d.baseline_attendence = True
     group by d.city_base, d.school_name_base, d.fellow_name_base, d.student_grade_base
 ),
@@ -35,7 +35,12 @@ with baseline as (
 -- ),
 
 all_combinations as (
-    select distinct city, school, fellow, grade from baseline
+    select distinct
+        city,
+        school,
+        fellow,
+        grade
+    from baseline
     -- union
     -- select distinct city, school, fellow, grade from midline
     -- union
@@ -50,12 +55,13 @@ select
     coalesce(b.baseline_count, 0) as baseline_count
     -- coalesce(m.midline_count, 0) as midline_count,
     -- coalesce(e.endline_count, 0) as endline_count
-from all_combinations ac
-left join baseline b
-    on ac.city = b.city
-    and ac.school = b.school
-    and ac.fellow = b.fellow
-    and ac.grade = b.grade
+from all_combinations as ac
+left join baseline as b
+    on
+        ac.city = b.city
+        and ac.school = b.school
+        and ac.fellow = b.fellow
+        and ac.grade = b.grade
 -- left join midline m
 --     on ac.city = m.city
 --     and ac.school = m.school
@@ -67,5 +73,3 @@ left join baseline b
 --     and ac.fellow = e.fellow
 --     and ac.grade = e.grade
 order by ac.city, ac.school, ac.fellow, ac.grade
-
-

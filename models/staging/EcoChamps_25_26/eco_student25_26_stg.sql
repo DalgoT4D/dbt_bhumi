@@ -12,14 +12,14 @@ clean AS (
         COALESCE(INITCAP(BTRIM(ssd."Chapter"::TEXT)), '') AS "Chapter",
         COALESCE(INITCAP(BTRIM(ssd."School"::TEXT)), '') AS "School",
         COALESCE(BTRIM(ssd."Grade"::TEXT), '') AS "Grade",
-        CASE WHEN BTRIM(ssd."School_ID"::TEXT) ~ '^\d+$' THEN (ssd."School_ID"::TEXT)::BIGINT ELSE NULL END AS "School ID",
-        CASE WHEN BTRIM(ssd."Roll_No_"::TEXT) ~ '^\d+$' THEN (ssd."Roll_No_"::TEXT)::BIGINT ELSE NULL END AS "Roll No",
+        CASE WHEN BTRIM(ssd."School_ID"::TEXT) ~ '^\d+$' THEN (ssd."School_ID"::TEXT)::BIGINT END AS "School ID",
+        CASE WHEN BTRIM(ssd."Roll_No_"::TEXT) ~ '^\d+$' THEN (ssd."Roll_No_"::TEXT)::BIGINT END AS "Roll No",
         COALESCE(INITCAP(BTRIM(ssd."_Student_Name_"::TEXT)), '') AS "Student Name",
         COALESCE(INITCAP(BTRIM(ssd."Center_Coordiantor__1_"::TEXT)), '') AS "Center Coordiantor (1)",
         COALESCE(INITCAP(BTRIM(ssd."Center_Coordianator__2_"::TEXT)), '') AS "Center Coordianator (2)",
         COALESCE(BTRIM(ssd."Student_Status"::TEXT), '') AS "Student Status",
 
-        dt."Donor Mapped" AS "Donor Mapped",
+        dt."Donor Mapped",
 
         -- Baseline and Endline scores
         CASE 
@@ -27,17 +27,14 @@ clean AS (
                 THEN (ssd."Baseline_Score"::TEXT)::NUMERIC 
             WHEN UPPER(BTRIM(ssd."Baseline_Score"::TEXT)) = 'A' 
                 THEN 0 
-            ELSE NULL 
         END AS "Baseline Score",
 
         CASE 
             WHEN BTRIM(ssd."Endline_Sore"::TEXT) ~ '^[0-9]+(\.[0-9]+)?$' 
                 THEN (ssd."Endline_Sore"::TEXT)::NUMERIC 
             WHEN UPPER(BTRIM(ssd."Endline_Sore"::TEXT)) = 'A' 
-               THEN 0 
-            ELSE NULL 
+                THEN 0 
         END AS "Endline Score",
-
 
         COALESCE(BTRIM(ssd."Baseline"::TEXT), '') AS "Baseline",
         COALESCE(BTRIM(ssd."Kitchen_Garden"::TEXT), '') AS "Kitchen Garden",
@@ -48,12 +45,13 @@ clean AS (
         COALESCE(BTRIM(ssd."Endline"::TEXT), '') AS "Endline",
 
         CASE WHEN BTRIM(ssd."Modlues_Completed"::TEXT) ~ '^\d+$' THEN (ssd."Modlues_Completed"::TEXT)::INT ELSE 0 END AS "Modlues Completed",
-        CASE WHEN BTRIM(ssd."Attendance__"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE(ssd."Attendance__", '%', '')::NUMERIC ELSE NULL END AS "Attendance %"
+        CASE WHEN BTRIM(ssd."Attendance__"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE(ssd."Attendance__", '%', '')::NUMERIC END AS "Attendance %"
 
-    FROM {{ source('ecochamps25_26', 'Student___Session_Data') }} ssd
-    LEFT JOIN data_tracker_clean dt
-        ON INITCAP(BTRIM(ssd."School"::TEXT)) = INITCAP(BTRIM(dt."School"::TEXT))
-       AND BTRIM(ssd."Grade"::TEXT) = BTRIM(dt."Grade"::TEXT)
+    FROM {{ source('ecochamps25_26', 'Student___Session_Data') }} AS ssd
+    LEFT JOIN data_tracker_clean AS dt
+        ON
+            INITCAP(BTRIM(ssd."School"::TEXT)) = INITCAP(BTRIM(dt."School"::TEXT))
+            AND BTRIM(ssd."Grade"::TEXT) = BTRIM(dt."Grade"::TEXT)
 )
 
 SELECT DISTINCT ON ("School ID", "Roll No", "Student Name")

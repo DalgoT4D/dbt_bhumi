@@ -1,15 +1,15 @@
-with RC_analysis_baseline as (
+with RC_ANALYSIS_BASELINE as (
     select
-        d.city_base as city,
-        d.student_grade_base as grade,
-        f.rc_level_baseline_base as RC_level,
-        count(distinct f.student_id) as student_count_base
+        D.CITY_BASE as CITY,
+        D.STUDENT_GRADE_BASE as GRADE,
+        F.RC_LEVEL_BASELINE_BASE as RC_LEVEL,
+        count(distinct F.STUDENT_ID) as STUDENT_COUNT_BASE
     from 
-        {{ref('base_mid_end_comb_scores_25_26_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_25_26_dim')}} d
-        on f.student_id = d.student_id
-    where d.baseline_attendence = True
-    group by d.city_base, d.student_grade_base, f.rc_level_baseline_base
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.BASELINE_ATTENDENCE = True
+    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RC_LEVEL_BASELINE_BASE
 ),
 
 -- RC_analysis_midline as (
@@ -19,8 +19,8 @@ with RC_analysis_baseline as (
 --         f.RC_level_mid as RC_level,
 --         count(distinct f.student_id) as student_count_mid
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.midline_attendence = True
 --     group by d.city_mid, d.grade_taught_mid, f.RC_level_mid
@@ -33,19 +33,19 @@ with RC_analysis_baseline as (
 --         f.RC_level_end as RC_level,
 --         count(distinct f.student_id) as student_count_end
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.endline_attendence = True
 --     group by d.city_end, d.grade_taught_end, f.RC_level_end
 -- ),
 
-all_combinations as (
+ALL_COMBINATIONS as (
     select distinct
-        city,
-        grade,
-        RC_level
-    from RC_analysis_baseline
+        CITY,
+        GRADE,
+        RC_LEVEL
+    from RC_ANALYSIS_BASELINE
     
     -- union
     
@@ -65,17 +65,18 @@ all_combinations as (
 )
 
 select 
-    ac.city,
-    ac.grade,
-    ac.RC_level,
-    b.student_count_base
+    AC.CITY,
+    AC.GRADE,
+    AC.RC_LEVEL,
+    B.STUDENT_COUNT_BASE
     -- m.student_count_mid,
     -- e.student_count_end
-from all_combinations ac
-left join RC_analysis_baseline b
-    on ac.city = b.city 
-    and ac.RC_level = b.RC_level 
-    and ac.grade = b.grade
+from ALL_COMBINATIONS as AC
+left join RC_ANALYSIS_BASELINE as B
+    on
+        AC.CITY = B.CITY 
+        and AC.RC_LEVEL = B.RC_LEVEL 
+        and AC.GRADE = B.GRADE
 -- left join RC_analysis_midline m
 --     on ac.city = m.city 
 --     and ac.RC_level = m.RC_level 
