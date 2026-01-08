@@ -148,10 +148,10 @@ select
     -- e.beginner_end,
     -- e.intermediate_end,
     -- e.advanced_end
-from {{ref('base_mid_end_comb_students_25_26_dim')}} d
-left join {{ref('baseline_25_26_stg')}} b 
+from {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+left join {{ ref('baseline_25_26_stg') }} as b 
     on d.student_id = b.student_id_base
--- left join {{ref('midline_2425_stg')}} m 
+-- left join {{ ref('midline_2425_stg') }} m 
 --     on d.student_id = m.student_id_mid
--- left join {{ref('endline_2425_stg')}} e 
+-- left join {{ ref('endline_2425_stg') }} e 
 --     on d.student_id = e.student_id_end

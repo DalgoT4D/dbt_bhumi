@@ -1,132 +1,135 @@
-with RF_analysis_baseline as (
+with RF_ANALYSIS_BASELINE as (
     select
-        d.city_base as city,
-        d.grade_taught_base as grade,
-        avg(f.letter_sounds_base) as letter_sounds_base,
-        avg(f.CVC_words_base) as CVC_words_base,
-        avg(f.blends_base) as blends_base,
-        avg(f.consonant_diagraph_base) as consonant_diagraph_base,
-        avg(f.magic_E_words_base) as magic_E_words_base,
-        avg(f.vowel_diagraphs_base) as vowel_diagraphs_base,
-        avg(f.multi_syllabelle_words_base) as multi_syllabelle_words_base,
-        avg(f.passage_1_base) as passage_1_base,
-        avg(f.passage_2_base) as passage_2_base
+        D.CITY_BASE as CITY,
+        D.GRADE_TAUGHT_BASE as GRADE,
+        avg(F.LETTER_SOUNDS_BASE) as LETTER_SOUNDS_BASE,
+        avg(F.CVC_WORDS_BASE) as CVC_WORDS_BASE,
+        avg(F.BLENDS_BASE) as BLENDS_BASE,
+        avg(F.CONSONANT_DIAGRAPH_BASE) as CONSONANT_DIAGRAPH_BASE,
+        avg(F.MAGIC_E_WORDS_BASE) as MAGIC_E_WORDS_BASE,
+        avg(F.VOWEL_DIAGRAPHS_BASE) as VOWEL_DIAGRAPHS_BASE,
+        avg(F.MULTI_SYLLABELLE_WORDS_BASE) as MULTI_SYLLABELLE_WORDS_BASE,
+        avg(F.PASSAGE_1_BASE) as PASSAGE_1_BASE,
+        avg(F.PASSAGE_2_BASE) as PASSAGE_2_BASE
     from 
-        {{ref('base_mid_end_comb_scores_2425_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
-        on f.student_id = d.student_id
-    where d.baseline_attendence = True
-    group by d.city_base, d.grade_taught_base
+        {{ ref('base_mid_end_comb_scores_2425_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_2425_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.BASELINE_ATTENDENCE = True
+    group by D.CITY_BASE, D.GRADE_TAUGHT_BASE
 ),
 
-RF_analysis_midline as (
+RF_ANALYSIS_MIDLINE as (
     select
-        d.city_mid as city,
-        d.grade_taught_mid as grade,
-        avg(f.letter_sounds_mid) as letter_sounds_mid,
-        avg(f.CVC_words_mid) as CVC_words_mid,
-        avg(f.blends_mid) as blends_mid,
-        avg(f.consonant_diagraph_mid) as consonant_diagraph_mid,
-        avg(f.magic_E_words_mid) as magic_E_words_mid,
-        avg(f.vowel_diagraphs_mid) as vowel_diagraphs_mid,
-        avg(f.multi_syllabelle_words_mid) as multi_syllabelle_words_mid,
-        avg(f.passage_1_mid) as passage_1_mid,
-        avg(f.passage_2_mid) as passage_2_mid
+        D.CITY_MID as CITY,
+        D.GRADE_TAUGHT_MID as GRADE,
+        avg(F.LETTER_SOUNDS_MID) as LETTER_SOUNDS_MID,
+        avg(F.CVC_WORDS_MID) as CVC_WORDS_MID,
+        avg(F.BLENDS_MID) as BLENDS_MID,
+        avg(F.CONSONANT_DIAGRAPH_MID) as CONSONANT_DIAGRAPH_MID,
+        avg(F.MAGIC_E_WORDS_MID) as MAGIC_E_WORDS_MID,
+        avg(F.VOWEL_DIAGRAPHS_MID) as VOWEL_DIAGRAPHS_MID,
+        avg(F.MULTI_SYLLABELLE_WORDS_MID) as MULTI_SYLLABELLE_WORDS_MID,
+        avg(F.PASSAGE_1_MID) as PASSAGE_1_MID,
+        avg(F.PASSAGE_2_MID) as PASSAGE_2_MID
     from 
-        {{ref('base_mid_end_comb_scores_2425_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
-        on f.student_id = d.student_id
-    where d.midline_attendence = True
-    group by d.city_mid, d.grade_taught_mid
+        {{ ref('base_mid_end_comb_scores_2425_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_2425_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.MIDLINE_ATTENDENCE = True
+    group by D.CITY_MID, D.GRADE_TAUGHT_MID
 ),
 
-RF_analysis_endline as (
+RF_ANALYSIS_ENDLINE as (
     select
-        d.city_end as city,
-        d.grade_taught_end as grade,
-        avg(f.letter_sounds_end) as letter_sounds_end,
-        avg(f.CVC_words_end) as CVC_words_end,
-        avg(f.blends_end) as blends_end,
-        avg(f.consonant_diagraph_end) as consonant_diagraph_end,
-        avg(f.magic_E_words_end) as magic_E_words_end,
-        avg(f.vowel_diagraphs_end) as vowel_diagraphs_end,
-        avg(f.multi_syllabelle_words_end) as multi_syllabelle_words_end,
-        avg(f.passage_1_end) as passage_1_end,
-        avg(f.passage_2_end) as passage_2_end
+        D.CITY_END as CITY,
+        D.GRADE_TAUGHT_END as GRADE,
+        avg(F.LETTER_SOUNDS_END) as LETTER_SOUNDS_END,
+        avg(F.CVC_WORDS_END) as CVC_WORDS_END,
+        avg(F.BLENDS_END) as BLENDS_END,
+        avg(F.CONSONANT_DIAGRAPH_END) as CONSONANT_DIAGRAPH_END,
+        avg(F.MAGIC_E_WORDS_END) as MAGIC_E_WORDS_END,
+        avg(F.VOWEL_DIAGRAPHS_END) as VOWEL_DIAGRAPHS_END,
+        avg(F.MULTI_SYLLABELLE_WORDS_END) as MULTI_SYLLABELLE_WORDS_END,
+        avg(F.PASSAGE_1_END) as PASSAGE_1_END,
+        avg(F.PASSAGE_2_END) as PASSAGE_2_END
     from 
-        {{ref('base_mid_end_comb_scores_2425_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
-        on f.student_id = d.student_id
-    where d.endline_attendence = True
-    group by d.city_end, d.grade_taught_end
+        {{ ref('base_mid_end_comb_scores_2425_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_2425_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.ENDLINE_ATTENDENCE = True
+    group by D.CITY_END, D.GRADE_TAUGHT_END
 ),
 
-all_combinations as (
+ALL_COMBINATIONS as (
     select distinct
-        city,
-        grade
-    from RF_analysis_baseline
+        CITY,
+        GRADE
+    from RF_ANALYSIS_BASELINE
     
     union
     
     select distinct
-        city,
-        grade
-    from RF_analysis_midline
+        CITY,
+        GRADE
+    from RF_ANALYSIS_MIDLINE
     
     union
     
     select distinct
-        city,
-        grade
-    from RF_analysis_endline
+        CITY,
+        GRADE
+    from RF_ANALYSIS_ENDLINE
 )
 
 select 
-    ac.city,
-    ac.grade,
+    AC.CITY,
+    AC.GRADE,
     
     --baseline
-    b.letter_sounds_base,
-    b.CVC_words_base,
-    b.blends_base,
-    b.consonant_diagraph_base,
-    b.magic_E_words_base,
-    b.vowel_diagraphs_base,
-    b.multi_syllabelle_words_base,
-    b.passage_1_base,
-    b.passage_2_base,
+    B.LETTER_SOUNDS_BASE,
+    B.CVC_WORDS_BASE,
+    B.BLENDS_BASE,
+    B.CONSONANT_DIAGRAPH_BASE,
+    B.MAGIC_E_WORDS_BASE,
+    B.VOWEL_DIAGRAPHS_BASE,
+    B.MULTI_SYLLABELLE_WORDS_BASE,
+    B.PASSAGE_1_BASE,
+    B.PASSAGE_2_BASE,
 
     --midline
-    m.letter_sounds_mid,
-    m.CVC_words_mid,
-    m.blends_mid,
-    m.consonant_diagraph_mid,
-    m.magic_E_words_mid,
-    m.vowel_diagraphs_mid,
-    m.multi_syllabelle_words_mid,
-    m.passage_1_mid,
-    m.passage_2_mid,
+    M.LETTER_SOUNDS_MID,
+    M.CVC_WORDS_MID,
+    M.BLENDS_MID,
+    M.CONSONANT_DIAGRAPH_MID,
+    M.MAGIC_E_WORDS_MID,
+    M.VOWEL_DIAGRAPHS_MID,
+    M.MULTI_SYLLABELLE_WORDS_MID,
+    M.PASSAGE_1_MID,
+    M.PASSAGE_2_MID,
 
     --endline
-    e.letter_sounds_end,
-    e.CVC_words_end,
-    e.blends_end,
-    e.consonant_diagraph_end,
-    e.magic_E_words_end,
-    e.vowel_diagraphs_end,
-    e.multi_syllabelle_words_end,
-    e.passage_1_end,
-    e.passage_2_end
+    E.LETTER_SOUNDS_END,
+    E.CVC_WORDS_END,
+    E.BLENDS_END,
+    E.CONSONANT_DIAGRAPH_END,
+    E.MAGIC_E_WORDS_END,
+    E.VOWEL_DIAGRAPHS_END,
+    E.MULTI_SYLLABELLE_WORDS_END,
+    E.PASSAGE_1_END,
+    E.PASSAGE_2_END
 
-from all_combinations ac
-left join RF_analysis_baseline b
-    on ac.city = b.city 
-    and ac.grade = b.grade
-left join RF_analysis_midline m
-    on ac.city = m.city 
-    and ac.grade = m.grade
-left join RF_analysis_endline e
-    on ac.city = e.city 
-    and ac.grade = e.grade
-order by ac.city, ac.grade
+from ALL_COMBINATIONS as AC
+left join RF_ANALYSIS_BASELINE as B
+    on
+        AC.CITY = B.CITY 
+        and AC.GRADE = B.GRADE
+left join RF_ANALYSIS_MIDLINE as M
+    on
+        AC.CITY = M.CITY 
+        and AC.GRADE = M.GRADE
+left join RF_ANALYSIS_ENDLINE as E
+    on
+        AC.CITY = E.CITY 
+        and AC.GRADE = E.GRADE
+order by AC.CITY, AC.GRADE

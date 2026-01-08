@@ -5,11 +5,11 @@ with demographics_baseline as (
         t.cohort_base,
         t.fellow_name_base,
         t.school_name_base,
-        t.PM_name_base,
+        t.pm_name_base,
         count(distinct t.student_id) as student_count_base
-    from {{ref('base_mid_end_comb_students_25_26_dim')}} t
+    from {{ ref('base_mid_end_comb_students_25_26_dim') }} as t
     where t.baseline_attendence = True
-    group by t.city_base, t.student_grade_base, t.cohort_base, t.fellow_name_base, t.school_name_base, t.PM_name_base
+    group by t.city_base, t.student_grade_base, t.cohort_base, t.fellow_name_base, t.school_name_base, t.pm_name_base
     
 ),
 
@@ -22,7 +22,7 @@ with demographics_baseline as (
 --         t.school_name_mid,
 --         t.PM_name_mid,
 --         count(distinct t.student_id) as student_count_mid
---     from {{ref('base_mid_end_comb_students_2425_dim')}} t
+--     from {{ ref('base_mid_end_comb_students_2425_dim') }} t
 --     where t.midline_attendence = True
 --     group by t.city_mid, t.grade_taught_mid, t.cohort_mid, t.fellow_name_mid, t.school_name_mid, t.PM_name_mid
 -- ),
@@ -36,7 +36,7 @@ with demographics_baseline as (
 --         t.school_name_end,
 --         t.PM_name_end,
 --         count(distinct t.student_id) as student_count_end
---     from {{ref('base_mid_end_comb_students_2425_dim')}} t
+--     from {{ ref('base_mid_end_comb_students_2425_dim') }} t
 --     where t.endline_attendence = True
 --     group by t.city_end, t.grade_taught_end, t.cohort_end, t.fellow_name_end, t.school_name_end, t.PM_name_end
 -- ),
@@ -48,7 +48,7 @@ all_combinations as (
         cohort_base as cohort,
         fellow_name_base as fellow_name,
         school_name_base as school_name,
-        PM_name_base as PM_name
+        pm_name_base as pm_name
     from demographics_baseline
     
     -- union
@@ -80,18 +80,19 @@ select
     ac.cohort,
     ac.fellow_name,
     ac.school_name,
-    ac.PM_name,
+    ac.pm_name,
     b.student_count_base
     -- m.student_count_mid,
     -- e.student_count_end
-from all_combinations ac
-left join demographics_baseline b
-    on ac.city = b.city_base 
-    and ac.grade = b.student_grade_base 
-    and ac.cohort = b.cohort_base 
-    and ac.fellow_name = b.fellow_name_base 
-    and ac.school_name = b.school_name_base 
-    and ac.PM_name = b.PM_name_base
+from all_combinations as ac
+left join demographics_baseline as b
+    on
+        ac.city = b.city_base 
+        and ac.grade = b.student_grade_base 
+        and ac.cohort = b.cohort_base 
+        and ac.fellow_name = b.fellow_name_base 
+        and ac.school_name = b.school_name_base 
+        and ac.pm_name = b.pm_name_base
 -- left join demographics_midline m
 --     on ac.city = m.city_mid 
 --     and ac.grade = m.grade_taught_mid 

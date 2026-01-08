@@ -7,19 +7,20 @@ with classes_by_school as (
         count(*) as student_count,
         
         -- Count distinct class dates within date range across all module types
-        ROUND(
+        round(
+            (
                 (
-                    (
-                        COALESCE(COUNT(DISTINCT kitchen_garden_date), 0)
-                        + COALESCE(COUNT(DISTINCT waste_management_date), 0)
-                        + COALESCE(COUNT(DISTINCT water_conservation_date), 0)
-                        + COALESCE(COUNT(DISTINCT climate_date), 0)
-                        + COALESCE(COUNT(DISTINCT lifestyle_choices_date), 0)
-                        + COALESCE(COUNT(DISTINCT baseline_date), 0)
-                        + COALESCE(COUNT(DISTINCT endline_date), 0)
-                    ) / 7.0
-                ) * 100,
-            2) as classes_conducted_percentage
+                    coalesce(count(distinct kitchen_garden_date), 0)
+                    + coalesce(count(distinct waste_management_date), 0)
+                    + coalesce(count(distinct water_conservation_date), 0)
+                    + coalesce(count(distinct climate_date), 0)
+                    + coalesce(count(distinct lifestyle_choices_date), 0)
+                    + coalesce(count(distinct baseline_date), 0)
+                    + coalesce(count(distinct endline_date), 0)
+                ) / 7.0
+            ) * 100,
+            2
+        ) as classes_conducted_percentage
     
     from {{ ref('combine_eco_25_26') }}
     where "School" is not null
@@ -36,4 +37,4 @@ select
         else 'Red'
     end as rag_status
 from classes_by_school
-order by classes_conducted_percentage desc, "School"
+order by classes_conducted_percentage desc, "School" asc

@@ -12,7 +12,6 @@ select
     coalesce(trim("Gender"::text), '') as Gender,
     case 
         when trim("Academic_Year"::text) ~ '^\d{4}-\d{4}$' then trim("Academic_Year"::text)
-        else null
     end as "Academic Year",
     
     -- School Info
@@ -25,7 +24,6 @@ select
         case 
             when trim("Contact_Number"::text) ~ '^\d{10}$' then trim("Contact_Number"::text)
             when trim("Contact_Number"::text) ~ '^\+91\d{10}$' then substring(trim("Contact_Number"::text), 4)
-            else null
         end,
         ''
     ) as "Contact Number",
@@ -36,7 +34,6 @@ select
         case 
             when trim("Father_Phone"::text) ~ '^\d{10}$' then trim("Father_Phone"::text)
             when trim("Father_Phone"::text) ~ '^\+91\d{10}$' then substring(trim("Father_Phone"::text), 4)
-            else null
         end,
         ''
     ) as "Father Phone",
@@ -44,7 +41,6 @@ select
     coalesce(
         case 
             when trim("Father_Income"::text) ~ '^\d+(\.\d{1,2})?$' then (trim("Father_Income"::text))::numeric
-            else null
         end
     ) as "Father Income",
 
@@ -53,7 +49,6 @@ select
         case 
             when trim("Mother_Phone"::text) ~ '^\d{10}$' then trim("Mother_Phone"::text)
             when trim("Mother_Phone"::text) ~ '^\+91\d{10}$' then substring(trim("Mother_Phone"::text), 4)
-            else null
         end,
         ''
     ) as "Mother Phone",
@@ -61,7 +56,6 @@ select
     coalesce(
         case 
             when trim("Mother_Income"::text) ~ '^\d+(\.\d{1,2})?$' then (trim("Mother_Income"::text))::numeric
-            else null
         end
     ) as "Mother Income",
     
@@ -87,13 +81,11 @@ select
             then to_date(trim("Date_of_Joining_the_School"::text), 'DD/MM/YYYY')
         when trim("Date_of_Joining_the_School"::text) ~ '^\d{1,2}/\d{1,2}/\d{2}$'
             then to_date(trim("Date_of_Joining_the_School"::text), 'DD/MM/YY')
-        else null
     end as "Date of Joining the School",
     
     case 
         when trim("Added_Time"::text) ~ '^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$'
             then (trim("Added_Time"::text))::timestamp
-        else null
     end as "Added Time"
 
 from {{ source('STP_25-26', 'All_Students') }}

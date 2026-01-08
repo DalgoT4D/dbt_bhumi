@@ -22,14 +22,12 @@ WITH base AS (
             WHEN "Baseline" ~ '^P' THEN 'Present'
             WHEN "Baseline" ~ '^A' THEN 'Absent'
             WHEN "Baseline" ~ '^\s*\d' THEN 'Present'
-            ELSE NULL
         END AS baseline_attendance,
 
         -- Baseline date only when parentheses exist
         CASE
             WHEN "Baseline" ~ '\('
-            THEN NULLIF(TRIM(REGEXP_REPLACE("Baseline", '^[^\(]*\((.*?)\).*$', '\1')), '')
-            ELSE NULL
+                THEN NULLIF(TRIM(REGEXP_REPLACE("Baseline", '^[^\(]*\((.*?)\).*$', '\1')), '')
         END AS baseline_date_text,
 
         -- Endline attendance: same logic
@@ -37,13 +35,11 @@ WITH base AS (
             WHEN "Endline" ~ '^P' THEN 'Present'
             WHEN "Endline" ~ '^A' THEN 'Absent'
             WHEN "Endline" ~ '^\s*\d' THEN 'Present'
-            ELSE NULL
         END AS endline_attendance,
 
         CASE
             WHEN "Endline" ~ '\('
-            THEN NULLIF(TRIM(REGEXP_REPLACE("Endline", '^[^\(]*\((.*?)\).*$', '\1')), '')
-            ELSE NULL
+                THEN NULLIF(TRIM(REGEXP_REPLACE("Endline", '^[^\(]*\((.*?)\).*$', '\1')), '')
         END AS endline_date_text
 
     FROM {{ ref('eco_student25_26_stg') }}
@@ -54,28 +50,26 @@ parsed_dates AS (
         *,
         -- parse baseline_date_text to true date
         CASE
-            WHEN baseline_date_text IS NOT NULL THEN
-                CASE
-                    WHEN baseline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'DD Mon YYYY')
-                    WHEN baseline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'Mon DD YYYY')
-                    WHEN baseline_date_text ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(baseline_date_text, 'DD/MM/YY')
-                    WHEN baseline_date_text ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(baseline_date_text, 'DD/MM/YYYY')
-                    ELSE NULL
-                END
-            ELSE NULL
+            WHEN baseline_date_text IS NOT NULL
+                THEN
+                    CASE
+                        WHEN baseline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'DD Mon YYYY')
+                        WHEN baseline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(baseline_date_text, 'Mon DD YYYY')
+                        WHEN baseline_date_text ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(baseline_date_text, 'DD/MM/YY')
+                        WHEN baseline_date_text ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(baseline_date_text, 'DD/MM/YYYY')
+                    END
         END AS baseline_date_parsed,
 
         -- parse endline_date_text to true date
         CASE
-            WHEN endline_date_text IS NOT NULL THEN
-                CASE
-                    WHEN endline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'DD Mon YYYY')
-                    WHEN endline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'Mon DD YYYY')
-                    WHEN endline_date_text ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(endline_date_text, 'DD/MM/YY')
-                    WHEN endline_date_text ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(endline_date_text, 'DD/MM/YYYY')
-                    ELSE NULL
-                END
-            ELSE NULL
+            WHEN endline_date_text IS NOT NULL
+                THEN
+                    CASE
+                        WHEN endline_date_text ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'DD Mon YYYY')
+                        WHEN endline_date_text ~ '^[A-Za-z]{3}\s+\d{1,2}\s+\d{4}$' THEN TO_DATE(endline_date_text, 'Mon DD YYYY')
+                        WHEN endline_date_text ~ '^\d{1,2}/\d{1,2}/\d{2}$' THEN TO_DATE(endline_date_text, 'DD/MM/YY')
+                        WHEN endline_date_text ~ '^\d{1,2}/\d{1,2}/\d{4}$' THEN TO_DATE(endline_date_text, 'DD/MM/YYYY')
+                    END
         END AS endline_date_parsed
 
     FROM base
@@ -113,20 +107,21 @@ SELECT
     -- denominator = number of non-NULL assessments (baseline/endline)
     CASE
         WHEN (
-            (CASE WHEN baseline_attendance IS NOT NULL THEN 1 ELSE 0 END) +
-            (CASE WHEN endline_attendance IS NOT NULL THEN 1 ELSE 0 END)
+            (CASE WHEN baseline_attendance IS NOT NULL THEN 1 ELSE 0 END)
+            + (CASE WHEN endline_attendance IS NOT NULL THEN 1 ELSE 0 END)
         ) = 0 THEN NULL
         ELSE ROUND(
             (
-                (CASE WHEN baseline_attendance = 'Present' THEN 1 ELSE 0 END) +
-                (CASE WHEN endline_attendance = 'Present' THEN 1 ELSE 0 END)
+                (CASE WHEN baseline_attendance = 'Present' THEN 1 ELSE 0 END)
+                + (CASE WHEN endline_attendance = 'Present' THEN 1 ELSE 0 END)
             )::NUMERIC
             /
             (
-                (CASE WHEN baseline_attendance IS NOT NULL THEN 1 ELSE 0 END) +
-                (CASE WHEN endline_attendance IS NOT NULL THEN 1 ELSE 0 END)
-            ) * 100
-        , 2)
+                (CASE WHEN baseline_attendance IS NOT NULL THEN 1 ELSE 0 END)
+                + (CASE WHEN endline_attendance IS NOT NULL THEN 1 ELSE 0 END)
+            ) * 100,
+            2
+        )
     END AS "Assessment Attendance %"
 
 FROM parsed_dates

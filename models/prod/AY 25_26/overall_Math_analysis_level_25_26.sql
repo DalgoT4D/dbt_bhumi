@@ -5,8 +5,8 @@ with math_analysis_baseline as (
         f.math_level_baseline_base as math_level,
         count(distinct f.student_id) as student_count_base
     from 
-        {{ref('base_mid_end_comb_scores_25_26_fct')}} f
-        inner join {{ref('base_mid_end_comb_students_25_26_dim')}} d
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
         on f.student_id = d.student_id
     where d.baseline_attendence = True
     group by d.city_base, d.student_grade_base, f.math_level_baseline_base
@@ -19,8 +19,8 @@ with math_analysis_baseline as (
 --         f.math_level_mid as math_level,
 --         count(distinct f.student_id) as student_count_mid
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.midline_attendence = True
 --     group by d.city_mid, d.grade_taught_mid, f.math_level_mid
@@ -33,8 +33,8 @@ with math_analysis_baseline as (
 --         f.math_level_end as math_level,
 --         count(distinct f.student_id) as student_count_end
 --     from 
---         {{ref('base_mid_end_comb_scores_2425_fct')}} f
---         inner join {{ref('base_mid_end_comb_students_2425_dim')}} d
+--         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
+--         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
 --         on f.student_id = d.student_id
 --     where d.endline_attendence = True
 --     group by d.city_end, d.grade_taught_end, f.math_level_end
@@ -71,11 +71,12 @@ select
     b.student_count_base
     -- m.student_count_mid,
     -- e.student_count_end
-from all_combinations ac
-left join math_analysis_baseline b
-    on ac.city = b.city 
-    and ac.math_level = b.math_level 
-    and ac.grade = b.grade
+from all_combinations as ac
+left join math_analysis_baseline as b
+    on
+        ac.city = b.city 
+        and ac.math_level = b.math_level 
+        and ac.grade = b.grade
 -- left join math_analysis_midline m
 --     on ac.city = m.city 
 --     and ac.math_level = m.math_level 
