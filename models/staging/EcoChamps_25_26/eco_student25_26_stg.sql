@@ -2,9 +2,8 @@ WITH data_tracker_clean AS (
     SELECT DISTINCT
         COALESCE(BTRIM("School"::TEXT), '') AS "School",
         COALESCE(BTRIM("Grade"::TEXT), '') AS "Grade",
-        COALESCE(BTRIM("Donor_Mapped"::TEXT), '') AS "Donor Mapped"
+        COALESCE(BTRIM("Donor_Mapped"::TEXT), 'Non Funding') AS "Donor Mapped"
     FROM {{ source('ecochamps25_26', 'Data_Tracker') }}
-    WHERE "Donor_Mapped" IS NOT NULL
 ),
 
 clean AS (
@@ -78,4 +77,5 @@ SELECT DISTINCT ON ("School ID", "Roll No", "Student Name")
     "Attendance %"
 FROM clean
 WHERE "Roll No" IS NOT NULL
+AND "Student Name" != ''
 ORDER BY "School ID", "Roll No", "Student Name"
