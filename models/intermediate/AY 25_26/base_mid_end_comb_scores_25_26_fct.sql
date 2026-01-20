@@ -7,12 +7,12 @@ select
     b.rc_grade_level_baseline_base,
     b.rc_learning_level_status_baseline_base,
     b.rc_endline_baseline_growth_base,
-    -- -- Midline
-    -- m.RC_level_mid,
-    -- m.RC_grade_level_mid,
-    -- m.RC_status_mid,
-    -- m.RC_assessed_perc_mid,
-    -- -- Endline
+    -- Midline
+    m.rc_level_midline_mid,
+    m.rc_grade_level_midline_mid,
+    m.rc_learning_level_status_midline_mid,
+    m.rc_baseline_midline_growth_mid,
+    -- Endline
     -- e.RC_level_end,
     -- e.RC_grade_level_end,
     -- e.RC_status_end,
@@ -22,11 +22,10 @@ select
     -- Baseline
     b.rf_level_baseline_base,
     b.rf_baseline_growth_base,
-    -- -- Midline
-    -- m.RF_status_mid,
-    -- m.RF_perc_mid,
-    -- m.RF_code_mid,
-    -- -- Endline
+    -- Midline
+    m.rf_level_midline_mid,
+    m.rf_midline_growth_mid,
+    -- Endline
     -- e.RF_status_end,
     -- e.RF_perc_end,
     -- e.RF_code_end,
@@ -37,10 +36,11 @@ select
     b.math_baseline_grade_base,
     b.math_learning_level_status_baseline_base,
     b.math_endline_baseline_growth_base,
-    -- -- Midline
-    -- m.math_level_mid,
-    -- m.math_status_mid,
-    -- m.math_mastery_mid,
+    -- Midline
+    m.math_level_midline_mid,
+    m.math_midline_grade_mid,
+    m.math_learning_level_status_midline_mid,
+    m.math_baseline_midline_growth_mid,
     -- -- Endline
     -- e.math_level_end,
     -- e.math_status_end,
@@ -56,15 +56,19 @@ select
     b.baseline_total_in_time_base,
     b.baseline_total_in_operations_base,
     b.baseline_total_in_data_base,
-    -- -- Midline
-    -- m.math_perc_numbers_mid,
-    -- m.math_perc_patterns_mid,
-    -- m.math_perc_geometry_mid,
-    -- m.math_perc_mensuration_mid,
-    -- m.math_perc_time_mid,
+    -- Midline
+    m.final_midline_level_mastery_mid,
+    m.midline_numbers_mid,
+    m.midline_patterns_mid,
+    m.midline_geometry_mid,
+    m.midline_total_in_mensuration_mid,
+    m.midline_total_in_time_mid,
+    m.midline_total_in_operations_mid,
+    m.midline_total_in_data_mid,
+    -- Endline
     -- m.math_perc_operations_mid,
     -- m.math_perc_data_handling_mid,
-    -- -- Endline
+    -- Endline
     -- e.math_perc_numbers_end,
     -- e.math_perc_patterns_end,
     -- e.math_perc_geometry_end,
@@ -78,11 +82,11 @@ select
     b.baseline_factual_base,
     b.baseline_inference_base,
     b.baseline_critical_thinking_base,
-    -- -- Midline
-    -- m.factual_mid,
-    -- m.inference_mid,
-    -- m.critical_thinking_mid,
-    -- -- Endline
+    -- Midline
+    m.midline_factual_mid,
+    m.midline_inference_mid,
+    m.midline_critical_thinking_mid,
+    -- Endline
     -- e.factual_end,
     -- e.inference_end,
     -- e.critical_thinking_end,
@@ -91,14 +95,15 @@ select
     -- Baseline
     b.baseline_vocabulary_base,
     b.baseline_grammar_base,
-    -- -- Midline
-    -- m.vocabulary_mid,
-    -- m.grammar_mid,
-    -- -- Endline
+    -- Midline
+    m.midline_vocabulary_mid,
+    m.midline_grammar_mid,
+    -- Endline
     -- e.vocabulary_end,
     -- e.grammar_end,
     
     b.baseline_assessed_percentage_base,
+    m.midline_assessed_percentage_mid,
 
     -- RF Skills
     -- Baseline
@@ -110,18 +115,18 @@ select
     b.baseline_vowel_diagraphs_base,
     b.baseline_multi_syllabelle_words_base,
     b.baseline_passage_1_base,
-    b.baseline_passage_2_base
-    -- -- Midline
-    -- m.letter_sounds_mid,
-    -- m.CVC_words_mid,
-    -- m.blends_mid,
-    -- m.consonant_diagraph_mid,
-    -- m.magic_E_words_mid,
-    -- m.vowel_diagraphs_mid,
-    -- m.multi_syllabelle_words_mid,
-    -- m.passage_1_mid,
-    -- m.passage_2_mid,
-    -- -- Endline
+    b.baseline_passage_2_base,
+    -- Midline
+    m.midline_letter_sounds_mid,
+    m.midline_cvc_words_mid,
+    m.midline_blends_mid,
+    m.midline_consonant_diagraph_mid,
+    m.midline_magic_e_words_mid,
+    m.midline_vowel_diagraphs_mid,
+    m.midline_multi_syllabelle_words_mid,
+    m.midline_passage_1_mid,
+    m.midline_passage_2_mid
+    -- Endline
     -- e.letter_sounds_end,
     -- e.CVC_words_end,
     -- e.blends_end,
@@ -151,7 +156,7 @@ select
 from {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
 left join {{ ref('baseline_25_26_stg') }} as b 
     on d.student_id = b.student_id_base
--- left join {{ ref('midline_2425_stg') }} m 
---     on d.student_id = m.student_id_mid
+left join {{ ref('midline_25_26_stg') }} m 
+    on d.student_id = m.student_id_mid
 -- left join {{ ref('endline_2425_stg') }} e 
 --     on d.student_id = e.student_id_end
