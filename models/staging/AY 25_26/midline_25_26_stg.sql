@@ -1,0 +1,103 @@
+with midline as (
+    select
+        COALESCE(BTRIM("Acadamic_year"::TEXT), '') AS "Acadamic year",
+        COALESCE(INITCAP(BTRIM("City"::TEXT)), '') AS "City",
+        COALESCE(INITCAP(BTRIM("PM_Name"::TEXT)), '') AS "PM Name",
+        COALESCE(INITCAP(BTRIM("School_Name"::TEXT)), '') AS "School Name",
+        COALESCE(INITCAP(BTRIM("Classroom_ID"::TEXT)), '') AS "Classroom ID",
+        COALESCE(INITCAP(BTRIM("Fellow_name"::TEXT)), '') AS "Fellow name",
+        CASE WHEN BTRIM("Cohort"::TEXT) ~ '^\d+$' THEN ("Cohort"::TEXT)::INTEGER END AS "Cohort",
+        CASE WHEN BTRIM("Student_grade"::TEXT) ~ '^\d+$' THEN ("Student_grade"::TEXT)::INTEGER END AS "Student grade",
+        COALESCE(BTRIM("Student_ID"::TEXT), '') AS "Student ID",
+        COALESCE(INITCAP(BTRIM("Student_name"::TEXT)), '') AS "Student name",
+
+        -- RC Midline
+        COALESCE(BTRIM("RC_level_Midline"::TEXT), '') AS "RC level Midline",
+        COALESCE(BTRIM("RC_Grade_level_Midline_"::TEXT), '') AS "RC Grade level Midline",
+        COALESCE(BTRIM("RC_Learning_Level_status_Midline"::TEXT), '') AS "RC Learning Level Status Midline",
+        NULLIF(BTRIM("RC_Baseline_Midline_Growth"::TEXT), '') AS "RC Baseline Midline Growth",
+
+        -- RC Midline Scores
+        CASE WHEN BTRIM("Midline_Factual"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Factual", '%','')::NUMERIC END AS "Midline Factual",
+        CASE WHEN BTRIM("Midline_Inference"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Inference", '%','')::NUMERIC END AS "Midline Inference",
+        CASE WHEN BTRIM("Midline_Critical_Thinking"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Critical_Thinking", '%','')::NUMERIC END AS "Midline Critical Thinking",
+        CASE WHEN BTRIM("Midline_Vocabulary"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Vocabulary", '%','')::NUMERIC END AS "Midline Vocabulary",
+        CASE WHEN BTRIM("Midline_Grammar"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Grammar", '%','')::NUMERIC END AS "Midline Grammar",
+        CASE WHEN BTRIM("Midline_Assessed_Percentage"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Assessed_Percentage", '%','')::NUMERIC END AS "Midline Assessed Percentage",
+
+        -- Math Midline
+        COALESCE(BTRIM("Math_Level_Midline_"::TEXT), '') AS "Math Level Midline",
+        CASE WHEN BTRIM("Final_Midline_Level_Mastery"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Final_Midline_Level_Mastery", '%','')::NUMERIC END AS "Final Midline Level Mastery",
+        CASE WHEN BTRIM("Math_Midline_Grade"::TEXT) ~ '^\d+$' THEN ("Math_Midline_Grade"::TEXT)::INTEGER END AS "Math Midline Grade",
+        COALESCE(BTRIM("Math_Learning_level_status_Midline"::TEXT), '') AS "Math Learning Level Status Midline",
+        NULLIF(BTRIM("Math_Baseline_Midline_Growth"::TEXT), '') AS "Math Baseline Midline Growth",
+        CASE WHEN BTRIM("Midline_Numbers"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Numbers", '%','')::NUMERIC END AS "Midline Numbers",
+        CASE WHEN BTRIM("Midline_Patterns"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Patterns", '%','')::NUMERIC END AS "Midline Patterns",
+        CASE WHEN BTRIM("Midline_Geometry"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Geometry", '%','')::NUMERIC END AS "Midline Geometry",
+        CASE WHEN BTRIM("Midline_Total_in_Mensuration"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Total_in_Mensuration", '%','')::NUMERIC END AS "Midline Total in Mensuration",
+        CASE WHEN BTRIM("Midline_Total_in_Time"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Total_in_Time", '%','')::NUMERIC END AS "Midline Total in Time",
+        CASE WHEN BTRIM("Midline_Total_in_Operations"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Total_in_Operations", '%','')::NUMERIC END AS "Midline Total in Operations",
+        CASE WHEN BTRIM("Midline_Total_in_Data"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Midline_Total_in_Data", '%','')::NUMERIC END AS "Midline Total in Data",
+
+        -- RF Midline
+        COALESCE(BTRIM("RF_Level_midline"::TEXT), '') AS "RF Level Midline",
+        NULLIF(BTRIM("RF_Midline_Growth"::TEXT), '') AS "RF Midline Growth",
+        CASE WHEN BTRIM("Midline_Letter_sounds"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Letter_sounds"::TEXT)::NUMERIC END AS "Midline Letter sounds",
+        CASE WHEN BTRIM("Midline_CVC_words"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_CVC_words"::TEXT)::NUMERIC END AS "Midline CVC words",
+        CASE WHEN BTRIM("Midline_Blends"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Blends"::TEXT)::NUMERIC END AS "Midline Blends",
+        CASE WHEN BTRIM("Midline_Consonant_diagraph"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Consonant_diagraph"::TEXT)::NUMERIC END AS "Midline Consonant diagraph",
+        CASE WHEN BTRIM("Midline_Magic_E_words"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Magic_E_words"::TEXT)::NUMERIC END AS "Midline Magic E words",
+        CASE WHEN BTRIM("Midline_Vowel_diagraphs"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Vowel_diagraphs"::TEXT)::NUMERIC END AS "Midline Vowel diagraphs",
+        CASE WHEN BTRIM("Midline_Multi_syllabelle_words"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Multi_syllabelle_words"::TEXT)::NUMERIC END AS "Midline Multi syllabelle words",
+        CASE WHEN BTRIM("Midline_Passage_1"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Passage_1"::TEXT)::NUMERIC END AS "Midline Passage 1",
+        CASE WHEN BTRIM("Midline_Passage_2"::TEXT) ~ '^[0-9.]+$' THEN ("Midline_Passage_2"::TEXT)::NUMERIC END AS "Midline Passage 2"
+
+    from {{ source('fellowship_25_26', 'Raw_Data_Midline_2025') }}
+)
+
+select distinct
+    m."Student ID" AS student_id_base,
+    m."Acadamic year" AS acadamic_year_base,
+    m."City" AS city_base,
+    m."PM Name" AS pm_name_base,
+    m."School Name" AS school_name_base,
+    m."Classroom ID" AS classroom_id_base,
+    m."Fellow name" AS fellow_name_base,
+    m."Cohort" AS cohort_base,
+    m."Student grade" AS student_grade_base,
+    m."Student name" AS student_name_base,
+    m."RC level Midline" AS rc_level_midline_base,
+    m."RC Grade level Midline" AS rc_grade_level_midline_base,
+    m."RC Learning Level Status Midline" AS rc_learning_level_status_midline_base,
+    m."RC Baseline Midline Growth" AS rc_baseline_midline_growth_base,
+    m."Midline Factual" AS midline_factual_base,
+    m."Midline Inference" AS midline_inference_base,
+    m."Midline Critical Thinking" AS midline_critical_thinking_base,
+    m."Midline Vocabulary" AS midline_vocabulary_base,
+    m."Midline Grammar" AS midline_grammar_base,
+    m."Midline Assessed Percentage" AS midline_assessed_percentage_base,
+    m."Math Level Midline" AS math_level_midline_base,
+    m."Math Midline Grade" AS math_midline_grade_base,
+    m."Math Learning Level Status Midline" AS math_learning_level_status_midline_base,
+    m."Math Baseline Midline Growth" AS math_baseline_midline_growth_base,
+    m."Final Midline Level Mastery" AS final_midline_level_mastery_base,
+    m."Midline Numbers" AS midline_numbers_base,
+    m."Midline Patterns" AS midline_patterns_base,
+    m."Midline Geometry" AS midline_geometry_base,
+    m."Midline Total in Mensuration" AS midline_total_in_mensuration_base,
+    m."Midline Total in Time" AS midline_total_in_time_base,
+    m."Midline Total in Operations" AS midline_total_in_operations_base,
+    m."Midline Total in Data" AS midline_total_in_data_base,
+    m."RF Level Midline" AS rf_level_midline_base,
+    m."RF Midline Growth" AS rf_midline_growth_base,
+    m."Midline Letter sounds" AS midline_letter_sounds_base,
+    m."Midline CVC words" AS midline_cvc_words_base,
+    m."Midline Blends" AS midline_blends_base,
+    m."Midline Consonant diagraph" AS midline_consonant_diagraph_base,
+    m."Midline Magic E words" AS midline_magic_e_words_base,
+    m."Midline Vowel diagraphs" AS midline_vowel_diagraphs_base,
+    m."Midline Multi syllabelle words" AS midline_multi_syllabelle_words_base,
+    m."Midline Passage 1" AS midline_passage_1_base,
+    m."Midline Passage 2" AS midline_passage_2_base
+from midline as m
+where m."Student ID" <> ''
