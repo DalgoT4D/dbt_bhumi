@@ -1,66 +1,49 @@
-with RC_ANALYSIS_BASELINE as (
+with RC_analysis_baseline as (
     select
-        D.CITY_BASE as CITY, 
-        D.STUDENT_GRADE_BASE as GRADE,
-        avg(F.BASELINE_FACTUAL_BASE) as FACTUAL_BASE,
-        avg(F.BASELINE_INFERENCE_BASE) as INFERENCE_BASE,
-        avg(F.BASELINE_CRITICAL_THINKING_BASE) as CRITICAL_THINKING_BASE,
-        avg(F.BASELINE_VOCABULARY_BASE) as VOCABULARY_BASE,
-        avg(F.BASELINE_GRAMMAR_BASE) as GRAMMAR_BASE
+        d.city_base as city,
+        d.student_grade_base as grade,
+        avg(f.baseline_factual_base) as factual_base,
+        avg(f.baseline_inference_base) as inference_base,
+        avg(f.baseline_critical_thinking_base) as critical_thinking_base,
+        avg(f.baseline_vocabulary_base) as vocabulary_base,
+        avg(f.baseline_grammar_base) as grammar_base
     from 
-        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
-    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
-        on F.STUDENT_ID = D.STUDENT_ID
-    where D.BASELINE_ATTENDENCE = True
-    group by D.CITY_BASE, D.STUDENT_GRADE_BASE
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+        on f.student_id = d.student_id
+    where d.baseline_attendence = True
+    group by d.city_base, d.student_grade_base
 ),
 
--- RC_analysis_midline as (
---     select
---         d.city_mid as city,
---         d.grade_taught_mid as grade,
---         avg(f.factual_mid) as factual_mid,
---         avg(f.inference_mid) as inference_mid,
---         avg(f.critical_thinking_mid) as critical_thinking_mid,
---         avg(f.vocabulary_mid) as vocabulary_mid,
---         avg(f.grammar_mid) as grammar_mid
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.midline_attendence = True
---     group by d.city_mid, d.grade_taught_mid
--- ),
-
--- RC_analysis_endline as (
---     select
---         d.city_end as city,
---         d.grade_taught_end as grade,
---         avg(f.factual_end) as factual_end,
---         avg(f.inference_end) as inference_end,
---         avg(f.critical_thinking_end) as critical_thinking_end,
---         avg(f.vocabulary_end) as vocabulary_end,
---         avg(f.grammar_end) as grammar_end
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.endline_attendence = True
---     group by d.city_end, d.grade_taught_end
--- ),
+RC_analysis_midline as (
+    select
+        d.city_mid as city,
+        d.student_grade_mid as grade,
+        avg(f.midline_factual_mid) as factual_mid,
+        avg(f.midline_inference_mid) as inference_mid,
+        avg(f.midline_critical_thinking_mid) as critical_thinking_mid,
+        avg(f.midline_vocabulary_mid) as vocabulary_mid,
+        avg(f.midline_grammar_mid) as grammar_mid
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+        on f.student_id = d.student_id
+    where d.midline_attendence = True
+    group by d.city_mid, d.student_grade_mid
+),
 
 ALL_COMBINATIONS as (
     select distinct
-        CITY,
-        GRADE
-    from RC_ANALYSIS_BASELINE
+        city,
+        grade
+    from RC_analysis_baseline
     
-    -- union
+    union
     
-    -- select distinct
-    --     city,
-    --     grade
-    -- from RC_analysis_midline
+    select distinct
+        city,
+        grade
+    from RC_analysis_midline
     
     -- union
     
@@ -71,38 +54,38 @@ ALL_COMBINATIONS as (
 )
 
 select 
-    AC.CITY,
-    AC.GRADE,
+    ac.city,
+    ac.grade,
     -- Factual scores
-    B.FACTUAL_BASE,
-    -- m.factual_mid,
+    b.factual_base,
+    m.factual_mid,
     -- e.factual_end,
     -- Inference scores
-    B.INFERENCE_BASE,
-    -- m.inference_mid,
+    b.inference_base,
+    m.inference_mid,
     -- e.inference_end,
     -- Critical Thinking scores
-    B.CRITICAL_THINKING_BASE,
-    -- m.critical_thinking_mid,
+    b.critical_thinking_base,
+    m.critical_thinking_mid,
     -- e.critical_thinking_end,
     -- Vocabulary scores
-    B.VOCABULARY_BASE,
-    -- m.vocabulary_mid,
+    b.vocabulary_base,
+    m.vocabulary_mid,
     -- e.vocabulary_end,
     -- Grammar scores
-    B.GRAMMAR_BASE
-    -- m.grammar_mid,
+    b.grammar_base,
+    m.grammar_mid
     -- e.grammar_end
     
-from ALL_COMBINATIONS as AC
-left join RC_ANALYSIS_BASELINE as B
+from ALL_COMBINATIONS as ac
+left join RC_ANALYSIS_BASELINE as b
     on
-        AC.CITY = B.CITY 
-        and AC.GRADE = B.GRADE
--- left join RC_analysis_midline m
---     on ac.city = m.city 
---     and ac.grade = m.grade
+        ac.CITY = b.CITY 
+        and ac.GRADE = b.GRADE
+left join RC_analysis_midline m
+    on ac.city = m.city 
+    and ac.grade = m.grade
 -- left join RC_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.grade = e.grade
--- order by ac.city, ac.grade
+order by ac.city, ac.grade

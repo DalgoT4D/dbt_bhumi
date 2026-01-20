@@ -13,19 +13,19 @@ with demographics_baseline as (
     
 ),
 
--- demographics_midline as (
---     select
---         t.city_mid,
---         t.grade_taught_mid,
---         t.cohort_mid,
---         t.fellow_name_mid,
---         t.school_name_mid,
---         t.PM_name_mid,
---         count(distinct t.student_id) as student_count_mid
---     from {{ ref('base_mid_end_comb_students_2425_dim') }} t
---     where t.midline_attendence = True
---     group by t.city_mid, t.grade_taught_mid, t.cohort_mid, t.fellow_name_mid, t.school_name_mid, t.PM_name_mid
--- ),
+demographics_midline as (
+    select
+        t.city_mid,
+        t.student_grade_mid,
+        t.cohort_mid,
+        t.fellow_name_mid,
+        t.school_name_mid,
+        t.PM_name_mid,
+        count(distinct t.student_id) as student_count_mid
+    from {{ ref('base_mid_end_comb_students_25_26_dim') }} as t
+    where t.midline_attendence = True
+    group by t.city_mid, t.student_grade_mid, t.cohort_mid, t.fellow_name_mid, t.school_name_mid, t.PM_name_mid
+),
 
 -- demographics_endline as (
 --     select
@@ -51,16 +51,16 @@ all_combinations as (
         pm_name_base as pm_name
     from demographics_baseline
     
-    -- union
+    union
     
-    -- select distinct
-    --     city_mid as city,
-    --     grade_taught_mid as grade,
-    --     cohort_mid as cohort,
-    --     fellow_name_mid as fellow_name,
-    --     school_name_mid as school_name,
-    --     PM_name_mid as PM_name
-    -- from demographics_midline
+    select distinct
+        city_mid as city,
+        student_grade_mid as grade,
+        cohort_mid as cohort,
+        fellow_name_mid as fellow_name,
+        school_name_mid as school_name,
+        PM_name_mid as PM_name
+    from demographics_midline
     
     -- union
     
@@ -81,8 +81,8 @@ select
     ac.fellow_name,
     ac.school_name,
     ac.pm_name,
-    b.student_count_base
-    -- m.student_count_mid,
+    b.student_count_base,
+    m.student_count_mid
     -- e.student_count_end
 from all_combinations as ac
 left join demographics_baseline as b
@@ -93,13 +93,13 @@ left join demographics_baseline as b
         and ac.fellow_name = b.fellow_name_base 
         and ac.school_name = b.school_name_base 
         and ac.pm_name = b.pm_name_base
--- left join demographics_midline m
---     on ac.city = m.city_mid 
---     and ac.grade = m.grade_taught_mid 
---     and ac.cohort = m.cohort_mid 
---     and ac.fellow_name = m.fellow_name_mid 
---     and ac.school_name = m.school_name_mid 
---     and ac.PM_name = m.PM_name_mid
+left join demographics_midline m
+    on ac.city = m.city_mid 
+    and ac.grade = m.student_grade_mid
+    and ac.cohort = m.cohort_mid 
+    and ac.fellow_name = m.fellow_name_mid 
+    and ac.school_name = m.school_name_mid 
+    and ac.PM_name = m.PM_name_mid
 -- left join demographics_endline e
 --     on ac.city = e.city_end 
 --     and ac.grade = e.grade_taught_end 
