@@ -36,6 +36,9 @@ sources:
       - name: Raw_Data_Baseline_2025
         identifier: Raw_Data_Baseline_2025
         description: Baseline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
+      - name: Raw_Data_Midline_2025
+        identifier: Raw_Data_Midline_2025
+        description: Midline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
 
   - name: STP_25-26
     schema: STP_25_26_Raw_data
