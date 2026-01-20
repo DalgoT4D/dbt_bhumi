@@ -12,19 +12,19 @@ with RF_ANALYSIS_BASELINE as (
     group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_LEVEL_BASELINE_BASE
 ),
 
--- RF_analysis_midline as (
---     select
---         d.city_mid as city,
---         d.grade_taught_mid as grade,
---         f.RF_status_mid as RF_status,
---         count(distinct f.student_id) as student_count_mid
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.midline_attendence = True
---     group by d.city_mid, d.grade_taught_mid, f.RF_status_mid
--- ),
+RF_analysis_midline as (
+    select
+        d.city_mid as city,
+        d.student_grade_mid as grade,
+        f.RF_level_midline_mid as RF_status,
+        count(distinct f.student_id) as student_count_mid
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+        on f.student_id = d.student_id
+    where d.midline_attendence = True
+    group by d.city_mid, d.student_grade_mid, f.RF_level_midline_mid
+),
 
 -- RF_analysis_endline as (
 --     select
@@ -47,13 +47,13 @@ ALL_COMBINATIONS as (
         RF_STATUS
     from RF_ANALYSIS_BASELINE
     
-    -- union
+    union
     
-    -- select distinct
-    --     city,
-    --     grade,
-    --     RF_status
-    -- from RF_analysis_midline
+    select distinct
+        city,
+        grade,
+        RF_status
+    from RF_analysis_midline
     
     -- union
     
@@ -68,8 +68,8 @@ select
     AC.CITY,
     AC.GRADE,
     AC.RF_STATUS,
-    B.STUDENT_COUNT_BASE
-    -- m.student_count_mid,
+    B.STUDENT_COUNT_BASE,
+    m.student_count_mid
     -- e.student_count_end
 from ALL_COMBINATIONS as AC
 left join RF_ANALYSIS_BASELINE as B
@@ -77,12 +77,12 @@ left join RF_ANALYSIS_BASELINE as B
         AC.CITY = B.CITY 
         and AC.RF_STATUS = B.RF_STATUS 
         and AC.GRADE = B.GRADE
--- left join RF_analysis_midline m
---     on ac.city = m.city 
---     and ac.RF_status = m.RF_status 
---     and ac.grade = m.grade
+left join RF_analysis_midline m
+    on ac.city = m.city 
+    and ac.RF_status = m.RF_status 
+    and ac.grade = m.grade
 -- left join RF_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.RF_status = e.RF_status 
 --     and ac.grade = e.grade
--- order by ac.city, ac.grade, ac.RF_status
+order by ac.city, ac.grade, ac.RF_status

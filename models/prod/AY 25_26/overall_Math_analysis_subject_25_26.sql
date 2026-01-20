@@ -18,25 +18,25 @@ with math_analysis_baseline as (
     group by d.city_base, d.student_grade_base
 ),
 
--- math_analysis_midline as (
---     select
---         d.city_mid as city,
---         d.grade_taught_mid as grade,
---         avg(f.math_mastery_mid) as avg_mastery_mid,
---         avg(f.math_perc_numbers_mid) as avg_perc_mastery_numbers_mid,
---         avg(f.math_perc_patterns_mid) as avg_perc_mastery_patterns_mid,
---         avg(f.math_perc_geometry_mid) as avg_perc_mastery_geometry_mid,
---         avg(f.math_perc_mensuration_mid) as avg_perc_mastery_mensuration_mid,
---         avg(f.math_perc_time_mid) as avg_perc_mastery_time_mid,
---         avg(f.math_perc_operations_mid) as avg_perc_mastery_operations_mid,
---         avg(f.math_perc_data_handling_mid) as avg_perc_mastery_data_handling_mid
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.midline_attendence = True
---     group by d.city_mid, d.grade_taught_mid
--- ),
+math_analysis_midline as (
+    select
+        d.city_mid as city,
+        d.student_grade_mid as grade,
+        avg(f.final_midline_level_mastery_mid) as avg_mastery_mid,
+        avg(f.midline_numbers_mid) as avg_perc_numbers_mid,
+        avg(f.midline_patterns_mid) as avg_perc_patterns_mid,
+        avg(f.midline_geometry_mid) as avg_perc_geometry_mid,
+        avg(f.midline_total_in_mensuration_mid) as avg_perc_mensuration_mid,
+        avg(f.midline_total_in_time_mid) as avg_perc_time_mid,
+        avg(f.midline_total_in_operations_mid) as avg_perc_operations_mid,
+        avg(f.midline_total_in_data_mid) as avg_perc_data_handling_mid
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+        on f.student_id = d.student_id
+    where d.midline_attendence = True
+    group by d.city_mid, d.student_grade_mid
+),
 
 -- math_analysis_endline as (
 --     select
@@ -64,12 +64,12 @@ all_combinations as (
         grade
     from math_analysis_baseline
     
-    -- union
+    union
     
-    -- select distinct
-    --     city,
-    --     grade
-    -- from math_analysis_midline
+    select distinct
+        city,
+        grade
+    from math_analysis_midline
     
     -- union
     
@@ -90,16 +90,16 @@ select
     b.avg_perc_mensuration_base,
     b.avg_perc_time_base,
     b.avg_perc_operations_base,
-    b.avg_perc_data_handling_base
+    b.avg_perc_data_handling_base,
     -- Midline scores
-    -- m.avg_mastery_mid,
-    -- m.avg_perc_mastery_numbers_mid,
-    -- m.avg_perc_mastery_patterns_mid,
-    -- m.avg_perc_mastery_geometry_mid,
-    -- m.avg_perc_mastery_mensuration_mid,
-    -- m.avg_perc_mastery_time_mid,
-    -- m.avg_perc_mastery_operations_mid,
-    -- m.avg_perc_mastery_data_handling_mid,
+    m.avg_mastery_mid,
+    m.avg_perc_numbers_mid,
+    m.avg_perc_patterns_mid,
+    m.avg_perc_geometry_mid,
+    m.avg_perc_mensuration_mid,
+    m.avg_perc_time_mid,
+    m.avg_perc_operations_mid,
+    m.avg_perc_data_handling_mid
     -- -- Endline scores
     -- e.avg_mastery_end,
     -- e.avg_perc_mastery_numbers_end,
@@ -115,10 +115,10 @@ left join math_analysis_baseline as b
     on
         ac.city = b.city 
         and ac.grade = b.grade
--- left join math_analysis_midline m
---     on ac.city = m.city 
---     and ac.grade = m.grade
+left join math_analysis_midline m
+    on ac.city = m.city 
+    and ac.grade = m.grade
 -- left join math_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.grade = e.grade
--- order by ac.city, ac.grade
+order by ac.city, ac.grade

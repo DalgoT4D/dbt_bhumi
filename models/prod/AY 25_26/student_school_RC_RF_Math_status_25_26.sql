@@ -18,24 +18,25 @@ with student_school_baseline as (
     where d.baseline_attendence = True
 ),
 
--- student_school_midline as (
---     select distinct
---         d.student_id,
---         d.student_name_mid,
---         d.city_mid,
---         d.PM_name_mid,
---         d.school_name_mid,
---         d.fellow_name_mid,
---         d.grade_taught_mid,
---         f.rc_learning_level_status_baseline_base,
---         f.math_learning_level_status_baseline_base,
---         d.midline_attendence
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.midline_attendence = True
--- ),
+student_school_midline as (
+    select distinct
+        d.student_id,
+        d.student_name_mid,
+        d.city_mid,
+        d.PM_name_mid,
+        d.school_name_mid,
+        d.fellow_name_mid,
+        d.student_grade_mid,
+        f.rc_learning_level_status_midline_mid,
+        f.math_learning_level_status_midline_mid,
+        f.rf_level_midline_mid,
+        d.midline_attendence
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+        on f.student_id = d.student_id
+    where d.midline_attendence = True
+),
 
 -- student_school_endline as (
 --     select distinct
@@ -60,11 +61,11 @@ all_combinations as (
     select distinct student_id
     from student_school_baseline
     
-    -- union
+    union
     
-    -- select distinct
-    --     student_id
-    -- from student_school_midline
+    select distinct
+        student_id
+    from student_school_midline
     
     -- union
     
@@ -86,19 +87,19 @@ select
     b.rc_learning_level_status_baseline_base,
     b.math_learning_level_status_baseline_base,
     b.rf_level_baseline_base,
-    b.baseline_attendence
+    b.baseline_attendence,
     
-    -- -- Midline Details
-    -- m.student_name_mid,
-    -- m.city_mid,
-    -- m.PM_name_mid,
-    -- m.school_name_mid,
-    -- m.fellow_name_mid,
-    -- m.grade_taught_mid,
-    -- m.math_status_mid,
-    -- m.RC_status_mid,
-    -- m.RF_status_mid,
-    -- m.midline_attendence,
+    -- Midline Details
+    m.student_name_mid,
+    m.city_mid,
+    m.PM_name_mid,
+    m.school_name_mid,
+    m.fellow_name_mid,
+    m.student_grade_mid,
+    m.rc_learning_level_status_midline_mid,
+    m.math_learning_level_status_midline_mid,
+    m.rf_level_midline_mid,
+    m.midline_attendence
     
     -- -- Endline Details
     -- e.student_name_end,
@@ -114,7 +115,7 @@ select
 from all_combinations as ac
 left join student_school_baseline as b
     on ac.student_id = b.student_id
--- left join student_school_midline m
---     on ac.student_id = m.student_id
+left join student_school_midline m
+    on ac.student_id = m.student_id
 -- left join student_school_endline e
 --     on ac.student_id = e.student_id
