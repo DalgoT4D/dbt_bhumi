@@ -2,7 +2,8 @@ WITH data_tracker_clean AS (
     SELECT DISTINCT
         COALESCE(BTRIM("School"::TEXT), '') AS "School",
         COALESCE(BTRIM("Grade"::TEXT), '') AS "Grade",
-        COALESCE(BTRIM("Donor_Mapped"::TEXT), 'Non Funding') AS "Donor Mapped"
+        COALESCE(BTRIM("Donor_Mapped"::TEXT), 'Non Funding') AS "Donor Mapped",
+        COALESCE(BTRIM("Quarter"::TEXT), '') AS "Quarter"
     FROM {{ source('ecochamps25_26', 'Data_Tracker') }}
 ),
 
@@ -19,6 +20,7 @@ clean AS (
         COALESCE(BTRIM(ssd."Student_Status"::TEXT), '') AS "Student Status",
 
         dt."Donor Mapped",
+        dt."Quarter",
 
         -- Baseline and Endline scores
         CASE 
@@ -64,6 +66,7 @@ SELECT DISTINCT ON ("School ID", "Roll No", "Student Name")
     "Center Coordianator (2)",
     "Student Status",
     "Donor Mapped",
+    "Quarter",
     "Baseline Score",
     "Endline Score",
     "Baseline",
