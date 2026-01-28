@@ -23,7 +23,7 @@ student_school_midline as (
         d.student_id,
         d.student_name_mid,
         d.city_mid,
-        d.PM_name_mid,
+        d.pm_name_mid,
         d.school_name_mid,
         d.fellow_name_mid,
         d.student_grade_mid,
@@ -63,8 +63,7 @@ all_combinations as (
     
     union
     
-    select distinct
-        student_id
+    select distinct student_id
     from student_school_midline
     
     -- union
@@ -92,7 +91,7 @@ select
     -- Midline Details
     m.student_name_mid,
     m.city_mid,
-    m.PM_name_mid,
+    m.pm_name_mid,
     m.school_name_mid,
     m.fellow_name_mid,
     m.student_grade_mid,
@@ -115,7 +114,7 @@ select
 from all_combinations as ac
 left join student_school_baseline as b
     on ac.student_id = b.student_id
-left join student_school_midline m
+left join student_school_midline as m
     on ac.student_id = m.student_id
 -- left join student_school_endline e
 --     on ac.student_id = e.student_id

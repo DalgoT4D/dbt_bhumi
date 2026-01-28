@@ -42,7 +42,12 @@ all_combinations as (
         grade
     from baseline
     union
-    select distinct city, school, fellow, grade from midline
+    select distinct
+        city,
+        school,
+        fellow,
+        grade
+    from midline
     -- union
     -- select distinct city, school, fellow, grade from endline
 )
@@ -62,11 +67,12 @@ left join baseline as b
         and ac.school = b.school
         and ac.fellow = b.fellow
         and ac.grade = b.grade
-left join midline m
-    on ac.city = m.city
-    and ac.school = m.school
-    and ac.fellow = m.fellow
-    and ac.grade = m.grade
+left join midline as m
+    on
+        ac.city = m.city
+        and ac.school = m.school
+        and ac.fellow = m.fellow
+        and ac.grade = m.grade
 -- left join endline e
 --     on ac.city = e.city
 --     and ac.school = e.school

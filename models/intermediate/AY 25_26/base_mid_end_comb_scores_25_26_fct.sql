@@ -156,7 +156,7 @@ select
 from {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
 left join {{ ref('baseline_25_26_stg') }} as b 
     on d.student_id = b.student_id_base
-left join {{ ref('midline_25_26_stg') }} m 
+left join {{ ref('midline_25_26_stg') }} as m 
     on d.student_id = m.student_id_mid
 -- left join {{ ref('endline_2425_stg') }} e 
 --     on d.student_id = e.student_id_end
