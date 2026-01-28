@@ -40,19 +40,19 @@ sources:
         identifier: Raw_Data_Midline_2025
         description: Midline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
 
-  - name: STP_25-26
-    schema: STP_25_26_Raw_data
-    tables:
-      - name: All_Students
-        identifier: All_Students
-        description: This is a placeholder table STP 25-26
-      - name: All_Session_Plannings
-        identifier: All_Session_Plannings
-        description: This is a placeholder table STP 25-26
-      - name: All_Session_Attendances
-        identifier: All_Session_Attendances
-        description: This is a placeholder table STP 25-26
-      - name: Processed_Attendance
-        identifier: Processed_Attendance
-        description: This is a placeholder table STP 25-26
+  # - name: STP_25-26
+  #   schema: STP_25_26_Raw_data
+  #   tables:
+  #     - name: All_Students
+  #       identifier: All_Students
+  #       description: This is a placeholder table STP 25-26
+  #     - name: All_Session_Plannings
+  #       identifier: All_Session_Plannings
+  #       description: This is a placeholder table STP 25-26
+  #     - name: All_Session_Attendances
+  #       identifier: All_Session_Attendances
+  #       description: This is a placeholder table STP 25-26
+  #     - name: Processed_Attendance
+  #       identifier: Processed_Attendance
+  #       description: This is a placeholder table STP 25-26
   
