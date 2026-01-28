@@ -77,10 +77,11 @@ left join math_analysis_baseline as b
         ac.city = b.city 
         and ac.math_status = b.math_status 
         and ac.grade = b.grade
-left join math_analysis_midline m
-    on ac.city = m.city 
-    and ac.math_status = m.math_status 
-    and ac.grade = m.grade
+left join math_analysis_midline as m
+    on
+        ac.city = m.city 
+        and ac.math_status = m.math_status 
+        and ac.grade = m.grade
 -- left join math_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.math_status = e.math_status 

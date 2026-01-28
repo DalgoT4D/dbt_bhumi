@@ -6,8 +6,7 @@ with all_student_id as (
     -- Uncomment the following unions if needed
     union
 
-    select distinct 
-    student_id_mid as student_id
+    select distinct  student_id_mid as student_id
     from {{ ref('midline_25_26_stg') }}
     where student_id_mid is not null
 
@@ -36,7 +35,7 @@ select
     m.city_mid,
     m.student_name_mid,
     m.classroom_id_mid,
-    m.PM_name_mid,
+    m.pm_name_mid,
     m.school_name_mid,
     m.fellow_name_mid,
     m.cohort_mid,
@@ -54,7 +53,7 @@ select
 from all_student_id as s
 left join {{ ref('baseline_25_26_stg') }} as b 
     on s.student_id = b.student_id_base
-left join {{ ref('midline_25_26_stg') }} m 
+left join {{ ref('midline_25_26_stg') }} as m 
     on s.student_id = m.student_id_mid
 -- left join {{ ref('endline_2425_stg') }} e 
 --     on s.student_id = e.student_id_end

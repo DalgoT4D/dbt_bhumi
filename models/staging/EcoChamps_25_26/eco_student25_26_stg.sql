@@ -76,7 +76,8 @@ SELECT DISTINCT ON ("School ID", "Roll No", "Student Name")
     "Modlues Completed",
     "Attendance %"
 FROM clean
-WHERE "Roll No" IS NOT NULL
-AND "School ID" IS NOT NULL
-AND "Student Name" != ''
+WHERE
+    "Roll No" IS NOT NULL
+    AND "School ID" IS NOT NULL
+    AND "Student Name" != ''
 ORDER BY "School ID", "Roll No", "Student Name"

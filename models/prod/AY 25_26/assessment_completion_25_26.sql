@@ -19,8 +19,8 @@ assessment_completion_midline as (
         d.city_mid as city,
         d.student_grade_mid as grade,
         count(distinct f.student_id) as total_students_mid,
-        count(distinct case when f.rc_level_midline_mid in ('','Not Assessed') then f.student_id end) as unassessed_students_RC_mid,
-        count(distinct case when f.rf_level_midline_mid in ('','Not Assessed') then f.student_id end) as unassessed_students_RF_mid,
+        count(distinct case when f.rc_level_midline_mid in ('','Not Assessed') then f.student_id end) as unassessed_students_rc_mid,
+        count(distinct case when f.rf_level_midline_mid in ('','Not Assessed') then f.student_id end) as unassessed_students_rf_mid,
         count(distinct case when f.math_level_midline_mid in ('','Not Assessed') then f.student_id end) as unassessed_students_math_mid
     from 
         {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
@@ -61,16 +61,16 @@ select
     -- Reading Comprehension
     coalesce(b.total_students_base - b.unassessed_students_rc_base, 0) as assessed_students_rc_base,
     1 - coalesce(((b.unassessed_students_rc_base)::numeric / nullif(b.total_students_base, 0)), 0) as perc_comp_rc_base,
-    coalesce(m.total_students_mid - m.unassessed_students_RC_mid, 0) as assessed_students_RC_mid,
-    1 - coalesce(((m.unassessed_students_RC_mid)::numeric / nullif(m.total_students_mid, 0)), 0) as perc_comp_RC_mid,
+    coalesce(m.total_students_mid - m.unassessed_students_rc_mid, 0) as assessed_students_rc_mid,
+    1 - coalesce(((m.unassessed_students_rc_mid)::numeric / nullif(m.total_students_mid, 0)), 0) as perc_comp_rc_mid,
     -- coalesce(e.total_students_end - e.unassessed_students_RC_end, 0) as assessed_students_RC_end,
     -- 1 - coalesce(((e.unassessed_students_RC_end)::numeric / nullif(e.total_students_end, 0)), 0) as perc_comp_RC_end,
 
     -- Reading Fluency
     coalesce(b.total_students_base - b.unassessed_students_rf_base, 0) as assessed_students_rf_base,
     1 - coalesce(((b.unassessed_students_rf_base)::numeric / nullif(b.total_students_base, 0)), 0) as perc_comp_rf_base,
-    coalesce(m.total_students_mid - m.unassessed_students_RF_mid, 0) as assessed_students_RF_mid,
-    1 - coalesce(((m.unassessed_students_RF_mid)::numeric / nullif(m.total_students_mid, 0)), 0) as perc_comp_RF_mid,
+    coalesce(m.total_students_mid - m.unassessed_students_rf_mid, 0) as assessed_students_rf_mid,
+    1 - coalesce(((m.unassessed_students_rf_mid)::numeric / nullif(m.total_students_mid, 0)), 0) as perc_comp_rf_mid,
     -- coalesce(e.total_students_end - e.unassessed_students_RF_end, 0) as assessed_students_RF_end,
     -- 1 - coalesce(((e.unassessed_students_RF_end)::numeric / nullif(e.total_students_end, 0)), 0) as perc_comp_RF_end,
 
@@ -87,9 +87,10 @@ left join assessment_completion_baseline as b
     on
         ac.city = b.city 
         and ac.grade = b.grade
-left join assessment_completion_midline m
-    on ac.city = m.city 
-    and ac.grade = m.grade
+left join assessment_completion_midline as m
+    on
+        ac.city = m.city 
+        and ac.grade = m.grade
 -- left join assessment_completion_endline e
 --     on ac.city = e.city 
 --     and ac.grade = e.grade

@@ -1,49 +1,49 @@
-with RC_analysis_baseline as (
+with RC_ANALYSIS_BASELINE as (
     select
-        d.city_base as city,
-        d.student_grade_base as grade,
-        avg(f.baseline_factual_base) as factual_base,
-        avg(f.baseline_inference_base) as inference_base,
-        avg(f.baseline_critical_thinking_base) as critical_thinking_base,
-        avg(f.baseline_vocabulary_base) as vocabulary_base,
-        avg(f.baseline_grammar_base) as grammar_base
+        D.CITY_BASE as CITY,
+        D.STUDENT_GRADE_BASE as GRADE,
+        avg(F.BASELINE_FACTUAL_BASE) as FACTUAL_BASE,
+        avg(F.BASELINE_INFERENCE_BASE) as INFERENCE_BASE,
+        avg(F.BASELINE_CRITICAL_THINKING_BASE) as CRITICAL_THINKING_BASE,
+        avg(F.BASELINE_VOCABULARY_BASE) as VOCABULARY_BASE,
+        avg(F.BASELINE_GRAMMAR_BASE) as GRAMMAR_BASE
     from 
-        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
-    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
-        on f.student_id = d.student_id
-    where d.baseline_attendence = True
-    group by d.city_base, d.student_grade_base
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.BASELINE_ATTENDENCE = True
+    group by D.CITY_BASE, D.STUDENT_GRADE_BASE
 ),
 
-RC_analysis_midline as (
+RC_ANALYSIS_MIDLINE as (
     select
-        d.city_mid as city,
-        d.student_grade_mid as grade,
-        avg(f.midline_factual_mid) as factual_mid,
-        avg(f.midline_inference_mid) as inference_mid,
-        avg(f.midline_critical_thinking_mid) as critical_thinking_mid,
-        avg(f.midline_vocabulary_mid) as vocabulary_mid,
-        avg(f.midline_grammar_mid) as grammar_mid
+        D.CITY_MID as CITY,
+        D.STUDENT_GRADE_MID as GRADE,
+        avg(F.MIDLINE_FACTUAL_MID) as FACTUAL_MID,
+        avg(F.MIDLINE_INFERENCE_MID) as INFERENCE_MID,
+        avg(F.MIDLINE_CRITICAL_THINKING_MID) as CRITICAL_THINKING_MID,
+        avg(F.MIDLINE_VOCABULARY_MID) as VOCABULARY_MID,
+        avg(F.MIDLINE_GRAMMAR_MID) as GRAMMAR_MID
     from 
-        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
-    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
-        on f.student_id = d.student_id
-    where d.midline_attendence = True
-    group by d.city_mid, d.student_grade_mid
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.MIDLINE_ATTENDENCE = True
+    group by D.CITY_MID, D.STUDENT_GRADE_MID
 ),
 
 ALL_COMBINATIONS as (
     select distinct
-        city,
-        grade
-    from RC_analysis_baseline
+        CITY,
+        GRADE
+    from RC_ANALYSIS_BASELINE
     
     union
     
     select distinct
-        city,
-        grade
-    from RC_analysis_midline
+        CITY,
+        GRADE
+    from RC_ANALYSIS_MIDLINE
     
     -- union
     
@@ -54,38 +54,39 @@ ALL_COMBINATIONS as (
 )
 
 select 
-    ac.city,
-    ac.grade,
+    AC.CITY,
+    AC.GRADE,
     -- Factual scores
-    b.factual_base,
-    m.factual_mid,
+    B.FACTUAL_BASE,
+    M.FACTUAL_MID,
     -- e.factual_end,
     -- Inference scores
-    b.inference_base,
-    m.inference_mid,
+    B.INFERENCE_BASE,
+    M.INFERENCE_MID,
     -- e.inference_end,
     -- Critical Thinking scores
-    b.critical_thinking_base,
-    m.critical_thinking_mid,
+    B.CRITICAL_THINKING_BASE,
+    M.CRITICAL_THINKING_MID,
     -- e.critical_thinking_end,
     -- Vocabulary scores
-    b.vocabulary_base,
-    m.vocabulary_mid,
+    B.VOCABULARY_BASE,
+    M.VOCABULARY_MID,
     -- e.vocabulary_end,
     -- Grammar scores
-    b.grammar_base,
-    m.grammar_mid
+    B.GRAMMAR_BASE,
+    M.GRAMMAR_MID
     -- e.grammar_end
     
-from ALL_COMBINATIONS as ac
-left join RC_ANALYSIS_BASELINE as b
+from ALL_COMBINATIONS as AC
+left join RC_ANALYSIS_BASELINE as B
     on
-        ac.CITY = b.CITY 
-        and ac.GRADE = b.GRADE
-left join RC_analysis_midline m
-    on ac.city = m.city 
-    and ac.grade = m.grade
+        AC.CITY = B.CITY 
+        and AC.GRADE = B.GRADE
+left join RC_ANALYSIS_MIDLINE as M
+    on
+        AC.CITY = M.CITY 
+        and AC.GRADE = M.GRADE
 -- left join RC_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.grade = e.grade
-order by ac.city, ac.grade
+order by AC.CITY, AC.GRADE
