@@ -138,7 +138,7 @@ with baseline as (
             when Btrim("RC_Assessed___"::text) ~ '^[0-9]+(\.[0-9]+)?%$' then Replace(Btrim("RC_Assessed___"::text),'%','')
             when Btrim("RC_Assessed___"::text) ~ '^[0-9]+(\.[0-9]+)?$' then ("RC_Assessed___"::text)
             else Nullif(Initcap(Btrim("RC_Assessed___"::text)), '')
-        end as "RC Assessed %.",
+        end as "RC Assessed %",
         case when Btrim("Baseline_RF_Code"::text) ~ '^\d+$' then ("Baseline_RF_Code"::text)::integer end as "Baseline RF Code"
     from {{ source('fellowship_24_25_data', 'Raw_Data_Baseline') }}
 )
@@ -186,7 +186,7 @@ select distinct
     b."Beginner" as beginner_base,
     b."Intermediate" as intermediate_base,
     b."Advanced" as advanced_base,
-    b."RC Assessed %." as rc_assessed_perc_base,
+    b."RC Assessed %" as rc_assessed_perc_base,
     b."Baseline RF Code" as rf_code_base
 from baseline as b
 where b."Student ID" <> ''
