@@ -138,7 +138,7 @@ with endline as (
             when Btrim("RC_Assessed___"::text) ~ '^[0-9]+(\.[0-9]+)?%$' then Replace(Btrim("RC_Assessed___"::text),'%','')
             when Btrim("RC_Assessed___"::text) ~ '^[0-9]+(\.[0-9]+)?$' then ("RC_Assessed___"::text)
             else Nullif(Initcap(Btrim("RC_Assessed___"::text)), '')
-        end as "RC Assessed %.",
+        end as "RC Assessed %",
         case when Btrim("Endline_RF_Code"::text) ~ '^\d+$' then ("Endline_RF_Code"::text)::integer end as "Endline RF Code"
     from {{ source('fellowship_24_25_data', 'Raw_Data_Endline') }}
 )
@@ -186,7 +186,7 @@ select distinct
     e."Beginner" as beginner_end,
     e."Intermediate" as intermediate_end,
     e."Advanced" as advanced_end,
-    e."RC Assessed %." as rc_assessed_perc_end,
+    e."RC Assessed %" as rc_assessed_perc_end,
     e."Endline RF Code" as rf_code_end
 from endline as e
 where e."Student ID" <> ''
