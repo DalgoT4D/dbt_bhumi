@@ -1,26 +1,28 @@
 with all_student_id as (
-    select distinct  student_id_base as student_id,
-    school_name_base as school_name,
-    classroom_id_base as classroom_id,
-    city_base as city,
-    student_name_base as student_name,
-    pm_name_base as pm_name,
-    fellow_name_base as fellow_name,
-    student_grade_base as student_grade
+    select distinct
+        student_id_base as student_id,
+        school_name_base as school_name,
+        classroom_id_base as classroom_id,
+        city_base as city,
+        student_name_base as student_name,
+        pm_name_base as pm_name,
+        fellow_name_base as fellow_name,
+        student_grade_base as student_grade
     from {{ ref('baseline_25_26_stg') }}
     where student_id_base is not null
     
     -- Uncomment the following unions if needed
     union
 
-    select distinct  student_id_mid as student_id,
-    school_name_mid as school_name,
-    classroom_id_mid as classroom_id,
-    city_mid as city,
-    student_name_mid as student_name,
-    pm_name_mid as pm_name,
-    fellow_name_mid as fellow_name,
-    student_grade_mid as student_grade
+    select distinct
+        student_id_mid as student_id,
+        school_name_mid as school_name,
+        classroom_id_mid as classroom_id,
+        city_mid as city,
+        student_name_mid as student_name,
+        pm_name_mid as pm_name,
+        fellow_name_mid as fellow_name,
+        student_grade_mid as student_grade
     from {{ ref('midline_25_26_stg') }}
     where student_id_mid is not null
 
