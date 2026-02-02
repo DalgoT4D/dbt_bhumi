@@ -7,7 +7,10 @@ with all_student_id as (
         student_name_base as student_name,
         pm_name_base as pm_name,
         fellow_name_base as fellow_name,
-        student_grade_base as student_grade
+        student_grade_base as student_grade,
+        rc_learning_level_status_baseline_base as rc_status,
+        rf_baseline_growth_base as rf_status,
+        math_learning_level_status_baseline_base as math_status
     from {{ ref('baseline_25_26_stg') }}
     where student_id_base is not null
     
@@ -22,7 +25,10 @@ with all_student_id as (
         student_name_mid as student_name,
         pm_name_mid as pm_name,
         fellow_name_mid as fellow_name,
-        student_grade_mid as student_grade
+        student_grade_mid as student_grade,
+        rc_learning_level_status_midline_mid as rc_status,
+        rf_midline_growth_mid as rf_status,
+        math_learning_level_status_midline_mid as math_status
     from {{ ref('midline_25_26_stg') }}
     where student_id_mid is not null
 
@@ -43,6 +49,9 @@ select
     s.pm_name,
     s.fellow_name,
     s.student_grade,
+    s.rc_status,
+    s.rf_status,
+    s.math_status,
 
     -- Baseline columns
     b.student_id_base is not null as baseline_attendance,
