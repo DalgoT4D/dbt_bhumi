@@ -3,13 +3,14 @@ with RF_ANALYSIS_BASELINE as (
         D.CITY_BASE as CITY,
         D.STUDENT_GRADE_BASE as GRADE,
         F.RF_LEVEL_BASELINE_BASE as RF_STATUS,
-        count(distinct F.STUDENT_ID) as STUDENT_COUNT_BASE
+        count(distinct F.STUDENT_ID) as STUDENT_COUNT_BASE,
+        D.COHORT_BASE
     from 
         {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.BASELINE_ATTENDENCE = True
-    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_LEVEL_BASELINE_BASE
+    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_LEVEL_BASELINE_BASE, D.COHORT_BASE
 ),
 
 RF_ANALYSIS_MIDLINE as (
@@ -17,13 +18,14 @@ RF_ANALYSIS_MIDLINE as (
         D.CITY_MID as CITY,
         D.STUDENT_GRADE_MID as GRADE,
         F.RF_LEVEL_MIDLINE_MID as RF_STATUS,
-        count(distinct F.STUDENT_ID) as STUDENT_COUNT_MID
+        count(distinct F.STUDENT_ID) as STUDENT_COUNT_MID,
+        D.COHORT_MID
     from 
         {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.MIDLINE_ATTENDENCE = True
-    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_LEVEL_MIDLINE_MID
+    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_LEVEL_MIDLINE_MID, D.COHORT_MID
 ),
 
 -- RF_analysis_endline as (
@@ -69,7 +71,9 @@ select
     AC.GRADE,
     AC.RF_STATUS,
     B.STUDENT_COUNT_BASE,
-    M.STUDENT_COUNT_MID
+    M.STUDENT_COUNT_MID,
+    B.COHORT_BASE,
+    M.COHORT_MID
     -- e.student_count_end
 from ALL_COMBINATIONS as AC
 left join RF_ANALYSIS_BASELINE as B
