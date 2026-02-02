@@ -4,13 +4,14 @@ with RF_ANALYSIS_BASELINE as (
         D.STUDENT_GRADE_BASE as GRADE,
         F.RF_LEVEL_BASELINE_BASE as RF_STATUS,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_BASE,
-        D.COHORT_BASE
+        count(distinct case when D.COHORT_BASE = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_BASE,
+        count(distinct case when D.COHORT_BASE = '2025' then F.STUDENT_ID end) as COHORT_2025_COUNT_BASE
     from 
         {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.BASELINE_ATTENDENCE = True
-    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_LEVEL_BASELINE_BASE, D.COHORT_BASE
+    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_LEVEL_BASELINE_BASE
 ),
 
 RF_ANALYSIS_MIDLINE as (
@@ -19,13 +20,14 @@ RF_ANALYSIS_MIDLINE as (
         D.STUDENT_GRADE_MID as GRADE,
         F.RF_LEVEL_MIDLINE_MID as RF_STATUS,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_MID,
-        D.COHORT_MID
+        count(distinct case when D.COHORT_MID = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_MID,
+        count(distinct case when D.COHORT_MID = '2025' then F.STUDENT_ID end) as COHORT_2025_COUNT_MID
     from 
         {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.MIDLINE_ATTENDENCE = True
-    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_LEVEL_MIDLINE_MID, D.COHORT_MID
+    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_LEVEL_MIDLINE_MID
 ),
 
 -- RF_analysis_endline as (
@@ -71,9 +73,11 @@ select
     AC.GRADE,
     AC.RF_STATUS,
     B.STUDENT_COUNT_BASE,
+    B.COHORT_2024_COUNT_BASE,
+    B.COHORT_2025_COUNT_BASE,
     M.STUDENT_COUNT_MID,
-    B.COHORT_BASE,
-    M.COHORT_MID
+    M.COHORT_2024_COUNT_MID,
+    M.COHORT_2025_COUNT_MID
     -- e.student_count_end
 from ALL_COMBINATIONS as AC
 left join RF_ANALYSIS_BASELINE as B
