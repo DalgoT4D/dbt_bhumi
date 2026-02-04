@@ -30,6 +30,7 @@ select
     b.fellow_name_base,
     b.cohort_base,
     b.student_grade_base,
+    b.donor_base,
     -- Midline columns
     not coalesce(m.student_id_mid is null, false) as midline_attendence,
     m.city_mid,
@@ -39,7 +40,8 @@ select
     m.school_name_mid,
     m.fellow_name_mid,
     m.cohort_mid,
-    m.student_grade_mid
+    m.student_grade_mid,
+    m.donor_mid
     -- -- Endline columns
     -- case when e.student_id_end is null then False else True end as endline_attendence,
     -- e.city_end,
