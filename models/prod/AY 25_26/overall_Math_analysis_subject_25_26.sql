@@ -2,6 +2,7 @@ with math_analysis_baseline as (
     select
         d.city_base as city,
         d.student_grade_base as grade,
+        d.fellow_name_base as fellow_name,
         avg(f.final_baseline_level_mastery_base) as avg_mastery_base,
         avg(f.baseline_numbers_base) as avg_perc_numbers_base,
         avg(f.baseline_patterns_base) as avg_perc_patterns_base,
@@ -15,13 +16,14 @@ with math_analysis_baseline as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
         on f.student_id = d.student_id
     where d.baseline_attendence = True
-    group by d.city_base, d.student_grade_base
+    group by d.city_base, d.student_grade_base, d.fellow_name_base
 ),
 
 math_analysis_midline as (
     select
         d.city_mid as city,
         d.student_grade_mid as grade,
+        d.fellow_name_mid as fellow_name,
         avg(f.final_midline_level_mastery_mid) as avg_mastery_mid,
         avg(f.midline_numbers_mid) as avg_perc_numbers_mid,
         avg(f.midline_patterns_mid) as avg_perc_patterns_mid,
@@ -35,7 +37,7 @@ math_analysis_midline as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
         on f.student_id = d.student_id
     where d.midline_attendence = True
-    group by d.city_mid, d.student_grade_mid
+    group by d.city_mid, d.student_grade_mid, d.fellow_name_mid
 ),
 
 -- math_analysis_endline as (
@@ -61,14 +63,16 @@ math_analysis_midline as (
 all_combinations as (
     select distinct
         city,
-        grade
+        grade,
+        fellow_name
     from math_analysis_baseline
     
     union
     
     select distinct
         city,
-        grade
+        grade,
+        fellow_name
     from math_analysis_midline
     
     -- union
@@ -82,6 +86,7 @@ all_combinations as (
 select 
     ac.city,
     ac.grade,
+    ac.fellow_name,
     -- Baseline scores
     b.avg_mastery_base,
     b.avg_perc_numbers_base,
@@ -115,10 +120,12 @@ left join math_analysis_baseline as b
     on
         ac.city = b.city 
         and ac.grade = b.grade
+        and ac.fellow_name = b.fellow_name
 left join math_analysis_midline as m
     on
         ac.city = m.city 
         and ac.grade = m.grade
+        and ac.fellow_name = m.fellow_name
 -- left join math_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.grade = e.grade

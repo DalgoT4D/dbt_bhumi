@@ -3,7 +3,7 @@ WITH baseline AS (
         COALESCE(BTRIM("Acadamic_year"::TEXT), '') AS "Acadamic year",
         COALESCE(INITCAP(BTRIM("City"::TEXT)), '') AS "City",
         COALESCE(INITCAP(BTRIM("PM_Name"::TEXT)), '') AS "PM Name",
-        COALESCE(INITCAP(BTRIM("Donor"::TEXT)), '') as "Donor",
+        COALESCE(INITCAP(BTRIM("Donor"::TEXT)), '') AS "Donor",
         COALESCE(INITCAP(BTRIM("School_Name"::TEXT)), '') AS "School Name",
         COALESCE(INITCAP(BTRIM("Classroom_ID"::TEXT)), '') AS "Classroom ID",
         COALESCE(INITCAP(BTRIM("Fellow_name"::TEXT)), '') AS "Fellow name",
