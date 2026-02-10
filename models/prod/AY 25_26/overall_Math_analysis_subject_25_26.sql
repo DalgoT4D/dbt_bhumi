@@ -4,6 +4,7 @@ with math_analysis_baseline as (
         d.student_grade_base as grade,
         f.math_level_baseline_base as math_level,
         d.fellow_name_base as fellow_name,
+        count(distinct f.student_id) as student_count_base,
         avg(f.final_baseline_level_mastery_base) as avg_mastery_base,
         avg(f.baseline_numbers_base) as avg_perc_numbers_base,
         avg(f.baseline_patterns_base) as avg_perc_patterns_base,
@@ -26,6 +27,7 @@ math_analysis_midline as (
         d.student_grade_mid as grade,
         f.math_level_midline_mid as math_level,
         d.fellow_name_mid as fellow_name,
+        count(distinct f.student_id) as student_count_mid,
         avg(f.final_midline_level_mastery_mid) as avg_mastery_mid,
         avg(f.midline_numbers_mid) as avg_perc_numbers_mid,
         avg(f.midline_patterns_mid) as avg_perc_patterns_mid,
@@ -92,6 +94,9 @@ select
     ac.grade,
     ac.math_level,
     ac.fellow_name,
+    
+    b.student_count_base,
+    m.student_count_mid,
     -- Baseline scores
     b.avg_mastery_base,
     b.avg_perc_numbers_base,

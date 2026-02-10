@@ -7,11 +7,13 @@ select
     b.rc_grade_level_baseline_base,
     b.rc_learning_level_status_baseline_base,
     b.rc_endline_baseline_growth_base,
+
     -- Midline
     m.rc_level_midline_mid,
     m.rc_grade_level_midline_mid,
     m.rc_learning_level_status_midline_mid,
     m.rc_baseline_midline_growth_mid,
+    m.rc_midline_growth_status_mid,
     -- Endline
     -- e.RC_level_end,
     -- e.RC_grade_level_end,
@@ -41,6 +43,7 @@ select
     m.math_midline_grade_mid,
     m.math_learning_level_status_midline_mid,
     m.math_baseline_midline_growth_mid,
+    m.math_midline_growth_status_mid,
     -- -- Endline
     -- e.math_level_end,
     -- e.math_status_end,
