@@ -2,6 +2,7 @@ with RC_ANALYSIS_BASELINE as (
     select
         D.CITY_BASE as CITY,
         D.STUDENT_GRADE_BASE as GRADE,
+        F.RC_LEVEL_BASELINE_BASE as RC_LEVEL,
         D.FELLOW_NAME_BASE as FELLOW_NAME,
         avg(F.BASELINE_FACTUAL_BASE) as FACTUAL_BASE,
         avg(F.BASELINE_INFERENCE_BASE) as INFERENCE_BASE,
@@ -13,13 +14,14 @@ with RC_ANALYSIS_BASELINE as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.BASELINE_ATTENDENCE = True
-    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, D.FELLOW_NAME_BASE
+    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RC_LEVEL_BASELINE_BASE, D.FELLOW_NAME_BASE
 ),
 
 RC_ANALYSIS_MIDLINE as (
     select
         D.CITY_MID as CITY,
         D.STUDENT_GRADE_MID as GRADE,
+        F.RC_LEVEL_MIDLINE_MID as RC_LEVEL,
         D.FELLOW_NAME_MID as FELLOW_NAME,
         avg(F.MIDLINE_FACTUAL_MID) as FACTUAL_MID,
         avg(F.MIDLINE_INFERENCE_MID) as INFERENCE_MID,
@@ -31,13 +33,14 @@ RC_ANALYSIS_MIDLINE as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.MIDLINE_ATTENDENCE = True
-    group by D.CITY_MID, D.STUDENT_GRADE_MID, D.FELLOW_NAME_MID
+    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RC_LEVEL_MIDLINE_MID, D.FELLOW_NAME_MID
 ),
 
 ALL_COMBINATIONS as (
     select distinct
         CITY,
         GRADE,
+        RC_LEVEL,
         FELLOW_NAME
     from RC_ANALYSIS_BASELINE
     
@@ -46,6 +49,7 @@ ALL_COMBINATIONS as (
     select distinct
         CITY,
         GRADE,
+        RC_LEVEL,
         FELLOW_NAME
     from RC_ANALYSIS_MIDLINE
     
@@ -60,6 +64,7 @@ ALL_COMBINATIONS as (
 select 
     AC.CITY,
     AC.GRADE,
+    AC.RC_LEVEL,
     AC.FELLOW_NAME,
     -- Factual scores
     B.FACTUAL_BASE,
@@ -87,11 +92,13 @@ left join RC_ANALYSIS_BASELINE as B
     on
         AC.CITY = B.CITY 
         and AC.GRADE = B.GRADE
+        and AC.RC_LEVEL = B.RC_LEVEL
         and AC.FELLOW_NAME = B.FELLOW_NAME
 left join RC_ANALYSIS_MIDLINE as M
     on
         AC.CITY = M.CITY 
         and AC.GRADE = M.GRADE
+        and AC.RC_LEVEL = M.RC_LEVEL
         and AC.FELLOW_NAME = M.FELLOW_NAME
 -- left join RC_analysis_endline e
 --     on ac.city = e.city 
