@@ -14,7 +14,7 @@ WITH baseline AS (
 
         -- RC Baseline
         COALESCE(BTRIM("RC_level_Baseline"::TEXT), '') AS "RC level Baseline",
-        COALESCE(BTRIM("RC_Grade_level_Baseline"::TEXT), '') AS "RC Grade level Baseline",
+        NULLIF(BTRIM("RC_Grade_level_Baseline"::TEXT), '') AS "RC Grade level Baseline",
         COALESCE(BTRIM("RC_Learning_Level_Status_Baseline"::TEXT), '') AS "RC Learning Level Status Baseline",
         NULLIF(BTRIM("RC_Endline_Baseline_Growth"::TEXT), '') AS "RC Endline Baseline Growth",
 
@@ -28,10 +28,10 @@ WITH baseline AS (
 
         -- Math Baseline
         COALESCE(BTRIM("Math_Level_Baseline_"::TEXT), '') AS "Math Level Baseline",
-        CASE WHEN BTRIM("Final_Baseline_Level_Mastery"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Final_Baseline_Level_Mastery", '%','')::NUMERIC END AS "Final Baseline Level Mastery",
-        CASE WHEN BTRIM("Math_Baseline_Grade"::TEXT) ~ '^\d+$' THEN ("Math_Baseline_Grade"::TEXT)::INTEGER END AS "Math Baseline Grade",
         COALESCE(BTRIM("Math_Learning_level_status_Baseline"::TEXT), '') AS "Math Learning Level Status Baseline",
         NULLIF(BTRIM("Math_Endline_Baseline_Growth"::TEXT), '') AS "Math Endline Baseline Growth",
+        CASE WHEN BTRIM("Final_Baseline_Level_Mastery"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Final_Baseline_Level_Mastery", '%','')::NUMERIC END AS "Final Baseline Level Mastery",
+        CASE WHEN BTRIM("Math_Baseline_Grade"::TEXT) ~ '^\d+$' THEN ("Math_Baseline_Grade"::TEXT)::INTEGER END AS "Math Baseline Grade",
         CASE WHEN BTRIM("Baseline_Numbers"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Numbers", '%','')::NUMERIC END AS "Baseline Numbers",
         CASE WHEN BTRIM("Baseline_Patterns"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Patterns", '%','')::NUMERIC END AS "Baseline Patterns",
         CASE WHEN BTRIM("Baseline_Geometry"::TEXT) ~ '^[0-9.]+%?$' THEN REPLACE("Baseline_Geometry", '%','')::NUMERIC END AS "Baseline Geometry",
@@ -42,7 +42,7 @@ WITH baseline AS (
 
         -- RF Baseline
         COALESCE(BTRIM("RF_Level_Baseline"::TEXT), '') AS "RF Level Baseline",
-        NULLIF(BTRIM("RF_Baseline_Growth"::TEXT), '') AS "RF Baseline Growth",
+        COALESCE(BTRIM("RF_Baseline_Growth"::TEXT), '') AS "RF Baseline Growth",
         CASE WHEN BTRIM("Baseline_Letter_sounds"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Letter_sounds"::TEXT)::NUMERIC END AS "Baseline Letter sounds",
         CASE WHEN BTRIM("Baseline_CVC_words"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_CVC_words"::TEXT)::NUMERIC END AS "Baseline CVC words",
         CASE WHEN BTRIM("Baseline_Blends"::TEXT) ~ '^[0-9.]+$' THEN ("Baseline_Blends"::TEXT)::NUMERIC END AS "Baseline Blends",
