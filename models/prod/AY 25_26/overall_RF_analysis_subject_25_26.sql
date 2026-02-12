@@ -2,8 +2,10 @@ with RF_ANALYSIS_BASELINE as (
     select
         D.CITY_BASE as CITY,
         D.STUDENT_GRADE_BASE as GRADE,
-        F.RF_LEVEL_BASELINE_BASE as RF_LEVEL,
+        D.DONOR_BASE as DONOR,
+        D.PM_NAME_BASE as PM_NAME,
         D.FELLOW_NAME_BASE as FELLOW_NAME,
+        F.RF_LEVEL_BASELINE_BASE as RF_LEVEL,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_BASE,
         avg(F.BASELINE_LETTER_SOUNDS_BASE) as LETTER_SOUNDS_BASE,
         avg(F.BASELINE_CVC_WORDS_BASE) as CVC_WORDS_BASE,
@@ -19,15 +21,17 @@ with RF_ANALYSIS_BASELINE as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.BASELINE_ATTENDENCE = True
-    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_LEVEL_BASELINE_BASE, D.FELLOW_NAME_BASE
+    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_LEVEL_BASELINE_BASE, D.FELLOW_NAME_BASE, D.DONOR_BASE, D.PM_NAME_BASE  
 ),
 
 RF_ANALYSIS_MIDLINE as (
     select
         D.CITY_MID as CITY,
         D.STUDENT_GRADE_MID as GRADE,
-        F.RF_LEVEL_MIDLINE_MID as RF_LEVEL,
+        D.DONOR_MID as DONOR,
+        D.PM_NAME_MID as PM_NAME,
         D.FELLOW_NAME_MID as FELLOW_NAME,
+        F.RF_LEVEL_MIDLINE_MID as RF_LEVEL,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_MID,
         avg(F.MIDLINE_LETTER_SOUNDS_MID) as LETTER_SOUNDS_MID,
         avg(F.MIDLINE_CVC_WORDS_MID) as CVC_WORDS_MID,
@@ -43,7 +47,7 @@ RF_ANALYSIS_MIDLINE as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.MIDLINE_ATTENDENCE = True
-    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_LEVEL_MIDLINE_MID, D.FELLOW_NAME_MID
+    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_LEVEL_MIDLINE_MID, D.FELLOW_NAME_MID, D.DONOR_MID, D.PM_NAME_MID
 ),
 
 -- RF_analysis_endline as (
@@ -71,8 +75,10 @@ ALL_COMBINATIONS as (
     select distinct
         CITY,
         GRADE,
-        RF_LEVEL,
-        FELLOW_NAME
+        DONOR,
+        PM_NAME,
+        FELLOW_NAME,
+        RF_LEVEL
     from RF_ANALYSIS_BASELINE
     
     union
@@ -80,8 +86,10 @@ ALL_COMBINATIONS as (
     select distinct
         CITY,
         GRADE,
-        RF_LEVEL,
-        FELLOW_NAME
+        DONOR,
+        PM_NAME,
+        FELLOW_NAME,
+        RF_LEVEL
     from RF_ANALYSIS_MIDLINE
     
     -- union
@@ -95,8 +103,10 @@ ALL_COMBINATIONS as (
 select 
     AC.CITY,
     AC.GRADE,
-    AC.RF_LEVEL,
+    AC.DONOR,
+    AC.PM_NAME,
     AC.FELLOW_NAME,
+    AC.RF_LEVEL,
     
     B.STUDENT_COUNT_BASE,
     M.STUDENT_COUNT_MID,
@@ -140,12 +150,16 @@ left join RF_ANALYSIS_BASELINE as B
         and AC.GRADE = B.GRADE
         and AC.RF_LEVEL = B.RF_LEVEL
         and AC.FELLOW_NAME = B.FELLOW_NAME
+        and AC.DONOR = B.DONOR
+        and AC.PM_NAME = B.PM_NAME
 left join RF_ANALYSIS_MIDLINE as M
     on
         AC.CITY = M.CITY 
         and AC.GRADE = M.GRADE
         and AC.RF_LEVEL = M.RF_LEVEL
         and AC.FELLOW_NAME = M.FELLOW_NAME
+        and AC.DONOR = M.DONOR
+        and AC.PM_NAME = M.PM_NAME
 -- left join RF_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.grade = e.grade
