@@ -4,6 +4,7 @@ with math_analysis_baseline as (
         d.student_grade_base as grade,
         d.donor_base as donor,
         d.pm_name_base as pm_name,
+        d.fellow_name_base as fellow_name,
         f.math_learning_level_status_baseline_base as math_level,
         count(distinct f.student_id) as student_count_base,
         count(distinct case when d.cohort_base = '2024' then f.student_id end) as cohort_2024_count_base,
@@ -13,7 +14,7 @@ with math_analysis_baseline as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
         on f.student_id = d.student_id
     where d.baseline_attendence = True
-    group by d.city_base, d.student_grade_base, d.donor_base, d.pm_name_base, f.math_learning_level_status_baseline_base
+    group by d.city_base, d.student_grade_base, d.donor_base, d.pm_name_base, d.fellow_name_base, f.math_learning_level_status_baseline_base
 ),
 
 math_analysis_midline as (
@@ -21,6 +22,7 @@ math_analysis_midline as (
         d.city_mid as city,
         d.donor_mid as donor,
         d.pm_name_mid as pm_name,
+        d.fellow_name_mid as fellow_name,
         d.student_grade_mid as grade,
         f.math_learning_level_status_midline_mid as math_level,
         count(distinct f.student_id) as student_count_mid,
@@ -31,7 +33,7 @@ math_analysis_midline as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
         on f.student_id = d.student_id
     where d.midline_attendence = True
-    group by d.city_mid, d.student_grade_mid, d.donor_mid, d.pm_name_mid, f.math_learning_level_status_midline_mid
+    group by d.city_mid, d.student_grade_mid, d.donor_mid, d.pm_name_mid, d.fellow_name_mid, f.math_learning_level_status_midline_mid
 ),
 
 -- math_analysis_endline as (
@@ -54,6 +56,7 @@ all_combinations as (
         grade,
         donor,
         pm_name,
+        fellow_name,
         math_level
     from math_analysis_baseline
     
@@ -64,6 +67,7 @@ all_combinations as (
         grade,
         donor,
         pm_name,
+        fellow_name,
         math_level
     from math_analysis_midline
     
@@ -81,6 +85,7 @@ select
     ac.grade,
     ac.donor,
     ac.pm_name,
+    ac.fellow_name,
     ac.math_level,
     b.student_count_base,
     b.cohort_2024_count_base,
@@ -97,6 +102,7 @@ left join math_analysis_baseline as b
         and ac.grade = b.grade
         and ac.donor = b.donor
         and ac.pm_name = b.pm_name
+        and ac.fellow_name = b.fellow_name
 left join math_analysis_midline as m
     on
         ac.city = m.city 
@@ -104,6 +110,7 @@ left join math_analysis_midline as m
         and ac.grade = m.grade
         and ac.donor = m.donor
         and ac.pm_name = m.pm_name
+        and ac.fellow_name = m.fellow_name
 -- left join math_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.math_level = e.math_level 
