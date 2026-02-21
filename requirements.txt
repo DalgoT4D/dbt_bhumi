@@ -1,6 +1,5 @@
-# Note: Python 3.14 support is limited. For best results, use Python 3.11 or 3.12
-dbt-postgres
-dbt-core
 sqlfluff
+dbt-postgres
 sqlfluff-templater-dbt
-pre-commit
+pre_commit
+dbt-osmosis
