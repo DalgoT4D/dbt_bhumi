@@ -5,13 +5,11 @@ SELECT DISTINCT
     COALESCE(INITCAP(BTRIM(sfpc.pm_full_name)), INITCAP(BTRIM(cu.pm_name::TEXT)), '') AS pm_name,
     CASE 
         WHEN cu.end_date::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(cu.end_date::TEXT, 'DD-MM-YYYY')
-        ELSE NULL
     END AS end_date,
     COALESCE(BTRIM(cu.fellow_id::TEXT), '') AS fellow_id,
     -- CASE WHEN cu.created_at::TEXT ~ '^\d{4}-\d{2}-\d{2}' THEN cu.created_at::timestamp END AS created_at,
     CASE 
         WHEN cu.start_date::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(cu.start_date::TEXT, 'DD-MM-YYYY')
-        ELSE NULL
     END AS start_date,
     CASE WHEN BTRIM(cu.stem_score::TEXT) ~ '^[0-9.]+$' THEN cu.stem_score::NUMERIC END AS stem_score,
     -- CASE WHEN cu.updated_at::TEXT ~ '^\\d{4}-\\d{2}-\\d{2}' THEN cu.updated_at::timestamp END AS updated_at,
@@ -23,7 +21,6 @@ SELECT DISTINCT
     CASE WHEN BTRIM(cu.homes_visited::TEXT) ~ '^[0-9.]+$' THEN cu.homes_visited::NUMERIC END AS homes_visited,
     CASE 
         WHEN cu.reporting_date::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(cu.reporting_date::TEXT, 'DD-MM-YYYY')
-        ELSE NULL
     END AS reporting_date,
     CASE WHEN BTRIM(cu.teaching_hours::TEXT) ~ '^[0-9.]+$' THEN cu.teaching_hours::NUMERIC END AS teaching_hours,
     CASE WHEN BTRIM(cu.total_students::TEXT) ~ '^[0-9.]+$' THEN cu.total_students::NUMERIC END AS total_students,
@@ -33,7 +30,7 @@ SELECT DISTINCT
     CASE WHEN BTRIM(cu.mathematics_score::TEXT) ~ '^[0-9.]+$' THEN cu.mathematics_score::NUMERIC END AS mathematics_score,
     CASE WHEN BTRIM(cu.school_leader_checkins::TEXT) ~ '^[0-9.]+$' THEN cu.school_leader_checkins::NUMERIC END AS school_leader_checkins,
     CASE WHEN BTRIM(cu.reading_comprehension_score::TEXT) ~ '^[0-9.]+$' THEN cu.reading_comprehension_score::NUMERIC END AS reading_comprehension_score
-FROM {{ source('fellowship_school_app_25_26', 'fellow_classroom_updates_25_26') }} cu
-LEFT JOIN {{ ref('SFPC_25_26') }} sfpc 
-    ON sfpc.fellow_id = cu.fellow_id
+FROM {{ source('fellowship_school_app_25_26', 'fellow_classroom_updates_25_26') }} AS cu
+LEFT JOIN {{ ref('SFPC_25_26') }} AS sfpc 
+    ON cu.fellow_id = sfpc.fellow_id
 WHERE COALESCE(BTRIM(cu.id::TEXT), '') <> ''
