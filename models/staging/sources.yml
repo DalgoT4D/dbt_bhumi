@@ -58,7 +58,7 @@ sources:
       - name: profiles_25_26
         identifier: profiles
         description: profiles from fellowship school app for AY 25-26
-      - name: checkins_raw_data_25_26
+      - name: checkins_25_26
         identifier: checkins
         description: checkins from fellowship school app for AY 25-26
       - name: fellow_classroom_updates_25_26
