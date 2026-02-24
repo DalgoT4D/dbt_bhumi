@@ -10,7 +10,7 @@ with school as (
 ),
 
 class_agg as (
-    select distinct
+    select
         school_name,
         reporting_period,
         sum(ptms) as ptms_sum,
