@@ -1,0 +1,1079 @@
+version: 2
+
+models:
+  # AY 2024-25 Production Models
+  - name: assessment_completion_2525
+    description: Production model tracking assessment completion rates for AY 2024-25
+    columns:
+      - name: city
+        description: City where assessments were conducted
+      - name: grade
+        description: Student grade level
+      - name: total_students_base
+        description: Total number of students at baseline
+      - name: total_students_mid
+        description: Total number of students at midline
+      - name: total_students_end
+        description: Total number of students at endline
+      - name: assessed_students_rc_base
+        description: Number of students assessed for reading comprehension at baseline
+      - name: perc_comp_rc_base
+        description: Percentage of completion for reading comprehension at baseline
+      - name: assessed_students_rc_mid
+        description: Number of students assessed for reading comprehension at midline
+      - name: perc_comp_rc_mid
+        description: Percentage of completion for reading comprehension at midline
+      - name: assessed_students_rc_end
+        description: Number of students assessed for reading comprehension at endline
+      - name: perc_comp_rc_end
+        description: Percentage of completion for reading comprehension at endline
+      - name: assessed_students_rf_base
+        description: Number of students assessed for reading fluency at baseline
+      - name: perc_comp_rf_base
+        description: Percentage of completion for reading fluency at baseline
+      - name: assessed_students_rf_mid
+        description: Number of students assessed for reading fluency at midline
+      - name: perc_comp_rf_mid
+        description: Percentage of completion for reading fluency at midline
+      - name: assessed_students_rf_end
+        description: Number of students assessed for reading fluency at endline
+      - name: perc_comp_rf_end
+        description: Percentage of completion for reading fluency at endline
+      - name: assessed_students_math_base
+        description: Number of students assessed for math at baseline
+      - name: perc_comp_math_base
+        description: Percentage of completion for math at baseline
+      - name: assessed_students_math_mid
+        description: Number of students assessed for math at midline
+      - name: perc_comp_math_mid
+        description: Percentage of completion for math at midline
+      - name: assessed_students_math_end
+        description: Number of students assessed for math at endline
+      - name: perc_comp_math_end
+        description: Percentage of completion for math at endline
+      - name: total_students
+        description: Total number of students enrolled
+      - name: baseline_completed
+        description: Number of students who completed baseline assessment
+      - name: midline_completed
+        description: Number of students who completed midline assessment
+      - name: endline_completed
+        description: Number of students who completed endline assessment
+  - name: overall_Math_analysis_level_2425
+    description: Mathematics performance analysis by level for AY 2024-25
+    columns:
+      - name: city
+        description: City where program operates
+      - name: grade
+        description: Student grade level
+      - name: math_level
+        description: Mathematics proficiency level
+      - name: student_count_base
+        description: Number of students at this level in baseline
+      - name: student_count_mid
+        description: Number of students at this level in midline
+      - name: student_count_end
+        description: Number of students at this level in endline
+  - name: overall_Math_analysis_status_2525
+    description: Mathematics performance analysis by status for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: >-
+          Grade level of the student for the mathematics performance analysis during AY 2024-25.
+      - name: math_status
+        description: Overall mathematics performance status for the academic year 2024-25.
+      - name: student_count_base
+        description: >-
+          Number of students assessed at the baseline stage for mathematics performance analysis for AY
+          2024-25.
+      - name: student_count_mid
+        description: >-
+          Number of students assessed at the midline stage for mathematics performance in AY 2024-25.
+      - name: student_count_end
+        description: >-
+          Number of students assessed at the endline for mathematics performance analysis in AY 2024-25.
+  - name: overall_Math_analysis_subject_2425
+    description: Mathematics performance analysis by subject area for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: Grade level of the students
+      - name: avg_mastery_base
+        description: Average mastery score at baseline
+      - name: avg_perc_mastery_numbers_base
+        description: Average percentage mastery in numbers at baseline
+      - name: avg_perc_mastery_patterns_base
+        description: Average percentage mastery in patterns at baseline
+      - name: avg_perc_mastery_geometry_base
+        description: Average percentage mastery in geometry at baseline
+      - name: avg_perc_mastery_mensuration_base
+        description: Average percentage mastery in mensuration at baseline
+      - name: avg_perc_mastery_time_base
+        description: Average percentage mastery in time at baseline
+      - name: avg_perc_mastery_operations_base
+        description: Average percentage mastery in operations at baseline
+      - name: avg_perc_mastery_data_handling_base
+        description: Average percentage mastery in data handling at baseline
+      - name: avg_mastery_mid
+        description: Average mastery score at midline
+      - name: avg_perc_mastery_numbers_mid
+        description: Average percentage mastery in numbers at midline
+      - name: avg_perc_mastery_patterns_mid
+        description: Average percentage mastery in patterns at midline
+      - name: avg_perc_mastery_geometry_mid
+        description: Average percentage mastery in geometry at midline
+      - name: avg_perc_mastery_mensuration_mid
+        description: Average percentage mastery in mensuration at midline
+      - name: avg_perc_mastery_time_mid
+        description: Average percentage mastery in time at midline
+      - name: avg_perc_mastery_operations_mid
+        description: Average percentage mastery in operations at midline
+      - name: avg_perc_mastery_data_handling_mid
+        description: Average percentage mastery in data handling at midline
+      - name: avg_mastery_end
+        description: Average mastery score at endline
+      - name: avg_perc_mastery_numbers_end
+        description: Average percentage mastery in numbers at endline
+      - name: avg_perc_mastery_patterns_end
+        description: Average percentage mastery in patterns at endline
+      - name: avg_perc_mastery_geometry_end
+        description: Average percentage mastery in geometry at endline
+      - name: avg_perc_mastery_mensuration_end
+        description: Average percentage mastery in mensuration at endline
+      - name: avg_perc_mastery_time_end
+        description: Average percentage mastery in time at endline
+      - name: avg_perc_mastery_operations_end
+        description: Average percentage mastery in operations at endline
+      - name: avg_perc_mastery_data_handling_end
+        description: Average percentage mastery in data handling at endline
+  - name: overall_RC_analysis_levels_2525
+    description: Reading Comprehension performance analysis by levels for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: >-
+          Grade level corresponding to Reading Comprehension performance analysis for AY 2024-25.
+      - name: rc_level
+        description: >-
+          Reading Comprehension level for AY 2024-25 based on analysis of baseline, midline, and endline
+          assessments.
+      - name: student_count_base
+        description: >-
+          The count of students at the baseline assessment level for Reading Comprehension analysis in
+          AY 2024-25.
+      - name: student_count_mid
+        description: >-
+          Number of students assessed at midline for reading comprehension performance analysis.
+      - name: student_count_end
+        description: >-
+          Number of students assessed at the endline stage for Reading Comprehension performance analysis.
+  - name: overall_RC_analysis_status_2525
+    description: Reading Comprehension performance analysis by status for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: >-
+          Grade level of the student during the assessment period for Reading Comprehension performance
+          analysis.
+      - name: rc_status
+        description: Overall Reading Comprehension performance status for AY 2024-25.
+      - name: student_count_base
+        description: Number of students assessed at the baseline for reading comprehension.
+      - name: student_count_mid
+        description: >-
+          Number of students assessed at the midline stage for Reading Comprehension analysis.
+      - name: student_count_end
+        description: Count of students assessed at the endline for the academic year 2024-25.
+  - name: overall_RC_analysis_subjects_2525
+    description: Reading Comprehension performance analysis by subject components for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: >-
+          Grade level of the student assessed for Reading Comprehension performance in AY 2024-25.
+      - name: factual_base
+        description: Score for factual questions
+      - name: factual_mid
+        description: Score for factual comprehension
+      - name: factual_end
+        description: Score for factual questions
+      - name: inference_base
+        description: Score for inference questions
+      - name: inference_mid
+        description: Score for inference assessment
+      - name: inference_end
+        description: Score for inference questions
+      - name: critical_thinking_base
+        description: Score for critical thinking
+      - name: critical_thinking_mid
+        description: Score for critical thinking
+      - name: critical_thinking_end
+        description: Score for critical thinking
+      - name: vocabulary_base
+        description: Score for vocabulary assessment
+      - name: vocabulary_mid
+        description: Score for vocabulary assessment
+      - name: vocabulary_end
+        description: Vocabulary assessment score
+      - name: grammar_base
+        description: Score for grammar assessment
+      - name: grammar_mid
+        description: Score for grammar assessment
+      - name: grammar_end
+        description: Grammar assessment score
+  - name: overall_RF_analysis_level_2525
+    description: Reading Fluency performance analysis by level for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: >-
+          Grade level of the student for the Reading Fluency performance analysis in AY 2024-25.
+      - name: rf_status
+        description: Reading Fluency performance status.
+      - name: student_count_base
+        description: Number of students assessed at the baseline reading fluency evaluation.
+      - name: student_count_mid
+        description: >-
+          Number of students evaluated at the midline assessment stage for Reading Fluency performance
+          for AY 2024-25.
+      - name: student_count_end
+        description: >-
+          Number of students assessed at the endline stage for Reading Fluency performance analysis.
+  - name: overall_RF_analysis_subject_2425
+    description: Reading Fluency performance analysis by subject components for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: >-
+          Grade level of the student during the assessment for Reading Fluency performance analysis in
+          AY 2024-25.
+      - name: letter_sounds_base
+        description: Score for letter sounds
+      - name: cvc_words_base
+        description: Score for CVC words
+      - name: blends_base
+        description: Assessment score for blends
+      - name: consonant_diagraph_base
+        description: Score for consonant diagraphs
+      - name: magic_e_words_base
+        description: Score for magic 'e' words
+      - name: vowel_diagraphs_base
+        description: Score for vowel diagraphs
+      - name: multi_syllabelle_words_base
+        description: Score for multi-syllable words
+      - name: passage_1_base
+        description: Score for first passage
+      - name: passage_2_base
+        description: Score for second passage
+      - name: letter_sounds_mid
+        description: Score for letter sounds assessment
+      - name: cvc_words_mid
+        description: Score for CVC words assessment
+      - name: blends_mid
+        description: Score for blends assessment
+      - name: consonant_diagraph_mid
+        description: Score for consonant diagraph assessment
+      - name: magic_e_words_mid
+        description: Score for magic 'e' words assessment
+      - name: vowel_diagraphs_mid
+        description: Score for vowel diagraphs assessment
+      - name: multi_syllabelle_words_mid
+        description: Score for multi-syllable words assessment
+      - name: passage_1_mid
+        description: Score for passage 1 comprehension
+      - name: passage_2_mid
+        description: Score for passage 2 comprehension
+      - name: letter_sounds_end
+        description: Score for letter sounds
+      - name: cvc_words_end
+        description: Score for CVC words
+      - name: blends_end
+        description: Assessment score for blends
+      - name: consonant_diagraph_end
+        description: Score for consonant diagraphs
+      - name: magic_e_words_end
+        description: Score for magic 'e' words
+      - name: vowel_diagraphs_end
+        description: Score for vowel diagraphs
+      - name: multi_syllabelle_words_end
+        description: Score for multi-syllable words
+      - name: passage_1_end
+        description: Score for comprehension of passage 1
+      - name: passage_2_end
+        description: Score for comprehension of passage 2
+  - name: student_counts_by_group_2425
+    description: Student enrollment counts grouped by various dimensions for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: school
+        description: The name of the school where the student is enrolled for the AY 2024-25.
+      - name: fellow
+        description: Name of the fellowship fellow associated with the student group for AY 2024-25.
+      - name: grade
+        description: The grade level of students grouped for the 2024-25 academic year.
+      - name: baseline_count
+        description: Count of students from the baseline assessment.
+      - name: midline_count
+        description: Count of students who attended the midline assessment for AY 2024-25.
+      - name: endline_count
+        description: Count of students who attended the endline assessment.
+  - name: student_distribution_2425
+    description: Student distribution analysis across cities and schools for AY 2024-25
+
+    columns:
+      - name: city
+        description: City where the assessment took place
+      - name: grade
+        description: Grade level of the student for the academic year 2024-25.
+      - name: cohort
+        description: Cohort of students
+      - name: fellow_name
+        description: >-
+          Name of the Bhumi fellowship fellow associated with the student distribution analysis for AY 2024-25.
+      - name: school_name
+        description: Name of the school where the student is enrolled during the academic year 2024-25.
+      - name: pm_name
+        description: Program Manager name associated with student distribution analysis for AY 2024-25.
+      - name: student_count_base
+        description: Count of students from baseline data.
+      - name: student_count_mid
+        description: Number of students counted at the midline assessment stage for AY 2024-25.
+      - name: student_count_end
+        description: Number of students who attended the endline assessment for AY 2024-25.
+  - name: student_school_RC_RF_Math_status
+    description: Combined student performance status across all subjects for AY 2024-25
+
+  # AY 2025-26 Production Models
+    columns:
+      - name: student_id
+        description: Unique student identifier linking all assessments
+      - name: student_name_base
+        description: Student's full name
+      - name: city_base
+        description: Student's city from baseline data
+      - name: pm_name_base
+        description: Program Manager name from baseline
+      - name: school_name_base
+        description: School name from baseline
+      - name: fellow_name_base
+        description: Fellowship fellow name from baseline
+      - name: grade_taught_base
+        description: Grade taught from baseline
+      - name: math_status_base
+        description: Overall Mathematics performance status
+      - name: rc_status_base
+        description: Overall Reading Comprehension performance status
+      - name: rf_status_base
+        description: Reading Fluency status at baseline
+      - name: baseline_attendence
+        description: Whether student attended baseline assessment
+      - name: student_name_mid
+        description: Midline assessment student's full name.
+      - name: city_mid
+        description: City where student's school is located
+      - name: pm_name_mid
+        description: Program Manager name overseeing the fellowship program at midline assessment.
+      - name: school_name_mid
+        description: Name of the school where the student is enrolled at the midline assessment stage.
+      - name: fellow_name_mid
+        description: Name of the Bhumi fellowship fellow associated with the midline assessment.
+      - name: grade_taught_mid
+        description: Grade level being taught at mid-year assessment (1-8).
+      - name: math_status_mid
+        description: Math status
+      - name: rc_status_mid
+        description: Reading comprehension status
+      - name: rf_status_mid
+        description: Reading Fluency status at midline
+      - name: midline_attendence
+        description: Whether student attended midline assessment
+      - name: student_name_end
+        description: Name of the student
+      - name: city_end
+        description: City where student's school is located
+      - name: pm_name_end
+        description: Program Manager's name
+      - name: school_name_end
+        description: Name of the school
+      - name: fellow_name_end
+        description: Name of the fellowship fellow conducting the assessment
+      - name: grade_taught_end
+        description: Grade level taught in the classroom
+      - name: math_status_end
+        description: Math status
+      - name: rc_status_end
+        description: Reading comprehension status
+      - name: rf_status_end
+        description: Reading Fluency status at endline
+      - name: endline_attendence
+        description: Whether student attended endline assessment
+  - name: assessment_completion_25_26
+    description: Production model tracking assessment completion rates for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: Grade level of students being assessed
+      - name: total_students_base
+        description: Total number of students at baseline
+      - name: total_students_mid
+        description: Total number of students at midline
+      - name: assessed_students_rc_base
+        description: Number of students assessed in reading comprehension at baseline
+      - name: perc_comp_rc_base
+        description: Percentage of students completing reading comprehension assessment at baseline
+      - name: assessed_students_rc_mid
+        description: Number of students assessed in reading comprehension at midline
+      - name: perc_comp_rc_mid
+        description: Percentage of students completing reading comprehension assessment at midline
+      - name: assessed_students_rf_base
+        description: Number of students assessed in reading fluency at baseline
+      - name: perc_comp_rf_base
+        description: Percentage of students completing reading fluency assessment at baseline
+      - name: assessed_students_rf_mid
+        description: Number of students assessed in reading fluency at midline
+      - name: perc_comp_rf_mid
+        description: Percentage of students completing reading fluency assessment at midline
+      - name: assessed_students_math_base
+        description: Number of students assessed in math at baseline
+      - name: perc_comp_math_base
+        description: Percentage of students completing math assessment at baseline
+      - name: assessed_students_math_mid
+        description: Number of students assessed in math at midline
+      - name: perc_comp_math_mid
+        description: Percentage of students completing math assessment at midline
+  - name: overall_Math_analysis_growth_25_26
+    description: Mathematics performance growth analysis for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: >-
+          Grade level of the student for the mathematics performance analysis during the academic year
+          2025-26.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: >-
+          Name of the Program Manager associated with the mathematics performance growth analysis for
+          AY 2025-26.
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment.
+      - name: math_growth
+        description: >-
+          Growth in mathematics performance for a student from baseline to endline during AY 2025-26.
+      - name: student_count_mid
+        description: Number of students assessed at midline stage.
+      - name: cohort_2024_count_mid
+        description: Count of students in the cohort for the academic year 2024 at midline assessment.
+      - name: cohort_2025_count_mid
+        description: Number of students in the 2025 cohort assessed at the midline stage.
+  - name: overall_Math_analysis_level_25_26
+    description: Mathematics performance analysis by level for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: Grade level of the student for the mathematics performance analysis in AY 2025-26.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: Program Manager's name associated with the analysis level for AY 2025-26.
+      - name: fellow_name
+        description: >-
+          Name of the fellowship fellow conducting the mathematics assessment for the academic year 2025-26.
+      - name: math_level
+        description: Math level indicating student's mathematics performance level for AY 2025-26.
+      - name: student_count_base
+        description: Number of students assessed at the baseline level for math analysis in AY 2025-26.
+      - name: student_count_mid
+        description: >-
+          Number of students assessed at the midline for mathematics performance analysis in AY 2025-26.
+  - name: overall_Math_analysis_status_25_26
+    description: Mathematics performance analysis by status for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: >-
+          Grade level at which the student is currently enrolled during the academic year 2025-26.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: >-
+          Name of the Program Manager overseeing the mathematics performance analysis for the academic
+          year 2025-26.
+      - name: fellow_name
+        description: >-
+          Name of the fellowship fellow conducting the mathematics assessment for the academic year 2025-26.
+      - name: math_level
+        description: Mathematics performance level for the academic year 2025-26.
+      - name: student_count_base
+        description: >-
+          Number of students considered in the baseline analysis for mathematics performance in AY 2025-26.
+      - name: cohort_2024_count_base
+        description: Count of students in the cohort for the class of 2024 at baseline.
+      - name: cohort_2025_count_base
+        description: Number of students in the 2025 cohort at baseline.
+      - name: student_count_mid
+        description: Number of students assessed at midline for mathematics performance.
+      - name: cohort_2024_count_mid
+        description: Count of students in the cohort of 2024 at the midline assessment stage.
+      - name: cohort_2025_count_mid
+        description: Number of students in the 2025 cohort at the midline assessment stage.
+  - name: overall_Math_analysis_subject_25_26
+    description: Mathematics performance analysis by subject area for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: Grade level of the student
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: Program Manager's name
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment
+      - name: math_level
+        description: Math level at baseline
+      - name: student_count_base
+        description: Number of students assessed at baseline
+      - name: student_count_mid
+        description: Number of students assessed at midline
+      - name: avg_mastery_base
+        description: Average mastery level at baseline
+      - name: avg_perc_numbers_base
+        description: Average percentage score in numbers at baseline
+      - name: avg_perc_patterns_base
+        description: Average percentage score in patterns at baseline
+      - name: avg_perc_geometry_base
+        description: Average percentage score in geometry at baseline
+      - name: avg_perc_mensuration_base
+        description: Average percentage score in mensuration at baseline
+      - name: avg_perc_time_base
+        description: Average percentage score in time at baseline
+      - name: avg_perc_operations_base
+        description: Average percentage score in operations at baseline
+      - name: avg_perc_data_handling_base
+        description: Average percentage score in data handling at baseline
+      - name: avg_mastery_mid
+        description: Average mastery level at midline
+      - name: avg_perc_numbers_mid
+        description: Average percentage score in numbers at midline
+      - name: avg_perc_patterns_mid
+        description: Average percentage score in patterns at midline
+      - name: avg_perc_geometry_mid
+        description: Average percentage score in geometry at midline
+      - name: avg_perc_mensuration_mid
+        description: Average percentage score in mensuration at midline
+      - name: avg_perc_time_mid
+        description: Average percentage score in time at midline
+      - name: avg_perc_operations_mid
+        description: Average percentage score in operations at midline
+      - name: avg_perc_data_handling_mid
+        description: Average percentage score in data handling at midline
+  - name: overall_RC_analysis_growth_25_26
+    description: Reading Comprehension performance growth analysis for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: >-
+          Grade level of the student for Reading Comprehension performance analysis in AY 2025-26.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: >-
+          Program Manager's name associated with the reading comprehension performance analysis for AY
+          2025-26.
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment.
+      - name: rc_growth
+        description: Growth in reading comprehension performance for AY 2025-26.
+      - name: student_count_mid
+        description: Number of students assessed at the midline stage.
+      - name: cohort_2024_count_mid
+        description: Count of students in the 2024 cohort at the midline assessment stage.
+      - name: cohort_2025_count_mid
+        description: Count of students in the midline cohort for the academic year 2025-26.
+  - name: overall_RC_analysis_levels_25_26
+    description: Reading Comprehension performance analysis by levels for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: Grade level for reading comprehension performance analysis.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: Program Manager's name associated with the assessment period.
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment.
+      - name: rc_level
+        description: Reading Comprehension level for AY 2025-26 analysis.
+      - name: student_count_base
+        description: >-
+          Number of students included in the baseline assessment for reading comprehension analysis.
+      - name: student_count_mid
+        description: Number of students assessed at the midline stage.
+  - name: overall_RC_analysis_status_25_26
+    description: Reading Comprehension performance analysis by status for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: >-
+          Grade level of the student for the overall reading comprehension analysis in AY 2025-26.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: >-
+          Program Manager's name associated with the reading comprehension analysis for AY 2025-26.
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment.
+      - name: rc_level
+        description: Reading comprehension level for analysis in AY 2025-26.
+      - name: student_count_base
+        description: >-
+          Number of students assessed at baseline for reading comprehension analysis in AY 2025-26.
+      - name: cohort_2024_count_base
+        description: >-
+          Count of students in the cohort for the academic year 2024, serving as the baseline for analysis.
+      - name: cohort_2025_count_base
+        description: >-
+          Count of students in the cohort for the baseline reading comprehension assessment for AY 2025-26.
+      - name: student_count_mid
+        description: >-
+          Number of students assessed at the midline point for reading comprehension analysis in AY 2025-26.
+      - name: cohort_2024_count_mid
+        description: Count of students in the cohort for the 2024 midline assessment.
+      - name: cohort_2025_count_mid
+        description: Number of students in the 2025 cohort at midline assessment.
+  - name: overall_RC_analysis_subjects_25_26
+    description: Reading Comprehension performance analysis by subject components for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: Grade level of the student
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: Program Manager's name
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment
+      - name: rc_level
+        description: Reading comprehension level
+      - name: student_count_base
+        description: Number of students at baseline
+      - name: student_count_mid
+        description: Number of students at midline
+      - name: factual_base
+        description: Factual knowledge score at baseline
+      - name: factual_mid
+        description: Factual knowledge score at midline
+      - name: inference_base
+        description: Inference skill score at baseline
+      - name: inference_mid
+        description: Inference skill score at midline
+      - name: critical_thinking_base
+        description: Critical thinking score at baseline
+      - name: critical_thinking_mid
+        description: Critical thinking score at midline
+      - name: vocabulary_base
+        description: Vocabulary score at baseline
+      - name: vocabulary_mid
+        description: Vocabulary score at midline
+      - name: grammar_base
+        description: Grammar score at baseline
+      - name: grammar_mid
+        description: Grammar score at midline
+  - name: overall_RF_analysis_growth_25_26
+    description: Reading Fluency performance growth analysis for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: >-
+          Grade level of the student during the Reading Fluency performance growth analysis for AY 2025-26.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: Name of the Program Manager overseeing the assessments.
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment.
+      - name: rf_growth
+        description: Growth in reading fluency performance for the academic year 2025-26.
+      - name: student_count_base
+        description: Number of students at baseline assessment.
+      - name: cohort_2024_count_base
+        description: Number of students in the 2024 cohort at baseline.
+      - name: cohort_2025_count_base
+        description: Count of students in the 2025 cohort used as a baseline for analysis.
+      - name: student_count_mid
+        description: >-
+          Number of students assessed at the midline for the reading fluency analysis in AY 2025-26.
+      - name: cohort_2024_count_mid
+        description: Count of students belonging to the 2024 cohort at midline.
+      - name: cohort_2025_count_mid
+        description: Count of students in the midline cohort for the academic year 2025-26.
+  - name: overall_RF_analysis_level_25_26
+    description: Reading Fluency performance analysis by level for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: >-
+          The grade level associated with the student's reading fluency performance in the AY 2025-26
+          analysis.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: Program Manager's name associated with the assessment period.
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment.
+      - name: rf_level
+        description: Reading fluency level for the AY 2025-26 analysis.
+      - name: student_count_base
+        description: Number of students at the baseline for reading fluency analysis.
+      - name: cohort_2024_count_base
+        description: Count of students in the 2024 cohort based on baseline data.
+      - name: cohort_2025_count_base
+        description: Count of students in the cohort for the academic year 2025-26 at baseline.
+      - name: student_count_mid
+        description: Number of students assessed at midline for Reading Fluency analysis in AY 2025-26.
+      - name: cohort_2024_count_mid
+        description: >-
+          Count of students in the 2024 cohort assessed at midline for Reading Fluency performance analysis.
+      - name: cohort_2025_count_mid
+        description: Count of students in the 2025 cohort who were assessed at mid-year.
+  - name: overall_RF_analysis_subject_25_26
+    description: Reading Fluency performance analysis by subject components for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: Grade level of the student during the assessment period for AY 2025-26.
+      - name: donor
+        description: Name of the donor associated with the data
+      - name: pm_name
+        description: Program Manager's name associated with the student's assessment period.
+      - name: fellow_name
+        description: Name of the fellowship fellow conducting the assessment.
+      - name: rf_level
+        description: Reading fluency level for AY 2025-26.
+      - name: student_count_base
+        description: 'Placeholder: Number of students forming the basis for analysis.'
+      - name: student_count_mid
+        description: The number of students assessed at the midline stage.
+      - name: letter_sounds_base
+        description: Score for letter sounds
+      - name: cvc_words_base
+        description: Score for CVC words
+      - name: blends_base
+        description: Assessment score for blends
+      - name: consonant_diagraph_base
+        description: Score for consonant diagraphs
+      - name: magic_e_words_base
+        description: Score for magic 'e' words
+      - name: vowel_diagraphs_base
+        description: Score for vowel diagraphs
+      - name: multi_syllabelle_words_base
+        description: Score for multi-syllable words
+      - name: passage_1_base
+        description: Score for first passage
+      - name: passage_2_base
+        description: Score for second passage
+      - name: letter_sounds_mid
+        description: Score for letter sounds assessment
+      - name: cvc_words_mid
+        description: Score for CVC words assessment
+      - name: blends_mid
+        description: Score for blends assessment
+      - name: consonant_diagraph_mid
+        description: Score for consonant diagraph assessment
+      - name: magic_e_words_mid
+        description: Score for magic 'e' words assessment
+      - name: vowel_diagraphs_mid
+        description: Score for vowel diagraphs assessment
+      - name: multi_syllabelle_words_mid
+        description: Score for multi-syllable words assessment
+      - name: passage_1_mid
+        description: Score for passage 1 comprehension
+      - name: passage_2_mid
+        description: Score for passage 2 comprehension
+  - name: student_counts_by_group_25_26
+    description: Student enrollment counts grouped by various dimensions for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: school
+        description: Name of the school associated with the student enrollment counts for AY 2025-26.
+      - name: fellow
+        description: >-
+          Name of the Bhumi fellowship fellow associated with student groupings for the academic year 2025-26.
+      - name: grade
+        description: Grade level of the student for the academic year 2025-26.
+      - name: baseline_count
+        description: The count of students at the baseline stage for the academic year 2025-26.
+      - name: midline_count
+        description: Number of students who attended the midline assessment.
+  - name: student_distribution_25_26
+    description: Student distribution analysis across cities and schools for AY 2025-26
+
+    columns:
+      - name: city
+        description: City where student's school is located
+      - name: grade
+        description: Grade level of the student during the academic year 2025-26.
+      - name: cohort
+        description: Cohort group of the students
+      - name: fellow_name
+        description: >-
+          Name of the Bhumi fellowship fellow associated with the student during the academic year 2025-26.
+      - name: school_name
+        description: Name of the school where the student is enrolled for the academic year 2025-26.
+      - name: pm_name
+        description: Name of the Program Manager overseeing the fellowship program.
+      - name: student_count_base
+        description: Number of students counted from baseline data.
+      - name: student_count_mid
+        description: Number of students counted at the midline assessment stage for AY 2025-26.
+  - name: student_school_RC_RF_Math_status_25_26
+    description: Combined student performance status across all subjects for AY 2025-26
+
+  # EcoChamps Production Models
+    columns:
+      - name: student_id
+        description: Unique student identifier linking all assessments
+      - name: student_name_base
+        description: Student's full name
+      - name: city_base
+        description: Student's city from baseline data
+      - name: pm_name_base
+        description: Program Manager name from baseline
+      - name: school_name_base
+        description: School name from baseline
+      - name: fellow_name_base
+        description: Fellowship fellow name from baseline
+      - name: student_grade_base
+        description: Grade level of the student at baseline
+      - name: rc_learning_level_status_baseline_base
+        description: Baseline learning level status for reading comprehension
+      - name: math_learning_level_status_baseline_base
+        description: Baseline learning level status for math
+      - name: rf_level_baseline_base
+        description: Baseline reading fluency level
+      - name: baseline_attendence
+        description: Whether student attended baseline assessment
+      - name: student_name_mid
+        description: Name of the student at midline
+      - name: city_mid
+        description: City where student's school is located
+      - name: pm_name_mid
+        description: Program Manager's name at midline
+      - name: school_name_mid
+        description: Name of the school at midline
+      - name: fellow_name_mid
+        description: Name of the fellowship fellow conducting the assessment at midline
+      - name: student_grade_mid
+        description: Grade level of the student at midline
+      - name: rc_learning_level_status_midline_mid
+        description: Learning level status for reading comprehension at midline
+      - name: math_learning_level_status_midline_mid
+        description: Learning level status for math at midline
+      - name: rf_level_midline_mid
+        description: Reading fluency level at midline
+      - name: midline_attendence
+        description: Whether student attended midline assessment
+  - name: combine_eco_25_26
+    description: >-
+      Combined EcoChamps data integrating assessments and module participation for AY 2025-26. Combine fields from eco_base_end_25_26 and eco_modules_25_26. Produces one row per student/roll combining baseline/endline and module attendance data
+    columns:
+      - name: Roll No
+        description: Student's official school roll number
+      - name: Student Name
+        description: Student's full name
+      - name: School ID
+        description: Unique school identifier
+      - name: School
+        description: School name
+      - name: Grade
+        description: Student grade level
+      - name: Chapter
+        description: BHUMI chapter managing the program
+      - name: Student Status
+        description: Student enrollment status
+      - name: Donor Mapped
+        description: Funding source attribution
+      - name: baseline_score
+        description: Environmental knowledge baseline score
+      - name: baseline_attendance
+        description: Baseline assessment attendance status
+      - name: baseline_date
+        description: Date of baseline assessment
+      - name: endline_score
+        description: Environmental knowledge endline score
+      - name: endline_attendance
+        description: Endline assessment attendance status
+      - name: endline_date
+        description: Date of endline assessment
+      - name: Assessment completed
+        description: Number of assessments completed
+      - name: Assessment Attendance %
+        description: Overall assessment attendance percentage
+      - name: kitchen_garden_attendance
+        description: Kitchen Garden module attendance
+      - name: kitchen_garden_date
+        description: Date of Kitchen Garden module participation
+      - name: waste_management_attendance
+        description: Waste Management module attendance
+      - name: waste_management_date
+        description: Date of Waste Management module participation
+      - name: water_conservation_attendance
+        description: Water Conservation module attendance
+      - name: water_conservation_date
+        description: Date of Water Conservation module participation
+      - name: climate_attendance
+        description: Climate module attendance
+      - name: climate_date
+        description: Date of Climate module participation
+      - name: lifestyle_choices_attendance
+        description: Lifestyle Choices module attendance
+      - name: lifestyle_choices_date
+        description: Date of Lifestyle Choices module participation
+      - name: Modules completed
+        description: Number of modules completed
+      - name: Modules Attendance %
+        description: Overall module attendance percentage
+      - name: q_baseline
+        description: Quarter when baseline was conducted (Q1-Q4)
+      - name: q_endline
+        description: Quarter when endline was conducted (Q1-Q4)
+      - name: q_kitchen_garden
+        description: Participation status in the Kitchen Garden module for the academic year 2025-26.
+      - name: q_waste_management
+        description: Status of student participation in the Waste Management module.
+      - name: q_water_conservation
+        description: Water conservation module participation status.
+      - name: q_climate
+        description: Climate module participation assessment score for AY 2025-26.
+      - name: q_lifestyle_choices
+        description: Lifestyle Choices module participation status.
+  - name: plannedvsconducted_eco_25_26
+    description: Analysis of planned versus conducted sessions for EcoChamps program
+
+    columns:
+      - name: school
+        description: School name
+      - name: school_id
+        description: Unique school identifier
+      - name: donor_mapped
+        description: Funding source attribution
+      - name: total_classroom
+        description: Total number of classrooms involved
+      - name: planned_session
+        description: Total number of planned sessions
+      - name: q2_planned
+        description: Planned sessions for Q2
+      - name: q3_planned
+        description: Planned sessions for Q3
+      - name: q4_planned
+        description: Planned sessions for Q4
+      - name: conducted_session
+        description: Total number of conducted sessions
+      - name: q2_conducted
+        description: Conducted sessions for Q2
+      - name: q3_conducted
+        description: Conducted sessions for Q3
+      - name: q4_conducted
+        description: Conducted sessions for Q4
+  - name: rag_quarterwise_indicator
+    description: RAG (Red-Amber-Green) status indicators by quarter for program monitoring
+    columns:
+      - name: year
+        description: Academic year
+      - name: quarter
+        description: Academic quarter (Q1-Q4)
+      - name: School
+        description: School name
+      - name: classes_conducted
+        description: Number of classes conducted during the quarter for program monitoring.
+      - name: rag_status
+        description: Indicates the Red-Amber-Green status for program performance in a specific quarter.
+      - name: target_modules
+        description: Target modules to complete in quarter
+      - name: red_threshold
+        description: Red status completion threshold
+      - name: amber_threshold
+        description: Amber status completion threshold
+      - name: green_threshold
+        description: Green status completion threshold
+  - name: session_eco_25_26
+    description: Session-level data for EcoChamps program activities
+
+    columns:
+      - name: Roll No
+        description: Student's official school roll number
+      - name: Student Name
+        description: Student's full name
+      - name: School ID
+        description: Unique school identifier
+      - name: School
+        description: School name
+      - name: Grade
+        description: Student grade level
+      - name: Chapter
+        description: BHUMI chapter managing the program
+      - name: Donor Mapped
+        description: Funding source attribution
+      - name: Student Status
+        description: Student enrollment status
+      - name: session
+        description: Session identifier for activities within the EcoChamps program.
+      - name: session_attendance
+        description: Attendance status for EcoChamps program sessions.
+      - name: session_date
+        description: Date of session conducted within the EcoChamps program for AY 2025-26.
+      - name: quarter
+        description: Indicates the academic quarter in which the session occurred.
+  - name: student_attend_eco_25_26
+    description: Student attendance tracking for EcoChamps program sessions. Groups by School and Student Name, calculates attendance percentage and assigns RAG status
+    columns:
+      - name: School
+        description: School name
+      - name: student_attendance
+        description: >-
+          Tracks student attendance during EcoChamps program sessions for the academic year 2025-26.
+      - name: rag_status
+        description: Indicates the student's risk assessment status within the EcoChamps program.
