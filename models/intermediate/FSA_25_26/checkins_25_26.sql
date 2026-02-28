@@ -2,26 +2,35 @@ WITH checkins AS (
     SELECT
         COALESCE(BTRIM(id::TEXT), '') AS id_checkin,
         COALESCE(INITCAP(BTRIM(city::TEXT)), '') AS city_checkin,
-        CASE 
-            WHEN date::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(date::TEXT, 'DD-MM-YYYY')
-        END AS date_checkin,
+        case
+            when NULLIF(BTRIM(date::TEXT),'') is null then null
+            when BTRIM(date::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(date::TEXT)::DATE
+            when BTRIM(date::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(date::TEXT),'DD/MM/YYYY')
+            when BTRIM(date::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(date::TEXT),'DD-MM-YYYY')
+        end as date_checkin,
         COALESCE(BTRIM(notes::TEXT), '') AS notes_checkin,
         CASE WHEN BTRIM(cohort::TEXT) ~ '^\d+$' THEN cohort::INTEGER END AS cohort_checkin,
         COALESCE(INITCAP(BTRIM(school::TEXT)), '') AS school_checkin,
         COALESCE(INITCAP(BTRIM(pm_name::TEXT)), '') AS pm_name_checkin,
         COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id_checkin,
         COALESCE(BTRIM(new_goals::TEXT), '') AS new_goals_checkin,
-        CASE 
-            WHEN period_to::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(period_to::TEXT, 'DD-MM-YYYY')
-        END AS period_to_checkin,
+        case
+            when NULLIF(BTRIM(period_from::TEXT),'') is null then null
+            when BTRIM(period_from::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(period_from::TEXT)::DATE
+            when BTRIM(period_from::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(period_from::TEXT),'DD/MM/YYYY')
+            when BTRIM(period_from::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(period_from::TEXT),'DD-MM-YYYY')
+        end as period_from_checkin,
+        case
+            when NULLIF(BTRIM(period_to::TEXT),'') is null then null
+            when BTRIM(period_to::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(period_to::TEXT)::DATE
+            when BTRIM(period_to::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(period_to::TEXT),'DD/MM/YYYY')
+            when BTRIM(period_to::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(period_to::TEXT),'DD-MM-YYYY')
+        end as period_to_checkin,
         COALESCE(BTRIM(challenges::TEXT), '') AS challenges_checkin,
         -- CASE WHEN created_at::TEXT ~ '^\d{4}-\d{2}-\d{2}' THEN created_at::timestamp END AS created_at_checkin,
         -- COALESCE(BTRIM(search_fts::TEXT), '') AS search_fts_checkin,
         -- CASE WHEN updated_at::TEXT ~ '^\d{4}-\d{2}-\d{2}' THEN updated_at::timestamp END AS updated_at_checkin,
         COALESCE(INITCAP(BTRIM(fellow_name::TEXT)), '') AS fellow_name_checkin,
-        CASE 
-            WHEN period_from::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(period_from::TEXT, 'DD-MM-YYYY')
-        END AS period_from_checkin,
         COALESCE(BTRIM(action_items::TEXT), '') AS action_items_checkin,
         COALESCE(BTRIM(agenda_notes::TEXT), '') AS agenda_notes_checkin,
         COALESCE(is_completed::TEXT IN ('TRUE', 'true', '1'), FALSE) AS is_completed_checkin,
@@ -30,9 +39,12 @@ WITH checkins AS (
         CASE WHEN BTRIM(total_students::TEXT) ~ '^\d+$' THEN total_students::INTEGER END AS total_students_checkin,
         COALESCE(BTRIM(lesson_planning::TEXT), '') AS lesson_planning_checkin,
         COALESCE(BTRIM(reporting_period::TEXT), '') AS reporting_period_checkin,
-        CASE 
-            WHEN next_checkin_date::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(next_checkin_date::TEXT, 'DD-MM-YYYY')
-        END AS next_checkin_date_checkin,
+       case
+            when NULLIF(BTRIM(next_checkin_date::TEXT),'') is null then null
+            when BTRIM(next_checkin_date::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(next_checkin_date::TEXT)::DATE
+            when BTRIM(next_checkin_date::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(next_checkin_date::TEXT),'DD/MM/YYYY')
+            when BTRIM(next_checkin_date::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(next_checkin_date::TEXT),'DD-MM-YYYY')
+        end as next_checkin_date_checkin,
         COALESCE(BTRIM(student_engagement::TEXT), '') AS student_engagement_checkin,
         COALESCE(BTRIM(classroom_management::TEXT), '') AS classroom_management_checkin,
         COALESCE(BTRIM(fellow_uploaded_data::TEXT), '') AS fellow_uploaded_data_checkin,
