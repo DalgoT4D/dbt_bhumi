@@ -2,12 +2,10 @@ WITH checkins AS (
     SELECT
         COALESCE(BTRIM(id::TEXT), '') AS id_checkin,
         COALESCE(INITCAP(BTRIM(city::TEXT)), '') AS city_checkin,
-        case
-            when NULLIF(BTRIM(date::TEXT),'') is null then null
-            when BTRIM(date::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(date::TEXT)::DATE
-            when BTRIM(date::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(date::TEXT),'DD/MM/YYYY')
-            when BTRIM(date::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(date::TEXT),'DD-MM-YYYY')
-        end as date_checkin,
+        CASE
+            WHEN NULLIF(TRIM(date::TEXT), '') IS NULL THEN NULL
+            ELSE TRIM(date::TEXT)::DATE
+        END AS date_checkin,
         COALESCE(BTRIM(notes::TEXT), '') AS notes_checkin,
         CASE WHEN BTRIM(cohort::TEXT) ~ '^\d+$' THEN cohort::INTEGER END AS cohort_checkin,
         COALESCE(INITCAP(BTRIM(school::TEXT)), '') AS school_checkin,
@@ -15,21 +13,14 @@ WITH checkins AS (
         COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id_checkin,
         COALESCE(BTRIM(new_goals::TEXT), '') AS new_goals_checkin,
         case
-            when NULLIF(BTRIM(period_from::TEXT),'') is null then null
-            when BTRIM(period_from::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(period_from::TEXT)::DATE
-            when BTRIM(period_from::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(period_from::TEXT),'DD/MM/YYYY')
-            when BTRIM(period_from::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(period_from::TEXT),'DD-MM-YYYY')
+            WHEN NULLIF(TRIM(period_from::TEXT), '') IS NULL THEN NULL
+            ELSE TRIM(period_from::TEXT)::DATE
         end as period_from_checkin,
         case
-            when NULLIF(BTRIM(period_to::TEXT),'') is null then null
-            when BTRIM(period_to::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(period_to::TEXT)::DATE
-            when BTRIM(period_to::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(period_to::TEXT),'DD/MM/YYYY')
-            when BTRIM(period_to::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(period_to::TEXT),'DD-MM-YYYY')
+            WHEN NULLIF(TRIM(period_to::TEXT), '') IS NULL THEN NULL
+            ELSE TRIM(period_to::TEXT)::DATE
         end as period_to_checkin,
         COALESCE(BTRIM(challenges::TEXT), '') AS challenges_checkin,
-        -- CASE WHEN created_at::TEXT ~ '^\d{4}-\d{2}-\d{2}' THEN created_at::timestamp END AS created_at_checkin,
-        -- COALESCE(BTRIM(search_fts::TEXT), '') AS search_fts_checkin,
-        -- CASE WHEN updated_at::TEXT ~ '^\d{4}-\d{2}-\d{2}' THEN updated_at::timestamp END AS updated_at_checkin,
         COALESCE(INITCAP(BTRIM(fellow_name::TEXT)), '') AS fellow_name_checkin,
         COALESCE(BTRIM(action_items::TEXT), '') AS action_items_checkin,
         COALESCE(BTRIM(agenda_notes::TEXT), '') AS agenda_notes_checkin,
@@ -40,10 +31,8 @@ WITH checkins AS (
         COALESCE(BTRIM(lesson_planning::TEXT), '') AS lesson_planning_checkin,
         COALESCE(BTRIM(reporting_period::TEXT), '') AS reporting_period_checkin,
        case
-            when NULLIF(BTRIM(next_checkin_date::TEXT),'') is null then null
-            when BTRIM(next_checkin_date::TEXT) ~ '^\\d{4}-\\d{2}-\\d{2}$' then BTRIM(next_checkin_date::TEXT)::DATE
-            when BTRIM(next_checkin_date::TEXT) ~ '^\\d{2}/\\d{2}/\\d{4}$' then TO_DATE(BTRIM(next_checkin_date::TEXT),'DD/MM/YYYY')
-            when BTRIM(next_checkin_date::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(next_checkin_date::TEXT),'DD-MM-YYYY')
+            WHEN NULLIF(TRIM(next_checkin_date::TEXT), '') IS NULL THEN NULL
+            ELSE TRIM(next_checkin_date::TEXT)::DATE
         end as next_checkin_date_checkin,
         COALESCE(BTRIM(student_engagement::TEXT), '') AS student_engagement_checkin,
         COALESCE(BTRIM(classroom_management::TEXT), '') AS classroom_management_checkin,
