@@ -3,8 +3,9 @@ WITH odc AS (
         COALESCE(BTRIM(id::TEXT), '') AS id_odc,
         COALESCE(INITCAP(BTRIM(city::TEXT)), '') AS city_odc,
         -- Date conversion from DD-MM-YYYY to date
-        CASE 
-            WHEN date::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(date::TEXT, 'DD-MM-YYYY')
+        CASE
+            WHEN NULLIF(TRIM(date::TEXT), '') IS NULL THEN NULL
+            ELSE TRIM(date::TEXT)::DATE
         END AS date_odc,
         CASE WHEN BTRIM(cohort::TEXT) ~ '^\d+$' THEN cohort::INTEGER END AS cohort_odc,
         COALESCE(INITCAP(BTRIM(school::TEXT)), '') AS school_odc,
@@ -13,17 +14,14 @@ WITH odc AS (
         COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id_odc,
         COALESCE(BTRIM(odc_notes::TEXT), '') AS odc_notes_odc,
         COALESCE(BTRIM(strengths::TEXT), '') AS strengths_odc,
-        -- Timestamps
-        -- CASE WHEN created_at ~ '^\d{4}-\d{2}-\d{2}' THEN created_at::timestamp END AS created_at_odc,
-        -- COALESCE(BTRIM(search_fts::TEXT), '') AS search_fts_odc,
-        -- CASE WHEN updated_at ~ '^\d{4}-\d{2}-\d{2}' THEN updated_at::timestamp END AS updated_at_odc,
         COALESCE(BTRIM(action_plan::TEXT), '') AS action_plan_odc,
         COALESCE(INITCAP(BTRIM(fellow_name::TEXT)), '') AS fellow_name_odc,
         COALESCE(is_completed::TEXT IN ('TRUE', 'true', '1'), FALSE) AS is_completed_odc,
         COALESCE(BTRIM(lesson_topic::TEXT), '') AS lesson_topic_odc,
         REGEXP_REPLACE(BTRIM(grade_section::TEXT), '^.*?(\d+).*$','\1') AS grade_section_odc,
-        CASE 
-            WHEN follow_up_date::TEXT ~ '^\d{2}-\d{2}-\d{4}$' THEN TO_DATE(follow_up_date::TEXT, 'DD-MM-YYYY')
+        CASE
+            WHEN NULLIF(TRIM(follow_up_date::TEXT), '') IS NULL THEN NULL
+            ELSE TRIM(follow_up_date::TEXT)::DATE
         END AS follow_up_date_odc,
         COALESCE(BTRIM(grade_observed::TEXT), '') AS grade_observed_odc,
         CASE WHEN BTRIM(total_students::TEXT) ~ '^\d+$' THEN total_students::INTEGER END AS total_students_odc,

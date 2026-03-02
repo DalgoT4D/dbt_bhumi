@@ -12,14 +12,14 @@ WITH checkins AS (
         COALESCE(INITCAP(BTRIM(pm_name::TEXT)), '') AS pm_name_checkin,
         COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id_checkin,
         COALESCE(BTRIM(new_goals::TEXT), '') AS new_goals_checkin,
-        case
+        CASE
             WHEN NULLIF(TRIM(period_from::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(period_from::TEXT)::DATE
-        end as period_from_checkin,
-        case
+        END AS period_from_checkin,
+        CASE
             WHEN NULLIF(TRIM(period_to::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(period_to::TEXT)::DATE
-        end as period_to_checkin,
+        END AS period_to_checkin,
         COALESCE(BTRIM(challenges::TEXT), '') AS challenges_checkin,
         COALESCE(INITCAP(BTRIM(fellow_name::TEXT)), '') AS fellow_name_checkin,
         COALESCE(BTRIM(action_items::TEXT), '') AS action_items_checkin,
@@ -30,10 +30,10 @@ WITH checkins AS (
         CASE WHEN BTRIM(total_students::TEXT) ~ '^\d+$' THEN total_students::INTEGER END AS total_students_checkin,
         COALESCE(BTRIM(lesson_planning::TEXT), '') AS lesson_planning_checkin,
         COALESCE(BTRIM(reporting_period::TEXT), '') AS reporting_period_checkin,
-       case
+        CASE
             WHEN NULLIF(TRIM(next_checkin_date::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(next_checkin_date::TEXT)::DATE
-        end as next_checkin_date_checkin,
+        END AS next_checkin_date_checkin,
         COALESCE(BTRIM(student_engagement::TEXT), '') AS student_engagement_checkin,
         COALESCE(BTRIM(classroom_management::TEXT), '') AS classroom_management_checkin,
         COALESCE(BTRIM(fellow_uploaded_data::TEXT), '') AS fellow_uploaded_data_checkin,
