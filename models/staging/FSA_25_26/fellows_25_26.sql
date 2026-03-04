@@ -54,4 +54,5 @@ inner join profiles as p
 where
     f.id is not null
     and p.full_name is not null
-    and p.is_active = 'true'        
+    and p.is_active = 'true'      
+    and f.employee_id != 'FAKE001' 
