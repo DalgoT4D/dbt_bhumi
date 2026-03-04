@@ -3,7 +3,6 @@ with fellow_school as (
         NULLIF(BTRIM(id::TEXT),'') as id,
         NULLIF(BTRIM(fellow_id::TEXT),'') as fellow_id,
         NULLIF(BTRIM(grade::TEXT),'')::INTEGER as grade,
-        NULLIF(BTRIM(period::TEXT),'') as period,
         NULLIF(BTRIM(is_active::TEXT),'') as is_active,
         NULLIF(BTRIM(school_id::TEXT),'') as school_id,
         NULLIF(BTRIM(no_of_students::TEXT),'')::INTEGER as no_of_students
@@ -13,31 +12,52 @@ with fellow_school as (
         and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
 ),
 
+fellows_data as (
+    select
+        fellow_id,
+        fellow_full_name,
+        cohort_year,
+        fellow_employee_id,
+        year_1_donor,
+        year_2_donor,
+        fellow_placement_city,
+        fellow_doj,
+        fellow_dol,
+        fellow_dob,
+        pm_id
+    from {{ ref('fellows_25_26') }}
+),
+
+pms_data as (
+    select
+        pm_id,
+        pm_full_name,
+        pms_location
+    from {{ ref('pms_25_26') }}
+),
+
 schools as (
     select
-        NULLIF(BTRIM(id::TEXT),'') as school_id,
-        NULLIF(INITCAP(BTRIM(name::TEXT)),'') as school_name,
-        NULLIF(INITCAP(BTRIM(state::TEXT)),'') as school_state,
-        NULLIF(INITCAP(BTRIM(address::TEXT)),'') as school_address,
-        NULLIF(INITCAP(BTRIM(district::TEXT)),'') as school_district,
-        NULLIF(INITCAP(BTRIM(is_active::TEXT)),'') as is_active,
-        NULLIF(BTRIM(udise_code::TEXT),'') as udise_code,
-        NULLIF(INITCAP(BTRIM(school_type::TEXT)),'') as school_type
-    from {{ source('fellowship_school_app_25_26', 'schools_raw_data_25_26') }}
-    where
-        NULLIF(BTRIM(id::TEXT),'') is not null
-        and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
+        school_id,
+        school_name,
+        school_state,
+        school_address,
+        school_district,
+        is_active,
+        udise_code,
+        school_type
+    from {{ ref('school_data_25_26') }}
 )
 
 select distinct
     fs.id,
     fs.fellow_id,
     fs.grade,
-    NULLIF(SUBSTRING(fs.period, 2, POSITION(',' in fs.period) - 2)::DATE, null) as period_from,
-    case
-        when SUBSTRING(fs.period, POSITION(',' in fs.period) + 1, POSITION(')' in fs.period) - POSITION(',' in fs.period) - 1) = '' then null
-        else NULLIF(SUBSTRING(fs.period, POSITION(',' in fs.period) + 1, POSITION(')' in fs.period) - POSITION(',' in fs.period) - 1)::DATE, null)
-    end as period_to,
+    -- NULLIF(SUBSTRING(fs.period, 2, POSITION(',' in fs.period) - 2)::DATE, null) as period_from,
+    -- case
+    --     when SUBSTRING(fs.period, POSITION(',' in fs.period) + 1, POSITION(')' in fs.period) - POSITION(',' in fs.period) - 1) = '' then null
+    --     else NULLIF(SUBSTRING(fs.period, POSITION(',' in fs.period) + 1, POSITION(')' in fs.period) - POSITION(',' in fs.period) - 1)::DATE, null)
+    -- end as period_to,
     fs.no_of_students,
     s.school_id,
     s.school_name, 
@@ -45,7 +65,28 @@ select distinct
     s.school_address,
     s.school_district,
     s.udise_code,
-    s.school_type
+    s.school_type,
+    f.fellow_full_name,
+    f.cohort_year,
+    f.fellow_employee_id,
+    f.year_1_donor,
+    f.year_2_donor,
+    f.fellow_placement_city,
+    f.fellow_doj,
+    f.fellow_dol,
+    f.fellow_dob,
+    p.pm_id,
+    p.pm_full_name,
+    p.pms_location
 from fellow_school as fs
-inner join schools as s
+left join schools as s
     on fs.school_id = s.school_id
+left join fellows_data as f
+    on fs.fellow_id = f.fellow_id
+left join pms_data as p
+    on f.pm_id = p.pm_id
+where
+    fs.id is not null
+    and fs.fellow_id is not null
+    and s.school_id is not null
+

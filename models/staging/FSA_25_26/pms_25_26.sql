@@ -24,3 +24,4 @@ where
     pm.id is not null
     and p.full_name is not null
     and p.is_active = 'true'
+    and p.full_name not like 'User User'
