@@ -1,15 +1,18 @@
 with fellow_school as (
-    select
-        NULLIF(BTRIM(id::TEXT),'') as id,
-        NULLIF(BTRIM(fellow_id::TEXT),'') as fellow_id,
-        NULLIF(BTRIM(grade::TEXT),'')::INTEGER as grade,
-        NULLIF(BTRIM(is_active::TEXT),'') as is_active,
-        NULLIF(BTRIM(school_id::TEXT),'') as school_id,
-        NULLIF(BTRIM(no_of_students::TEXT),'')::INTEGER as no_of_students
-    from {{ source('fellowship_school_app_25_26', 'fellow_school_grade_25_26') }}
-    where
-        NULLIF(BTRIM(id::TEXT),'') is not null
-        and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
+    select * from (
+        select 
+            NULLIF(BTRIM(fellow_id::TEXT),'') as fellow_id,
+            NULLIF(BTRIM(grade::TEXT),'') as grade,
+            NULLIF(BTRIM(is_active::TEXT),'') as is_active,
+            NULLIF(BTRIM(school_id::TEXT),'') as school_id,
+            NULLIF(BTRIM(no_of_students::TEXT),'')::INTEGER as no_of_students,
+            ROW_NUMBER() OVER (PARTITION BY NULLIF(BTRIM(fellow_id::TEXT),'') ORDER BY created_at DESC) as rn
+        from {{ source('fellowship_school_app_25_26', 'fellow_school_grade_25_26') }}
+        where
+            NULLIF(BTRIM(id::TEXT),'') is not null
+            and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
+    ) sub
+    where rn = 1
 ),
 
 fellows_data as (
@@ -50,14 +53,8 @@ schools as (
 )
 
 select distinct
-    fs.id,
     fs.fellow_id,
     fs.grade,
-    -- NULLIF(SUBSTRING(fs.period, 2, POSITION(',' in fs.period) - 2)::DATE, null) as period_from,
-    -- case
-    --     when SUBSTRING(fs.period, POSITION(',' in fs.period) + 1, POSITION(')' in fs.period) - POSITION(',' in fs.period) - 1) = '' then null
-    --     else NULLIF(SUBSTRING(fs.period, POSITION(',' in fs.period) + 1, POSITION(')' in fs.period) - POSITION(',' in fs.period) - 1)::DATE, null)
-    -- end as period_to,
     fs.no_of_students,
     s.school_id,
     s.school_name, 
@@ -85,8 +82,6 @@ left join fellows_data as f
     on fs.fellow_id = f.fellow_id
 left join pms_data as p
     on f.pm_id = p.pm_id
-where
-    fs.id is not null
-    and fs.fellow_id is not null
+where fs.fellow_id is not null
     and s.school_id is not null
 

@@ -1,83 +1,97 @@
 WITH checkins AS (
     SELECT
-        COALESCE(BTRIM(id::TEXT), '') AS id_checkin,
-        COALESCE(INITCAP(BTRIM(city::TEXT)), '') AS city_checkin,
+        COALESCE(BTRIM(id::TEXT), '') AS id,
         CASE
             WHEN NULLIF(TRIM(date::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(date::TEXT)::DATE
-        END AS date_checkin,
-        COALESCE(BTRIM(notes::TEXT), '') AS notes_checkin,
-        CASE WHEN BTRIM(cohort::TEXT) ~ '^\d+$' THEN cohort::INTEGER END AS cohort_checkin,
-        COALESCE(INITCAP(BTRIM(school::TEXT)), '') AS school_checkin,
-        COALESCE(INITCAP(BTRIM(pm_name::TEXT)), '') AS pm_name_checkin,
-        COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id_checkin,
-        COALESCE(BTRIM(new_goals::TEXT), '') AS new_goals_checkin,
+        END AS date,
+        CASE WHEN BTRIM(cohort::TEXT) ~ '^\d+$' THEN cohort::INTEGER END AS cohort,
+        COALESCE(INITCAP(BTRIM(school::TEXT)), '') AS school,
+        COALESCE(INITCAP(BTRIM(pm_name::TEXT)), '') AS pm_name,
+        COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id,
         CASE
             WHEN NULLIF(TRIM(period_from::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(period_from::TEXT)::DATE
-        END AS period_from_checkin,
+        END AS period_from,
+        TO_CHAR(period_from, 'Mon YYYY') AS month_year,
         CASE
             WHEN NULLIF(TRIM(period_to::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(period_to::TEXT)::DATE
-        END AS period_to_checkin,
-        COALESCE(BTRIM(challenges::TEXT), '') AS challenges_checkin,
-        COALESCE(INITCAP(BTRIM(fellow_name::TEXT)), '') AS fellow_name_checkin,
-        COALESCE(BTRIM(action_items::TEXT), '') AS action_items_checkin,
-        COALESCE(BTRIM(agenda_notes::TEXT), '') AS agenda_notes_checkin,
-        COALESCE(is_completed::TEXT IN ('TRUE', 'true', '1'), FALSE) AS is_completed_checkin,
-        REGEXP_REPLACE(BTRIM(grade_section::TEXT), '^.*?(\d+).*$','\1') AS grade_section_checkin,
-        COALESCE(BTRIM(support_needed::TEXT), '') AS support_needed_checkin,
-        CASE WHEN BTRIM(total_students::TEXT) ~ '^\d+$' THEN total_students::INTEGER END AS total_students_checkin,
-        COALESCE(BTRIM(lesson_planning::TEXT), '') AS lesson_planning_checkin,
-        COALESCE(BTRIM(reporting_period::TEXT), '') AS reporting_period_checkin,
+        END AS period_to,
+        COALESCE(INITCAP(BTRIM(fellow_name::TEXT)), '') AS fellow_name,
+        COALESCE(is_completed::TEXT IN ('TRUE', 'true', '1'), FALSE) AS is_completed,
+        REGEXP_REPLACE(BTRIM(grade_section::TEXT), '^.*?(\d+).*$','\1') AS grade,
+        CASE WHEN BTRIM(total_students::TEXT) ~ '^\d+$' THEN total_students::INTEGER END AS total_students,
+        COALESCE(BTRIM(reporting_period::TEXT), '') AS reporting_period,
         CASE
             WHEN NULLIF(TRIM(next_checkin_date::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(next_checkin_date::TEXT)::DATE
-        END AS next_checkin_date_checkin,
-        COALESCE(BTRIM(student_engagement::TEXT), '') AS student_engagement_checkin,
-        COALESCE(BTRIM(classroom_management::TEXT), '') AS classroom_management_checkin,
-        COALESCE(BTRIM(fellow_uploaded_data::TEXT), '') AS fellow_uploaded_data_checkin,
-        COALESCE(BTRIM(programme_manager_id::TEXT), '') AS programme_manager_id_checkin,
-        COALESCE(BTRIM(previous_goals_review::TEXT), '') AS previous_goals_review_checkin,
-        COALESCE(BTRIM(sel_workshop_conducted::TEXT), '') AS sel_workshop_conducted_checkin,
-        COALESCE(BTRIM(teaching_effectiveness::TEXT), '') AS teaching_effectiveness_checkin,
-        COALESCE(BTRIM(professional_development::TEXT), '') AS professional_development_checkin
+        END AS next_checkin_date,
+        COALESCE(BTRIM(student_engagement::TEXT), '') AS student_engagement,
+        COALESCE(BTRIM(classroom_management::TEXT), '') AS classroom_management,
+        COALESCE(BTRIM(fellow_uploaded_data::TEXT), '') AS fellow_uploaded_data,
+        COALESCE(BTRIM(programme_manager_id::TEXT), '') AS pm_id,
+        COALESCE(BTRIM(sel_workshop_conducted::TEXT), '') AS sel_workshop_conducted,
+        COALESCE(BTRIM(teaching_effectiveness::TEXT), '') AS teaching_effectiveness,
+        COALESCE(BTRIM(professional_development::TEXT), '') AS professional_development
+
+        -- COALESCE(INITCAP(BTRIM(city::TEXT)), '') AS city,
+        -- COALESCE(BTRIM(notes::TEXT), '') AS notes,
+        -- COALESCE(BTRIM(new_goals::TEXT), '') AS new_goals,
+        -- COALESCE(BTRIM(challenges::TEXT), '') AS challenges,
+        -- COALESCE(BTRIM(action_items::TEXT), '') AS action_items,
+        -- COALESCE(BTRIM(agenda_notes::TEXT), '') AS agenda_notes,
+        -- COALESCE(BTRIM(support_needed::TEXT), '') AS support_needed,
+        -- COALESCE(BTRIM(lesson_planning::TEXT), '') AS lesson_planning,
+        -- COALESCE(BTRIM(previous_goals_review::TEXT), '') AS previous_goals_review,
     FROM {{ source('fellowship_school_app_25_26', 'checkins_25_26') }}
+),
+
+fellow_school as (
+    select
+        fellow_id,
+        school_id,
+        school_state,
+        school_district as city,
+        udise_code,
+        school_type,
+        year_1_donor,
+        year_2_donor
+    from {{ ref('fellow_school_25_26') }}
 )
 
 SELECT DISTINCT
-    c.id_checkin,
-    c.city_checkin,
-    c.date_checkin,
-    c.notes_checkin,
-    c.cohort_checkin,
-    c.school_checkin,
-    c.pm_name_checkin,
-    c.fellow_id_checkin,
-    c.new_goals_checkin,
-    c.period_to_checkin,
-    c.challenges_checkin,
-    -- c.created_at_checkin,
-    -- c.search_fts_checkin,
-    -- c.updated_at_checkin,
-    c.fellow_name_checkin,
-    c.period_from_checkin,
-    c.action_items_checkin,
-    c.agenda_notes_checkin,
-    c.is_completed_checkin,
-    c.grade_section_checkin,
-    c.support_needed_checkin,
-    c.total_students_checkin,
-    c.lesson_planning_checkin,
-    c.reporting_period_checkin,
-    c.next_checkin_date_checkin,
-    c.student_engagement_checkin,
-    c.classroom_management_checkin,
-    c.fellow_uploaded_data_checkin,
-    c.programme_manager_id_checkin,
-    c.previous_goals_review_checkin,
-    c.sel_workshop_conducted_checkin,
-    c.teaching_effectiveness_checkin,
-    c.professional_development_checkin
+    c.id,
+    c.date,
+    c.cohort,
+    c.school,
+    fs.school_id,
+    fs.school_state,
+    fs.city,
+    fs.udise_code,
+    fs.school_type,
+    c.grade,
+    c.pm_id,
+    c.pm_name,
+    fs.fellow_id,
+    fs.year_1_donor,
+    fs.year_2_donor,
+    c.period_from,
+    c.month_year,
+    c.period_to,
+    c.fellow_name,
+    c.is_completed,
+    c.total_students,
+    c.reporting_period,
+    c.next_checkin_date,
+    c.student_engagement,
+    c.classroom_management,
+    c.fellow_uploaded_data,
+    c.sel_workshop_conducted,
+    c.teaching_effectiveness,
+    c.professional_development
 FROM checkins AS c
-WHERE c.id_checkin <> ''
+LEFT JOIN fellow_school AS fs
+    ON c.fellow_id = fs.fellow_id
+WHERE c.id IS NOT NULL
+    and fs.fellow_id IS NOT NULL
