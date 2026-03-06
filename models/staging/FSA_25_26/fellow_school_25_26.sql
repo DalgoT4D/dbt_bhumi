@@ -6,7 +6,10 @@ with fellow_school as (
             NULLIF(BTRIM(is_active::TEXT),'') as is_active,
             NULLIF(BTRIM(school_id::TEXT),'') as school_id,
             NULLIF(BTRIM(no_of_students::TEXT),'')::INTEGER as no_of_students,
-            ROW_NUMBER() over (partition by NULLIF(BTRIM(fellow_id::TEXT),'') order by created_at desc) as rn
+            ROW_NUMBER() over (
+                partition by NULLIF(BTRIM(fellow_id::TEXT), '')
+                order by created_at desc
+            ) as rn
         from {{ source('fellowship_school_app_25_26', 'fellow_school_grade_25_26') }}
         where
             NULLIF(BTRIM(id::TEXT),'') is not null
