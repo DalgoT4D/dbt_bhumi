@@ -6,12 +6,12 @@ with fellow_school as (
             NULLIF(BTRIM(is_active::TEXT),'') as is_active,
             NULLIF(BTRIM(school_id::TEXT),'') as school_id,
             NULLIF(BTRIM(no_of_students::TEXT),'')::INTEGER as no_of_students,
-            ROW_NUMBER() OVER (PARTITION BY NULLIF(BTRIM(fellow_id::TEXT),'') ORDER BY created_at DESC) as rn
+            ROW_NUMBER() over (partition by NULLIF(BTRIM(fellow_id::TEXT),'') order by created_at desc) as rn
         from {{ source('fellowship_school_app_25_26', 'fellow_school_grade_25_26') }}
         where
             NULLIF(BTRIM(id::TEXT),'') is not null
             and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
-    ) sub
+    ) as sub
     where rn = 1
 ),
 
@@ -82,6 +82,6 @@ left join fellows_data as f
     on fs.fellow_id = f.fellow_id
 left join pms_data as p
     on f.pm_id = p.pm_id
-where fs.fellow_id is not null
+where
+    fs.fellow_id is not null
     and s.school_id is not null
-

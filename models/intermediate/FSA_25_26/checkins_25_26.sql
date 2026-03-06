@@ -47,17 +47,17 @@ WITH checkins AS (
     FROM {{ source('fellowship_school_app_25_26', 'checkins_25_26') }}
 ),
 
-fellow_school as (
-    select
+fellow_school AS (
+    SELECT
         fellow_id,
         school_id,
         school_state,
-        school_district as city,
+        school_district AS city,
         udise_code,
         school_type,
         year_1_donor,
         year_2_donor
-    from {{ ref('fellow_school_25_26') }}
+    FROM {{ ref('fellow_school_25_26') }}
 )
 
 SELECT DISTINCT
@@ -93,5 +93,6 @@ SELECT DISTINCT
 FROM checkins AS c
 LEFT JOIN fellow_school AS fs
     ON c.fellow_id = fs.fellow_id
-WHERE c.id IS NOT NULL
-    and fs.fellow_id IS NOT NULL
+WHERE
+    c.id IS NOT NULL
+    AND fs.fellow_id IS NOT NULL

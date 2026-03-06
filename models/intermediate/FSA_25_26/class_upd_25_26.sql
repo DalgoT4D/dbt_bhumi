@@ -17,7 +17,7 @@ WITH class_updates AS (
         END AS end_date,
         COALESCE(BTRIM(cu.fellow_id::TEXT), '') AS fellow_id,
         CASE WHEN BTRIM(cu.stem_score::TEXT) ~ '^[0-9.]+$' THEN cu.stem_score::NUMERIC END AS stem_score,
-        NULLIF(BTRIM(cu.cohort_year::TEXT),'') as cohort_year,
+        NULLIF(BTRIM(cu.cohort_year::TEXT),'') AS cohort_year,
         COALESCE(INITCAP(BTRIM(cu.fellow_name::TEXT)), '') AS fellow_name,
         COALESCE(INITCAP(BTRIM(cu.school_name::TEXT)), '') AS school_name,
         CASE WHEN BTRIM(cu.helo_circles::TEXT) ~ '^[0-9.]+$' THEN cu.helo_circles::NUMERIC END AS helo_circles,
@@ -49,7 +49,7 @@ fellow_school AS (
         grade,
         pm_id,
         pm_full_name
-    FROM {{ ref('fellow_school_25_26') }} as fs
+    FROM {{ ref('fellow_school_25_26') }}
 )
 
 SELECT DISTINCT
@@ -87,5 +87,6 @@ SELECT DISTINCT
 FROM class_updates AS cu
 LEFT JOIN fellow_school AS fs
     ON cu.fellow_id = fs.fellow_id
-WHERE cu.id IS NOT NULL 
+WHERE
+    cu.id IS NOT NULL 
     AND fs.fellow_id IS NOT NULL

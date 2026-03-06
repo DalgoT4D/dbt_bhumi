@@ -44,18 +44,18 @@ WITH odc AS (
     FROM {{ source('fellowship_school_app_25_26', 'observations_25_26') }}
 ),
 
-fellow_school as (
-    select
+fellow_school AS (
+    SELECT
         fellow_id,
         school_id,
         school_name,
         school_state,
-        school_district as city,
+        school_district AS city,
         udise_code,
         school_type,
         year_1_donor,
         year_2_donor
-    from {{ ref('fellow_school_25_26') }}
+    FROM {{ ref('fellow_school_25_26') }}
 )
 
 SELECT DISTINCT
@@ -92,5 +92,6 @@ SELECT DISTINCT
 FROM odc AS o
 LEFT JOIN fellow_school AS fs
     ON o.fellow_id = fs.fellow_id
-WHERE o.id IS NOT NULL
+WHERE
+    o.id IS NOT NULL
     AND fs.fellow_id IS NOT NULL
