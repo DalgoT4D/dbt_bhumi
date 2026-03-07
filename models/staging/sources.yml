@@ -40,6 +40,67 @@ sources:
         identifier: Raw_Data_Midline_2025
         description: Midline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
 
+  - name: zc_bvms_data
+    schema: ZC_BVMS_raw_data
+    tables:
+      - name: All_Session_Attendances
+        identifier: All_Session_Attendances
+        description: session attendances data
+      - name: All_Session_Plannings
+        identifier: All_Session_Plannings
+        description: session planning data
+      - name: Compass_All_Students
+        identifier: Compass_All_Students
+        description: compass all students data
+      - name: STP_Centre_Identification_New_Report
+        identifier: STP_Centre_Identification_New_Report
+        description: STP centre identification new report
+      - name: Trainer_Report
+        identifier: Trainer_Report
+        description: trainer report
+      - name: Corporate_Catalyse_Tracker
+        identifier: Corporate_Catalyse_Tracker
+        description: corporate catalyse tracker
+
+  - name: Stem_gsheet_data
+    schema: STEM_Gsheet_Raw_Data
+    tables:
+      - name: Consol_Y2_SCHOOLS
+        identifier: Consol_Y2_SCHOOLS
+        description: consolidated Y2 schools clubs data
+      - name: Teacher_Details
+        identifier: Teacher_Details
+        description: teacher details data
+      - name: Teachers_Count
+        identifier: Teachers_Count
+        description: teachers count data
+      - name: STEM_Adv_Dtl
+        identifier: STEM_Adv_Dtl
+        description: STEM advanced exposure session details data
+      - name: Interns_Volunteer_Tracker
+        identifier: Interns_Volunteer_Tracker
+        description: STP schools Interns and Volunteer Tracker data
+      - name: Corporate_Volunteering_Data
+        identifier: Corporate_Volunteering_Data
+        description: STP schoolsCorporate Volunteering Data
+      - name: STEM_FEST_X_Volunteers
+        identifier: STEM_FEST_X_Volunteers
+        description: STEM FEST X Volunteers data
+      - name: Consolidated_TCM
+        identifier: Consolidated_TCM
+        description: Consolidated TCM data
+      
+  - name: CV_Gsheet_Raw_Data
+    schema: CV_Gsheet_Raw_Data
+    tables:
+      - name: Form_responses
+        identifier: Form_responses
+        description: NPS form data
+      - name: Form_responses_new
+        identifier: Form_responses_new
+        description: CSAT form data
+
+
   # - name: STP_25-26
   #   schema: STP_25_26_Raw_data
   #   tables:

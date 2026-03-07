@@ -25,19 +25,31 @@ CAST(
             END
 
         -- Handle DD/MM/YY (e.g., 05/08/24 → 2024-08-05) and DD/M/YY (e.g., 15/5/24 → 2024-05-15)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\d{2}$' THEN 
-            CASE 
-                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD/FMMM/YY') + INTERVAL '2000 years') BETWEEN 1900 AND 2050 
-                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD/FMMM/YY') + INTERVAL '2000 years' 
-                ELSE NULL 
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\d{2}$' THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '/(\d{2})$', '/20\1'),
+                    'FMDD/FMMM/YYYY'
+                )) BETWEEN 1900 AND 2050
+                THEN TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '/(\d{2})$', '/20\1'),
+                    'FMDD/FMMM/YYYY'
+                )
+                ELSE NULL
             END
 
         -- Handle DD-MM-YY (e.g., 05-08-24 → 2024-08-05) and DD-M-YY (e.g., 15-5-24 → 2024-05-15)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-\d{2}$' THEN 
-            CASE 
-                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD-FMMM-YY') + INTERVAL '2000 years') BETWEEN 1900 AND 2050 
-                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD-FMMM-YY') + INTERVAL '2000 years' 
-                ELSE NULL 
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-\d{2}$' THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '-(\d{2})$', '-20\1'),
+                    'FMDD-FMMM-YYYY'
+                )) BETWEEN 1900 AND 2050
+                THEN TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '-(\d{2})$', '-20\1'),
+                    'FMDD-FMMM-YYYY'
+                )
+                ELSE NULL
             END
 
         -- Handle ISO 8601 format (e.g., 2024-02-05T08:52:24.859000Z)
@@ -106,19 +118,55 @@ CAST(
             END
 
         -- Handle MM/DD/YY (e.g., 08/05/24 → 2024-08-05)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|1[0-2])/(0?[1-9]|[12][0-9]|3[01])/\d{2}$' THEN 
-            CASE 
-                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMMM/FMDD/YY') + INTERVAL '2000 years') BETWEEN 1900 AND 2050 
-                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMMM/FMDD/YY') + INTERVAL '2000 years' 
-                ELSE NULL 
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|1[0-2])/(0?[1-9]|[12][0-9]|3[01])/\d{2}$' THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '/(\d{2})$', '/20\1'),
+                    'FMMM/FMDD/YYYY'
+                )) BETWEEN 1900 AND 2050
+                THEN TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '/(\d{2})$', '/20\1'),
+                    'FMMM/FMDD/YYYY'
+                )
+                ELSE NULL
             END
 
         -- Handle MM-DD-YY (e.g., 08-05-24 → 2024-08-05)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])-\d{2}$' THEN 
-            CASE 
-                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMMM-FMDD-YY') + INTERVAL '2000 years') BETWEEN 1900 AND 2050 
-                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMMM-FMDD-YY') + INTERVAL '2000 years' 
-                ELSE NULL 
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])-\d{2}$' THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '-(\d{2})$', '-20\1'),
+                    'FMMM-FMDD-YYYY'
+                )) BETWEEN 1900 AND 2050
+                THEN TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '-(\d{2})$', '-20\1'),
+                    'FMMM-FMDD-YYYY'
+                )
+                ELSE NULL
+            END
+
+        -- Handle DD.MM.YYYY (e.g., 05.08.2024 → 2024-08-05)
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[0-2])\.\d{4}$' THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD.FMMM.YYYY')) BETWEEN 1900 AND 2050
+                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD.FMMM.YYYY')
+                ELSE NULL
+            END
+
+        -- Handle DD.MM.YY (e.g., 05.08.24 → 2024-08-05)
+        -- Uses regexp_replace to expand 2-digit year to 4-digit before parsing,
+        -- avoiding PostgreSQL's century-aware YY interpretation (YY=25 → 2025, not 0025)
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[0-2])\.\d{2}$' THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '\.(\d{2})$', '.20\1'),
+                    'FMDD.FMMM.YYYY'
+                )) BETWEEN 1900 AND 2050
+                THEN TO_DATE(
+                    regexp_replace(TRIM({{ field_name }}::TEXT), '\.(\d{2})$', '.20\1'),
+                    'FMDD.FMMM.YYYY'
+                )
+                ELSE NULL
             END
 
         -- If no match, return NULL
