@@ -27,7 +27,7 @@ homes_visit_brag as (
         udise_code,
         school_type,
         quarter,
-        'homes_visit_brag' as parameters,
+        'Homes Visited' as parameters,
 
         case
             when
@@ -70,7 +70,7 @@ ptms_brag as (
         udise_code,
         school_type,
         quarter,
-        'ptms_brag' as parameters,
+        'PTMS' as parameters,
 
         case when ptms_sum is null then 1 else 0 end as black,
         case when ptms_sum = 0 then 1 else 0 end as red,
@@ -91,7 +91,7 @@ teacher_circles_brag as (
         udise_code,
         school_type,
         quarter,
-        'teacher_circles_brag' as parameters,
+        'Teacher Circles' as parameters,
 
         case when teacher_circles_sum is null then 1 else 0 end as black,
         case when teacher_circles_sum = 0 then 1 else 0 end as red,
@@ -112,7 +112,7 @@ school_leader_checkins_brag as (
         udise_code,
         school_type,
         quarter,
-        'school_leader_checkins_brag' as parameters,
+        'School Leader Check-ins' as parameters,
 
         case when school_leader_checkins_sum is null then 1 else 0 end as black,
         case when school_leader_checkins_sum < 3 then 1 else 0 end as red,
