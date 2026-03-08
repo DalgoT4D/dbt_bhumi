@@ -21,8 +21,8 @@ with fellow_school as (
 fellows_data as (
     select
         fellow_id,
-        fellow_full_name,
-        cohort_year,
+        fellow_full_name as fellow_name,
+        cohort_year as cohort,
         fellow_employee_id,
         year_1_donor,
         year_2_donor,
@@ -37,7 +37,7 @@ fellows_data as (
 pms_data as (
     select
         pm_id,
-        pm_full_name,
+        pm_full_name as pm_name,
         pms_location
     from {{ ref('pms_25_26') }}
 ),
@@ -66,8 +66,8 @@ select distinct
     s.school_district,
     s.udise_code,
     s.school_type,
-    f.fellow_full_name,
-    f.cohort_year,
+    f.fellow_name,
+    f.cohort,
     f.fellow_employee_id,
     f.year_1_donor,
     f.year_2_donor,
@@ -76,7 +76,7 @@ select distinct
     f.fellow_dol,
     f.fellow_dob,
     p.pm_id,
-    p.pm_full_name,
+    p.pm_name,
     p.pms_location
 from fellow_school as fs
 left join schools as s

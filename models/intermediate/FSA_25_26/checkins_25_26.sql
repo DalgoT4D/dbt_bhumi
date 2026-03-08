@@ -7,6 +7,7 @@ WITH checkins AS (
         END AS date,
         CASE WHEN BTRIM(cohort::TEXT) ~ '^\d+$' THEN cohort::INTEGER END AS cohort,
         COALESCE(INITCAP(BTRIM(school::TEXT)), '') AS school,
+        COALESCE(BTRIM(programme_manager_id::TEXT), '') AS pm_id,
         COALESCE(INITCAP(BTRIM(pm_name::TEXT)), '') AS pm_name,
         COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id,
         CASE
@@ -27,13 +28,12 @@ WITH checkins AS (
             WHEN NULLIF(TRIM(next_checkin_date::TEXT), '') IS NULL THEN NULL
             ELSE TRIM(next_checkin_date::TEXT)::DATE
         END AS next_checkin_date,
-        COALESCE(BTRIM(student_engagement::TEXT), '') AS student_engagement,
-        COALESCE(BTRIM(classroom_management::TEXT), '') AS classroom_management,
-        COALESCE(BTRIM(fellow_uploaded_data::TEXT), '') AS fellow_uploaded_data,
-        COALESCE(BTRIM(programme_manager_id::TEXT), '') AS pm_id,
-        COALESCE(BTRIM(sel_workshop_conducted::TEXT), '') AS sel_workshop_conducted,
-        COALESCE(BTRIM(teaching_effectiveness::TEXT), '') AS teaching_effectiveness,
-        COALESCE(BTRIM(professional_development::TEXT), '') AS professional_development
+        COALESCE(fellow_uploaded_data::TEXT IN ('TRUE', 'true', '1'), FALSE) AS fellow_uploaded_data,
+        COALESCE(sel_workshop_conducted::TEXT IN ('TRUE', 'true', '1'), FALSE) AS sel_workshop_conducted,
+        CASE WHEN BTRIM(student_engagement::TEXT) ~ '^\d+$' THEN student_engagement::INTEGER END AS student_engagement,
+        CASE WHEN BTRIM(classroom_management::TEXT) ~ '^\d+$' THEN classroom_management::INTEGER END AS classroom_management,
+        CASE WHEN BTRIM(teaching_effectiveness::TEXT) ~ '^\d+$' THEN teaching_effectiveness::INTEGER END AS teaching_effectiveness,
+        CASE WHEN BTRIM(professional_development::TEXT) ~ '^\d+$' THEN professional_development::INTEGER END AS professional_development
 
         -- COALESCE(INITCAP(BTRIM(city::TEXT)), '') AS city,
         -- COALESCE(BTRIM(notes::TEXT), '') AS notes,
@@ -56,14 +56,14 @@ fellow_school AS (
         udise_code,
         school_type,
         year_1_donor,
-        year_2_donor
+        year_2_donor,
+        no_of_students
     FROM {{ ref('fellow_school_25_26') }}
 )
 
 SELECT DISTINCT
     c.id,
     c.date,
-    c.cohort,
     c.school,
     fs.school_id,
     fs.school_state,
@@ -74,12 +74,13 @@ SELECT DISTINCT
     c.pm_id,
     c.pm_name,
     fs.fellow_id,
+    c.fellow_name,
+    c.cohort,
     fs.year_1_donor,
     fs.year_2_donor,
     c.period_from,
     c.month_year,
     c.period_to,
-    c.fellow_name,
     c.is_completed,
     c.total_students,
     c.reporting_period,
@@ -89,7 +90,8 @@ SELECT DISTINCT
     c.fellow_uploaded_data,
     c.sel_workshop_conducted,
     c.teaching_effectiveness,
-    c.professional_development
+    c.professional_development,
+    fs.no_of_students
 FROM checkins AS c
 LEFT JOIN fellow_school AS fs
     ON c.fellow_id = fs.fellow_id

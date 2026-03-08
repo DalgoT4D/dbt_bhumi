@@ -23,14 +23,15 @@ WITH odc AS (
         CASE WHEN BTRIM(total_students::TEXT) ~ '^\d+$' THEN total_students::INTEGER END AS total_students,
         CASE WHEN BTRIM(duration_minutes::TEXT) ~ '^\d+$' THEN duration_minutes::INTEGER END AS duration_minutes,
         COALESCE(BTRIM(reporting_period::TEXT), '') AS reporting_period,
-        COALESCE(BTRIM(lesson_planning::TEXT), '') AS lesson_planning,
-        COALESCE(BTRIM(teaching_methods::TEXT), '') AS teaching_methods,
-        COALESCE(BTRIM(content_knowledge::TEXT), '') AS content_knowledge,
-        COALESCE(BTRIM(student_engagement::TEXT), '') AS student_engagement,
-        COALESCE(BTRIM(learning_objectives::TEXT), '') AS learning_objectives,
-        COALESCE(BTRIM(classroom_management::TEXT), '') AS classroom_management,
-        COALESCE(BTRIM(assessment_techniques::TEXT), '') AS assessment_techniques,
+        CASE WHEN BTRIM(teaching_methods::TEXT) ~ '^\d+$' THEN teaching_methods::INTEGER END AS teaching_methods,
+        CASE WHEN BTRIM(content_knowledge::TEXT) ~ '^\d+$' THEN content_knowledge::INTEGER END AS content_knowledge,
+        CASE WHEN BTRIM(student_engagement::TEXT) ~ '^\d+$' THEN student_engagement::INTEGER END AS student_engagement,
+        CASE WHEN BTRIM(classroom_management::TEXT) ~ '^\d+$' THEN classroom_management::INTEGER END AS classroom_management,
+        CASE WHEN BTRIM(assessment_techniques::TEXT) ~ '^\d+$' THEN assessment_techniques::INTEGER END AS assessment_techniques,
         CASE WHEN BTRIM(student_engagement_percentage::TEXT) ~ '^\d+$' THEN student_engagement_percentage::INTEGER END AS student_engagement_percentage
+
+        -- COALESCE(BTRIM(learning_objectives::TEXT), '') AS learning_objectives,
+        -- COALESCE(BTRIM(lesson_planning::TEXT), '') AS lesson_planning,
 
         -- COALESCE(INITCAP(BTRIM(city::TEXT)), '') AS city,
         -- COALESCE(INITCAP(BTRIM(subject::TEXT)), '') AS subject,
@@ -47,6 +48,7 @@ WITH odc AS (
 fellow_school AS (
     SELECT
         fellow_id,
+        fellow_name,
         school_id,
         school_name,
         school_state,
@@ -54,7 +56,8 @@ fellow_school AS (
         udise_code,
         school_type,
         year_1_donor,
-        year_2_donor
+        year_2_donor,
+        no_of_students
     FROM {{ ref('fellow_school_25_26') }}
 )
 
@@ -74,18 +77,20 @@ SELECT DISTINCT
     o.pm_id,
     o.pm_name,
     fs.fellow_id,
+    fs.fellow_name,
     fs.year_1_donor,
     fs.year_2_donor,
     o.is_completed,
     o.follow_up_date,
     o.total_students,
+    fs.no_of_students,
     o.duration_minutes,
     o.reporting_period,
-    o.lesson_planning,
+    -- o.lesson_planning,
     o.teaching_methods,
     o.content_knowledge,
     o.student_engagement,
-    o.learning_objectives,
+    -- o.learning_objectives,
     o.classroom_management,
     o.assessment_techniques,
     o.student_engagement_percentage
