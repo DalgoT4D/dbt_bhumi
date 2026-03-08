@@ -71,6 +71,7 @@ SELECT DISTINCT
     o.month_year,
     fs.school_id,
     fs.school_name,
+    fs.cohort,
     fs.school_state,
     fs.school_district,
     fs.udise_code,
