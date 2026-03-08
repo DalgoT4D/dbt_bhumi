@@ -36,36 +36,46 @@ WITH class_updates AS (
 ),
 
 fellow_school AS (
-    SELECT 
+    SELECT
         fellow_id,
+        fellow_name,
         cohort,
-        year_1_donor,
-        year_2_donor,
         school_id,
         school_name,
         school_state,
+        school_district,
         udise_code,
         school_type,
         grade,
+        year_1_donor,
+        year_2_donor,
         pm_id,
-        pm_name
+        pm_name,
+        no_of_students
     FROM {{ ref('fellow_school_25_26') }}
 )
 
 SELECT DISTINCT
     cu.id,
-    cu.city,
     cu.reporting_date,
     cu.start_date,
     cu.month_year,
     cu.end_date,
     fs.fellow_id,
-    cu.stem_score,
-    cu.cohort,
-    cu.fellow_name,
-    cu.school_name,
+    fs.fellow_name,
+    fs.cohort,
+    fs.year_1_donor,
+    fs.year_2_donor,
+    fs.school_id,
+    fs.school_name,
+    fs.school_state,
+    fs.school_district,
+    fs.udise_code,
+    fs.school_type,
+    fs.grade,
+    fs.pm_id,
+    fs.pm_name,
     cu.helo_circles,
-    cu.grade,
     cu.ptms,
     cu.homes_visited,
     cu.teaching_hours,
@@ -73,17 +83,10 @@ SELECT DISTINCT
     cu.teacher_circles,
     cu.reporting_period,
     cu.helo_lesson_names,
-    cu.mathematics_score,
     cu.school_leader_checkins,
-    cu.reading_comprehension_score,
-    fs.year_1_donor,
-    fs.year_2_donor,
-    fs.school_id,
-    fs.school_state,
-    fs.udise_code,
-    fs.school_type,
-    fs.pm_id,
-    fs.pm_name
+    cu.mathematics_score,
+    cu.stem_score,
+    cu.reading_comprehension_score
 FROM class_updates AS cu
 LEFT JOIN fellow_school AS fs
     ON cu.fellow_id = fs.fellow_id
