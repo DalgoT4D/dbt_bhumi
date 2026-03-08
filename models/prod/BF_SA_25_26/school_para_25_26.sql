@@ -1,13 +1,13 @@
 with school as (
     select
         school_id,
-        max(school_name) as school_name,
-        max(school_state) as school_state,
-        max(school_district) as school_district,
-        max(udise_code) as udise_code,
-        max(school_type) as school_type
+        school_name,
+        school_state,
+        school_district,
+        udise_code,
+        school_type
     from {{ ref('fellow_school_25_26') }}
-    group by school_id
+    group by school_id, school_name, school_state, school_district, udise_code, school_type
 ),
 
 quarters as (
