@@ -17,7 +17,7 @@ WITH class_updates AS (
         END AS end_date,
         COALESCE(BTRIM(cu.fellow_id::TEXT), '') AS fellow_id,
         CASE WHEN BTRIM(cu.stem_score::TEXT) ~ '^[0-9.]+$' THEN cu.stem_score::NUMERIC END AS stem_score,
-        NULLIF(BTRIM(cu.cohort_year::TEXT),'') AS cohort_year,
+        NULLIF(BTRIM(cu.cohort_year::TEXT),'') AS cohort,
         COALESCE(INITCAP(BTRIM(cu.fellow_name::TEXT)), '') AS fellow_name,
         COALESCE(INITCAP(BTRIM(cu.school_name::TEXT)), '') AS school_name,
         CASE WHEN BTRIM(cu.helo_circles::TEXT) ~ '^[0-9.]+$' THEN cu.helo_circles::NUMERIC END AS helo_circles,
@@ -38,7 +38,7 @@ WITH class_updates AS (
 fellow_school AS (
     SELECT 
         fellow_id,
-        cohort_year,
+        cohort,
         year_1_donor,
         year_2_donor,
         school_id,
@@ -48,7 +48,7 @@ fellow_school AS (
         school_type,
         grade,
         pm_id,
-        pm_full_name
+        pm_name
     FROM {{ ref('fellow_school_25_26') }}
 )
 
@@ -61,7 +61,7 @@ SELECT DISTINCT
     cu.end_date,
     fs.fellow_id,
     cu.stem_score,
-    cu.cohort_year,
+    cu.cohort,
     cu.fellow_name,
     cu.school_name,
     cu.helo_circles,
@@ -83,7 +83,7 @@ SELECT DISTINCT
     fs.udise_code,
     fs.school_type,
     fs.pm_id,
-    fs.pm_full_name
+    fs.pm_name
 FROM class_updates AS cu
 LEFT JOIN fellow_school AS fs
     ON cu.fellow_id = fs.fellow_id
