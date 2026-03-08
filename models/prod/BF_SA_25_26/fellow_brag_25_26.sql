@@ -41,8 +41,8 @@ checkin_brag as (
         quarter,
         'Check-in' as parameters,
         case when checkin_count is null then 1 else 0 end as black,
-        case when checkin_count >= 2 then 1 else 0 end as red,
-        case when checkin_count >= 3 then 1 else 0 end as amber,
+        case when checkin_count <= 2 then 1 else 0 end as red,
+        case when checkin_count >= 3 and checkin_count <= 5 then 1 else 0 end as amber,
         case when checkin_count >= 6 then 1 else 0 end as green
     from base
 ),
