@@ -36,28 +36,28 @@ school_with_quarter as (
 ),
 
 agg_checkins as (
-    SELECT
-	    fellow_id,
-	    fellow_name,
-	    cohort,
-	    year_1_donor,
-	    year_2_donor,
+    select
+        fellow_id,
+        fellow_name,
+        cohort,
+        year_1_donor,
+        year_2_donor,
         reporting_period,
-	    SUM(total_students) AS total_students,
-	    AVG(student_engagement) AS avg_student_engagement,
-	    SUM(no_of_students) AS no_of_students,
-	    COUNT(fellow_id) AS checkin_count
-FROM {{ ref('checkins_25_26') }}
-GROUP BY
-	fellow_id,
-	fellow_name,
-	cohort,
-	year_1_donor,
-	year_2_donor,
-    reporting_period
+        SUM(total_students) as total_students,
+        AVG(student_engagement) as avg_student_engagement,
+        SUM(no_of_students) as no_of_students,
+        COUNT(fellow_id) as checkin_count
+    from {{ ref('checkins_25_26') }}
+    group by
+        fellow_id,
+        fellow_name,
+        cohort,
+        year_1_donor,
+        year_2_donor,
+        reporting_period
 )
 
-SELECT
+select
     swq.fellow_id,
     swq.fellow_name,
     swq.cohort,
@@ -76,7 +76,8 @@ SELECT
     ac.avg_student_engagement,
     ac.no_of_students,
     ac.checkin_count
-FROM school_with_quarter AS swq
-LEFT JOIN agg_checkins AS ac 
-    ON swq.fellow_id = ac.fellow_id 
-    AND swq.quarter = ac.reporting_period
+from school_with_quarter as swq
+left join agg_checkins as ac 
+    on
+        swq.fellow_id = ac.fellow_id 
+        and swq.quarter = ac.reporting_period

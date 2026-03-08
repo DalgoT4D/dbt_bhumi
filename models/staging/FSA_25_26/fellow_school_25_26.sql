@@ -21,8 +21,8 @@ with fellow_school as (
 fellows_data as (
     select
         fellow_id,
-        fellow_full_name AS fellow_name,
-        cohort_year AS cohort,
+        fellow_full_name as fellow_name,
+        cohort_year as cohort,
         fellow_employee_id,
         year_1_donor,
         year_2_donor,
@@ -37,7 +37,7 @@ fellows_data as (
 pms_data as (
     select
         pm_id,
-        pm_full_name AS pm_name,
+        pm_full_name as pm_name,
         pms_location
     from {{ ref('pms_25_26') }}
 ),

@@ -18,8 +18,9 @@ with base as (
         fo.odc_count
     from {{ ref('fellow_checkin_25_26') }} as fc
     left join {{ ref('fellow_odc_25_26') }} as fo
-        on fc.fellow_id = fo.fellow_id
-        and fc.quarter = fo.quarter
+        on
+            fc.fellow_id = fo.fellow_id
+            and fc.quarter = fo.quarter
 ),
 
 checkin_brag as (

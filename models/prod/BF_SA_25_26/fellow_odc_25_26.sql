@@ -36,19 +36,19 @@ school_with_quarter as (
 ),
 
 agg_odc as (
-    SELECT
+    select
         fellow_id,
         fellow_name,
         cohort,
         year_1_donor,
         year_2_donor,
         reporting_period,
-        SUM(total_students) AS total_students,
-        AVG(student_engagement_percentage) AS avg_student_engagement,
-        SUM(no_of_students) AS no_of_students,
-        COUNT(fellow_id) AS odc_count
-    FROM {{ ref('ODC_25_26') }}
-    GROUP BY
+        SUM(total_students) as total_students,
+        AVG(student_engagement_percentage) as avg_student_engagement,
+        SUM(no_of_students) as no_of_students,
+        COUNT(fellow_id) as odc_count
+    from {{ ref('ODC_25_26') }}
+    group by
         fellow_id,
         fellow_name,
         cohort,
@@ -57,7 +57,7 @@ agg_odc as (
         reporting_period
 )
 
-SELECT
+select
     swq.fellow_id,
     swq.fellow_name,
     swq.cohort,
@@ -76,7 +76,8 @@ SELECT
     ao.avg_student_engagement,
     ao.no_of_students,
     ao.odc_count
-FROM school_with_quarter AS swq
-LEFT JOIN agg_odc AS ao 
-    ON swq.fellow_id = ao.fellow_id 
-    AND swq.quarter = ao.reporting_period
+from school_with_quarter as swq
+left join agg_odc as ao 
+    on
+        swq.fellow_id = ao.fellow_id 
+        and swq.quarter = ao.reporting_period
