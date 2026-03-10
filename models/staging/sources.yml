@@ -6,36 +6,710 @@ sources:
     tables:
       - name: Raw_Data_Baseline
         identifier: Raw_Data_sample
-        description: This is a placeholder table & will be replaced with original. This table contains data of the baseline assessment for AY 24-25, for students in all classrooms. This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet 'Baseline 2024_Overall Analysis'
+        description: >-
+          This is a placeholder table & will be replaced with original. This table contains data of the
+          baseline assessment for AY 24-25, for students in all classrooms. This table contains combined
+          data for RF,RC & Math. This table comes from the master G-Sheet 'Baseline 2024_Overall Analysis'
+        columns:
+          - name: RF_
+            description: Reading fluency score
+          - name: City
+            description: City where the student is located
+          - name: Blends
+            description: Assessment score for blends
+          - name: Cohort
+            description: Cohort identifier
+          - name: Factual
+            description: Score for factual questions
+          - name: Grammar
+            description: Score for grammar assessment
+          - name: PM_Name
+            description: Program manager's name
+          - name: Advanced
+            description: Advanced level score
+          - name: Beginner
+            description: Beginner level score
+          - name: CVC_words
+            description: Score for CVC words
+          - name: Inference
+            description: Score for inference questions
+          - name: Passage_1
+            description: Score for first passage
+          - name: Passage_2
+            description: Score for second passage
+          - name: Developing
+            description: Developing level score
+          - name: Student_ID
+            description: Unique identifier for each student
+          - name: Vocabulary
+            description: Score for vocabulary assessment
+          - name: Fellow_Name
+            description: Name of the fellow
+          - name: School_Name
+            description: Name of the school
+          - name: Classroom_ID
+            description: Identifier for the classroom
+          - name: Grade_Taught
+            description: Grade level taught
+          - name: ID_Generator
+            description: Generated ID for internal use
+          - name: Intermediate
+            description: Intermediate level score
+          - name: Student_Name
+            description: Name of the student
+          - name: Letter_sounds
+            description: Score for letter sounds
+          - name: Magic_E_words
+            description: Score for magic E words
+          - name: RC_Assessed___
+            description: Reading comprehension assessed score
+          - name: Vowel_diagraphs
+            description: Score for vowel diagraphs
+          - name: Baseline_RF_Code
+            description: Baseline reading fluency code
+          - name: Baseline_RC_Level
+            description: Baseline reading comprehension level
+          - name: Critical_Thinking
+            description: Score for critical thinking
+          - name: Baseline_RC_Status
+            description: Baseline reading comprehension status
+          - name: Baseline_RF_Status
+            description: Baseline reading fluency status
+          - name: Consonant_diagraph
+            description: Score for consonant diagraphs
+          - name: Baseline_Math_Level
+            description: Baseline math level
+          - name: Basel_RC_Grade_Level
+            description: Baseline reading comprehension grade level
+          - name: Baseline_Math_Status
+            description: Baseline math status
+          - name: Baseline_Math_Mastery
+            description: Baseline math mastery level
+          - name: Multi_syllabelle_words
+            description: Score for multi-syllable words
+          - name: Baseline_Math___in_Time
+            description: Baseline math score in time
+          - name: Baseline_Math___in_Numbers
+            description: Baseline math score in numbers
+          - name: Baseline_Math___in_Geometry
+            description: Baseline math score in geometry
+          - name: Baseline_Math___in_Patterns
+            description: Baseline math score in patterns
+          - name: Baseline_Math___in_Operations
+            description: Baseline math score in operations
+          - name: Baseline_Math___in_Mensuration
+            description: Baseline math score in mensuration
+          - name: Baseline_Math___in_Data_Handling
+            description: Baseline math score in data handling
+          - name: _airbyte_raw_id
+            description: Airbyte raw ID
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted by Airbyte
+          - name: _airbyte_meta
+            description: Metadata from Airbyte
       - name: Raw_Data_Midline
         identifier: Raw_Data_Midline
-        description: This table contains data of the midline assessment for AY 24-25, for students in all classrooms. This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet 'Midline 2024_Overall Analysis'
+        description: >-
+          This table contains data of the midline assessment for AY 24-25, for students in all classrooms.
+          This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet
+          'Midline 2024_Overall Analysis'
+        columns:
+          - name: RF_
+            description: Reading fluency score
+          - name: City
+            description: City where the assessment took place
+          - name: Blends
+            description: Score for blends assessment
+          - name: Cohort
+            description: Cohort of students
+          - name: Factual
+            description: Score for factual comprehension
+          - name: Grammar
+            description: Score for grammar assessment
+          - name: PM_Name
+            description: Name of the project manager
+          - name: Advanced
+            description: Advanced level score
+          - name: Beginner
+            description: Beginner level score
+          - name: CVC_words
+            description: Score for CVC words assessment
+          - name: Inference
+            description: Score for inference assessment
+          - name: Passage_1
+            description: Score for passage 1 comprehension
+          - name: Passage_2
+            description: Score for passage 2 comprehension
+          - name: Developing
+            description: Developing level score
+          - name: Student_ID
+            description: Unique identifier for each student
+          - name: Vocabulary
+            description: Score for vocabulary assessment
+          - name: Fellow_Name
+            description: Name of the fellow conducting the assessment
+          - name: School_Name
+            description: Name of the school
+          - name: Classroom_ID
+            description: Unique identifier for each classroom
+          - name: Grade_Taught
+            description: Grade level taught
+          - name: Intermediate
+            description: Intermediate level score
+          - name: Student_Name
+            description: Name of the student
+          - name: Letter_sounds
+            description: Score for letter sounds assessment
+          - name: Magic_E_words
+            description: Score for magic E words assessment
+          - name: RC_Assessed___
+            description: Reading comprehension assessed score
+          - name: Midline_RF_Code
+            description: Code for midline reading fluency
+          - name: Vowel_diagraphs
+            description: Score for vowel diagraphs assessment
+          - name: Midline_RC_Level
+            description: Level for midline reading comprehension
+          - name: Critical_Thinking
+            description: Score for critical thinking assessment
+          - name: Midline_RC_Status
+            description: Status for midline reading comprehension
+          - name: Midline_RF_Status
+            description: Status for midline reading fluency
+          - name: Consonant_diagraph
+            description: Score for consonant diagraph assessment
+          - name: Midline_Math_Level
+            description: Level for midline math assessment
+          - name: Midline_Math_Status
+            description: Status for midline math assessment
+          - name: Midline_Math_Mastery
+            description: Mastery level for midline math
+          - name: Midline_Math___in_Time
+            description: Score for math in time assessment
+          - name: Midline_RC_Grade_Level
+            description: Grade level for midline reading comprehension
+          - name: Multi_syllabelle_words
+            description: Score for multi-syllable words assessment
+          - name: Midline_Math___in_Numbers
+            description: Score for math in numbers assessment
+          - name: Midline_Math___in_Geometry
+            description: Score for math in geometry assessment
+          - name: Midline_Math___in_Patterns
+            description: Score for math in patterns assessment
+          - name: Midline_Math___in_Operations
+            description: Score for math in operations assessment
+          - name: Midline_Math___in_Mensuration
+            description: Score for math in mensuration assessment
+          - name: Midline_Math___in_Data_Handling
+            description: Score for math in data handling assessment
+          - name: _airbyte_raw_id
+            description: Airbyte raw identifier
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted by Airbyte
+          - name: _airbyte_meta
+            description: Metadata from Airbyte
       - name: Raw_Data_Endline
         identifier: Raw_Data_Endline
-        description: This table contains data of the endline assessment for AY 24-25, for students in all classrooms. This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet 'Endline 2025_Overall data'
-   
+        description: >-
+          This table contains data of the endline assessment for AY 24-25, for students in all classrooms.
+          This table contains combined data for RF,RC & Math. This table comes from the master G-Sheet
+          'Endline 2025_Overall data'
+
+
+        columns:
+          - name: RF_
+            description: Reading fluency score
+          - name: City
+            description: City where the assessment took place
+          - name: Blends
+            description: Assessment score for blends
+          - name: Cohort
+            description: Cohort of the student
+          - name: Factual
+            description: Score for factual questions
+          - name: Grammar
+            description: Grammar assessment score
+          - name: PM_Name
+            description: Program Manager's name
+          - name: Advanced
+            description: Score for advanced level
+          - name: Beginner
+            description: Score for beginner level
+          - name: CVC_words
+            description: Score for CVC words
+          - name: Inference
+            description: Score for inference questions
+          - name: Passage_1
+            description: Score for comprehension of passage 1
+          - name: Passage_2
+            description: Score for comprehension of passage 2
+          - name: Developing
+            description: Score for developing level
+          - name: Student_ID
+            description: Unique identifier for each student
+          - name: Vocabulary
+            description: Vocabulary assessment score
+          - name: Fellow_Name
+            description: Name of the fellow conducting the assessment
+          - name: School_Name
+            description: Name of the school
+          - name: Classroom_ID
+            description: Identifier for the classroom
+          - name: Grade_Taught
+            description: Grade level taught in the classroom
+          - name: Intermediate
+            description: Score for intermediate level
+          - name: Student_Name
+            description: Name of the student
+          - name: Letter_sounds
+            description: Score for letter sounds
+          - name: Magic_E_words
+            description: Score for magic E words
+          - name: RC_Assessed___
+            description: Reading comprehension assessed score
+          - name: Endline_RF_Code
+            description: Endline reading fluency code
+          - name: Vowel_diagraphs
+            description: Score for vowel digraphs
+          - name: Endline_RC_Level
+            description: Endline reading comprehension level
+          - name: Critical_Thinking
+            description: Score for critical thinking
+          - name: Endline_RC_Status
+            description: Status of endline reading comprehension
+          - name: Endline_RF_Status
+            description: Status of endline reading fluency
+          - name: Consonant_diagraph
+            description: Score for consonant digraphs
+          - name: Endline_Math_Level
+            description: Endline math level
+          - name: Endline_Math_Status
+            description: Status of endline math assessment
+          - name: Endline_Math_Mastery
+            description: Math mastery level at endline
+          - name: Endline_Math___in_Time
+            description: Score for math in time
+          - name: Endline_RC_Grade_Level
+            description: Grade level for endline reading comprehension
+          - name: Multi_syllabelle_words
+            description: Score for multi-syllable words
+          - name: Endline_Math___in_Numbers
+            description: Score for math in numbers
+          - name: Endline_Math___in_Geometry
+            description: Score for math in geometry
+          - name: Endline_Math___in_Patterns
+            description: Score for math in patterns
+          - name: Endline_Math___in_Operations
+            description: Score for math in operations
+          - name: Endline_Math___in_Mensuration
+            description: Score for math in mensuration
+          - name: Endline_Math___in_Data_Handling
+            description: Score for math in data handling
+          - name: _airbyte_raw_id
+            description: Airbyte raw ID
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted
+          - name: _airbyte_meta
+            description: Metadata from Airbyte
   - name: ecochamps25_26
     schema: ecochamps25_26
     tables:
       - name: Student___Session_Data
         identifier: Student___Session_Data
         description: This is a placeholder table Eco Champs 25&26
+        columns:
+          - name: Grade
+            description: The grade level of the student
+          - name: School
+            description: The name of the school
+          - name: Chapter
+            description: The chapter associated with the student
+          - name: Climate
+            description: The climate category for the session
+          - name: Endline
+            description: The endline assessment score or status
+          - name: Baseline
+            description: The baseline assessment score or status
+          - name: Roll_No_
+            description: The roll number of the student
+          - name: School_ID
+            description: The identifier for the school
+          - name: Attendance__
+            description: The attendance record of the student
+          - name: Endline_Sore
+            description: The endline score of the student
+          - name: _Student_Name_
+            description: The name of the student
+          - name: Baseline_Score
+            description: The baseline score of the student
+          - name: Kitchen_Garden
+            description: Participation in kitchen garden activities
+          - name: Student_Status
+            description: The current status of the student
+          - name: Waste_Management
+            description: Participation in waste management activities
+          - name: Modlues_Completed
+            description: Number of modules completed by the student
+          - name: Water_Conservation
+            description: Participation in water conservation activities
+          - name: Life_Style___Choices
+            description: Lifestyle choices made by the student
+          - name: Center_Coordiantor__1_
+            description: First center coordinator associated
+          - name: Center_Coordianator__2_
+            description: Second center coordinator associated
+          - name: _airbyte_raw_id
+            description: Airbyte raw identifier
+          - name: _airbyte_extracted_at
+            description: Timestamp of Airbyte extraction
+          - name: _airbyte_meta
+            description: Metadata from Airbyte extraction
       - name: Center_Coordiantors
         identifier: Center_Coordiantors
-        description: Center_Coordiantors 
+        description: Center_Coordiantors
+        columns:
+          - name: _N_A
+            description: Not applicable or unspecified column
+          - name: _VALUE_
+            description: Value associated with the record
+          - name: Chapter
+            description: Chapter associated with the record
+          - name: Mail_ID
+            description: Email ID of the contact
+          - name: Contact_Number
+            description: Contact number of the volunteer
+          - name: Volunteer_Name
+            description: Name of the volunteer
+          - name: Volunteer_Hours
+            description: Number of hours volunteered
+          - name: Attendance_Percentage
+            description: Percentage of attendance
+          - name: July_19___Food_chain__
+            description: Data related to food chain event on July 19
+          - name: Total_Sessions_Attended
+            description: Total number of sessions attended
+          - name: 13_12_2025___Baseline___
+            description: Baseline data recorded on December 13, 2025
+          - name: May_24__Food_Chain___04007
+            description: Food chain event data for May 24
+          - name: July_21___Food_Chain___01803
+            description: Food chain event data for July 21
+          - name: July_29___Food_Chain___01821
+            description: Food chain event data for July 29
+          - name: July_30___Baseline_Assesment
+            description: Baseline assessment data for July 30
+          - name: August_14__Climate_Change__04007
+            description: Climate change event data for August 14
+          - name: _7_2_2026___Climate___33020901402
+            description: Climate data recorded on February 7, 2026
+          - name: 19_11_25___Baseline___33020900302
+            description: Baseline data recorded on November 19, 2025
+          - name: 8_11_2025___Climate___33031401917
+            description: Climate data recorded on November 8, 2025
+          - name: 05_11_2025___Climate___33020900302
+            description: Climate data recorded on November 5, 2025
+          - name: 15_11_2025___Climate___29200912003
+            description: Climate data recorded on November 15, 2025
+          - name: 16_10_2025___Climate___33020900301
+            description: Climate data recorded on October 16, 2025
+          - name: 16_10_2025___Climate___33020900302
+            description: Climate data recorded on October 16, 2025
+          - name: 23rd_August___Food_Chain___Kumhrar
+            description: Food chain event data for August 23
+          - name: 29_10_2025___Climate___29200903859
+            description: Climate data recorded on October 29, 2025
+          - name: 5_11_2025___Baseline___33020900301
+            description: Baseline data recorded on November 5, 2025
+          - name: 5_11_2025___Baseline___33020900302
+            description: Baseline data recorded on November 5, 2025
+          - name: July_29___Food_Chain___33020800611
+            description: Food chain event data for July 29
+          - name: September_8___Food_Chain___Kumhrar
+            description: Food chain event data for September 8
+          - name: Aug_14_2025___Climate___10280104007
+            description: Climate data recorded on August 14, 2025
+          - name: Nov_3_2025___Baseline___10280103801
+            description: Baseline data recorded on November 3, 2025
+          - name: OCT_11_2025___Climate___10280105105
+            description: Climate data recorded on October 11, 2025
+          - name: Sep_4_2025___Baseline___33010907404
+            description: Baseline data recorded on September 4, 2025
+          - name: Sep_6_2025___Baseline___33031401917
+            description: Baseline data recorded on September 6, 2025
+          - name: _Sep_4_2025___Baseline___33010907404
+            description: Baseline data recorded on September 4, 2025
+          - name: Aug_02_2025___Baseline___10280104007
+            description: Baseline data recorded on August 2, 2025
+          - name: Aug_22_2025___Baseline___33020801803
+            description: Baseline data recorded on August 22, 2025
+          - name: Aug_29_2025___Baseline___33020801815
+            description: Baseline data recorded on August 29, 2025
+          - name: Aug_30_2025___Baseline___10280105105
+            description: Baseline data recorded on August 30, 2025
+          - name: Aug_30_2025___Baseline___33020800611
+            description: Baseline data recorded on August 30, 2025
+          - name: Aug_30_2025___Baseline___33031401917
+            description: Baseline data recorded on August 30, 2025
+          - name: August_2__Baseline_Assesment___04007
+            description: Baseline assessment data for August 2
+          - name: Jul_30_2025___Baseline___33020801803
+            description: Baseline data recorded on July 30, 2025
+          - name: Sep_02_2025___Baseline___33020901402
+            description: Baseline data recorded on September 2, 2025
+          - name: Sep_03_2025___Baseline___33020500303
+            description: Baseline data recorded on September 3, 2025
+          - name: Sep_08_2025___Baseline___33020801815
+            description: Baseline data recorded on September 8, 2025
+          - name: Sep_08_2025___Baseline___33020901504
+            description: Baseline data recorded on September 8, 2025
+          - name: Sep_09_2025___Baseline___33020901504
+            description: Baseline data recorded on September 9, 2025
+          - name: Sep_11_2025___Baseline___33010907404
+            description: Baseline data recorded on September 11, 2025
+          - name: Sep_11_2025___Baseline___33020901402
+            description: Baseline data recorded on September 11, 2025
+          - name: _3_NOV_2025___Baseline___10280103801
+            description: Baseline data recorded on November 3, 2025
+          - name: _Aug_14_2025___Climate___10280104007
+            description: Climate data recorded on August 14, 2025
+          - name: Aug_30_2025___Baseline___10280105105_1
+            description: Baseline data recorded on August 30, 2025
+          - name: 20_11_25___Kitchen_Garden___33020901402
+            description: Kitchen garden data recorded on November 20, 2025
+          - name: Volunteers_Mapped__School_Shelter_Name_
+            description: Mapping of volunteers to school or shelter
+          - name: 10_12_2025___Kitchen_Garden___33020900301
+            description: Kitchen garden data recorded on December 10, 2025
+          - name: 10_12_2025___Kitchen_Garden___33020900302
+            description: Kitchen garden data recorded on December 10, 2025
+          - name: 12_12_2025___Kitchen_Garden___33031401917
+            description: Kitchen garden data recorded on December 12, 2025
+          - name: Sep_4_2025___Kitchen_Garden___33020801803
+            description: Kitchen garden data recorded on September 4, 2025
+          - name: 08__01_2026___Kitchen_Garden___29200903859
+            description: Kitchen garden data recorded on January 8, 2026
+          - name: 09__01_2026___Kitchen_Garden___29200912003
+            description: Kitchen garden data recorded on January 9, 2026
+          - name: Aug_26_2025___Kitchen_Garden___33020800611
+            description: Kitchen garden data recorded on August 26, 2025
+          - name: 12_11_2025___Waste_Management___33020900301
+            description: Waste management data recorded on November 12, 2025
+          - name: 12_11_2025___Waste_Management___33020900302
+            description: Waste management data recorded on November 12, 2025
+          - name: 19_11_2025___Waste_Management___33020900302
+            description: Waste management data recorded on November 19, 2025
+          - name: 22_11_2025___Waste_Management___33031401917
+            description: Waste management data recorded on November 22, 2025
+          - name: 30_10_25___Water_Conservation___33020800611
+            description: Water conservation data recorded on October 30, 2025
+          - name: _05_02_2026___Waste_Management___33020500303
+            description: Waste management data recorded on February 5, 2026
+          - name: 11_2_2026___Water_Conservation___33020900302
+            description: Water conservation data recorded on February 11, 2026
+          - name: Aug_22_2025___Waste_Management___33020801803
+            description: Waste management data recorded on August 22, 2025
+          - name: Aug_26_2025___Waste_Management___33020800611
+            description: Waste management data recorded on August 26, 2025
+          - name: _05_02_2026___Waste_Management___33020500303_1
+            description: Waste management data recorded on February 5, 2026
+          - name: _7_DEC_2025___Waste_Management___10280103801
+            description: Waste management data recorded on December 7, 2025
+          - name: 04_02_2026___Water_Conservation___33020900302
+            description: Water conservation data recorded on February 4, 2026
+          - name: 12_12_25___Life_Style___Choices___33020801815
+            description: Lifestyle choices data recorded on December 12, 2025
+          - name: _22_NOV_2025___Waste_Management___10280105105
+            description: Waste management data recorded on November 22, 2025
+          - name: 15_NOV_2025___Water_Conservation___10280103801
+            description: Water conservation data recorded on November 15, 2025
+          - name: _8_Oct_2025___Life_Style___Choices___33020801803
+            description: Lifestyle choices data recorded on October 8, 2025
+          - name: _12_NOV_2025___Life_Style___Choices___33020800611
+            description: Lifestyle choices data recorded on November 12, 2025
+          - name: _airbyte_raw_id
+            description: Raw ID from Airbyte integration
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted by Airbyte
+          - name: _airbyte_meta
+            description: Metadata from Airbyte integration
       - name: Data_Tracker
         identifier: Data_Tracker
         description: Data Tracker
+        columns:
+          - name: Mo
+            description: Month of the record
+          - name: Grade
+            description: Grade level of the school
+          - name: School
+            description: Name of the school
+          - name: Chapter
+            description: Chapter associated with the data
+          - name: Climate
+            description: Climate information related to the school
+          - name: Endline
+            description: Endline data point
+          - name: Baseline
+            description: Baseline data point
+          - name: School_ID
+            description: Unique identifier for the school
+          - name: Donor_Mapped
+            description: Information on donor mapping
+          - name: Student_Count
+            description: Count of students involved
+          - name: Kitchen_Garden
+            description: Kitchen garden status or involvement
+          - name: Waste_Management
+            description: Waste management practices
+          - name: Water_Conservation
+            description: Water conservation efforts
+          - name: Lifestyle___Choices
+            description: Lifestyle choices related to the program
+          - name: Classroom_Attendance
+            description: Attendance in classroom sessions
+          - name: Total_Students_Count
+            description: Total number of students
+          - name: Center_Coordiantor__1_
+            description: First center coordinator
+          - name: Center_Coordianator__2_
+            description: Second center coordinator
+          - name: Session_Completion_Status
+            description: Status of session completion
+          - name: Progress_Bar__Q2___Target___2_Modules_
+            description: Progress towards Q2 target of 2 modules
+          - name: _airbyte_raw_id
+            description: Airbyte raw ID for the record
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted by Airbyte
+          - name: _airbyte_meta
+            description: Metadata related to Airbyte extraction
       - name: RAG_Quarter_Params
         identifier: RAG_Quarter_Params
         description: Quarterwise RAG Parameters
-  
+
+        columns:
+          - name: Year
+            description: Year of the quarter
+          - name: Quarter
+            description: Quarter of the year
+          - name: Target_Modules
+            description: Target modules for the quarter
+          - name: Quarter_End_Date
+            description: End date of the quarter
+          - name: Red_percent_comp
+            description: Percentage completion for red status
+          - name: Amber_percent_comp
+            description: Percentage completion for amber status
+          - name: Green_percent_comp
+            description: Percentage completion for green status
+          - name: Quarter_Start_Date
+            description: Start date of the quarter
+          - name: _airbyte_raw_id
+            description: Airbyte raw identifier
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted by Airbyte
+          - name: _airbyte_meta
+            description: Metadata related to Airbyte extraction
   - name: fellowship_25_26
     schema: fellowship_25_26
     tables:
       - name: Raw_Data_Baseline_2025
         identifier: Raw_Data_Baseline_2025
         description: Baseline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
+        columns:
+          - name: City
+            description: City of the school or student
+          - name: Donor
+            description: Name of the donor
+          - name: Cohort
+            description: Cohort group for the student
+          - name: PM_Name
+            description: Name of the project manager
+          - name: Student_ID
+            description: Unique identifier for the student
+          - name: Fellow_name
+            description: Name of the fellow
+          - name: School_Name
+            description: Name of the school
+          - name: Classroom_ID
+            description: Unique identifier for the classroom
+          - name: Student_name
+            description: Name of the student
+          - name: Acadamic_year
+            description: Academic year of the data
+          - name: Student_grade
+            description: Grade of the student
+          - name: Baseline_Blends
+            description: Baseline assessment for blends
+          - name: Baseline_Factual
+            description: Baseline assessment for factual knowledge
+          - name: Baseline_Grammar
+            description: Baseline assessment for grammar
+          - name: Baseline_Numbers
+            description: Baseline assessment for numbers
+          - name: Baseline_Geometry
+            description: Baseline assessment for geometry
+          - name: Baseline_Patterns
+            description: Baseline assessment for patterns
+          - name: RC_level_Baseline
+            description: Baseline reading comprehension level
+          - name: RF_Level_Baseline
+            description: Baseline reading fluency level
+          - name: Baseline_CVC_words
+            description: Baseline assessment for CVC words
+          - name: Baseline_Inference
+            description: Baseline assessment for inference
+          - name: Baseline_Passage_1
+            description: Baseline assessment for passage 1
+          - name: Baseline_Passage_2
+            description: Baseline assessment for passage 2
+          - name: RF_Baseline_Growth
+            description: Growth in reading fluency from baseline
+          - name: Baseline_Vocabulary
+            description: Baseline assessment for vocabulary
+          - name: Math_Baseline_Grade
+            description: Baseline grade for math
+          - name: Math_Level_Baseline_
+            description: Baseline math level
+          - name: Baseline_Letter_sounds
+            description: Baseline assessment for letter sounds
+          - name: Baseline_Magic_E_words
+            description: Baseline assessment for magic E words
+          - name: Baseline_Total_in_Data
+            description: Total baseline score in data
+          - name: Baseline_Total_in_Time
+            description: Total baseline score in time
+          - name: RC_Grade_level_Baseline
+            description: Baseline reading comprehension grade level
+          - name: Baseline_Vowel_diagraphs
+            description: Baseline assessment for vowel digraphs
+          - name: Baseline_Critical_Thinking
+            description: Baseline assessment for critical thinking
+          - name: RC_Endline_Baseline_Growth
+            description: Growth in reading comprehension from baseline to endline
+          - name: Baseline_Consonant_diagraph
+            description: Baseline assessment for consonant digraphs
+          - name: Baseline_Assessed_Percentage
+            description: Percentage of baseline assessment completed
+          - name: Baseline_Total_in_Operations
+            description: Total baseline score in operations
+          - name: Final_Baseline_Level_Mastery
+            description: Final mastery level at baseline
+          - name: Math_Endline_Baseline_Growth
+            description: Growth in math from baseline to endline
+          - name: Baseline_Total_in_Mensuration
+            description: Total baseline score in mensuration
+          - name: Baseline_Multi_syllabelle_words
+            description: Baseline assessment for multi-syllable words
+          - name: RC_Learning_Level_Status_Baseline
+            description: Baseline status of reading comprehension learning level
+          - name: Math_Learning_level_status_Baseline
+            description: Baseline status of math learning level
+          - name: _airbyte_raw_id
+            description: Airbyte raw ID for the record
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted by Airbyte
+          - name: _airbyte_meta
+            description: Metadata from Airbyte extraction
       - name: Raw_Data_Midline_2025
         identifier: Raw_Data_Midline_2025
         description: Midline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
@@ -102,6 +776,34 @@ sources:
       - name: Form_responses_new
         identifier: Form_responses_new
         description: CSAT form data
+  - name: fellowship_school_app_25_26
+    schema: school_app
+    tables:
+      - name: fellows_raw_data_25_26
+        identifier: fellows
+        description: fellows from fellowship school app for AY 25-26
+      - name: pms_raw_data_25_26
+        identifier: pms
+        description: pms from fellowship school app for AY 25-26
+      - name: fellow_school_grade_25_26
+        identifier: fellow_school_grade
+        description: fellow_school_grade from fellowship school app for AY 25-26
+      - name: schools_raw_data_25_26
+        identifier: schools
+        description: schools from fellowship school app for AY 25-26
+      - name: profiles_25_26
+        identifier: profiles
+        description: profiles from fellowship school app for AY 25-26
+      - name: checkins_25_26
+        identifier: checkins
+        description: checkins from fellowship school app for AY 25-26
+      - name: fellow_classroom_updates_25_26
+        identifier: fellow_classroom_updates
+        description: fellow classroom updates from fellowship school app for AY 25-26
+      - name: observations_25_26
+        identifier: observations
+        description: observations from fellowship school app for AY 25-26
+
 
 
   # - name: STP_25-26
@@ -119,4 +821,102 @@ sources:
   #     - name: Processed_Attendance
   #       identifier: Processed_Attendance
   #       description: This is a placeholder table STP 25-26
-  
+        columns:
+          - name: City
+            description: City of the school or student
+          - name: Donor
+            description: Name of the donor associated with the data
+          - name: Cohort
+            description: Cohort group of the students
+          - name: PM_Name
+            description: Name of the project manager
+          - name: Student_ID
+            description: Unique identifier for each student
+          - name: Fellow_name
+            description: Name of the fellow associated with the student
+          - name: School_Name
+            description: Name of the school
+          - name: Classroom_ID
+            description: Unique identifier for each classroom
+          - name: Student_name
+            description: Name of the student
+          - name: Acadamic_year
+            description: Academic year of the data
+          - name: Student_grade
+            description: Grade level of the student
+          - name: Midline_Blends
+            description: Midline assessment score for blends
+          - name: Midline_Factual
+            description: Midline assessment score for factual knowledge
+          - name: Midline_Grammar
+            description: Midline assessment score for grammar
+          - name: Midline_Numbers
+            description: Midline assessment score for numbers
+          - name: Midline_Geometry
+            description: Midline assessment score for geometry
+          - name: Midline_Patterns
+            description: Midline assessment score for patterns
+          - name: RC_level_Midline
+            description: Reading comprehension level at midline
+          - name: RF_Level_midline
+            description: Reading fluency level at midline
+          - name: Midline_CVC_words
+            description: Midline assessment score for CVC words
+          - name: Midline_Inference
+            description: Midline assessment score for inference
+          - name: Midline_Passage_1
+            description: Midline assessment score for passage 1
+          - name: Midline_Passage_2
+            description: Midline assessment score for passage 2
+          - name: RF_Midline_Growth
+            description: Growth in reading fluency from baseline to midline
+          - name: Math_Midline_Grade
+            description: Math grade level at midline
+          - name: Midline_Vocabulary
+            description: Midline assessment score for vocabulary
+          - name: Math_Level_Midline_
+            description: Math level at midline
+          - name: Midline_Letter_sounds
+            description: Midline assessment score for letter sounds
+          - name: Midline_Magic_E_words
+            description: Midline assessment score for magic E words
+          - name: Midline_Total_in_Data
+            description: Total score in data-related assessments at midline
+          - name: Midline_Total_in_Time
+            description: Total score in time-related assessments at midline
+          - name: Midline_Vowel_diagraphs
+            description: Midline assessment score for vowel digraphs
+          - name: RC_Grade_level_Midline_
+            description: Reading comprehension grade level at midline
+          - name: RC_Midline_Growth_status
+            description: Growth status in reading comprehension from baseline to midline
+          - name: Midline_Critical_Thinking
+            description: Midline assessment score for critical thinking
+          - name: Math_Midline_Growth_status
+            description: Growth status in math from baseline to midline
+          - name: Midline_Consonant_diagraph
+            description: Midline assessment score for consonant digraphs
+          - name: RC_Baseline_Midline_Growth
+            description: Growth in reading comprehension from baseline to midline
+          - name: Final_Midline_Level_Mastery
+            description: Final mastery level at midline
+          - name: Midline_Assessed_Percentage
+            description: Percentage of assessments completed at midline
+          - name: Midline_Total_in_Operations
+            description: Total score in operations-related assessments at midline
+          - name: Math_Baseline_Midline_Growth
+            description: Growth in math from baseline to midline
+          - name: Midline_Total_in_Mensuration
+            description: Total score in mensuration-related assessments at midline
+          - name: Midline_Multi_syllabelle_words
+            description: Midline assessment score for multi-syllable words
+          - name: RC_Learning_Level_status_Midline
+            description: Learning level status in reading comprehension at midline
+          - name: Math_Learning_level_status_Midline
+            description: Learning level status in math at midline
+          - name: _airbyte_raw_id
+            description: Raw ID from Airbyte extraction
+          - name: _airbyte_extracted_at
+            description: Timestamp when data was extracted by Airbyte
+          - name: _airbyte_meta
+            description: Metadata from Airbyte extraction

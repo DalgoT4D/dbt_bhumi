@@ -1,0 +1,567 @@
+version: 2
+
+models:
+  - name: base_mid_end_comb_scores_2425_fct
+    description: >-
+      Fact table combining baseline, midline, and endline assessment scores for AY 2024-25
+    columns:
+      - name: student_id
+        description: Unique student identifier linking all assessments
+      - name: rc_level_base
+        description: Reading Comprehension level at baseline
+      - name: rc_grade_level_base
+        description: Grade level equivalent for reading comprehension skills
+      - name: rc_status_base
+        description: Overall Reading Comprehension performance status
+      - name: rc_assessed_perc_base
+        description: Reading comprehension assessed percentage
+      - name: rc_level_mid
+        description: Reading Comprehension level at midline
+      - name: rc_grade_level_mid
+        description: Reading comprehension grade level
+      - name: rc_status_mid
+        description: Reading comprehension status
+      - name: rc_assessed_perc_mid
+        description: Reading comprehension assessed percentage
+      - name: rc_level_end
+        description: Reading Comprehension level at endline
+      - name: rc_grade_level_end
+        description: Reading comprehension grade level
+      - name: rc_status_end
+        description: Reading comprehension status
+      - name: rc_assessed_perc_end
+        description: Reading comprehension assessed percentage
+      - name: rf_status_base
+        description: Reading Fluency status at baseline
+      - name: rf_perc_base
+        description: Reading Fluency overall percentage score
+      - name: rf_code_base
+        description: Reading fluency code
+      - name: rf_status_mid
+        description: Reading Fluency status at midline
+      - name: rf_perc_mid
+        description: Reading fluency percentage
+      - name: rf_code_mid
+        description: Reading fluency code
+      - name: rf_status_end
+        description: Reading Fluency status at endline
+      - name: rf_perc_end
+        description: Reading fluency percentage
+      - name: rf_code_end
+        description: Reading fluency code
+      - name: math_level_base
+        description: Mathematics proficiency level at baseline
+      - name: math_status_base
+        description: Overall Mathematics performance status
+      - name: math_mastery_base
+        description: Overall Mathematics mastery percentage
+      - name: math_level_mid
+        description: Mathematics proficiency level at midline
+      - name: math_status_mid
+        description: Math status
+      - name: math_mastery_mid
+        description: Math mastery level
+      - name: math_level_end
+        description: Mathematics proficiency level at endline
+      - name: math_status_end
+        description: Math status
+      - name: math_mastery_end
+        description: Math mastery level
+      - name: math_perc_numbers_base
+        description: Percentage score in numbers
+      - name: math_perc_patterns_base
+        description: Percentage score in patterns
+      - name: math_perc_geometry_base
+        description: Percentage score in geometry
+      - name: math_perc_mensuration_base
+        description: Percentage score in mensuration
+      - name: math_perc_time_base
+        description: Percentage score in time
+      - name: math_perc_operations_base
+        description: Percentage score in operations
+      - name: math_perc_data_handling_base
+        description: Percentage score in data handling
+      - name: math_perc_numbers_mid
+        description: Percentage score for numbers in math
+      - name: math_perc_patterns_mid
+        description: Percentage score for patterns in math
+      - name: math_perc_geometry_mid
+        description: Percentage score for geometry in math
+      - name: math_perc_mensuration_mid
+        description: Percentage score for mensuration in math
+      - name: math_perc_time_mid
+        description: Percentage score for time in math
+      - name: math_perc_operations_mid
+        description: Percentage score for operations in math
+      - name: math_perc_data_handling_mid
+        description: Percentage score for data handling in math
+      - name: math_perc_numbers_end
+        description: Percentage score for numbers in math
+      - name: math_perc_patterns_end
+        description: Percentage score for patterns in math
+      - name: math_perc_geometry_end
+        description: Percentage score for geometry in math
+      - name: math_perc_mensuration_end
+        description: Percentage score for mensuration in math
+      - name: math_perc_time_end
+        description: Percentage score for time in math
+      - name: math_perc_operations_end
+        description: Percentage score for operations in math
+      - name: math_perc_data_handling_end
+        description: Percentage score for data handling in math
+      - name: factual_base
+        description: Score for factual questions
+      - name: inference_base
+        description: Score for inference questions
+      - name: critical_thinking_base
+        description: Score for critical thinking
+      - name: factual_mid
+        description: Score for factual comprehension
+      - name: inference_mid
+        description: Score for inference assessment
+      - name: critical_thinking_mid
+        description: Score for critical thinking
+      - name: factual_end
+        description: Score for factual questions
+      - name: inference_end
+        description: Score for inference questions
+      - name: critical_thinking_end
+        description: Score for critical thinking
+      - name: vocabulary_base
+        description: Score for vocabulary assessment
+      - name: grammar_base
+        description: Score for grammar assessment
+      - name: vocabulary_mid
+        description: Score for vocabulary assessment
+      - name: grammar_mid
+        description: Score for grammar assessment
+      - name: vocabulary_end
+        description: Vocabulary assessment score
+      - name: grammar_end
+        description: Grammar assessment score
+      - name: letter_sounds_base
+        description: Score for letter sounds
+      - name: cvc_words_base
+        description: Score for CVC words
+      - name: blends_base
+        description: Assessment score for blends
+      - name: consonant_diagraph_base
+        description: Score for consonant diagraphs
+      - name: magic_e_words_base
+        description: Score for magic 'e' words
+      - name: vowel_diagraphs_base
+        description: Score for vowel diagraphs
+      - name: multi_syllabelle_words_base
+        description: Score for multi-syllable words
+      - name: passage_1_base
+        description: Score for first passage
+      - name: passage_2_base
+        description: Score for second passage
+      - name: letter_sounds_mid
+        description: Score for letter sounds assessment
+      - name: cvc_words_mid
+        description: Score for CVC words assessment
+      - name: blends_mid
+        description: Score for blends assessment
+      - name: consonant_diagraph_mid
+        description: Score for consonant diagraph assessment
+      - name: magic_e_words_mid
+        description: Score for magic 'e' words assessment
+      - name: vowel_diagraphs_mid
+        description: Score for vowel diagraphs assessment
+      - name: multi_syllabelle_words_mid
+        description: Score for multi-syllable words assessment
+      - name: passage_1_mid
+        description: Score for passage 1 comprehension
+      - name: passage_2_mid
+        description: Score for passage 2 comprehension
+      - name: letter_sounds_end
+        description: Score for letter sounds
+      - name: cvc_words_end
+        description: Score for CVC words
+      - name: blends_end
+        description: Assessment score for blends
+      - name: consonant_diagraph_end
+        description: Score for consonant diagraphs
+      - name: magic_e_words_end
+        description: Score for magic 'e' words
+      - name: vowel_diagraphs_end
+        description: Score for vowel diagraphs
+      - name: multi_syllabelle_words_end
+        description: Score for multi-syllable words
+      - name: passage_1_end
+        description: Score for comprehension of passage 1
+      - name: passage_2_end
+        description: Score for comprehension of passage 2
+      - name: developing_base
+        description: Developing level score
+      - name: beginner_base
+        description: Beginner level score
+      - name: intermediate_base
+        description: Intermediate level score
+      - name: advanced_base
+        description: Advanced level score
+      - name: developing_mid
+        description: Developing level score
+      - name: beginner_mid
+        description: Beginner level score
+      - name: intermediate_mid
+        description: Intermediate level score
+      - name: advanced_mid
+        description: Advanced level score
+      - name: developing_end
+        description: Score for developing level
+      - name: beginner_end
+        description: Score for beginner level
+      - name: intermediate_end
+        description: Score for intermediate level
+      - name: advanced_end
+        description: Score for advanced level
+  - name: base_mid_end_comb_students_2425_dim
+    description: Dimension table for student information across all assessments AY 2024-25
+    columns:
+      - name: student_id
+        description: Unique student identifier
+      - name: baseline_attendence
+        description: Whether student attended baseline assessment
+      - name: city_base
+        description: Student's city from baseline data
+      - name: student_name_base
+        description: Student's full name
+      - name: classroom_id_base
+        description: Unique identifier for the specific classroom
+      - name: pm_name_base
+        description: Program Manager name from baseline
+      - name: school_name_base
+        description: School name from baseline
+      - name: fellow_name_base
+        description: Fellowship fellow name from baseline
+      - name: cohort_base
+        description: Fellow training cohort number
+      - name: grade_taught_base
+        description: Grade taught from baseline
+      - name: midline_attendence
+        description: Whether student attended midline assessment
+      - name: city_mid
+        description: City where student's school is located
+      - name: student_name_mid
+        description: Midline assessment student's full name.
+      - name: classroom_id_mid
+        description: Unique identifier for the specific classroom in the midline assessment.
+      - name: pm_name_mid
+        description: Program Manager name overseeing the fellowship program at midline assessment.
+      - name: school_name_mid
+        description: Name of the school where the student is enrolled at the midline assessment stage.
+      - name: fellow_name_mid
+        description: Name of the Bhumi fellowship fellow associated with the midline assessment.
+      - name: cohort_mid
+        description: Fellow training cohort number at midline assessment.
+      - name: grade_taught_mid
+        description: Grade level being taught at mid-year assessment (1-8).
+      - name: endline_attendence
+        description: Whether student attended endline assessment
+      - name: city_end
+        description: City where student's school is located
+      - name: student_name_end
+        description: Name of the student
+      - name: classroom_id_end
+        description: Identifier for the classroom
+      - name: pm_name_end
+        description: Program Manager's name
+      - name: school_name_end
+        description: Name of the school
+      - name: fellow_name_end
+        description: Name of the fellowship fellow conducting the assessment
+      - name: cohort_end
+        description: Cohort of the student
+      - name: grade_taught_end
+        description: Grade level taught in the classroom
+  - name: base_mid_end_comb_scores_25_26_fct
+    description: >-
+      Fact table combining baseline, midline, and endline assessment scores for AY 2025-26
+    columns:
+      - name: student_id
+        description: Unique student identifier linking all assessments
+      - name: rc_level_baseline_base
+        description: Baseline reading comprehension level
+      - name: rc_grade_level_baseline_base
+        description: Baseline grade level for reading comprehension
+      - name: rc_learning_level_status_baseline_base
+        description: Baseline learning level status for reading comprehension
+      - name: rc_endline_baseline_growth_base
+        description: Growth from baseline to endline in reading comprehension
+      - name: rc_level_midline_mid
+        description: Reading comprehension level at midline
+      - name: rc_grade_level_midline_mid
+        description: Grade level for reading comprehension at midline
+      - name: rc_learning_level_status_midline_mid
+        description: Learning level status for reading comprehension at midline
+      - name: rc_baseline_midline_growth_mid
+        description: Growth in reading comprehension from baseline to midline
+      - name: rc_midline_growth_status_mid
+        description: Growth status for reading comprehension at midline
+      - name: rf_level_baseline_base
+        description: Baseline reading fluency level
+      - name: rf_baseline_growth_base
+        description: Growth from baseline in reading fluency
+      - name: rf_level_midline_mid
+        description: Reading fluency level at midline
+      - name: rf_midline_growth_mid
+        description: Growth in reading fluency from baseline to midline
+      - name: math_level_baseline_base
+        description: Baseline math level
+      - name: math_baseline_grade_base
+        description: Baseline grade for math
+      - name: math_learning_level_status_baseline_base
+        description: Baseline learning level status for math
+      - name: math_endline_baseline_growth_base
+        description: Growth from baseline to endline in math
+      - name: math_level_midline_mid
+        description: Math level at midline
+      - name: math_midline_grade_mid
+        description: Grade level for math at midline
+      - name: math_learning_level_status_midline_mid
+        description: Learning level status for math at midline
+      - name: math_baseline_midline_growth_mid
+        description: Growth in math from baseline to midline
+      - name: math_midline_growth_status_mid
+        description: Growth status for math at midline
+      - name: final_baseline_level_mastery_base
+        description: Final baseline level of mastery
+      - name: baseline_numbers_base
+        description: Baseline assessment for numbers
+      - name: baseline_patterns_base
+        description: Baseline assessment for patterns
+      - name: baseline_geometry_base
+        description: Baseline assessment for geometry
+      - name: baseline_total_in_mensuration_base
+        description: Total baseline score in mensuration
+      - name: baseline_total_in_time_base
+        description: Total baseline score in time
+      - name: baseline_total_in_operations_base
+        description: Total baseline score in operations
+      - name: baseline_total_in_data_base
+        description: Total baseline score in data
+      - name: final_midline_level_mastery_mid
+        description: Final level of mastery at midline
+      - name: midline_numbers_mid
+        description: Midline assessment score for numbers
+      - name: midline_patterns_mid
+        description: Midline assessment score for patterns
+      - name: midline_geometry_mid
+        description: Midline assessment score for geometry
+      - name: midline_total_in_mensuration_mid
+        description: Total score in mensuration at midline
+      - name: midline_total_in_time_mid
+        description: Total score in time at midline
+      - name: midline_total_in_operations_mid
+        description: Total score in operations at midline
+      - name: midline_total_in_data_mid
+        description: Total score in data at midline
+      - name: baseline_factual_base
+        description: Baseline assessment for factual knowledge
+      - name: baseline_inference_base
+        description: Baseline assessment for inference
+      - name: baseline_critical_thinking_base
+        description: Baseline assessment for critical thinking
+      - name: midline_factual_mid
+        description: Midline assessment score for factual knowledge
+      - name: midline_inference_mid
+        description: Midline assessment score for inference
+      - name: midline_critical_thinking_mid
+        description: Midline assessment score for critical thinking
+      - name: baseline_vocabulary_base
+        description: Baseline assessment for vocabulary
+      - name: baseline_grammar_base
+        description: Baseline assessment for grammar
+      - name: midline_vocabulary_mid
+        description: Midline assessment score for vocabulary
+      - name: midline_grammar_mid
+        description: Midline assessment score for grammar
+      - name: baseline_assessed_percentage_base
+        description: Percentage assessed at baseline
+      - name: midline_assessed_percentage_mid
+        description: Percentage assessed at midline
+      - name: baseline_letter_sounds_base
+        description: Baseline assessment for letter sounds
+      - name: baseline_cvc_words_base
+        description: Baseline assessment for CVC words
+      - name: baseline_blends_base
+        description: Baseline assessment for blends
+      - name: baseline_consonant_diagraph_base
+        description: Baseline assessment for consonant diagraphs
+      - name: baseline_magic_e_words_base
+        description: Baseline assessment for magic 'e' words
+      - name: baseline_vowel_diagraphs_base
+        description: Baseline assessment for vowel diagraphs
+      - name: baseline_multi_syllabelle_words_base
+        description: Baseline assessment for multi-syllable words
+      - name: baseline_passage_1_base
+        description: Baseline assessment for passage 1
+      - name: baseline_passage_2_base
+        description: Baseline assessment for passage 2
+      - name: midline_letter_sounds_mid
+        description: Midline assessment score for letter sounds
+      - name: midline_cvc_words_mid
+        description: Midline assessment score for CVC words
+      - name: midline_blends_mid
+        description: Midline assessment score for blends
+      - name: midline_consonant_diagraph_mid
+        description: Midline assessment score for consonant diagraphs
+      - name: midline_magic_e_words_mid
+        description: Midline assessment score for magic 'e' words
+      - name: midline_vowel_diagraphs_mid
+        description: Midline assessment score for vowel diagraphs
+      - name: midline_multi_syllabelle_words_mid
+        description: Midline assessment score for multi-syllable words
+      - name: midline_passage_1_mid
+        description: Midline assessment score for passage 1
+      - name: midline_passage_2_mid
+        description: Midline assessment score for passage 2
+      - name: math_level_baseline
+        description: Mathematics proficiency level at baseline
+      - name: math_level_midline
+        description: Mathematics proficiency level at midline
+      - name: rc_level_baseline
+        description: Reading Comprehension level at baseline
+      - name: rc_level_midline
+        description: Reading Comprehension level at midline
+      - name: rf_level_baseline
+        description: Reading Fluency level at baseline
+      - name: rf_level_midline
+        description: Reading Fluency level at midline
+  - name: base_mid_end_comb_students_25_26_dim
+    description: Dimension table for student information across all assessments AY 2025-26
+    columns:
+      - name: student_id
+        description: Unique student identifier
+      - name: baseline_attendence
+        description: Attendance record at baseline assessment
+      - name: city_base
+        description: City where the student's school is located at baseline
+      - name: student_name_base
+        description: Name of the student at baseline
+      - name: classroom_id_base
+        description: Identifier for the classroom at baseline
+      - name: pm_name_base
+        description: Program Manager's name at baseline
+      - name: school_name_base
+        description: Name of the school at baseline
+      - name: fellow_name_base
+        description: Name of the fellowship fellow conducting the assessment at baseline
+      - name: cohort_base
+        description: Cohort of the student at baseline
+      - name: student_grade_base
+        description: Grade level of the student at baseline
+      - name: donor_base
+        description: Donor information at baseline
+      - name: midline_attendence
+        description: Attendance record at midline assessment
+      - name: city_mid
+        description: City where the student's school is located at midline
+      - name: student_name_mid
+        description: Name of the student at midline
+      - name: classroom_id_mid
+        description: Identifier for the classroom at midline
+      - name: pm_name_mid
+        description: Program Manager's name at midline
+      - name: school_name_mid
+        description: Name of the school at midline
+      - name: fellow_name_mid
+        description: Name of the fellowship fellow conducting the assessment at midline
+      - name: cohort_mid
+        description: Cohort of the student at midline
+      - name: student_grade_mid
+        description: Grade level of the student at midline
+      - name: donor_mid
+        description: Donor information at midline
+      - name: city_baseline
+        description: Student's city from baseline data
+      - name: pm_name_baseline
+        description: Program Manager name from baseline
+      - name: school_name_baseline
+        description: School name from baseline
+      - name: fellow_name_baseline
+        description: Fellowship fellow name from baseline
+      - name: baseline_attendance
+        description: Whether student attended baseline assessment
+      - name: midline_attendance
+        description: Whether student attended midline assessment
+  - name: eco_base_end_25_26
+    description: Intermediate table combining EcoChamps baseline and endline assessment data
+    columns:
+      - name: Roll No
+        description: Student's official school roll number
+      - name: Chapter
+        description: BHUMI chapter/branch managing the program
+      - name: School
+        description: Name of the school
+      - name: Grade
+        description: Student's grade level
+      - name: School ID
+        description: Unique school identifier
+      - name: Student Name
+        description: Student's full name
+      - name: Student Status
+        description: Student's enrollment status (Active, Graduated, etc.)
+      - name: Donor Mapped
+        description: Funding source attribution for reporting
+      - name: baseline_score
+        description: Environmental knowledge baseline assessment score
+      - name: baseline_attendance
+        description: Baseline assessment attendance status
+      - name: baseline_date
+        description: Date of baseline assessment
+      - name: endline_score
+        description: Environmental knowledge endline assessment score
+      - name: endline_attendance
+        description: Endline assessment attendance status
+      - name: endline_date
+        description: Date of endline assessment
+      - name: Assessment completed
+        description: Number of assessments completed
+      - name: Assessment Attendance %
+        description: Overall assessment attendance percentage
+  - name: eco_modules_25_26
+    description: Intermediate table for EcoChamps module participation and attendance
+    columns:
+      - name: Roll No
+        description: Student's official school roll number
+      - name: Chapter
+        description: BHUMI chapter/branch managing the program
+      - name: School
+        description: Name of the school
+      - name: Grade
+        description: Student's grade level
+      - name: School ID
+        description: Unique school identifier
+      - name: Student Name
+        description: Student's full name
+      - name: Student Status
+        description: Student's enrollment status (Active, Graduated, etc.)
+      - name: Donor Mapped
+        description: Funding source attribution for reporting
+      - name: kitchen_garden_attendance
+        description: Kitchen Garden module attendance status
+      - name: kitchen_garden_date
+        description: Date of Kitchen Garden module participation
+      - name: waste_management_attendance
+        description: Waste Management module attendance status
+      - name: waste_management_date
+        description: Date of Waste Management module participation
+      - name: water_conservation_attendance
+        description: Water Conservation module attendance status
+      - name: water_conservation_date
+        description: Date of Water Conservation module participation
+      - name: climate_attendance
+        description: Climate module attendance status
+      - name: climate_date
+        description: Date of Climate module participation
+      - name: lifestyle_choices_attendance
+        description: Lifestyle Choices module attendance status
+      - name: lifestyle_choices_date
+        description: Date of Lifestyle Choices module participation
+      - name: Modules completed
+        description: Total number of modules completed
+      - name: Modules Attendance %
+        description: Overall module attendance percentage

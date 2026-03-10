@@ -4,6 +4,7 @@ with RF_ANALYSIS_BASELINE as (
         D.STUDENT_GRADE_BASE as GRADE,
         D.DONOR_BASE as DONOR,
         D.PM_NAME_BASE as PM_NAME,
+        D.FELLOW_NAME_BASE as FELLOW_NAME,
         F.RF_BASELINE_GROWTH_BASE as RF_GROWTH,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_BASE,
         count(distinct case when D.COHORT_BASE = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_BASE,
@@ -13,7 +14,7 @@ with RF_ANALYSIS_BASELINE as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.BASELINE_ATTENDENCE = True
-    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_BASELINE_GROWTH_BASE, D.DONOR_BASE, D.PM_NAME_BASE
+    group by D.CITY_BASE, D.STUDENT_GRADE_BASE, F.RF_BASELINE_GROWTH_BASE, D.DONOR_BASE, D.PM_NAME_BASE, D.FELLOW_NAME_BASE
 ),
 
 RF_ANALYSIS_MIDLINE as (
@@ -22,6 +23,7 @@ RF_ANALYSIS_MIDLINE as (
         D.STUDENT_GRADE_MID as GRADE,
         D.DONOR_MID as DONOR,
         D.PM_NAME_MID as PM_NAME,
+        D.FELLOW_NAME_MID as FELLOW_NAME,
         F.RF_MIDLINE_GROWTH_MID as RF_GROWTH,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_MID,
         count(distinct case when D.COHORT_MID = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_MID,
@@ -31,7 +33,7 @@ RF_ANALYSIS_MIDLINE as (
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
         on F.STUDENT_ID = D.STUDENT_ID
     where D.MIDLINE_ATTENDENCE = True
-    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_MIDLINE_GROWTH_MID, D.DONOR_MID, D.PM_NAME_MID
+    group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_MIDLINE_GROWTH_MID, D.DONOR_MID, D.PM_NAME_MID, D.FELLOW_NAME_MID
 ),
 
 -- RF_analysis_endline as (
@@ -54,6 +56,7 @@ ALL_COMBINATIONS as (
         GRADE,
         DONOR,
         PM_NAME,
+        FELLOW_NAME,
         RF_GROWTH
     from RF_ANALYSIS_BASELINE
     
@@ -64,6 +67,7 @@ ALL_COMBINATIONS as (
         GRADE,
         DONOR,
         PM_NAME,
+        FELLOW_NAME,
         RF_GROWTH
     from RF_ANALYSIS_MIDLINE
     
@@ -81,6 +85,7 @@ select
     AC.GRADE,
     AC.DONOR,
     AC.PM_NAME,
+    AC.FELLOW_NAME,
     AC.RF_GROWTH,
     B.STUDENT_COUNT_BASE,
     B.COHORT_2024_COUNT_BASE,
@@ -97,6 +102,7 @@ left join RF_ANALYSIS_BASELINE as B
         and AC.GRADE = B.GRADE
         and AC.DONOR = B.DONOR
         and AC.PM_NAME = B.PM_NAME
+        and AC.FELLOW_NAME = B.FELLOW_NAME
 left join RF_ANALYSIS_MIDLINE as M
     on
         AC.CITY = M.CITY 
@@ -104,6 +110,7 @@ left join RF_ANALYSIS_MIDLINE as M
         and AC.GRADE = M.GRADE
         and AC.DONOR = M.DONOR
         and AC.PM_NAME = M.PM_NAME
+        and AC.FELLOW_NAME = M.FELLOW_NAME
 -- left join RF_analysis_endline e
 --     on ac.city = e.city 
 --     and ac.RF_status = e.RF_status 
