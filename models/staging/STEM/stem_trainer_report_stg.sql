@@ -1,40 +1,40 @@
 with trainers as (
     select
         -- identifiers
-        nullif(Btrim("ID"::text), '') as id,
-        Coalesce(Initcap(Btrim("Name"::text)), '') as trainer_name,
-        Lower(nullif(Btrim("Email"::text), '')) as trainer_email,
+        nullif(btrim("ID"::text), '') as id,
+        coalesce(initcap(btrim("Name"::text)), '') as trainer_name,
+        lower(nullif(btrim("Email"::text), '')) as trainer_email,
 
         -- location / organization info from json
-        Coalesce(("State"::jsonb)->>'zc_display_value', ("State"::jsonb)->>'State', '') as state,
-        Coalesce(("Chapter"::jsonb)->>'zc_display_value', ("Chapter"::jsonb)->>'Chapter_Name', '') as chapter,
-        Coalesce(("Program"::jsonb)->>'zc_display_value', ("Program"::jsonb)->>'Program_Name', '') as program,
-        Coalesce(("District"::jsonb)->>'zc_display_value', ("District"::jsonb)->>'District', '') as district,
+        coalesce(("State"::jsonb)->>'zc_display_value', ("State"::jsonb)->>'State', '') as state,
+        coalesce(("Chapter"::jsonb)->>'zc_display_value', ("Chapter"::jsonb)->>'Chapter_Name', '') as chapter,
+        coalesce(("Program"::jsonb)->>'zc_display_value', ("Program"::jsonb)->>'Program_Name', '') as program,
+        coalesce(("District"::jsonb)->>'zc_display_value', ("District"::jsonb)->>'District', '') as district,
 
         -- school array raw + count
         case
             when "School"::text like '[%' then "School"::text
-            else Coalesce(Btrim("School"::text), '')
+            else coalesce(btrim("School"::text), '')
         end as school_list,
         case
             when "School"::text like '[%' then jsonb_array_length("School"::jsonb)
         end as school_count,
 
         -- status and phone
-        Coalesce(Initcap(Btrim("Status"::text)), '') as status,
+        coalesce(initcap(btrim("Status"::text)), '') as status,
         case
-            when Btrim("Phone_Number"::text) ~ '^\+?\d+$' then Replace(Btrim("Phone_Number"::text), '+', '')
-            else nullif(Btrim("Phone_Number"::text), '')
+            when btrim("Phone_Number"::text) ~ '^\+?\d+$' then replace(btrim("Phone_Number"::text), '+', '')
+            else nullif(btrim("Phone_Number"::text), '')
         end as phone_number,
 
         -- reporting manager parsed
-        Coalesce(("Reporting_Manager"::jsonb)->>'zc_display_value', ("Reporting_Manager"::jsonb)->>'Name', '') as reporting_manager_name,
-        nullif(Btrim(("Reporting_Manager"::jsonb)->>'Email'), '') as reporting_manager_email,
-        nullif(Btrim(("Reporting_Manager"::jsonb)->>'ID'), '') as reporting_manager_id,
+        coalesce(("Reporting_Manager"::jsonb)->>'zc_display_value', ("Reporting_Manager"::jsonb)->>'Name', '') as reporting_manager_name,
+        nullif(btrim(("Reporting_Manager"::jsonb)->>'Email'), '') as reporting_manager_email,
+        nullif(btrim(("Reporting_Manager"::jsonb)->>'ID'), '') as reporting_manager_id,
 
         -- timestamps
         case
-            when Btrim("Added_Time"::text) = '' then null
+            when btrim("Added_Time"::text) = '' then null
             when "Added_Time"::text ~ '^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2}(:\d{2})?)?$' then ("Added_Time"::text)::timestamp
             when "Added_Time"::text ~ '^\d{2}-[A-Za-z]{3}-\d{4}( \d{2}:\d{2}:\d{2})?$' then to_timestamp("Added_Time"::text, 'DD-Mon-YYYY HH24:MI:SS')
         end as added_time

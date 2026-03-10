@@ -8,13 +8,13 @@ with attendances as (
         -- donor / trainer as json objects with display values
         Coalesce(("Donor"::jsonb)->>'zc_display_value', ("Donor"::jsonb)->>'Name', '') as donor,
         Coalesce(("Trainer"::jsonb)->>'zc_display_value', ("Trainer"::jsonb)->>'Name', '') as trainer_name,
-        nullif(Btrim(("Trainer"::jsonb)->>'ID'), '') as trainer_id,
+        Nullif(Btrim(("Trainer"::jsonb)->>'ID'), '') as trainer_id,
 
         -- timestamps and dates
         case
             when Btrim("Added_Time"::text) = '' then null
             when "Added_Time"::text ~ '^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2}(:\d{2})?)?$' then ("Added_Time"::text)::timestamp
-            when "Added_Time"::text ~ '^\d{2}-[A-Za-z]{3}-\d{4}( \d{2}:\d{2}:\d{2})?$' then to_timestamp("Added_Time"::text, 'DD-Mon-YYYY HH24:MI:SS')
+            when "Added_Time"::text ~ '^\d{2}-[A-Za-z]{3}-\d{4}( \d{2}:\d{2}:\d{2})?$' then To_timestamp("Added_Time"::text, 'DD-Mon-YYYY HH24:MI:SS')
         end as added_time,
         Coalesce(Initcap(Btrim("Class_Type"::text)), '') as class_type,
 
@@ -23,8 +23,8 @@ with attendances as (
 
         case
             when Btrim("Session_Date"::text) ~ '^\d{4}-\d{2}-\d{2}$' then ("Session_Date"::text)::date
-            when Btrim("Session_Date"::text) ~ '^\d{2}/\d{2}/\d{4}$' then to_date("Session_Date"::text, 'MM/DD/YYYY')
-            when Btrim("Session_Date"::text) ~ '^\d{2}-[A-Za-z]{3}-\d{4}$' then to_date("Session_Date"::text, 'DD-Mon-YYYY')
+            when Btrim("Session_Date"::text) ~ '^\d{2}/\d{2}/\d{4}$' then To_date("Session_Date"::text, 'MM/DD/YYYY')
+            when Btrim("Session_Date"::text) ~ '^\d{2}-[A-Za-z]{3}-\d{4}$' then To_date("Session_Date"::text, 'DD-Mon-YYYY')
         end as session_date,
         Coalesce(Initcap(Btrim("Session_Type"::text)), '') as session_type,
 
@@ -54,7 +54,7 @@ with attendances as (
         end as present_students_list,
         case when Btrim("Present_Students_List1"::text) ~ '^\d+$' then ("Present_Students_List1"::text)::integer end as present_students_count,
         case
-            when "Absent_Students_List"::text like '[%' then jsonb_array_length("Absent_Students_List"::jsonb)
+            when "Absent_Students_List"::text like '[%' then Jsonb_array_length("Absent_Students_List"::jsonb)
         end as absent_students_count,
 
         -- combined class flag and volunteering hours

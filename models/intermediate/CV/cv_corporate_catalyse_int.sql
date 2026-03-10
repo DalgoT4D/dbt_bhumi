@@ -42,22 +42,22 @@ enriched as (
         end as partner_type,
 
         -- event closure / SLA indicator (metric 7)
-        case
-            when source.event_closed_by_all_aspect is not null
-                and btrim(source.event_closed_by_all_aspect) not in ('', 'false', 'null')
-            then true
-            else false
-        end as is_impact_report_sent,
+        coalesce(
+            source.event_closed_by_all_aspect is not null
+            and btrim(source.event_closed_by_all_aspect) not in ('', 'false', 'null'), false
+        ) as is_impact_report_sent,
 
         -- FY: April–March cycle (e.g. Apr 2025 → Mar 2026 = "2025-2026") (metric 13)
         case
             when extract(month from source.event_start_date) >= 4
-                then extract(year from source.event_start_date)::integer::text
+                then
+                    extract(year from source.event_start_date)::integer::text
                     || '-'
                     || (extract(year from source.event_start_date) + 1)::integer::text
-            else (extract(year from source.event_start_date) - 1)::integer::text
-                    || '-'
-                    || extract(year from source.event_start_date)::integer::text
+            else
+                (extract(year from source.event_start_date) - 1)::integer::text
+                || '-'
+                || extract(year from source.event_start_date)::integer::text
         end as fy,
 
         -- quarter within FY: Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec, Q4=Jan-Mar (metric 14)
@@ -69,7 +69,7 @@ enriched as (
         end as quarter
 
     from source
-    left join donor_report dr on dr.event_id = source.event_id
+    left join donor_report as dr on source.event_id = dr.event_id
 ),
 
 -- running event count per partner per FY, ordered by event date

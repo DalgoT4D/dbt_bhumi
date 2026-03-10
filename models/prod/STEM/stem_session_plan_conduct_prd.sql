@@ -50,15 +50,16 @@ select
     coalesce(p.class_division, a.class_division) as class_division,
     coalesce(p.sessions_planned, 0) as sessions_planned,
     coalesce(a.sessions_conducted, 0) as sessions_conducted
-from planned_sessions p
-full outer join conducted_sessions a
-    on  p.donor = a.donor
-    and p.project_name = a.project_name
-    and p.trainer_name = a.trainer_name
-    and p.academic_year = a.academic_year
-    and p.school_name = a.school_name
-    and p.class_number = a.class_number
-    and p.class_division = a.class_division
+from planned_sessions as p
+full outer join conducted_sessions as a
+    on
+        p.donor = a.donor
+        and p.project_name = a.project_name
+        and p.trainer_name = a.trainer_name
+        and p.academic_year = a.academic_year
+        and p.school_name = a.school_name
+        and p.class_number = a.class_number
+        and p.class_division = a.class_division
 order by
     donor,
     project_name,
@@ -67,4 +68,3 @@ order by
     school_name,
     class_number,
     class_division
-

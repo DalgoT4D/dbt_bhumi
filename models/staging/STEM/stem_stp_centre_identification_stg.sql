@@ -22,7 +22,6 @@ with centre_identification as (
         -- finalized programs
         case
             when "Finalized_Programs_with_Bhumi"::text like '[%' then "Finalized_Programs_with_Bhumi"::text
-            else null
         end as finalized_programs_list,
         case
             when "Finalized_Programs_with_Bhumi"::text like '[%' then jsonb_array_length("Finalized_Programs_with_Bhumi"::jsonb)
