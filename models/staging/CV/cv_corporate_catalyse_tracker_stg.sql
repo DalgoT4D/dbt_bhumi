@@ -5,8 +5,8 @@ with clean_dates as (
         regexp_replace("Donor"::text, '[^0-9./\-]', '', 'g') as donor_clean,
         regexp_replace("Invoice_date"::text, '[^0-9./\-]', '', 'g') as invoice_date_clean,
         regexp_replace("InvoiceReportDate"::text, '[^0-9./\-]', '', 'g') as invoice_report_date_clean,
-        regexp_replace("Event_Event_End_Date"::text, '[^0-9./\-]', '', 'g') as event_end_date_clean,
-        regexp_replace("Event_Event_Start_Date"::text, '[^0-9./\-]', '', 'g') as event_start_date_clean
+        regexp_replace("Event_Event_End_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_end_date_clean,
+        regexp_replace("Event_Event_Start_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_start_date_clean
     from {{ source('zc_bvms_data', 'Corporate_Catalyse_Tracker') }}
 ),
 
@@ -22,6 +22,7 @@ corporate as (
         coalesce(("Event_Address"::jsonb)->>'zc_display_value', btrim("Event_Address"::text), '') as event_address,
         coalesce(("Event_Corporate_Event_Type"::jsonb)->>'zc_display_value', btrim("Event_Corporate_Event_Type"::text), '') as corporate_event_type,
         coalesce(("Event_Corporate_Partner_Name"::jsonb)->>'zc_display_value', btrim("Event_Corporate_Partner_Name"::text), '') as corporate_partner_name,
+        coalesce(("Event_Corporate_Partner_Name"::jsonb)->>'ID', btrim("Event_Corporate_Partner_Name"::text), '') as corporate_partner_id,
         coalesce(("Event_closed_by_all_aspect"::jsonb)->>'zc_display_value', btrim("Event_closed_by_all_aspect"::text), '') as event_closed_by_all_aspect,
         coalesce(("Event_CV_Event_implementer_name"::jsonb)->>'zc_display_value', btrim("Event_CV_Event_implementer_name"::text), '') as cv_event_implementer_name,
 
@@ -103,6 +104,7 @@ select distinct
     event_address,
     corporate_event_type,
     corporate_partner_name,
+    corporate_partner_id,
     event_closed_by_all_aspect,
     cv_event_implementer_name,
     coordinator_name,

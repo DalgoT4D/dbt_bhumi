@@ -169,6 +169,14 @@ CAST(
                 ELSE NULL
             END
 
+        -- Handle DD-Mon-YYYY (e.g., 15-Jan-2024 → 2024-01-15)
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])-[A-Za-z]{3}-\d{4}$' THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'DD-Mon-YYYY')) BETWEEN 1900 AND 2050
+                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'DD-Mon-YYYY')
+                ELSE NULL
+            END
+
         -- If no match, return NULL
         ELSE NULL::DATE
     END

@@ -1,5 +1,8 @@
-with source as (
-    select * from {{ source('CV_Gsheet_Raw_Data', 'Form_responses_new') }}
+with clean_dates as (
+    select
+        *,
+        regexp_replace(event_date::text, '[^0-9./\-]', '', 'g') as event_date_clean
+    from {{ source('CV_Gsheet_Raw_Data', 'Form_responses_new') }}
 ),
 
 csat_responses as (
@@ -14,7 +17,7 @@ csat_responses as (
 
         -- event info
         nullif(btrim(event_name::text), '') as event_name,
-        event_date::date as event_date,
+        {{ validate_date('event_date_clean') }} as event_date,
 
         -- location
         coalesce(btrim(city::text), '') as city,
@@ -24,14 +27,14 @@ csat_responses as (
         submission_date::date as submission_date,
 
         -- ratings (int)
-        overall_event_experience as overall_event_experience_score,
-        how_useful_did_you_find_the_orientation_context_setting_and_deb as orientation_usefulness_score,
+        case when btrim(overall_event_experience::text) ~ '^\d+$' then (overall_event_experience::text)::integer end as overall_event_experience_score,
+        case when btrim(how_useful_did_you_find_the_orientation_context_setting_and_deb::text) ~ '^\d+$' then (how_useful_did_you_find_the_orientation_context_setting_and_deb::text)::integer end as orientation_usefulness_score,
 
         -- open-ended feedback
         coalesce(btrim(what_activity_would_you_like_to_volunteer_for_next_::text), '') as next_volunteering_activity,
         coalesce(btrim(any_other_feedback_suggestions_orientation_event_closure_::text), '') as additional_feedback
 
-    from source
+    from clean_dates
 )
 
 select * from csat_responses

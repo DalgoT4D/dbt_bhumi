@@ -5,6 +5,7 @@ with source as (
 select
     submission_id,
     submission_date,
+    orientation_usefulness_score,
     overall_event_experience_score as csat_score,
     case
         when overall_event_experience_score >= 8 then '>=8'
