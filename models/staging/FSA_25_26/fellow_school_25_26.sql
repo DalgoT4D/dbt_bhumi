@@ -6,13 +6,19 @@ with fellow_school as (
             NULLIF(BTRIM(is_active::TEXT),'') as is_active,
             NULLIF(BTRIM(school_id::TEXT),'') as school_id,
             NULLIF(BTRIM(no_of_students::TEXT),'')::INTEGER as no_of_students,
+            NULLIF(BTRIM(section::TEXT),'') as section,
+            case
+                when NULLIF(BTRIM(section::TEXT),'') is not NULL then NULLIF(BTRIM(grade::TEXT),'') || ' ' || NULLIF(BTRIM(section::TEXT),'')
+                else NULLIF(BTRIM(grade::TEXT),'')
+            end as grade_section,
+            
             ROW_NUMBER() over (
                 partition by NULLIF(BTRIM(fellow_id::TEXT), '')
                 order by created_at desc
             ) as rn
         from {{ source('fellowship_school_app_25_26', 'fellow_school_grade_25_26') }}
         where
-            NULLIF(BTRIM(id::TEXT),'') is not null
+            NULLIF(BTRIM(id::TEXT),'') is not NULL
             and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
     ) as sub
     where rn = 1
@@ -58,6 +64,8 @@ schools as (
 select distinct
     fs.fellow_id,
     fs.grade,
+    fs.section,
+    fs.grade_section,
     fs.no_of_students,
     s.school_id,
     s.school_name, 
@@ -86,5 +94,5 @@ left join fellows_data as f
 left join pms_data as p
     on f.pm_id = p.pm_id
 where
-    fs.fellow_id is not null
-    and s.school_id is not null
+    fs.fellow_id is not NULL
+    and s.school_id is not NULL
