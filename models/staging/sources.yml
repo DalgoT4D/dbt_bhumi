@@ -741,7 +741,18 @@ sources:
       - name: observations_25_26
         identifier: observations
         description: observations from fellowship school app for AY 25-26
-
+      - name: competencies_25_26
+        identifier: competencies
+        description: competencies from fellowship school app for AY 25-26
+      - name: competency_mappings_25_26
+        identifier: competency_mappings
+        description: competency mappings from fellowship school app for AY 25-26
+      - name: fcm_ratings_25_26
+        identifier: fcm_ratings
+        description: fcm ratings from fellowship school app for AY 25-26
+      - name: fcm_updates_25_26
+        identifier: fcm_updates
+        description: fcm updates from fellowship school app for AY 25-26
 
 
   # - name: STP_25-26
