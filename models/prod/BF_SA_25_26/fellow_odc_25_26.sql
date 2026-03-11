@@ -40,48 +40,48 @@ month_quarter_map as (
         'Apr-May-Jun' as quarter
     union all
     select
-        'May 2025',
-        'Apr-May-Jun'
+        'May 2025' as month_year,
+        'Apr-May-Jun' as quarter
     union all
     select
-        'Jun 2025',
-        'Apr-May-Jun'
+        'Jun 2025' as month_year,
+        'Apr-May-Jun' as quarter
     union all
     select
-        'Jul 2025',
-        'Jul-Aug-Sep'
+        'Jul 2025' as month_year,
+        'Jul-Aug-Sep' as quarter
     union all
     select
-        'Aug 2025',
-        'Jul-Aug-Sep'
+        'Aug 2025' as month_year,
+        'Jul-Aug-Sep' as quarter
     union all
     select
-        'Sep 2025',
-        'Jul-Aug-Sep'
+        'Sep 2025' as month_year,
+        'Jul-Aug-Sep' as quarter
     union all
     select
-        'Oct 2025',
-        'Oct-Nov-Dec'
+        'Oct 2025' as month_year,
+        'Oct-Nov-Dec' as quarter
     union all
     select
-        'Nov 2025',
-        'Oct-Nov-Dec'
+        'Nov 2025' as month_year,
+        'Oct-Nov-Dec' as quarter
     union all
     select
-        'Dec 2025',
-        'Oct-Nov-Dec'
+        'Dec 2025' as month_year,
+        'Oct-Nov-Dec' as quarter
     union all
     select
-        'Jan 2026',
-        'Jan-Feb-Mar'
+        'Jan 2026' as month_year,
+        'Jan-Feb-Mar' as quarter
     union all
     select
-        'Feb 2026',
-        'Jan-Feb-Mar'
+        'Feb 2026' as month_year,
+        'Jan-Feb-Mar' as quarter
     union all
     select
-        'Mar 2026',
-        'Jan-Feb-Mar'
+        'Mar 2026' as month_year,
+        'Jan-Feb-Mar' as quarter
 ),
 
 school_with_quarter as (
