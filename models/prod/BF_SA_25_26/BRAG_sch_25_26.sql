@@ -8,13 +8,20 @@ with base as (
         udise_code,
         school_type,
         quarter,
-        homes_visited_sum,
-        total_students_sum,
-        ptms_sum,
-        teacher_circles_sum,
-        school_leader_checkins_sum
+        SUM(homes_visited_sum) as homes_visited_sum,
+        SUM(total_students_sum) as total_students_sum,
+        SUM(ptms_sum) as ptms_sum,
+        SUM(teacher_circles_sum) as teacher_circles_sum,
+        SUM(school_leader_checkins_sum) as school_leader_checkins_sum
     from {{ ref('school_para_25_26') }}
-
+    group by
+        school_id,
+        school_name,
+        school_state,
+        school_district,
+        udise_code,
+        school_type,
+        quarter
 ),
 
 homes_visit_brag as (

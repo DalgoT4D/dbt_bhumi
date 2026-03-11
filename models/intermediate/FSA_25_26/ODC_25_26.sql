@@ -14,7 +14,7 @@ WITH odc AS (
         COALESCE(BTRIM(fellow_id::TEXT), '') AS fellow_id,
         COALESCE(INITCAP(BTRIM(fellow_name::TEXT)), '') AS fellow_name,
         COALESCE(is_completed::TEXT IN ('TRUE', 'true', '1'), FALSE) AS is_completed,
-        REGEXP_REPLACE(BTRIM(grade_section::TEXT), '[^0-9]', '', 'g') AS grade_section,
+        REGEXP_REPLACE(REGEXP_REPLACE(COALESCE(BTRIM(grade_section::TEXT), ''), '-', '', 'g'), '([0-9])([a-zA-Z])', '\1 \2', 'g') AS grade_section,
         REGEXP_REPLACE(BTRIM(grade_observed::TEXT), '[^0-9]', '', 'g') AS grade_observed,
         CASE
             WHEN NULLIF(TRIM(follow_up_date::TEXT), '') IS NULL THEN NULL
@@ -67,7 +67,7 @@ fellow_school AS (
 
 SELECT DISTINCT
     o.id,
-    o.date,
+    o.date AS filter_date,
     o.month_year,
     fs.school_id,
     fs.school_name,

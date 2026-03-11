@@ -12,27 +12,85 @@ with fellows as (
         school_state,
         school_district,
         udise_code,
-        school_type
+        school_type,
+        grade,
+        grade_section
     from {{ ref('fellow_school_25_26') }}
-    group by fellow_id, fellow_name, cohort, pm_id, pm_name, year_1_donor, year_2_donor, school_id, school_name, school_state, school_district, udise_code, school_type
+    group by
+        fellow_id, 
+        fellow_name, 
+        cohort, 
+        pm_id, 
+        pm_name, 
+        year_1_donor, 
+        year_2_donor, 
+        school_id, 
+        school_name, 
+        school_state, 
+        school_district, 
+        udise_code, 
+        school_type, 
+        grade,
+        grade_section
 ),
 
-quarters as (
-    select 'Apr-May-Jun' as quarter
+month_quarter_map as (
+    select
+        'Apr 2025' as month_year,
+        'Apr-May-Jun' as quarter
     union all
-    select 'Jul-Aug-Sep'
+    select
+        'May 2025',
+        'Apr-May-Jun'
     union all
-    select 'Oct-Nov-Dec'
+    select
+        'Jun 2025',
+        'Apr-May-Jun'
     union all
-    select 'Jan-Feb-Mar'
+    select
+        'Jul 2025',
+        'Jul-Aug-Sep'
+    union all
+    select
+        'Aug 2025',
+        'Jul-Aug-Sep'
+    union all
+    select
+        'Sep 2025',
+        'Jul-Aug-Sep'
+    union all
+    select
+        'Oct 2025',
+        'Oct-Nov-Dec'
+    union all
+    select
+        'Nov 2025',
+        'Oct-Nov-Dec'
+    union all
+    select
+        'Dec 2025',
+        'Oct-Nov-Dec'
+    union all
+    select
+        'Jan 2026',
+        'Jan-Feb-Mar'
+    union all
+    select
+        'Feb 2026',
+        'Jan-Feb-Mar'
+    union all
+    select
+        'Mar 2026',
+        'Jan-Feb-Mar'
 ),
 
 school_with_quarter as (
     select
         f.*,
-        q.quarter
+        m.month_year,
+        m.quarter
     from fellows as f
-    cross join quarters as q
+    cross join month_quarter_map as m
 ),
 
 agg_odc as (
@@ -40,20 +98,41 @@ agg_odc as (
         fellow_id,
         fellow_name,
         cohort,
+        pm_id,
+        pm_name,
         year_1_donor,
         year_2_donor,
+        school_id,
+        school_name,
+        school_state,
+        school_district,
+        udise_code,
+        school_type,
+        grade,
+        grade_section,
+        month_year,
         reporting_period,
         SUM(total_students) as total_students,
         AVG(student_engagement_percentage) as avg_student_engagement,
-        SUM(no_of_students) as no_of_students,
         COUNT(fellow_id) as odc_count
     from {{ ref('ODC_25_26') }}
     group by
         fellow_id,
         fellow_name,
         cohort,
+        pm_id,
+        pm_name,
         year_1_donor,
         year_2_donor,
+        school_id,
+        school_name,
+        school_state,
+        school_district,
+        udise_code,
+        school_type,
+        grade,
+        grade_section,
+        month_year,
         reporting_period
 )
 
@@ -71,13 +150,19 @@ select
     swq.school_district,
     swq.udise_code,
     swq.school_type,
+    swq.grade,
+    swq.month_year,
     swq.quarter,
+    swq.grade_section,
     ao.total_students,
     ao.avg_student_engagement,
-    ao.no_of_students,
     ao.odc_count
 from school_with_quarter as swq
 left join agg_odc as ao 
     on
         swq.fellow_id = ao.fellow_id 
+        and swq.school_id = ao.school_id
+        and swq.grade = ao.grade
+        and swq.grade_section = ao.grade_section
         and swq.quarter = ao.reporting_period
+        and swq.month_year = ao.month_year
