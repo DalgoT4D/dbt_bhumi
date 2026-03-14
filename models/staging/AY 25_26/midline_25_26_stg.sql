@@ -14,9 +14,10 @@ with midline as (
 
         -- RC Midline
         COALESCE(BTRIM("RC_level_Midline"::TEXT), '') as "RC level Midline",
-        COALESCE(BTRIM("RC_Grade_level_Midline_"::TEXT), '') as "RC Grade level Midline",
+        NULLIF(BTRIM("RC_Grade_level_Midline_"::TEXT), '') as "RC Grade level Midline",
         COALESCE(BTRIM("RC_Learning_Level_status_Midline"::TEXT), '') as "RC Learning Level Status Midline",
         NULLIF(BTRIM("RC_Baseline_Midline_Growth"::TEXT), '') as "RC Baseline Midline Growth",
+        COALESCE(BTRIM("RC_Midline_Growth_status"::TEXT), '') as "RC Midline Growth status",
 
         -- RC Midline Scores
         case when BTRIM("Midline_Factual"::TEXT) ~ '^[0-9.]+%?$' then REPLACE("Midline_Factual", '%','')::NUMERIC end as "Midline Factual",
@@ -28,10 +29,11 @@ with midline as (
 
         -- Math Midline
         COALESCE(BTRIM("Math_Level_Midline_"::TEXT), '') as "Math Level Midline",
-        case when BTRIM("Final_Midline_Level_Mastery"::TEXT) ~ '^[0-9.]+%?$' then REPLACE("Final_Midline_Level_Mastery", '%','')::NUMERIC end as "Final Midline Level Mastery",
-        case when BTRIM("Math_Midline_Grade"::TEXT) ~ '^\d+$' then ("Math_Midline_Grade"::TEXT)::INTEGER end as "Math Midline Grade",
         COALESCE(BTRIM("Math_Learning_level_status_Midline"::TEXT), '') as "Math Learning Level Status Midline",
         NULLIF(BTRIM("Math_Baseline_Midline_Growth"::TEXT), '') as "Math Baseline Midline Growth",
+        COALESCE(BTRIM("Math_Midline_Growth_status"::TEXT), '') as "Math Midline Growth status",
+        case when BTRIM("Final_Midline_Level_Mastery"::TEXT) ~ '^[0-9.]+%?$' then REPLACE("Final_Midline_Level_Mastery", '%','')::NUMERIC end as "Final Midline Level Mastery",
+        case when BTRIM("Math_Midline_Grade"::TEXT) ~ '^\d+$' then ("Math_Midline_Grade"::TEXT)::INTEGER end as "Math Midline Grade",
         case when BTRIM("Midline_Numbers"::TEXT) ~ '^[0-9.]+%?$' then REPLACE("Midline_Numbers", '%','')::NUMERIC end as "Midline Numbers",
         case when BTRIM("Midline_Patterns"::TEXT) ~ '^[0-9.]+%?$' then REPLACE("Midline_Patterns", '%','')::NUMERIC end as "Midline Patterns",
         case when BTRIM("Midline_Geometry"::TEXT) ~ '^[0-9.]+%?$' then REPLACE("Midline_Geometry", '%','')::NUMERIC end as "Midline Geometry",
@@ -42,7 +44,7 @@ with midline as (
 
         -- RF Midline
         COALESCE(BTRIM("RF_Level_midline"::TEXT), '') as "RF Level Midline",
-        NULLIF(BTRIM("RF_Midline_Growth"::TEXT), '') as "RF Midline Growth",
+        COALESCE(BTRIM("RF_Midline_Growth"::TEXT), '') as "RF Midline Growth",
         case when BTRIM("Midline_Letter_sounds"::TEXT) ~ '^[0-9.]+$' then ("Midline_Letter_sounds"::TEXT)::NUMERIC end as "Midline Letter sounds",
         case when BTRIM("Midline_CVC_words"::TEXT) ~ '^[0-9.]+$' then ("Midline_CVC_words"::TEXT)::NUMERIC end as "Midline CVC words",
         case when BTRIM("Midline_Blends"::TEXT) ~ '^[0-9.]+$' then ("Midline_Blends"::TEXT)::NUMERIC end as "Midline Blends",
@@ -72,6 +74,7 @@ select distinct
     m."RC Grade level Midline" as rc_grade_level_midline_mid,
     m."RC Learning Level Status Midline" as rc_learning_level_status_midline_mid,
     m."RC Baseline Midline Growth" as rc_baseline_midline_growth_mid,
+    m."RC Midline Growth status" as rc_midline_growth_status_mid,
     m."Midline Factual" as midline_factual_mid,
     m."Midline Inference" as midline_inference_mid,
     m."Midline Critical Thinking" as midline_critical_thinking_mid,
@@ -82,6 +85,7 @@ select distinct
     m."Math Midline Grade" as math_midline_grade_mid,
     m."Math Learning Level Status Midline" as math_learning_level_status_midline_mid,
     m."Math Baseline Midline Growth" as math_baseline_midline_growth_mid,
+    m."Math Midline Growth status" as math_midline_growth_status_mid,
     m."Final Midline Level Mastery" as final_midline_level_mastery_mid,
     m."Midline Numbers" as midline_numbers_mid,
     m."Midline Patterns" as midline_patterns_mid,

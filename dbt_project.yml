@@ -39,12 +39,16 @@ models:
     # Config indicated by + and applies to all files under models/example/
     staging:
       +materialized: table
+      +dbt-osmosis: "models/staging/schema.yml"
     intermediate:
       +materialized: table
+      +dbt-osmosis: "models/intermediate/schema.yml"
     prod:
       +materialized: table
+      +dbt-osmosis: "models/prod/schema.yml"
     data_quality:
       +materialized: table
+      +dbt-osmosis: "models/data_quality/schema.yml"
       
   elementary:
     +schema: "elementary"

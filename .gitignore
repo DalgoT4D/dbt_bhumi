@@ -9,3 +9,4 @@ profiles.yaml
 .user.yml
 package-lock.yml
 claude.md
+.DS_Store
