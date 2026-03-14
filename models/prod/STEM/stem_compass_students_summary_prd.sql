@@ -2,6 +2,7 @@ select
     donor,
     state,
     district,
+    school_name,
     trainer_name,
     reporting_manager_name,
     status,
@@ -15,4 +16,5 @@ group by
     trainer_name,
     reporting_manager_name,
     status,
-    academic_year
+    academic_year,
+    school_name

@@ -4,7 +4,7 @@ WITH unified_volunteers AS (
   SELECT
     'corporate'                                        AS volunteer_type,
     location                                           AS location,
-    corporate_name,
+    TRIM(UPPER(corporate_name)) AS corporate_name,
     CASE WHEN no_of_volunteers IN ('', '-') THEN NULL ELSE no_of_volunteers::INT END AS no_of_volunteers,
     volunteering_month,
     CASE WHEN hours_per_volunteer IN ('', '-') THEN NULL ELSE hours_per_volunteer::FLOAT END AS hours_per_volunteer,
