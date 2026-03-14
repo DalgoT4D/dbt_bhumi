@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: stem_donor_trainer_school_metrics_prd
+    description: >
+      STEM summary table at donor, trainer, school, and academic year level with student,
+      school, city, trainer, class, and session metrics.
+    columns:
+      - name: donor
+        description: Donor name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: trainer_id
+        description: Trainer identifier, where available.
+      - name: school_name
+        description: School name.
+      - name: city
+        description: City proxy populated primarily from STEM district fields.
+      - name: academic_year
+        description: Academic year in YYYY-YYYY format.
+      - name: number_of_schools
+        description: Distinct schools for the donor in the academic year.
+      - name: number_of_students
+        description: Distinct students for the donor-trainer-school in the academic year.
+      - name: number_of_cities
+        description: Distinct cities for the donor in the academic year.
+      - name: number_of_trainers
+        description: Distinct trainers for the donor in the academic year.
+      - name: classes_planned
+        description: Number of classes with planned sessions.
+      - name: classes_actual
+        description: Number of classes where sessions were conducted.
+      - name: sessions_planned
+        description: Total planned sessions.
+      - name: sessions_actual
+        description: Total conducted sessions.
+      - name: sessions_with_experiment_model_integration
+        description: Sessions tagged with experiment or model integration session types.

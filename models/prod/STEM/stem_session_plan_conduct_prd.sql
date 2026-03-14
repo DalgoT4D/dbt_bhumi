@@ -18,7 +18,7 @@ with planned_sessions as (
         class_number,
         class_division
 ),
-
+-- need to add state + other filters here
 conducted_sessions as (
     select
         a.donor,
