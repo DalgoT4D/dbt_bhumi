@@ -50,6 +50,7 @@ select
     is_impact_report_sent,
     event_closed_by_all_aspect,
     donor_reporting_sla_days,
+    is_donor_sla_met,
 
     -- volunteer metrics (metrics 1–5)
     actual_no_of_volunteers,

@@ -10,7 +10,12 @@ enriched as (
     select
         source.*,
         -- donor reporting SLA: days between event end and donor invoice date (metric 7)
+        coalesce(
+            source.event_closed_by_all_aspect is not null
+            and btrim(source.event_closed_by_all_aspect) not in ('', 'false', 'null'), false
+        ) as is_impact_report_sent,
         (dr.invoice_date - source.event_end_date) as donor_reporting_sla_days,
+        ((dr.invoice_date - source.event_end_date) <= 7) as is_donor_sla_met,
 
         -- project classification (metrics 3 & 6): keyword match on event name
         case
@@ -40,12 +45,6 @@ enriched as (
             when lower(source.corporate_event_type) like '%csr%' then 'CSR Partner'
             else nullif(btrim(source.corporate_event_type), '')
         end as partner_type,
-
-        -- event closure / SLA indicator (metric 7)
-        coalesce(
-            source.event_closed_by_all_aspect is not null
-            and btrim(source.event_closed_by_all_aspect) not in ('', 'false', 'null'), false
-        ) as is_impact_report_sent,
 
         -- FY: April–March cycle (e.g. Apr 2025 → Mar 2026 = "2025-2026") (metric 13)
         case

@@ -73,7 +73,7 @@ corporate as (
         case when btrim("No_of_lives_touched_in_Nos"::text) ~ '^[0-9]+$' then ("No_of_lives_touched_in_Nos"::text)::integer end as no_of_lives_touched,
         case when btrim("No_of_DIY_kit_assembled_in_Nos"::text) ~ '^[0-9]+$' then ("No_of_DIY_kit_assembled_in_Nos"::text)::integer end as no_of_diy_kit_assembled,
         case when btrim("No_of_saplings_planted_in_Units"::text) ~ '^[0-9]+$' then ("No_of_saplings_planted_in_Units"::text)::integer end as no_of_saplings_planted,
-        case when btrim("Total_volunteering_hours_engaged"::text) ~ '^[0-9]+$' then ("Total_volunteering_hours_engaged"::text)::integer end as total_volunteering_hours,
+        case when btrim("Total_volunteering_hours_engaged"::text) ~ '^[0-9.]+$' then ("Total_volunteering_hours_engaged"::text)::numeric end as total_volunteering_hours,
         case when btrim("Number_of_volunteers_participated"::text) ~ '^[0-9]+$' then ("Number_of_volunteers_participated"::text)::integer end as no_of_volunteers_participated,
         case when btrim("Event_Expected_number_of_volunteers"::text) ~ '^[0-9]+$' then ("Event_Expected_number_of_volunteers"::text)::integer end as expected_no_of_volunteers,
         case when btrim("Event_Total_No_of_Beneficiary"::text) ~ '^[0-9]+$' then ("Event_Total_No_of_Beneficiary"::text)::integer end as total_no_of_beneficiary,
