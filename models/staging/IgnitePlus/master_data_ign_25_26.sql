@@ -372,6 +372,11 @@ select
     m4_actual,  
     m5_planned,
     m5_actual,  
+    case when m1_planned is not null and m1_actual is not null then (m1_actual - m1_planned) end as m1_delay_days,
+    case when m2_planned is not null and m2_actual is not null then (m2_actual - m2_planned) end as m2_delay_days,
+    case when m3_planned is not null and m3_actual is not null then (m3_actual - m3_planned) end as m3_delay_days,
+    case when m4_planned is not null and m4_actual is not null then (m4_actual - m4_planned) end as m4_delay_days,
+    case when m5_planned is not null and m5_actual is not null then (m5_actual - m5_planned) end as m5_delay_days,
     washroom_constructed,
     washroom_renovated,
     classroom_constructed,
@@ -383,4 +388,4 @@ select
     other_details
 
 from master
-where school_name != ''
+where school_name <> ''
