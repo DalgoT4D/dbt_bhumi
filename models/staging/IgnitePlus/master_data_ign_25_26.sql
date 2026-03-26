@@ -383,4 +383,4 @@ select
     other_details
 
 from master
-where school_name is not null
+where school_name != ''
