@@ -755,6 +755,18 @@ sources:
         description: fcm updates from fellowship school app for AY 25-26
 
 
+  - name: iginteplus_25_26
+    schema: igniteplus
+    tables:
+      - name: Ignite__Master_Data_25_26
+        identifier: Ignite__Master_Data
+        description: This is a placeholder table Ignite Plus 25&26
+      - name: Ignite__Need_Assessment_Data_25_26
+        identifier: Ignite__Need_Assessment_Data
+        description: This is a placeholder table Ignite Plus 25&26
+
+
+
   # - name: STP_25-26
   #   schema: STP_25_26_Raw_data
   #   tables:
