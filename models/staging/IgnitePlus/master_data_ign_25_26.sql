@@ -388,4 +388,4 @@ select
     other_details
 
 from master
-where school_name != ''
+where school_name <> ''
