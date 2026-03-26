@@ -2,7 +2,7 @@ with master as (
 
     select
         -- INTEGER
-        -- case when btrim("Sl_No") ~ '^\d+$' then "Sl_No"::integer end as sl_no,
+        case when btrim("Sl_No") ~ '^\d+$' then "Sl_No"::integer end as sl_no,
         -- coalesce(initcap(btrim("Remarks")), '') as remarks,
         -- coalesce(btrim("Folder_link_"), '') as folder_link,
 
@@ -341,6 +341,7 @@ with master as (
 )
 
 select 
+    sl_no,
     financial_year,
     quarter,
     -- remarks,
