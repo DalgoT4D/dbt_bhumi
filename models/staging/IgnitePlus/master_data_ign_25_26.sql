@@ -19,7 +19,7 @@ with master as (
         coalesce(initcap(btrim("Name_of_school___Location")), '') as school_name,
 
         -- NUMERIC (FLOAT / INTEGER SAFE)
-        -- case when btrim("School_count") ~ '^\d+(\.\d+)?$' then "School_count"::numeric end as school_count,
+        case when btrim("School_count") ~ '^\d+(\.\d+)?$' then "School_count"::numeric end as school_count,
 
         case
             when btrim("Project_execution_Budget__MOU_") <> ''
@@ -352,6 +352,7 @@ select
     school_type,
     -- folder_link,    
     project_status,
+    school_count,
     csr_partner,
     school_name,
     project_execution_budget,
