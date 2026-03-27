@@ -50,26 +50,11 @@ with master as (
                 then "Actual_Considerable_Student_count__As_per_standard_norms___thro"::integer
         end as student_count,
 
-        -- LEVELS
-        case
-            when btrim("Starting_Level___WASH") ~ '^\d+(\.\d+)?$'
-                then "Starting_Level___WASH"::numeric
-        end as starting_level_wash,
-
-        case
-            when btrim("Current_Level___WASH") ~ '^\d+(\.\d+)?$'
-                then "Current_Level___WASH"::numeric
-        end as current_level_wash,
-
-        case
-            when btrim("Starting_Level___Classroom") ~ '^\d+(\.\d+)?$'
-                then "Starting_Level___Classroom"::numeric
-        end as starting_level_classroom,
-
-        case
-            when btrim("Current_Level___Classroom") ~ '^\d+(\.\d+)?$'
-                then "Current_Level___Classroom"::numeric
-        end as current_level_classroom,
+        -- LEVELS (text fields)
+        coalesce(initcap(btrim("Starting_Level___WASH")), '') as starting_level_wash,
+        coalesce(initcap(btrim("Current_Level___WASH")), '') as current_level_wash,
+        coalesce(initcap(btrim("Starting_Level___Classroom")), '') as starting_level_classroom,
+        coalesce(initcap(btrim("Current_Level___Classroom")), '') as current_level_classroom,
 
         -- DATE CLEANING
         case
