@@ -50,26 +50,11 @@ with master as (
                 then "Actual_Considerable_Student_count__As_per_standard_norms___thro"::integer
         end as student_count,
 
-        -- LEVELS
-        case
-            when btrim("Starting_Level___WASH") ~ '^\d+(\.\d+)?$'
-                then "Starting_Level___WASH"::numeric
-        end as starting_level_wash,
-
-        case
-            when btrim("Current_Level___WASH") ~ '^\d+(\.\d+)?$'
-                then "Current_Level___WASH"::numeric
-        end as current_level_wash,
-
-        case
-            when btrim("Starting_Level___Classroom") ~ '^\d+(\.\d+)?$'
-                then "Starting_Level___Classroom"::numeric
-        end as starting_level_classroom,
-
-        case
-            when btrim("Current_Level___Classroom") ~ '^\d+(\.\d+)?$'
-                then "Current_Level___Classroom"::numeric
-        end as current_level_classroom,
+        -- LEVELS (text fields)
+        coalesce(initcap(btrim("Starting_Level___WASH")), '') as starting_level_wash,
+        coalesce(initcap(btrim("Current_Level___WASH")), '') as current_level_wash,
+        coalesce(initcap(btrim("Starting_Level___Classroom")), '') as starting_level_classroom,
+        coalesce(initcap(btrim("Current_Level___Classroom")), '') as current_level_classroom,
 
         -- DATE CLEANING
         case
@@ -382,32 +367,32 @@ select
     case
         when m1_planned is null or m1_actual is null then null
         when (m1_actual - m1_planned) = 0 then 100.0
-        when (m1_actual - m1_planned) >= 1 then -(((m1_actual - m1_planned)::numeric / 30) * 100)
-        when (m1_actual - m1_planned) <= -1 then ((m1_actual - m1_planned)::numeric / 30) * 100
+        when (m1_actual - m1_planned) >= 1 then 100.0 - (((m1_actual - m1_planned)::numeric / 30) * 100)
+        when (m1_actual - m1_planned) <= -1 then 100.0 + ((m1_actual - m1_planned)::numeric / 30) * 100
     end as m1_delay_percent,
     case
         when m2_planned is null or m2_actual is null then null
         when (m2_actual - m2_planned) = 0 then 100.0
-        when (m2_actual - m2_planned) >= 1 then -(((m2_actual - m2_planned)::numeric / 30) * 100)
-        when (m2_actual - m2_planned) <= -1 then ((m2_actual - m2_planned)::numeric / 30) * 100
+        when (m2_actual - m2_planned) >= 1 then 100.0 - (((m2_actual - m2_planned)::numeric / 30) * 100)
+        when (m2_actual - m2_planned) <= -1 then 100.0 + ((m2_actual - m2_planned)::numeric / 30) * 100
     end as m2_delay_percent,
     case
         when m3_planned is null or m3_actual is null then null
         when (m3_actual - m3_planned) = 0 then 100.0
-        when (m3_actual - m3_planned) >= 1 then -(((m3_actual - m3_planned)::numeric / 30) * 100)
-        when (m3_actual - m3_planned) <= -1 then ((m3_actual - m3_planned)::numeric / 30) * 100
+        when (m3_actual - m3_planned) >= 1 then 100.0 - (((m3_actual - m3_planned)::numeric / 30) * 100)
+        when (m3_actual - m3_planned) <= -1 then 100.0 + ((m3_actual - m3_planned)::numeric / 30) * 100
     end as m3_delay_percent,
     case
         when m4_planned is null or m4_actual is null then null
         when (m4_actual - m4_planned) = 0 then 100.0
-        when (m4_actual - m4_planned) >= 1 then -(((m4_actual - m4_planned)::numeric / 30) * 100)
-        when (m4_actual - m4_planned) <= -1 then ((m4_actual - m4_planned)::numeric / 30) * 100
+        when (m4_actual - m4_planned) >= 1 then 100.0 - (((m4_actual - m4_planned)::numeric / 30) * 100)
+        when (m4_actual - m4_planned) <= -1 then 100.0 + ((m4_actual - m4_planned)::numeric / 30) * 100
     end as m4_delay_percent,
     case
         when m5_planned is null or m5_actual is null then null
         when (m5_actual - m5_planned) = 0 then 100.0
-        when (m5_actual - m5_planned) >= 1 then -(((m5_actual - m5_planned)::numeric / 30) * 100)
-        when (m5_actual - m5_planned) <= -1 then ((m5_actual - m5_planned)::numeric / 30) * 100
+        when (m5_actual - m5_planned) >= 1 then 100.0 - (((m5_actual - m5_planned)::numeric / 30) * 100)
+        when (m5_actual - m5_planned) <= -1 then 100.0 + ((m5_actual - m5_planned)::numeric / 30) * 100
     end as m5_delay_percent,
     washroom_constructed,
     washroom_renovated,
