@@ -323,7 +323,9 @@ with master as (
 
     from {{ source('iginteplus_25_26', 'Ignite__Master_Data_25_26') }}
 
-)
+),
+
+with_delays as (
 
 select 
     sl_no,
@@ -359,11 +361,6 @@ select
     m4_actual,  
     m5_planned,
     m5_actual,  
-    -- case when m1_planned is not null and m1_actual is not null then (m1_actual - m1_planned) end as m1_delay_days,
-    -- case when m2_planned is not null and m2_actual is not null then (m2_actual - m2_planned) end as m2_delay_days,
-    -- case when m3_planned is not null and m3_actual is not null then (m3_actual - m3_planned) end as m3_delay_days,
-    -- case when m4_planned is not null and m4_actual is not null then (m4_actual - m4_planned) end as m4_delay_days,
-    -- case when m5_planned is not null and m5_actual is not null then (m5_actual - m5_planned) end as m5_delay_days,
     case
         when m1_planned is null or m1_actual is null then null
         when (m1_actual - m1_planned) = 0 then 100.0
@@ -405,4 +402,64 @@ select
     other_details
 
 from master
+
+)
+
+select 
+    sl_no,
+    financial_year,
+    quarter,
+    -- remarks,
+    district,
+    stem_stp,
+    fellowship,
+    eco_champ,
+    school_type,
+    -- folder_link,    
+    project_status,
+    school_count,
+    csr_partner,
+    school_name,
+    project_execution_budget,
+    total_project_budget,
+    student_count,
+    starting_level_wash,
+    current_level_wash,
+    starting_level_classroom,
+    current_level_classroom,
+    funds_received_date,
+    confirmation_date,
+    m1_planned,
+    m1_actual,
+    m2_planned,
+    m2_actual,
+    m3_planned,
+    m3_actual,
+    m4_planned,
+    m4_actual,  
+    m5_planned,
+    m5_actual,  
+    m1_delay_percent,
+    m2_delay_percent,
+    m3_delay_percent,
+    m4_delay_percent,
+    m5_delay_percent,
+    (coalesce(m1_delay_percent, 0) + coalesce(m2_delay_percent, 0) + coalesce(m3_delay_percent, 0) + coalesce(m4_delay_percent, 0) + coalesce(m5_delay_percent, 0)) / nullif(
+        (case when m1_delay_percent is not null then 1 else 0 end) +
+        (case when m2_delay_percent is not null then 1 else 0 end) +
+        (case when m3_delay_percent is not null then 1 else 0 end) +
+        (case when m4_delay_percent is not null then 1 else 0 end) +
+        (case when m5_delay_percent is not null then 1 else 0 end), 0
+    ) as avg_delay_percent,
+    washroom_constructed,
+    washroom_renovated,
+    classroom_constructed,
+    classroom_renovated,
+    furniture_count,
+    ro_plants,
+    solar_panels,
+    monitored_report_link,
+    other_details
+
+from with_delays
 where school_name <> ''
