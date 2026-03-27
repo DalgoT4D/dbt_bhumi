@@ -8,6 +8,7 @@ with cleaned as (
         nullif(trim("Scope_of_work"), '') as scope_of_work,
         nullif(trim("NA_Link"), '') as na_link,
         nullif(trim("Folder_Link"), '') as folder_link,
+        nullif(trim("School_Type"), '') as school_type,
         case
             when trim("Estimated_amount") = '' then null
             else regexp_replace(trim("Estimated_amount"), '[^0-9\.]+', '', 'g')::numeric
@@ -24,6 +25,7 @@ select
     scope_of_work,
     na_link,
     folder_link,
+    school_type,
     estimated_amount
 from cleaned
 where number_of_school is not null
