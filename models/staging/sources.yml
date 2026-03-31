@@ -738,6 +738,32 @@ sources:
       - name: Donor_Report_Report
         identifier: Donor_Report_Report
         description: donor report report
+      - name: Catalyse_Tracker_Catalyse
+        identifier: Catalyse_Tracker_Catalyse
+        description: catalyse tracker catalyse
+
+      - name: Website_Registration_Admin
+        identifier: Website_Registration_Admin
+        description: website registration admin data
+
+      - name: Orientation_RSVP_Admin
+        identifier: Orientation_RSVP_Admin
+        description: orientation rsvp admin data
+
+      - name: Volunteer_Event_Registration_Catalyse1
+        identifier: Volunteer_Event_Registration_Catalyse1
+        description: volunteer event registration data
+
+      - name: All_Institute_Masters
+        identifier: All_Institute_Masters
+        description: All institute masters data
+      
+      - name: Shelters_Historic_Volunteer_Report
+        identifier: Shelters_Historic_Volunteer_Report
+        description: Historic volunteer report for shelters
+
+
+        
 
   - name: Stem_gsheet_data
     schema: STEM_Gsheet_Raw_Data
@@ -920,3 +946,44 @@ sources:
             description: Timestamp when data was extracted by Airbyte
           - name: _airbyte_meta
             description: Metadata from Airbyte extraction
+
+
+  - name: civic_clubs
+    schema: CivicClubs
+    tables:
+      - name: north_west
+        identifier: North_West
+        description: civic clubs information for north west region
+      - name: south
+        identifier: South
+        description: civic clubs information for south region
+      - name: east
+        identifier: East
+        description: civic clubs information for east region  
+      - name: Total_College_Partners
+        identifier: Total_College_Partners
+        description: total active colleges, names of colleges and partners, dates of active and inactive
+      - name: Campaigns_Data_25_26
+        identifier: Campaigns_Data_25_26
+        description: Campaign informatin for 2025-26 with Quarter information
+
+      - name: Tree_Plantation
+        identifier: Tree_Plantation
+        description: Tree plantation data for 2025-26 with Quarter information
+      
+      - name: Volunteer_Details
+        identifier: Volunteer_Details
+        description: Skill ed volunteer information
+      - name: Active_Leaders
+        identifier: Active_Leaders
+        description:  Active leaders information for 2025-26
+      - name: Submission
+        identifier: Submission
+        description: nps submissions
+
+  - name: zc_skilled_data
+    schema: ZC_SkillEd_raw_data
+    tables:
+      - name: School_Beneficiary_Details_Report
+        identifier: School_Beneficiary_Details_Report
+        description: Beneficiary details report for schools in SkillEd program
