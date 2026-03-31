@@ -742,9 +742,6 @@ sources:
   - name: Stem_gsheet_data
     schema: STEM_Gsheet_Raw_Data
     tables:
-      - name: Consol_Y2_SCHOOLS
-        identifier: Consol_Y2_SCHOOLS
-        description: consolidated Y2 schools clubs data
       - name: Teacher_Details
         identifier: Teacher_Details
         description: teacher details data
@@ -766,7 +763,64 @@ sources:
       - name: Consolidated_TCM
         identifier: Consolidated_TCM
         description: Consolidated TCM data
-      
+      - name: Master_Tracker_club_activities
+        identifier: Master_Tracker_club_activities
+        description: Master tracker for club activities
+      - name: Scholarship_Details
+        identifier: Scholarship_Details
+        description: Scholarship details data
+      - name: Teacher_Champion_Scoring
+        identifier: Teacher_Champion_Scoring
+        description: Teacher champion scoring data
+      - name: Master_Sheet_Impact
+        identifier: Master_Sheet_Impact
+        description: Master sheet for impact data
+      - name: Akshay_stem_class
+        identifier: Akshay_stem_class
+        description: part 1 of STEM teacher led classes data
+      - name: Rajendrababu_stem_class
+        identifier: Rajendrababu_stem_class
+        description: part 2 of STEM teacher led classes data
+      - name: Shanthi_stem_class
+        identifier: Shanthi_stem_class
+        description: part 3 of STEM teacher led classes data
+      - name: Shivangi_stem_class
+        identifier: Shivangi_stem_class
+        description: part 4 of STEM teacher led classes data
+      - name: Shivani_stem_class
+        identifier: Shivani_stem_class
+        description: part 5 of STEM teacher led classes data
+      - name: SNEHA_stem_class
+        identifier: SNEHA_stem_class
+        description: part 6 of STEM teacher led classes data
+      - name: UMA_stem_class
+        identifier: UMA_stem_class
+        description: part 7 of STEM teacher led classes data
+      - name: Consolidate_club_details
+        identifier: Consolidate_club_details
+        description: school club orientation details consolidated data
+      - name: Akshay_club_act
+        identifier: Akshay_club_act
+        description: part 1 of STEM club activities data
+      - name: Babu_club_act
+        identifier: Babu_club_act
+        description: part 2 of STEM club activities data
+      - name: Shanthi_club_act
+        identifier: Shanthi_club_act
+        description: part 3 of STEM club activities data
+      - name: Shivani_club_act
+        identifier: Shivani_club_act
+        description: part 4 of STEM club activities data
+      - name: SN_club_act
+        identifier: SN_club_act
+        description: part 5 of STEM club activities data
+      - name: Sneha_club_act
+        identifier: Sneha_club_act
+        description: part 6 of STEM club activities data
+      - name: Uma_club_act
+        identifier: Uma_club_act
+        description: part 7 of STEM club activities data
+
   - name: CV_Gsheet_Raw_Data
     schema: CV_Gsheet_Raw_Data
     tables:
@@ -776,6 +830,7 @@ sources:
       - name: Form_responses_new
         identifier: Form_responses_new
         description: CSAT form data
+        
   - name: fellowship_school_app_25_26
     schema: school_app
     tables:
@@ -803,24 +858,6 @@ sources:
       - name: observations_25_26
         identifier: observations
         description: observations from fellowship school app for AY 25-26
-
-
-
-  # - name: STP_25-26
-  #   schema: STP_25_26_Raw_data
-  #   tables:
-  #     - name: All_Students
-  #       identifier: All_Students
-  #       description: This is a placeholder table STP 25-26
-  #     - name: All_Session_Plannings
-  #       identifier: All_Session_Plannings
-  #       description: This is a placeholder table STP 25-26
-  #     - name: All_Session_Attendances
-  #       identifier: All_Session_Attendances
-  #       description: This is a placeholder table STP 25-26
-  #     - name: Processed_Attendance
-  #       identifier: Processed_Attendance
-  #       description: This is a placeholder table STP 25-26
         columns:
           - name: City
             description: City of the school or student

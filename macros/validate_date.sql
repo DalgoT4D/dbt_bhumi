@@ -17,15 +17,41 @@ CAST(
             END
             
         -- Handle strict DD/MM/YYYY format (e.g., 01/09/2024 or 9/9/2024)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^([0-2]?[0-9]|3[01])/([0]?[1-9]|1[0-2])/[1-2]\d{3}$' THEN 
-            CASE 
-                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD/FMMM/YYYY')) BETWEEN 1900 AND 2050 
-                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD/FMMM/YYYY') 
-                ELSE NULL 
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^([0-2]?[0-9]|3[01])/([0]?[1-9]|1[0-2])/[1-2]\d{3}$'
+            AND split_part(TRIM({{ field_name }}::TEXT), '/', 1)::int <= (
+                CASE split_part(TRIM({{ field_name }}::TEXT), '/', 2)::int
+                    WHEN 2 THEN CASE
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '/', 3)::int % 400 = 0 THEN 29
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '/', 3)::int % 100 = 0 THEN 28
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '/', 3)::int % 4 = 0 THEN 29
+                        ELSE 28
+                    END
+                    WHEN 4 THEN 30 WHEN 6 THEN 30 WHEN 9 THEN 30 WHEN 11 THEN 30
+                    ELSE 31
+                END
+            )
+        THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD/FMMM/YYYY')) BETWEEN 1900 AND 2050
+                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD/FMMM/YYYY')
+                ELSE NULL
             END
 
         -- Handle DD/MM/YY (e.g., 05/08/24 → 2024-08-05) and DD/M/YY (e.g., 15/5/24 → 2024-05-15)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\d{2}$' THEN
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])/(0?[1-9]|1[0-2])/\d{2}$'
+            AND split_part(TRIM({{ field_name }}::TEXT), '/', 1)::int <= (
+                CASE split_part(TRIM({{ field_name }}::TEXT), '/', 2)::int
+                    WHEN 2 THEN CASE
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '/', 3))::int % 400 = 0 THEN 29
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '/', 3))::int % 100 = 0 THEN 28
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '/', 3))::int % 4 = 0 THEN 29
+                        ELSE 28
+                    END
+                    WHEN 4 THEN 30 WHEN 6 THEN 30 WHEN 9 THEN 30 WHEN 11 THEN 30
+                    ELSE 31
+                END
+            )
+        THEN
             CASE
                 WHEN EXTRACT(YEAR FROM TO_DATE(
                     regexp_replace(TRIM({{ field_name }}::TEXT), '/(\d{2})$', '/20\1'),
@@ -39,7 +65,20 @@ CAST(
             END
 
         -- Handle DD-MM-YY (e.g., 05-08-24 → 2024-08-05) and DD-M-YY (e.g., 15-5-24 → 2024-05-15)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-\d{2}$' THEN
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-\d{2}$'
+            AND split_part(TRIM({{ field_name }}::TEXT), '-', 1)::int <= (
+                CASE split_part(TRIM({{ field_name }}::TEXT), '-', 2)::int
+                    WHEN 2 THEN CASE
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '-', 3))::int % 400 = 0 THEN 29
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '-', 3))::int % 100 = 0 THEN 28
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '-', 3))::int % 4 = 0 THEN 29
+                        ELSE 28
+                    END
+                    WHEN 4 THEN 30 WHEN 6 THEN 30 WHEN 9 THEN 30 WHEN 11 THEN 30
+                    ELSE 31
+                END
+            )
+        THEN
             CASE
                 WHEN EXTRACT(YEAR FROM TO_DATE(
                     regexp_replace(TRIM({{ field_name }}::TEXT), '-(\d{2})$', '-20\1'),
@@ -70,11 +109,24 @@ CAST(
         
 
         -- Handle DD-M-YYYY (e.g., 15-5-2024 → 2024-05-15)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-\d{4}$' THEN 
-            CASE 
-                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD-FMMM-YYYY')) BETWEEN 1900 AND 2050 
-                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD-FMMM-YYYY') 
-                ELSE NULL 
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-\d{4}$'
+            AND split_part(TRIM({{ field_name }}::TEXT), '-', 1)::int <= (
+                CASE split_part(TRIM({{ field_name }}::TEXT), '-', 2)::int
+                    WHEN 2 THEN CASE
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '-', 3)::int % 400 = 0 THEN 29
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '-', 3)::int % 100 = 0 THEN 28
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '-', 3)::int % 4 = 0 THEN 29
+                        ELSE 28
+                    END
+                    WHEN 4 THEN 30 WHEN 6 THEN 30 WHEN 9 THEN 30 WHEN 11 THEN 30
+                    ELSE 31
+                END
+            )
+        THEN
+            CASE
+                WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD-FMMM-YYYY')) BETWEEN 1900 AND 2050
+                THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD-FMMM-YYYY')
+                ELSE NULL
             END
 
         -- Handle DD/M/YYYY (e.g., 15/5/2024 → 2024-05-15)
@@ -146,7 +198,20 @@ CAST(
             END
 
         -- Handle DD.MM.YYYY (e.g., 05.08.2024 → 2024-08-05)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[0-2])\.\d{4}$' THEN
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[0-2])\.\d{4}$'
+            AND split_part(TRIM({{ field_name }}::TEXT), '.', 1)::int <= (
+                CASE split_part(TRIM({{ field_name }}::TEXT), '.', 2)::int
+                    WHEN 2 THEN CASE
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '.', 3)::int % 400 = 0 THEN 29
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '.', 3)::int % 100 = 0 THEN 28
+                        WHEN split_part(TRIM({{ field_name }}::TEXT), '.', 3)::int % 4 = 0 THEN 29
+                        ELSE 28
+                    END
+                    WHEN 4 THEN 30 WHEN 6 THEN 30 WHEN 9 THEN 30 WHEN 11 THEN 30
+                    ELSE 31
+                END
+            )
+        THEN
             CASE
                 WHEN EXTRACT(YEAR FROM TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD.FMMM.YYYY')) BETWEEN 1900 AND 2050
                 THEN TO_DATE(TRIM({{ field_name }}::TEXT), 'FMDD.FMMM.YYYY')
@@ -156,7 +221,20 @@ CAST(
         -- Handle DD.MM.YY (e.g., 05.08.24 → 2024-08-05)
         -- Uses regexp_replace to expand 2-digit year to 4-digit before parsing,
         -- avoiding PostgreSQL's century-aware YY interpretation (YY=25 → 2025, not 0025)
-        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[0-2])\.\d{2}$' THEN
+        WHEN TRIM({{ field_name }}::TEXT) ~ '^(0?[1-9]|[12][0-9]|3[01])\.(0?[1-9]|1[0-2])\.\d{2}$'
+            AND split_part(TRIM({{ field_name }}::TEXT), '.', 1)::int <= (
+                CASE split_part(TRIM({{ field_name }}::TEXT), '.', 2)::int
+                    WHEN 2 THEN CASE
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '.', 3))::int % 400 = 0 THEN 29
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '.', 3))::int % 100 = 0 THEN 28
+                        WHEN ('20' || split_part(TRIM({{ field_name }}::TEXT), '.', 3))::int % 4 = 0 THEN 29
+                        ELSE 28
+                    END
+                    WHEN 4 THEN 30 WHEN 6 THEN 30 WHEN 9 THEN 30 WHEN 11 THEN 30
+                    ELSE 31
+                END
+            )
+        THEN
             CASE
                 WHEN EXTRACT(YEAR FROM TO_DATE(
                     regexp_replace(TRIM({{ field_name }}::TEXT), '\.(\d{2})$', '.20\1'),

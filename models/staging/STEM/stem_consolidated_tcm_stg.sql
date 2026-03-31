@@ -37,3 +37,4 @@ select distinct
     improvement,
     consolidated_rating_2025_26
 from tcm
+where trainer_name != ''

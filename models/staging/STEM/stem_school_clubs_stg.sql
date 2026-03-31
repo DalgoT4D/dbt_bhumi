@@ -6,7 +6,7 @@ with clean_dates as (
         regexp_replace(date_of_orientation_to_trainer::text, '[^0-9./\-]', '', 'g') as date_trainer_clean,
         regexp_replace(date_of_orientation_to_school_::text, '[^0-9./\-]', '', 'g') as date_school_clean,
         regexp_replace(stem_club_start_date::text, '[^0-9./\-]', '', 'g') as stem_club_date_clean
-    from {{ source('Stem_gsheet_data', 'Consol_Y2_SCHOOLS') }}
+    from {{ source('Stem_gsheet_data', 'Consolidate_club_details') }}
 ),
 
 schools as (

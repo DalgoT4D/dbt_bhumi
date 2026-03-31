@@ -58,3 +58,4 @@ select distinct
     reporting_manager_id,
     added_time
 from trainers
+where trainer_name is not null
