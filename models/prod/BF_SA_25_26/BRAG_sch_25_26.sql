@@ -1,12 +1,22 @@
 with base as (
 
     select
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        year_1_donor,
+        year_2_donor,
         school_id,
         school_name,
         school_state,
         school_district,
         udise_code,
         school_type,
+        grade,
+        month_year,
+        grade_section,
         quarter,
         SUM(homes_visited_sum) as homes_visited_sum,
         SUM(total_students_sum) as total_students_sum,
@@ -15,24 +25,44 @@ with base as (
         SUM(school_leader_checkins_sum) as school_leader_checkins_sum
     from {{ ref('school_para_25_26') }}
     group by
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        year_1_donor,
+        year_2_donor,
         school_id,
         school_name,
         school_state,
         school_district,
         udise_code,
         school_type,
+        grade,
+        month_year,
+        grade_section,
         quarter
 ),
 
 homes_visit_brag as (
 
     select
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        year_1_donor,
+        year_2_donor,
         school_id,
         school_name,
         school_state,
         school_district,
         udise_code,
         school_type,
+        grade,
+        month_year,
+        grade_section,
         quarter,
         'Homes Visited' as parameters,
 
@@ -70,12 +100,22 @@ homes_visit_brag as (
 ptms_brag as (
 
     select
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        year_1_donor,
+        year_2_donor,
         school_id,
         school_name,
         school_state,
         school_district,
         udise_code,
         school_type,
+        grade,
+        month_year,
+        grade_section,
         quarter,
         'PTMS' as parameters,
 
@@ -91,12 +131,22 @@ ptms_brag as (
 teacher_circles_brag as (
 
     select
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        year_1_donor,
+        year_2_donor,
         school_id,
         school_name,
         school_state,
         school_district,
         udise_code,
         school_type,
+        grade,
+        month_year,
+        grade_section,
         quarter,
         'Teacher Circles' as parameters,
 
@@ -112,12 +162,22 @@ teacher_circles_brag as (
 school_leader_checkins_brag as (
 
     select
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        year_1_donor,
+        year_2_donor,
         school_id,
         school_name,
         school_state,
         school_district,
         udise_code,
         school_type,
+        grade,
+        month_year,
+        grade_section,
         quarter,
         'School Leader Check-ins' as parameters,
 
