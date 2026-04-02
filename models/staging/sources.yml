@@ -79,6 +79,9 @@ sources:
       - name: fcm_updates_25_26
         identifier: fcm_updates
         description: fcm updates from fellowship school app for AY 25-26
+      - name: alumni_25_26
+        identifier: Mastersheet
+        description: alumni from fellowship school app for AY 25-26
 
 
   - name: iginteplus_25_26
