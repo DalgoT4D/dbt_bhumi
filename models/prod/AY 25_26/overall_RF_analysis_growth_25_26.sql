@@ -36,19 +36,24 @@ RF_ANALYSIS_MIDLINE as (
     group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_MIDLINE_GROWTH_MID, D.DONOR_MID, D.PM_NAME_MID, D.FELLOW_NAME_MID
 ),
 
--- RF_analysis_endline as (
---     select
---         d.city_end as city,
---         d.grade_taught_end as grade,
---         f.RF_status_end as RF_status,
---         count(distinct f.student_id) as student_count_end
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.endline_attendence = True
---     group by d.city_end, d.grade_taught_end, f.RF_status_end
--- ),
+RF_ANALYSIS_ENDLINE as (
+    select
+        D.CITY_END as CITY,
+        D.STUDENT_GRADE_END as GRADE,
+        D.DONOR_END as DONOR,
+        D.PM_NAME_END as PM_NAME,
+        D.FELLOW_NAME_END as FELLOW_NAME,
+        F.RF_ENDLINE_GROWTH_END as RF_GROWTH,
+        count(distinct F.STUDENT_ID) as STUDENT_COUNT_END,
+        count(distinct case when D.COHORT_END = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_END,
+        count(distinct case when D.COHORT_END = '2025' then F.STUDENT_ID end) as COHORT_2025_COUNT_END
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.ENDLINE_ATTENDENCE = True
+    group by D.CITY_END, D.STUDENT_GRADE_END, F.RF_ENDLINE_GROWTH_END, D.DONOR_END, D.PM_NAME_END, D.FELLOW_NAME_END
+),
 
 ALL_COMBINATIONS as (
     select distinct
@@ -71,13 +76,16 @@ ALL_COMBINATIONS as (
         RF_GROWTH
     from RF_ANALYSIS_MIDLINE
     
-    -- union
+    union
     
-    -- select distinct
-    --     city,
-    --     grade,
-    --     RF_status
-    -- from RF_analysis_endline
+    select distinct
+        CITY,
+        GRADE,
+        DONOR,
+        PM_NAME,
+        FELLOW_NAME,
+        RF_GROWTH  
+    from RF_ANALYSIS_ENDLINE
 )
 
 select 
@@ -92,8 +100,10 @@ select
     B.COHORT_2025_COUNT_BASE,
     M.STUDENT_COUNT_MID,
     M.COHORT_2024_COUNT_MID,
-    M.COHORT_2025_COUNT_MID
-    -- e.student_count_end
+    M.COHORT_2025_COUNT_MID,
+    E.STUDENT_COUNT_END,
+    E.COHORT_2024_COUNT_END,
+    E.COHORT_2025_COUNT_END
 from ALL_COMBINATIONS as AC
 left join RF_ANALYSIS_BASELINE as B
     on
@@ -111,8 +121,12 @@ left join RF_ANALYSIS_MIDLINE as M
         and AC.DONOR = M.DONOR
         and AC.PM_NAME = M.PM_NAME
         and AC.FELLOW_NAME = M.FELLOW_NAME
--- left join RF_analysis_endline e
---     on ac.city = e.city 
---     and ac.RF_status = e.RF_status 
---     and ac.grade = e.grade
+left join RF_ANALYSIS_ENDLINE as E
+    on
+        AC.CITY = E.CITY 
+        and AC.RF_GROWTH = E.RF_GROWTH 
+        and AC.GRADE = E.GRADE
+        and AC.DONOR = E.DONOR
+        and AC.PM_NAME = E.PM_NAME
+        and AC.FELLOW_NAME = E.FELLOW_NAME
 order by AC.CITY, AC.GRADE, AC.RF_GROWTH

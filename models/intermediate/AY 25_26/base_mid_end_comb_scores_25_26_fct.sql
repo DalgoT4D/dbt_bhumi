@@ -7,7 +7,6 @@ select
     b.rc_grade_level_baseline_base,
     b.rc_learning_level_status_baseline_base,
     b.rc_endline_baseline_growth_base,
-
     -- Midline
     m.rc_level_midline_mid,
     m.rc_grade_level_midline_mid,
@@ -15,10 +14,11 @@ select
     m.rc_baseline_midline_growth_mid,
     m.rc_midline_growth_status_mid,
     -- Endline
-    -- e.RC_level_end,
-    -- e.RC_grade_level_end,
-    -- e.RC_status_end,
-    -- e.RC_assessed_perc_end,
+    e.rc_level_endline_end,
+    e.rc_grade_level_endline_end,
+    e.rc_learning_level_status_endline_end,
+    e.rc_midline_endline_growth_end,
+    e.rc_endline_growth_status_end,
     
     -- Reading Fundamentals (RF) Metrics
     -- Baseline
@@ -28,9 +28,8 @@ select
     m.rf_level_midline_mid,
     m.rf_midline_growth_mid,
     -- Endline
-    -- e.RF_status_end,
-    -- e.RF_perc_end,
-    -- e.RF_code_end,
+    e.rf_level_endline_end,
+    e.rf_endline_growth_end,
     
     -- Mathematics Core Metrics
     -- Baseline
@@ -45,9 +44,11 @@ select
     m.math_baseline_midline_growth_mid,
     m.math_midline_growth_status_mid,
     -- -- Endline
-    -- e.math_level_end,
-    -- e.math_status_end,
-    -- e.math_mastery_end,
+    e.math_level_endline_end,
+    e.math_endline_grade_end,
+    e.math_learning_level_status_endline_end,
+    e.math_midline_endline_growth_end,
+    e.math_endline_growth_status_end,
     
     -- Mathematics Subject-wise Scores
     -- Baseline
@@ -69,16 +70,14 @@ select
     m.midline_total_in_operations_mid,
     m.midline_total_in_data_mid,
     -- Endline
-    -- m.math_perc_operations_mid,
-    -- m.math_perc_data_handling_mid,
-    -- Endline
-    -- e.math_perc_numbers_end,
-    -- e.math_perc_patterns_end,
-    -- e.math_perc_geometry_end,
-    -- e.math_perc_mensuration_end,
-    -- e.math_perc_time_end,
-    -- e.math_perc_operations_end,
-    -- e.math_perc_data_handling_end,
+    e.final_endline_level_mastery_end,
+    e.endline_numbers_end,
+    e.endline_patterns_end,
+    e.endline_geometry_end,
+    e.endline_total_in_mensuration_end,
+    e.endline_total_in_time_end,
+    e.endline_total_in_operations_end,
+    e.endline_total_in_data_end,
     
     -- Reading Comprehension Components
     -- Baseline
@@ -90,9 +89,9 @@ select
     m.midline_inference_mid,
     m.midline_critical_thinking_mid,
     -- Endline
-    -- e.factual_end,
-    -- e.inference_end,
-    -- e.critical_thinking_end,
+    e.endline_factual_end,
+    e.endline_inference_end,
+    e.endline_critical_thinking_end,
     
     -- Language Skills
     -- Baseline
@@ -102,11 +101,12 @@ select
     m.midline_vocabulary_mid,
     m.midline_grammar_mid,
     -- Endline
-    -- e.vocabulary_end,
-    -- e.grammar_end,
+    e.endline_vocabulary_end,
+    e.endline_grammar_end,
     
     b.baseline_assessed_percentage_base,
     m.midline_assessed_percentage_mid,
+    e.endline_assessed_percentage_end,
 
     -- RF Skills
     -- Baseline
@@ -128,38 +128,22 @@ select
     m.midline_vowel_diagraphs_mid,
     m.midline_multi_syllabelle_words_mid,
     m.midline_passage_1_mid,
-    m.midline_passage_2_mid
+    m.midline_passage_2_mid,
     -- Endline
-    -- e.letter_sounds_end,
-    -- e.CVC_words_end,
-    -- e.blends_end,
-    -- e.consonant_diagraph_end,
-    -- e.magic_E_words_end,
-    -- e.vowel_diagraphs_end,
-    -- e.multi_syllabelle_words_end,
-    -- e.passage_1_end,
-    -- e.passage_2_end,
-    
-    -- -- RF Proficiency Level Distribution
-    -- -- Baseline
-    -- b.developing_base,
-    -- b.beginner_base,
-    -- b.intermediate_base,
-    -- b.advanced_base,
-    -- -- Midline
-    -- m.developing_mid,
-    -- m.beginner_mid,
-    -- m.intermediate_mid,
-    -- m.advanced_mid,
-    -- -- Endline
-    -- e.developing_end,
-    -- e.beginner_end,
-    -- e.intermediate_end,
-    -- e.advanced_end
+    e.endline_letter_sounds_end,
+    e.endline_cvc_words_end,
+    e.endline_blends_end,
+    e.endline_consonant_diagraph_end,
+    e.endline_magic_e_words_end,
+    e.endline_vowel_diagraphs_end,
+    e.endline_multi_syllabelle_words_end,
+    e.endline_passage_1_end,
+    e.endline_passage_2_end
+
 from {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
 left join {{ ref('baseline_25_26_stg') }} as b 
     on d.student_id = b.student_id_base
 left join {{ ref('midline_25_26_stg') }} as m 
     on d.student_id = m.student_id_mid
--- left join {{ ref('endline_2425_stg') }} e 
---     on d.student_id = e.student_id_end
+left join {{ ref('endline_25_26_stg') }} e 
+    on d.student_id = e.student_id_end

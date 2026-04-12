@@ -22,17 +22,17 @@ midline as (
     group by d.city_mid, d.school_name_mid, d.fellow_name_mid, d.student_grade_mid
 ),
 
--- endline as (
---     select
---         d.city_end as city,
---         d.school_name_end as school,
---         d.fellow_name_end as fellow,
---         d.grade_taught_end as grade,
---         count(distinct d.student_id) as endline_count
---     from {{ ref('base_mid_end_comb_students_2425_dim') }} d
---     where d.endline_attendence = True
---     group by d.city_end, d.school_name_end, d.fellow_name_end, d.grade_taught_end
--- ),
+endline as (
+    select
+        d.city_end as city,
+        d.school_name_end as school,
+        d.fellow_name_end as fellow,
+        d.student_grade_end as grade,
+        count(distinct d.student_id) as endline_count
+    from {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+    where d.endline_attendence = True
+    group by d.city_end, d.school_name_end, d.fellow_name_end, d.student_grade_end
+),
 
 all_combinations as (
     select distinct
@@ -48,8 +48,13 @@ all_combinations as (
         fellow,
         grade
     from midline
-    -- union
-    -- select distinct city, school, fellow, grade from endline
+    union
+    select distinct
+        city,
+        school,
+        fellow,
+        grade
+    from endline
 )
 
 select
@@ -58,8 +63,8 @@ select
     ac.fellow,
     ac.grade,
     coalesce(b.baseline_count, 0) as baseline_count,
-    coalesce(m.midline_count, 0) as midline_count
-    -- coalesce(e.endline_count, 0) as endline_count
+    coalesce(m.midline_count, 0) as midline_count,
+    coalesce(e.endline_count, 0) as endline_count
 from all_combinations as ac
 left join baseline as b
     on
@@ -73,9 +78,10 @@ left join midline as m
         and ac.school = m.school
         and ac.fellow = m.fellow
         and ac.grade = m.grade
--- left join endline e
---     on ac.city = e.city
---     and ac.school = e.school
---     and ac.fellow = e.fellow
---     and ac.grade = e.grade
+left join endline as e
+    on
+        ac.city = e.city
+        and ac.school = e.school
+        and ac.fellow = e.fellow
+        and ac.grade = e.grade
 order by ac.city, ac.school, ac.fellow, ac.grade

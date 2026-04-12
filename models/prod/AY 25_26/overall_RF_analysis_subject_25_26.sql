@@ -50,26 +50,31 @@ RF_ANALYSIS_MIDLINE as (
     group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RF_LEVEL_MIDLINE_MID, D.FELLOW_NAME_MID, D.DONOR_MID, D.PM_NAME_MID
 ),
 
--- RF_analysis_endline as (
---     select
---         d.city_end as city,
---         d.grade_taught_end as grade,
---         avg(f.letter_sounds_end) as letter_sounds_end,
---         avg(f.CVC_words_end) as CVC_words_end,
---         avg(f.blends_end) as blends_end,
---         avg(f.consonant_diagraph_end) as consonant_diagraph_end,
---         avg(f.magic_E_words_end) as magic_E_words_end,
---         avg(f.vowel_diagraphs_end) as vowel_diagraphs_end,
---         avg(f.multi_syllabelle_words_end) as multi_syllabelle_words_end,
---         avg(f.passage_1_end) as passage_1_end,
---         avg(f.passage_2_end) as passage_2_end
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.endline_attendence = True
---     group by d.city_end, d.grade_taught_end
--- ),
+RF_ANALYSIS_ENDLINE as (
+    select
+        D.CITY_END as CITY,
+        D.STUDENT_GRADE_END as GRADE,
+        D.DONOR_END as DONOR,
+        D.PM_NAME_END as PM_NAME,
+        D.FELLOW_NAME_END as FELLOW_NAME,
+        F.RF_LEVEL_ENDLINE_END as RF_LEVEL,
+        count(distinct F.STUDENT_ID) as STUDENT_COUNT_END,
+        avg(F.ENDLINE_LETTER_SOUNDS_END) as LETTER_SOUNDS_END,
+        avg(F.ENDLINE_CVC_WORDS_END) as CVC_WORDS_END,
+        avg(F.ENDLINE_BLENDS_END) as BLENDS_END,
+        avg(F.ENDLINE_CONSONANT_DIAGRAPH_END) as CONSONANT_DIAGRAPH_END,
+        avg(F.ENDLINE_MAGIC_E_WORDS_END) as MAGIC_E_WORDS_END,
+        avg(F.ENDLINE_VOWEL_DIAGRAPHS_END) as VOWEL_DIAGRAPHS_END,
+        avg(F.ENDLINE_MULTI_SYLLABELLE_WORDS_END) as MULTI_SYLLABELLE_WORDS_END,
+        avg(F.ENDLINE_PASSAGE_1_END) as PASSAGE_1_END,
+        avg(F.ENDLINE_PASSAGE_2_END) as PASSAGE_2_END
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.ENDLINE_ATTENDENCE = True
+    group by D.CITY_END, D.STUDENT_GRADE_END, F.RF_LEVEL_ENDLINE_END, D.FELLOW_NAME_END, D.DONOR_END, D.PM_NAME_END
+),
 
 ALL_COMBINATIONS as (
     select distinct
@@ -92,12 +97,16 @@ ALL_COMBINATIONS as (
         RF_LEVEL
     from RF_ANALYSIS_MIDLINE
     
-    -- union
-    
-    -- select distinct
-    --     city,
-    --     grade
-    -- from RF_analysis_endline
+    union
+
+    select distinct
+        CITY,
+        GRADE,
+        DONOR,
+        PM_NAME,
+        FELLOW_NAME,
+        RF_LEVEL
+    from RF_ANALYSIS_ENDLINE
 )
 
 select 
@@ -110,6 +119,8 @@ select
     
     B.STUDENT_COUNT_BASE,
     M.STUDENT_COUNT_MID,
+    E.STUDENT_COUNT_END,
+
     --baseline
     B.LETTER_SOUNDS_BASE,
     B.CVC_WORDS_BASE,
@@ -130,18 +141,18 @@ select
     M.VOWEL_DIAGRAPHS_MID,
     M.MULTI_SYLLABELLE_WORDS_MID,
     M.PASSAGE_1_MID,
-    M.PASSAGE_2_MID
+    M.PASSAGE_2_MID,
 
-    -- --endline
-    -- e.letter_sounds_end,
-    -- e.CVC_words_end,
-    -- e.blends_end,
-    -- e.consonant_diagraph_end,
-    -- e.magic_E_words_end,
-    -- e.vowel_diagraphs_end,
-    -- e.multi_syllabelle_words_end,
-    -- e.passage_1_end,
-    -- e.passage_2_end
+    -- endline
+    E.LETTER_SOUNDS_END,
+    E.CVC_WORDS_END,
+    E.BLENDS_END,
+    E.CONSONANT_DIAGRAPH_END,
+    E.MAGIC_E_WORDS_END,
+    E.VOWEL_DIAGRAPHS_END,
+    E.MULTI_SYLLABELLE_WORDS_END,
+    E.PASSAGE_1_END,
+    E.PASSAGE_2_END
 
 from ALL_COMBINATIONS as AC
 left join RF_ANALYSIS_BASELINE as B
@@ -160,7 +171,12 @@ left join RF_ANALYSIS_MIDLINE as M
         and AC.FELLOW_NAME = M.FELLOW_NAME
         and AC.DONOR = M.DONOR
         and AC.PM_NAME = M.PM_NAME
--- left join RF_analysis_endline e
---     on ac.city = e.city 
---     and ac.grade = e.grade
+left join RF_ANALYSIS_ENDLINE as E
+    on
+        AC.CITY = E.CITY 
+        and AC.GRADE = E.GRADE
+        and AC.RF_LEVEL = E.RF_LEVEL
+        and AC.FELLOW_NAME = E.FELLOW_NAME
+        and AC.DONOR = E.DONOR
+        and AC.PM_NAME = E.PM_NAME
 order by AC.CITY, AC.GRADE

@@ -32,19 +32,22 @@ RC_ANALYSIS_MIDLINE as (
     group by D.CITY_MID, D.STUDENT_GRADE_MID, D.DONOR_MID, D.PM_NAME_MID, D.FELLOW_NAME_MID, F.RC_LEVEL_MIDLINE_MID
 ),
 
--- RC_analysis_endline as (
---     select
---         d.city_end as city,
---         d.grade_taught_end as grade,
---         f.RC_level_end as RC_level,
---         count(distinct f.student_id) as student_count_end
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.endline_attendence = True
---     group by d.city_end, d.grade_taught_end, f.RC_level_end
--- ),
+RC_ANALYSIS_ENDLINE as (
+    select
+        D.CITY_END as CITY,
+        D.STUDENT_GRADE_END as GRADE,
+        D.DONOR_END as DONOR,
+        D.PM_NAME_END as PM_NAME,
+        D.FELLOW_NAME_END as FELLOW_NAME,
+        F.RC_LEVEL_ENDLINE_END as RC_LEVEL,
+        count(distinct F.STUDENT_ID) as STUDENT_COUNT_END
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.ENDLINE_ATTENDENCE = True
+    group by D.CITY_END, D.STUDENT_GRADE_END, D.DONOR_END, D.PM_NAME_END, D.FELLOW_NAME_END, F.RC_LEVEL_ENDLINE_END
+),
 
 ALL_COMBINATIONS as (
     select distinct
@@ -67,13 +70,17 @@ ALL_COMBINATIONS as (
         RC_LEVEL
     from RC_ANALYSIS_MIDLINE
     
-    -- union
+    union
     
-    -- select distinct
-    --     city,
-    --     grade,
-    --     RC_level
-    -- from RC_analysis_endline
+    select distinct
+        CITY,
+        GRADE,
+        DONOR,
+        PM_NAME,
+        FELLOW_NAME,
+        RC_LEVEL
+    from RC_ANALYSIS_ENDLINE
+
 )
 
 select 
@@ -84,8 +91,8 @@ select
     AC.FELLOW_NAME,
     AC.RC_LEVEL,
     B.STUDENT_COUNT_BASE,
-    M.STUDENT_COUNT_MID
-    -- e.student_count_end
+    M.STUDENT_COUNT_MID,
+    E.STUDENT_COUNT_END
 from ALL_COMBINATIONS as AC
 left join RC_ANALYSIS_BASELINE as B
     on
@@ -103,8 +110,12 @@ left join RC_ANALYSIS_MIDLINE as M
         and AC.FELLOW_NAME = M.FELLOW_NAME
         and AC.DONOR = M.DONOR
         and AC.PM_NAME = M.PM_NAME
--- left join RC_analysis_endline e
---     on ac.city = e.city 
---     and ac.RC_level = e.RC_level 
---     and ac.grade = e.grade
+left join RC_ANALYSIS_ENDLINE as E
+    on
+        AC.CITY = E.CITY 
+        and AC.RC_LEVEL = E.RC_LEVEL 
+        and AC.GRADE = E.GRADE
+        and AC.FELLOW_NAME = E.FELLOW_NAME
+        and AC.DONOR = E.DONOR
+        and AC.PM_NAME = E.PM_NAME
 order by AC.CITY, AC.GRADE, AC.RC_LEVEL
