@@ -116,6 +116,7 @@ select
     
     b.student_count_base,
     m.student_count_mid,
+    e.student_count_end,
     -- Baseline scores
     b.avg_mastery_base,
     b.avg_perc_numbers_base,
