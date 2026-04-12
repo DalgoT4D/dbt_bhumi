@@ -48,25 +48,30 @@ math_analysis_midline as (
     group by d.city_mid, d.student_grade_mid, d.donor_mid, d.pm_name_mid, d.fellow_name_mid, f.math_level_midline_mid
 ),
 
--- math_analysis_endline as (
---     select
---         d.city_end as city,
---         d.grade_taught_end as grade,
---         avg(f.math_mastery_end) as avg_mastery_end,
---         avg(f.math_perc_numbers_end) as avg_perc_mastery_numbers_end,
---         avg(f.math_perc_patterns_end) as avg_perc_mastery_patterns_end,
---         avg(f.math_perc_geometry_end) as avg_perc_mastery_geometry_end,
---         avg(f.math_perc_mensuration_end) as avg_perc_mastery_mensuration_end,
---         avg(f.math_perc_time_end) as avg_perc_mastery_time_end,
---         avg(f.math_perc_operations_end) as avg_perc_mastery_operations_end,
---         avg(f.math_perc_data_handling_end) as avg_perc_mastery_data_handling_end
---     from 
---         {{ ref('base_mid_end_comb_scores_2425_fct') }} f
---         inner join {{ ref('base_mid_end_comb_students_2425_dim') }} d
---         on f.student_id = d.student_id
---     where d.endline_attendence = True
---     group by d.city_end, d.grade_taught_end
--- ),
+math_analysis_endline as (
+    select
+        d.city_end as city,
+        d.student_grade_end as grade,
+        d.donor_end as donor,
+        d.pm_name_end as pm_name,
+        d.fellow_name_end as fellow_name,
+        f.math_level_endline_end as math_level,
+        count(distinct f.student_id) as student_count_end,
+        avg(f.final_endline_level_mastery_end) as avg_mastery_end,
+        avg(f.endline_numbers_end) as avg_perc_mastery_numbers_end,
+        avg(f.endline_patterns_end) as avg_perc_mastery_patterns_end,
+        avg(f.endline_geometry_end) as avg_perc_mastery_geometry_end,
+        avg(f.endline_total_in_mensuration_end) as avg_perc_mastery_mensuration_end,
+        avg(f.endline_total_in_time_end) as avg_perc_mastery_time_end,
+        avg(f.endline_total_in_operations_end) as avg_perc_mastery_operations_end,
+        avg(f.endline_total_in_data_end) as avg_perc_mastery_data_handling_end
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
+        on f.student_id = d.student_id
+    where d.endline_attendence = True
+    group by d.city_end, d.student_grade_end, d.donor_end, d.pm_name_end, d.fellow_name_end, f.math_level_endline_end
+),
 
 all_combinations as (
     select distinct
@@ -89,12 +94,16 @@ all_combinations as (
         math_level
     from math_analysis_midline
     
-    -- union
+    union
     
-    -- select distinct
-    --     city,
-    --     grade
-    -- from math_analysis_endline
+    select distinct
+        city,
+        grade,
+        donor,
+        pm_name,
+        fellow_name,
+        math_level
+    from math_analysis_endline
 )
 
 select 
@@ -124,17 +133,16 @@ select
     m.avg_perc_mensuration_mid,
     m.avg_perc_time_mid,
     m.avg_perc_operations_mid,
-    m.avg_perc_data_handling_mid
-    -- -- Endline scores
-    -- e.avg_mastery_end,
-    -- e.avg_perc_mastery_numbers_end,
-    -- e.avg_perc_mastery_patterns_end,
-    -- e.avg_perc_mastery_geometry_end,
-    -- e.avg_perc_mastery_mensuration_end,
-    -- e.avg_perc_mastery_time_end,
-    -- e.avg_perc_mastery_operations_end,
-    -- e.avg_perc_mastery_data_handling_end
-    
+    m.avg_perc_data_handling_mid,
+    -- Endline scores
+    e.avg_mastery_end,
+    e.avg_perc_mastery_numbers_end,
+    e.avg_perc_mastery_patterns_end,
+    e.avg_perc_mastery_geometry_end,
+    e.avg_perc_mastery_mensuration_end,
+    e.avg_perc_mastery_time_end,
+    e.avg_perc_mastery_operations_end,
+    e.avg_perc_mastery_data_handling_end
 from all_combinations as ac
 left join math_analysis_baseline as b
     on
@@ -152,7 +160,12 @@ left join math_analysis_midline as m
         and ac.fellow_name = m.fellow_name
         and ac.donor = m.donor
         and ac.pm_name = m.pm_name
--- left join math_analysis_endline e
---     on ac.city = e.city 
---     and ac.grade = e.grade
+left join math_analysis_endline as e
+    on
+        ac.city = e.city 
+        and ac.grade = e.grade
+        and ac.math_level = e.math_level
+        and ac.fellow_name = e.fellow_name
+        and ac.donor = e.donor
+        and ac.pm_name = e.pm_name
 order by ac.city, ac.grade

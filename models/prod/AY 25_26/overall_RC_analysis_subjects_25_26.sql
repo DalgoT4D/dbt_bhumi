@@ -42,6 +42,28 @@ RC_ANALYSIS_MIDLINE as (
     group by D.CITY_MID, D.STUDENT_GRADE_MID, F.RC_LEVEL_MIDLINE_MID, D.FELLOW_NAME_MID, D.DONOR_MID, D.PM_NAME_MID
 ),
 
+RC_ANALYSIS_ENDLINE as (
+    select
+        D.CITY_END as CITY,
+        D.STUDENT_GRADE_END as GRADE,
+        D.DONOR_END as DONOR,
+        D.PM_NAME_END as PM_NAME,
+        D.FELLOW_NAME_END as FELLOW_NAME,
+        F.RC_LEVEL_ENDLINE_END as RC_LEVEL,
+        count(distinct F.STUDENT_ID) as STUDENT_COUNT_END,
+        avg(F.ENDLINE_FACTUAL_END) as FACTUAL_END,
+        avg(F.ENDLINE_INFERENCE_END) as INFERENCE_END,
+        avg(F.ENDLINE_CRITICAL_THINKING_END) as CRITICAL_THINKING_END,
+        avg(F.ENDLINE_VOCABULARY_END) as VOCABULARY_END,
+        avg(F.ENDLINE_GRAMMAR_END) as GRAMMAR_END
+    from 
+        {{ ref('base_mid_end_comb_scores_25_26_fct') }} as F
+    inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as D
+        on F.STUDENT_ID = D.STUDENT_ID
+    where D.ENDLINE_ATTENDENCE = True
+    group by D.CITY_END, D.STUDENT_GRADE_END, F.RC_LEVEL_ENDLINE_END, D.FELLOW_NAME_END, D.DONOR_END, D.PM_NAME_END
+),
+
 ALL_COMBINATIONS as (
     select distinct
         CITY,
@@ -63,12 +85,16 @@ ALL_COMBINATIONS as (
         RC_LEVEL
     from RC_ANALYSIS_MIDLINE
     
-    -- union
-    
-    -- select distinct
-    --     city,
-    --     grade
-    -- from RC_analysis_endline
+    union
+    select distinct
+        CITY,
+        GRADE,
+        DONOR,
+        PM_NAME,
+        FELLOW_NAME,
+        RC_LEVEL
+    from RC_ANALYSIS_ENDLINE
+
 )
 
 select 
@@ -81,26 +107,27 @@ select
 
     B.STUDENT_COUNT_BASE,
     M.STUDENT_COUNT_MID,
+    E.STUDENT_COUNT_END,
     -- Factual scores
     B.FACTUAL_BASE,
     M.FACTUAL_MID,
-    -- e.factual_end,
+    E.FACTUAL_END,
     -- Inference scores
     B.INFERENCE_BASE,
     M.INFERENCE_MID,
-    -- e.inference_end,
+    E.INFERENCE_END,
     -- Critical Thinking scores
     B.CRITICAL_THINKING_BASE,
     M.CRITICAL_THINKING_MID,
-    -- e.critical_thinking_end,
+    E.CRITICAL_THINKING_END,
     -- Vocabulary scores
     B.VOCABULARY_BASE,
     M.VOCABULARY_MID,
-    -- e.vocabulary_end,
+    E.VOCABULARY_END,
     -- Grammar scores
     B.GRAMMAR_BASE,
-    M.GRAMMAR_MID
-    -- e.grammar_end
+    M.GRAMMAR_MID,
+    E.GRAMMAR_END
     
 from ALL_COMBINATIONS as AC
 left join RC_ANALYSIS_BASELINE as B
@@ -119,7 +146,12 @@ left join RC_ANALYSIS_MIDLINE as M
         and AC.FELLOW_NAME = M.FELLOW_NAME
         and AC.DONOR = M.DONOR
         and AC.PM_NAME = M.PM_NAME
--- left join RC_analysis_endline e
---     on ac.city = e.city 
---     and ac.grade = e.grade
+left join RC_ANALYSIS_ENDLINE as E
+    on      
+        AC.CITY = E.CITY 
+        and AC.GRADE = E.GRADE
+        and AC.RC_LEVEL = E.RC_LEVEL
+        and AC.FELLOW_NAME = E.FELLOW_NAME
+        and AC.DONOR = E.DONOR
+        and AC.PM_NAME = E.PM_NAME
 order by AC.CITY, AC.GRADE

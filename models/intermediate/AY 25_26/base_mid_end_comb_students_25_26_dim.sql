@@ -10,12 +10,12 @@ with all_student_id as (
     from {{ ref('midline_25_26_stg') }}
     where student_id_mid is not null
 
-    -- union
+    union
 
-    -- select distinct 
-    --     student_id_end as student_id
-    -- from {{ ref('endline_2425_stg') }}
-    -- where student_id_end is not null
+    select distinct 
+        student_id_end as student_id
+    from {{ ref('endline_25_26_stg') }}
+    where student_id_end is not null
 )
 
 select 
@@ -41,21 +41,23 @@ select
     m.fellow_name_mid,
     m.cohort_mid,
     m.student_grade_mid,
-    m.donor_mid
-    -- -- Endline columns
-    -- case when e.student_id_end is null then False else True end as endline_attendence,
-    -- e.city_end,
-    -- e.student_name_end,
-    -- e.classroom_id_end,
-    -- e.PM_name_end,
-    -- e.school_name_end,
-    -- e.fellow_name_end,
-    -- e.cohort_end,
-    -- e.grade_taught_end
+    m.donor_mid,
+    -- Endline columns
+    not coalesce(e.student_id_end is null, false) as endline_attendence,
+    e.city_end,
+    e.student_name_end,
+    e.classroom_id_end,
+    e.pm_name_end,
+    e.school_name_end,
+    e.fellow_name_end,
+    e.cohort_end,
+    e.student_grade_end,
+    e.donor_end
+
 from all_student_id as s
 left join {{ ref('baseline_25_26_stg') }} as b 
     on s.student_id = b.student_id_base
 left join {{ ref('midline_25_26_stg') }} as m 
     on s.student_id = m.student_id_mid
--- left join {{ ref('endline_2425_stg') }} e 
---     on s.student_id = e.student_id_end
+left join {{ ref('endline_25_26_stg') }} e 
+    on s.student_id = e.student_id_end
