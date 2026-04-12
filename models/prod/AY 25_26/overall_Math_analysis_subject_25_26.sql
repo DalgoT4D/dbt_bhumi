@@ -58,13 +58,13 @@ math_analysis_endline as (
         f.math_level_endline_end as math_level,
         count(distinct f.student_id) as student_count_end,
         avg(f.final_endline_level_mastery_end) as avg_mastery_end,
-        avg(f.endline_numbers_end) as avg_perc_mastery_numbers_end,
-        avg(f.endline_patterns_end) as avg_perc_mastery_patterns_end,
-        avg(f.endline_geometry_end) as avg_perc_mastery_geometry_end,
-        avg(f.endline_total_in_mensuration_end) as avg_perc_mastery_mensuration_end,
-        avg(f.endline_total_in_time_end) as avg_perc_mastery_time_end,
-        avg(f.endline_total_in_operations_end) as avg_perc_mastery_operations_end,
-        avg(f.endline_total_in_data_end) as avg_perc_mastery_data_handling_end
+        avg(f.endline_numbers_end) as avg_perc_numbers_end,
+        avg(f.endline_patterns_end) as avg_perc_patterns_end,
+        avg(f.endline_geometry_end) as avg_perc_geometry_end,
+        avg(f.endline_total_in_mensuration_end) as avg_perc_mensuration_end,
+        avg(f.endline_total_in_time_end) as avg_perc_time_end,
+        avg(f.endline_total_in_operations_end) as avg_perc_operations_end,
+        avg(f.endline_total_in_data_end) as avg_perc_data_handling_end
     from 
         {{ ref('base_mid_end_comb_scores_25_26_fct') }} as f
     inner join {{ ref('base_mid_end_comb_students_25_26_dim') }} as d
@@ -136,13 +136,14 @@ select
     m.avg_perc_data_handling_mid,
     -- Endline scores
     e.avg_mastery_end,
-    e.avg_perc_mastery_numbers_end,
-    e.avg_perc_mastery_patterns_end,
-    e.avg_perc_mastery_geometry_end,
-    e.avg_perc_mastery_mensuration_end,
-    e.avg_perc_mastery_time_end,
-    e.avg_perc_mastery_operations_end,
-    e.avg_perc_mastery_data_handling_end
+    e.avg_perc_numbers_end,
+    e.avg_perc_patterns_end,
+    e.avg_perc_geometry_end,
+    e.avg_perc_mensuration_end,
+    e.avg_perc_time_end,
+    e.avg_perc_operations_end,
+    e.avg_perc_data_handling_end
+
 from all_combinations as ac
 left join math_analysis_baseline as b
     on
