@@ -1,4 +1,3 @@
-
 WITH RC_ANALYSIS_MIDLINE AS (
     SELECT
         D.CITY_MID AS CITY,
@@ -49,7 +48,7 @@ ALL_COMBINATIONS AS (
         MATH_GROWTH
     FROM RC_ANALYSIS_MIDLINE
     
-    union
+    UNION
     
     SELECT DISTINCT
         CITY,

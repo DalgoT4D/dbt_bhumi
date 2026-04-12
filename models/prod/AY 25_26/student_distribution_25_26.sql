@@ -34,11 +34,11 @@ demographics_endline as (
         t.cohort_end,
         t.fellow_name_end,
         t.school_name_end,
-        t.PM_name_end,
+        t.pm_name_end,
         count(distinct t.student_id) as student_count_end
-    from {{ ref('base_mid_end_comb_students_2425_dim') }} t
+    from {{ ref('base_mid_end_comb_students_2425_dim') }} as t
     where t.endline_attendence = True
-    group by t.city_end, t.grade_taught_end, t.cohort_end, t.fellow_name_end, t.school_name_end, t.PM_name_end
+    group by t.city_end, t.grade_taught_end, t.cohort_end, t.fellow_name_end, t.school_name_end, t.pm_name_end
 ),
 
 all_combinations as (
@@ -70,7 +70,7 @@ all_combinations as (
         cohort_end as cohort,
         fellow_name_end as fellow_name,
         school_name_end as school_name,
-        PM_name_end as PM_name
+        pm_name_end as pm_name
     from demographics_endline
 )
 
@@ -101,10 +101,11 @@ left join demographics_midline as m
         and ac.fellow_name = m.fellow_name_mid 
         and ac.school_name = m.school_name_mid 
         and ac.pm_name = m.pm_name_mid
-left join demographics_endline e
-    on ac.city = e.city_end 
-    and ac.grade = e.grade_taught_end 
-    and ac.cohort = e.cohort_end 
-    and ac.fellow_name = e.fellow_name_end 
-    and ac.school_name = e.school_name_end 
-    and ac.PM_name = e.PM_name_end
+left join demographics_endline as e
+    on
+        ac.city = e.city_end 
+        and ac.grade = e.grade_taught_end 
+        and ac.cohort = e.cohort_end 
+        and ac.fellow_name = e.fellow_name_end 
+        and ac.school_name = e.school_name_end 
+        and ac.pm_name = e.pm_name_end

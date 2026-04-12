@@ -69,8 +69,7 @@ all_combinations as (
     
     union
     
-    select distinct
-        student_id
+    select distinct student_id
     from student_school_endline
 )
 
@@ -118,5 +117,5 @@ left join student_school_baseline as b
     on ac.student_id = b.student_id
 left join student_school_midline as m
     on ac.student_id = m.student_id
-left join student_school_endline e
+left join student_school_endline as e
     on ac.student_id = e.student_id
