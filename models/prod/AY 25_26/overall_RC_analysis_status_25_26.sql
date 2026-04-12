@@ -5,7 +5,7 @@ with RC_ANALYSIS_BASELINE as (
         D.DONOR_BASE as DONOR,
         D.PM_NAME_BASE as PM_NAME,
         D.FELLOW_NAME_BASE as FELLOW_NAME,
-        F.RC_LEARNING_LEVEL_STATUS_BASELINE_BASE as RC_LEVEL,
+        F.RC_LEARNING_LEVEL_STATUS_BASELINE_BASE as RC_STATUS,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_BASE,
         count(distinct case when D.COHORT_BASE = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_BASE,
         count(distinct case when D.COHORT_BASE = '2025' then F.STUDENT_ID end) as COHORT_2025_COUNT_BASE
@@ -24,7 +24,7 @@ RC_ANALYSIS_MIDLINE as (
         D.DONOR_MID as DONOR,
         D.PM_NAME_MID as PM_NAME,
         D.FELLOW_NAME_MID as FELLOW_NAME,
-        F.RC_LEARNING_LEVEL_STATUS_MIDLINE_MID as RC_LEVEL,
+        F.RC_LEARNING_LEVEL_STATUS_MIDLINE_MID as RC_STATUS,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_MID,
         count(distinct case when D.COHORT_MID = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_MID,
         count(distinct case when D.COHORT_MID = '2025' then F.STUDENT_ID end) as COHORT_2025_COUNT_MID
@@ -43,7 +43,7 @@ RC_ANALYSIS_ENDLINE as (
         D.DONOR_END as DONOR,
         D.PM_NAME_END as PM_NAME,
         D.FELLOW_NAME_END as FELLOW_NAME,
-        F.RC_LEARNING_LEVEL_STATUS_ENDLINE_END as RC_LEVEL,
+        F.RC_LEARNING_LEVEL_STATUS_ENDLINE_END as RC_STATUS,
         count(distinct F.STUDENT_ID) as STUDENT_COUNT_END,
         count(distinct case when D.COHORT_END = '2024' then F.STUDENT_ID end) as COHORT_2024_COUNT_END,
         count(distinct case when D.COHORT_END = '2025' then F.STUDENT_ID end) as COHORT_2025_COUNT_END
@@ -62,7 +62,7 @@ ALL_COMBINATIONS as (
         DONOR,
         PM_NAME,
         FELLOW_NAME,
-        RC_LEVEL
+        RC_STATUS
     from RC_ANALYSIS_BASELINE
     
     union
@@ -73,7 +73,7 @@ ALL_COMBINATIONS as (
         DONOR,
         PM_NAME,
         FELLOW_NAME,
-        RC_LEVEL
+        RC_STATUS
     from RC_ANALYSIS_MIDLINE
     
     union
@@ -84,7 +84,7 @@ ALL_COMBINATIONS as (
         DONOR,
         PM_NAME,
         FELLOW_NAME,
-        RC_LEVEL
+        RC_STATUS
     from RC_ANALYSIS_ENDLINE
 )
 
@@ -94,7 +94,7 @@ select
     AC.DONOR,
     AC.PM_NAME,
     AC.FELLOW_NAME,
-    AC.RC_LEVEL,
+    AC.RC_STATUS,
     B.STUDENT_COUNT_BASE,
     B.COHORT_2024_COUNT_BASE,
     B.COHORT_2025_COUNT_BASE,
@@ -108,7 +108,7 @@ from ALL_COMBINATIONS as AC
 left join RC_ANALYSIS_BASELINE as B
     on
         AC.CITY = B.CITY 
-        and AC.RC_LEVEL = B.RC_LEVEL 
+        and AC.RC_STATUS = B.RC_STATUS 
         and AC.GRADE = B.GRADE
         and AC.DONOR = B.DONOR
         and AC.PM_NAME = B.PM_NAME
@@ -116,7 +116,7 @@ left join RC_ANALYSIS_BASELINE as B
 left join RC_ANALYSIS_MIDLINE as M
     on
         AC.CITY = M.CITY 
-        and AC.RC_LEVEL = M.RC_LEVEL 
+        and AC.RC_STATUS = M.RC_STATUS 
         and AC.GRADE = M.GRADE
         and AC.DONOR = M.DONOR
         and AC.PM_NAME = M.PM_NAME
@@ -124,7 +124,7 @@ left join RC_ANALYSIS_MIDLINE as M
 left join RC_ANALYSIS_ENDLINE as E
     on
         AC.CITY = E.CITY 
-        and AC.RC_LEVEL = E.RC_LEVEL 
+        and AC.RC_STATUS = E.RC_STATUS 
         and AC.GRADE = E.GRADE
         and AC.DONOR = E.DONOR
         and AC.PM_NAME = E.PM_NAME
