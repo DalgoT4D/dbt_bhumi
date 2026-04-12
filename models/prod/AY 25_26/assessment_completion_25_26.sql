@@ -79,16 +79,16 @@ select
     1 - coalesce(((b.unassessed_students_rc_base)::numeric / nullif(b.total_students_base, 0)), 0) as perc_comp_rc_base,
     coalesce(m.total_students_mid - m.unassessed_students_rc_mid, 0) as assessed_students_rc_mid,
     1 - coalesce(((m.unassessed_students_rc_mid)::numeric / nullif(m.total_students_mid, 0)), 0) as perc_comp_rc_mid,
-    coalesce(e.total_students_end - e.unassessed_students_RC_end, 0) as assessed_students_RC_end,
-    1 - coalesce(((e.unassessed_students_RC_end)::numeric / nullif(e.total_students_end, 0)), 0) as perc_comp_RC_end,
+    coalesce(e.total_students_end - e.unassessed_students_rc_end, 0) as assessed_students_rc_end,
+    1 - coalesce(((e.unassessed_students_rc_end)::numeric / nullif(e.total_students_end, 0)), 0) as perc_comp_rc_end,
 
     -- Reading Fluency
     coalesce(b.total_students_base - b.unassessed_students_rf_base, 0) as assessed_students_rf_base,
     1 - coalesce(((b.unassessed_students_rf_base)::numeric / nullif(b.total_students_base, 0)), 0) as perc_comp_rf_base,
     coalesce(m.total_students_mid - m.unassessed_students_rf_mid, 0) as assessed_students_rf_mid,
     1 - coalesce(((m.unassessed_students_rf_mid)::numeric / nullif(m.total_students_mid, 0)), 0) as perc_comp_rf_mid,
-    coalesce(e.total_students_end - e.unassessed_students_RF_end, 0) as assessed_students_RF_end,
-    1 - coalesce(((e.unassessed_students_RF_end)::numeric / nullif(e.total_students_end, 0)), 0) as perc_comp_RF_end,
+    coalesce(e.total_students_end - e.unassessed_students_rf_end, 0) as assessed_students_rf_end,
+    1 - coalesce(((e.unassessed_students_rf_end)::numeric / nullif(e.total_students_end, 0)), 0) as perc_comp_rf_end,
 
     -- Math
     coalesce(b.total_students_base - b.unassessed_students_math_base, 0) as assessed_students_math_base,
@@ -107,7 +107,8 @@ left join assessment_completion_midline as m
     on
         ac.city = m.city 
         and ac.grade = m.grade
-left join assessment_completion_endline e
-    on ac.city = e.city 
-    and ac.grade = e.grade
+left join assessment_completion_endline as e
+    on
+        ac.city = e.city 
+        and ac.grade = e.grade
 order by ac.city, ac.grade

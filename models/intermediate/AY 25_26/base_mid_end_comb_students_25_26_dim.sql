@@ -12,8 +12,7 @@ with all_student_id as (
 
     union
 
-    select distinct 
-        student_id_end as student_id
+    select distinct  student_id_end as student_id
     from {{ ref('endline_25_26_stg') }}
     where student_id_end is not null
 )
@@ -59,5 +58,5 @@ left join {{ ref('baseline_25_26_stg') }} as b
     on s.student_id = b.student_id_base
 left join {{ ref('midline_25_26_stg') }} as m 
     on s.student_id = m.student_id_mid
-left join {{ ref('endline_25_26_stg') }} e 
+left join {{ ref('endline_25_26_stg') }} as e 
     on s.student_id = e.student_id_end
