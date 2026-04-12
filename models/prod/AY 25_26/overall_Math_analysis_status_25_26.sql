@@ -5,7 +5,7 @@ with math_analysis_baseline as (
         d.donor_base as donor,
         d.pm_name_base as pm_name,
         d.fellow_name_base as fellow_name,
-        f.math_learning_level_status_baseline_base as math_level,
+        f.math_learning_level_status_baseline_base as math_status,
         count(distinct f.student_id) as student_count_base,
         count(distinct case when d.cohort_base = '2024' then f.student_id end) as cohort_2024_count_base,
         count(distinct case when d.cohort_base = '2025' then f.student_id end) as cohort_2025_count_base
@@ -24,7 +24,7 @@ math_analysis_midline as (
         d.pm_name_mid as pm_name,
         d.fellow_name_mid as fellow_name,
         d.student_grade_mid as grade,
-        f.math_learning_level_status_midline_mid as math_level,
+        f.math_learning_level_status_midline_mid as math_status,
         count(distinct f.student_id) as student_count_mid,
         count(distinct case when d.cohort_mid = '2024' then f.student_id end) as cohort_2024_count_mid,
         count(distinct case when d.cohort_mid = '2025' then f.student_id end) as cohort_2025_count_mid
@@ -43,7 +43,7 @@ math_analysis_endline as (
         d.pm_name_end as pm_name,
         d.fellow_name_end as fellow_name,
         d.student_grade_end as grade,
-        f.math_learning_level_status_endline_end as math_level,
+        f.math_learning_level_status_endline_end as math_status,
         count(distinct f.student_id) as student_count_end,
         count(distinct case when d.cohort_end = '2024' then f.student_id end) as cohort_2024_count_end,
         count(distinct case when d.cohort_end = '2025' then f.student_id end) as cohort_2025_count_end
@@ -63,7 +63,7 @@ all_combinations as (
         donor,
         pm_name,
         fellow_name,
-        math_level
+        math_status
     from math_analysis_baseline
     
     union
@@ -74,7 +74,7 @@ all_combinations as (
         donor,
         pm_name,
         fellow_name,
-        math_level
+        math_status
     from math_analysis_midline
     
     union
@@ -85,7 +85,7 @@ all_combinations as (
         donor,
         pm_name,
         fellow_name,
-        math_level
+        math_status
     from math_analysis_endline
 
 )
@@ -96,7 +96,7 @@ select
     ac.donor,
     ac.pm_name,
     ac.fellow_name,
-    ac.math_level,
+    ac.math_status,
     b.student_count_base,
     b.cohort_2024_count_base,
     b.cohort_2025_count_base,
@@ -110,7 +110,7 @@ from all_combinations as ac
 left join math_analysis_baseline as b
     on
         ac.city = b.city 
-        and ac.math_level = b.math_level 
+        and ac.math_status = b.math_status 
         and ac.grade = b.grade
         and ac.donor = b.donor
         and ac.pm_name = b.pm_name
@@ -118,7 +118,7 @@ left join math_analysis_baseline as b
 left join math_analysis_midline as m
     on
         ac.city = m.city 
-        and ac.math_level = m.math_level 
+        and ac.math_status = m.math_status 
         and ac.grade = m.grade
         and ac.donor = m.donor
         and ac.pm_name = m.pm_name
@@ -126,9 +126,9 @@ left join math_analysis_midline as m
 left join math_analysis_endline as e
     on
         ac.city = e.city 
-        and ac.math_level = e.math_level 
+        and ac.math_status = e.math_status 
         and ac.grade = e.grade
         and ac.donor = e.donor
         and ac.pm_name = e.pm_name
         and ac.fellow_name = e.fellow_name
-order by ac.city, ac.grade, ac.math_level
+order by ac.city, ac.grade, ac.math_status
