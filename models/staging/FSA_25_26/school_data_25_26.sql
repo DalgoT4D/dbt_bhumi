@@ -6,7 +6,8 @@ select
     NULLIF(BTRIM(district::TEXT),'') as school_district,
     NULLIF(BTRIM(is_active::TEXT),'') as is_active,
     NULLIF(BTRIM(udise_code::TEXT),'') as udise_code,
-    NULLIF(BTRIM(school_type::TEXT),'') as school_type
+    NULLIF(BTRIM(school_type::TEXT),'') as school_type,
+    NULLIF(BTRIM(total_students::TEXT),'')::INTEGER as total_students_in_school
 from {{ source('fellowship_school_app_25_26', 'schools_raw_data_25_26') }}
 where
     id is not null

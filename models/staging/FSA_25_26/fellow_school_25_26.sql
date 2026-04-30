@@ -57,7 +57,8 @@ schools as (
         school_district,
         is_active,
         udise_code,
-        school_type
+        school_type,
+        total_students_in_school
     from {{ ref('school_data_25_26') }}
 )
 
@@ -74,6 +75,7 @@ select distinct
     s.school_district,
     s.udise_code,
     s.school_type,
+    s.total_students_in_school,
     f.fellow_name,
     f.cohort,
     f.fellow_employee_id,
