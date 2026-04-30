@@ -57,7 +57,8 @@ schools as (
         school_district,
         is_active,
         udise_code,
-        school_type
+        school_type,
+        total_students_in_school
     from {{ ref('school_data_25_26') }}
 )
 
@@ -74,6 +75,7 @@ select distinct
     s.school_district,
     s.udise_code,
     s.school_type,
+    s.total_students_in_school,
     f.fellow_name,
     f.cohort,
     f.fellow_employee_id,
@@ -86,13 +88,13 @@ select distinct
     p.pm_id,
     p.pm_name,
     p.pms_location
-from fellow_school as fs
-left join schools as s
-    on fs.school_id = s.school_id
-left join fellows_data as f
-    on fs.fellow_id = f.fellow_id
-left join pms_data as p
-    on f.pm_id = p.pm_id
+FROM fellow_school AS fs
+FULL OUTER JOIN schools AS s
+    ON fs.school_id = s.school_id
+FULL OUTER JOIN fellows_data AS f
+    ON fs.fellow_id = f.fellow_id
+FULL OUTER JOIN pms_data AS p
+    ON f.pm_id = p.pm_id
 where
     fs.fellow_id is not NULL
     and s.school_id is not NULL
