@@ -88,13 +88,13 @@ select distinct
     p.pm_id,
     p.pm_name,
     p.pms_location
-FROM fellow_school AS fs
-FULL OUTER JOIN schools AS s
-    ON fs.school_id = s.school_id
-FULL OUTER JOIN fellows_data AS f
-    ON fs.fellow_id = f.fellow_id
-FULL OUTER JOIN pms_data AS p
-    ON f.pm_id = p.pm_id
+from fellow_school as fs
+full outer join schools as s
+    on fs.school_id = s.school_id
+full outer join fellows_data as f
+    on fs.fellow_id = f.fellow_id
+full outer join pms_data as p
+    on f.pm_id = p.pm_id
 where
     fs.fellow_id is not NULL
     and s.school_id is not NULL
