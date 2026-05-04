@@ -12,7 +12,7 @@ with master as (
         coalesce(initcap(btrim("STEM_STP")), '') as stem_stp,
         coalesce(initcap(btrim("Fellowship")), '') as fellowship,
         coalesce(initcap(btrim("Eco_Champ")), '') as eco_champ,
-        coalesce(initcap(btrim("School_type")), '') as school_type,
+        coalesce(initcap(btrim("Type_of_School")), '') as school_type,
         coalesce(initcap(btrim("Financial_Year")), '') as financial_year,
         coalesce(initcap(btrim("Project_Status")), '') as project_status,
         coalesce(initcap(btrim("Name_of_CSR_Partner")), '') as csr_partner,
