@@ -1,4 +1,24 @@
-with school as (
+with recursive date_spine as (
+    select date_trunc('month', cast('2025-04-01' as date)) as month_start
+    union all
+    select cast((month_start + interval '1 month') as date)
+    from date_spine
+    where month_start < date_trunc('month', current_date)
+),
+
+month_quarter_map as (
+    select
+        to_char(month_start, 'Mon YYYY') as month_year,
+        case
+            when date_part('month', month_start) in (4, 5, 6)    then 'Apr-May-Jun'
+            when date_part('month', month_start) in (7, 8, 9)    then 'Jul-Aug-Sep'
+            when date_part('month', month_start) in (10, 11, 12) then 'Oct-Nov-Dec'
+            when date_part('month', month_start) in (1, 2, 3)    then 'Jan-Feb-Mar'
+        end as quarter
+    from date_spine
+),
+
+school as (
     select
         fellow_id,
         fellow_name,
@@ -17,7 +37,7 @@ with school as (
         grade_section
     from {{ ref('fellow_school_25_26') }}
     group by
-        school_id, 
+        school_id,
         fellow_id,
         fellow_name,
         cohort,
@@ -32,56 +52,6 @@ with school as (
         school_type,
         grade,
         grade_section
-),
-
-month_quarter_map as (
-    select
-        'Apr 2025' as month_year,
-        'Apr-May-Jun' as quarter
-    union all
-    select
-        'May 2025' as month_year,
-        'Apr-May-Jun' as quarter
-    union all
-    select
-        'Jun 2025' as month_year,
-        'Apr-May-Jun' as quarter
-    union all
-    select
-        'Jul 2025' as month_year,
-        'Jul-Aug-Sep' as quarter
-    union all
-    select
-        'Aug 2025' as month_year,
-        'Jul-Aug-Sep' as quarter
-    union all
-    select
-        'Sep 2025' as month_year,
-        'Jul-Aug-Sep' as quarter
-    union all
-    select
-        'Oct 2025' as month_year,
-        'Oct-Nov-Dec' as quarter
-    union all
-    select
-        'Nov 2025' as month_year,
-        'Oct-Nov-Dec' as quarter
-    union all
-    select
-        'Dec 2025' as month_year,
-        'Oct-Nov-Dec' as quarter
-    union all
-    select
-        'Jan 2026' as month_year,
-        'Jan-Feb-Mar' as quarter
-    union all
-    select
-        'Feb 2026' as month_year,
-        'Jan-Feb-Mar' as quarter
-    union all
-    select
-        'Mar 2026' as month_year,
-        'Jan-Feb-Mar' as quarter
 ),
 
 school_with_quarter as (
@@ -112,13 +82,13 @@ class_agg as (
         grade_section,
         month_year,
         reporting_period,
-        sum(ptms) as ptms_sum,
-        sum(homes_visited) as homes_visited_sum,
-        sum(total_students) as total_students_sum,
-        sum(teacher_circles) as teacher_circles_sum,
+        sum(ptms)                   as ptms_sum,
+        sum(homes_visited)          as homes_visited_sum,
+        sum(total_students)         as total_students_sum,
+        sum(teacher_circles)        as teacher_circles_sum,
         sum(school_leader_checkins) as school_leader_checkins_sum,
-        sum(helo_circles) as helo_circles_sum,
-        sum(teaching_hours) as teaching_hours_sum
+        sum(helo_circles)           as helo_circles_sum,
+        sum(teaching_hours)         as teaching_hours_sum
     from {{ ref('class_upd_25_26') }}
     group by
         fellow_id,
@@ -168,9 +138,9 @@ select
 from school_with_quarter as s
 left join class_agg as ca
     on
-        s.school_id = ca.school_id
-        and s.fellow_id = ca.fellow_id
-        and s.grade = ca.grade
+        s.school_id     = ca.school_id
+        and s.fellow_id     = ca.fellow_id
+        and s.grade         = ca.grade
         and s.grade_section = ca.grade_section
-        and s.month_year = ca.month_year
-        and s.quarter = ca.reporting_period
+        and s.month_year    = ca.month_year
+        and s.quarter       = ca.reporting_period
