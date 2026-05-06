@@ -42,6 +42,9 @@ sources:
       - name: Raw_Data_Endline_2025
         identifier: Raw_Data_Midline___Endline
         description: Endline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
+      - name: endline_middle_school_data_25_26
+        identifier: Endline_raw_data
+        description: Student details raw data for AY 25-26 (source file/name in G-Sheet or staging area)
 
   - name: fellowship_school_app_25_26
     schema: school_app
