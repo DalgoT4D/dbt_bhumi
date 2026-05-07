@@ -317,9 +317,14 @@ with master as (
                 then "No_of_Solar_panel_work_Installed___Project_details_"::integer
         end as solar_panels,
 
+        case
+            when btrim("Others___Project_details_") ~ '^\d+$'
+                then "Others___Project_details_"::integer
+        end as other_project_counts,
+
         -- TEXT REMAINING
-        coalesce(initcap(btrim("Post_completion_monitored_report_Link")), '') as monitored_report_link,
-        coalesce(initcap(btrim("Others___Project_details_")), '') as other_details
+        coalesce(initcap(btrim("Post_completion_monitored_report_Link")), '') as monitored_report_link
+        -- coalesce(initcap(btrim("")), '') as other_details
 
     from {{ source('iginteplus_25_26', 'Ignite__Master_Data_25_26') }}
 
@@ -399,7 +404,7 @@ with_delays as (
         ro_plants,
         solar_panels,
         monitored_report_link,
-        other_details
+        other_project_counts
 
     from master
 
@@ -459,7 +464,7 @@ select
     ro_plants,
     solar_panels,
     monitored_report_link,
-    other_details
+    other_project_counts
 
 from with_delays
-where school_name <> ''
+where school_name <> '' and student_count is not null
