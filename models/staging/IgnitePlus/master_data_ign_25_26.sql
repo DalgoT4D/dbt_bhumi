@@ -351,13 +351,10 @@ with_delays as (
         project_execution_budget,
         total_project_budget,
         case
-            when project_execution_budget is null then null
-            else
-                case
-                    when project_execution_budget <= 10 then 'Small'
-                    when project_execution_budget > 10 and project_execution_budget <= 50 then 'Medium'
-                    when project_execution_budget > 50 then 'Large'
-                end
+            when project_execution_budget <= 1000000 then 'Small'
+            when project_execution_budget > 1000000 and project_execution_budget <= 5000000 then 'Medium'
+            when project_execution_budget > 5000000 then 'Large'
+            else null
         end as project_scale,
         student_count,
         starting_level_wash,
