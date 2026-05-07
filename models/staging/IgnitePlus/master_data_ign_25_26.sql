@@ -49,38 +49,7 @@ with master as (
             when btrim("Actual_Considerable_Student_count__As_per_standard_norms___thro") ~ '^\d+$'
                 then "Actual_Considerable_Student_count__As_per_standard_norms___thro"::integer
         end as student_count,
-
-        -- PROJECT SCALE
-        case
-            when btrim("Total_project_budget__With_Branding__PM___Admin_cost___MOU_") = '' then null
-            else
-                case
-                    when (regexp_replace(
-                        split_part(btrim("Total_project_budget__With_Branding__PM___Admin_cost___MOU_"), E'\\t', 1),
-                        '₹|,|\s',
-                        '',
-                        'g'
-                    )::numeric) < 10 then 'Small'
-                    when (regexp_replace(
-                        split_part(btrim("Total_project_budget__With_Branding__PM___Admin_cost___MOU_"), E'\\t', 1),
-                        '₹|,|\s',
-                        '',
-                        'g'
-                    )::numeric) >= 10 
-                    and (regexp_replace(
-                        split_part(btrim("Total_project_budget__With_Branding__PM___Admin_cost___MOU_"), E'\\t', 1),
-                        '₹|,|\s',
-                        '',
-                        'g'
-                    )::numeric) <= 50 then 'Medium'
-                    when (regexp_replace(
-                        split_part(btrim("Total_project_budget__With_Branding__PM___Admin_cost___MOU_"), E'\\t', 1),
-                        '₹|,|\s',
-                        '',
-                        'g'
-                    )::numeric) > 50 then 'Large'
-                end
-        end as project_scale,
+        
 
         -- LEVELS (text fields)
         coalesce(initcap(btrim("Starting_Level___WASH")), '') as starting_level_wash,
@@ -381,7 +350,15 @@ with_delays as (
         school_name,
         project_execution_budget,
         total_project_budget,
-        project_scale,
+        case
+            when project_execution_budget is null then null
+            else
+                case
+                    when project_execution_budget <= 10 then 'Small'
+                    when project_execution_budget > 10 and project_execution_budget <= 50 then 'Medium'
+                    when project_execution_budget > 50 then 'Large'
+                end
+        end as project_scale,
         student_count,
         starting_level_wash,
         current_level_wash,
