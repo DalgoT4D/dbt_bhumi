@@ -15,16 +15,18 @@ with cleaned as (
                 btrim("Date_of_Visit") <> ''
                 and (
                     btrim("Date_of_Visit") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Date_of_Visit") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                    or btrim("Date_of_Visit") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
+                    or btrim("Date_of_Visit") ~ '^\d{1,2}\s+[A-Za-z]{3}\s+\d{2,4}$'
                 )
                 then to_date(
                     case
                         when btrim("Date_of_Visit") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Date_of_Visit")
-                        else regexp_replace(btrim("Date_of_Visit"), '\\s*-\\s*', '-', 'g')
+                        else regexp_replace(btrim("Date_of_Visit"), '\s+', '-', 'g')
                     end,
                     case
                         when btrim("Date_of_Visit") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
+                        when btrim("Date_of_Visit") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$' then 'DD-Mon-YYYY'
+                        else 'DD-Mon-YY'
                     end
                 )
         end as date_of_visit,
