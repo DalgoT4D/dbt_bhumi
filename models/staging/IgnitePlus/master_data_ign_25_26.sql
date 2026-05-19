@@ -254,6 +254,12 @@ with_delays as (
         funds_received_date,
         confirmation_date,
         case
+            when planned_start_date is null or actual_start_date is null then null
+            when (actual_start_date - planned_start_date) = 0 then 100.0
+            when (actual_start_date - planned_start_date) >= 1 then 100.0 - (((actual_start_date - planned_start_date)::numeric / 30) * 100)
+            when (actual_start_date - planned_start_date) <= -1 then 100.0 + ((actual_start_date - planned_start_date)::numeric / 30) * 100
+        end as start_date_delay_percent,
+        case
             when planned_end_date is null or actual_end_date is null then null
             when (actual_end_date - planned_end_date) = 0 then 100.0
             when (actual_end_date - planned_end_date) >= 1 then 100.0 - (((actual_end_date - planned_end_date)::numeric / 30) * 100)
@@ -300,6 +306,7 @@ select
     actual_end_date,
     funds_received_date,
     confirmation_date,
+    start_date_delay_percent,
     end_date_delay_percent,
     washroom_constructed,
     washroom_renovated,
