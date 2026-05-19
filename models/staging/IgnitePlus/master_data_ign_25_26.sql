@@ -58,7 +58,7 @@ with master as (
                 btrim("Planned_Start_Date") <> ''
                 and (
                     btrim("Planned_Start_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Planned_Start_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                    or btrim("Planned_Start_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
                 )
                 then to_date(
                     case
@@ -67,7 +67,8 @@ with master as (
                     end,
                     case
                         when btrim("Planned_Start_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
+                        when btrim("Planned_Start_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$' then 'DD-Mon-YYYY'
+                        else 'DD-Mon-YY'
                     end
                 )
         end as planned_start_date,
@@ -77,7 +78,7 @@ with master as (
                 btrim("Actual_Start_date") <> ''
                 and (
                     btrim("Actual_Start_date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Actual_Start_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                    or btrim("Actual_Start_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
                 )
                 then to_date(
                     case
@@ -86,7 +87,8 @@ with master as (
                     end,
                     case
                         when btrim("Actual_Start_date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
+                        when btrim("Actual_Start_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$' then 'DD-Mon-YYYY'
+                        else 'DD-Mon-YY'
                     end
                 )
         end as actual_start_date,
@@ -96,7 +98,7 @@ with master as (
                 btrim("Planned_End_date") <> ''
                 and (
                     btrim("Planned_End_date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Planned_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                    or btrim("Planned_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
                 )
                 then to_date(
                     case
@@ -105,7 +107,8 @@ with master as (
                     end,
                     case
                         when btrim("Planned_End_date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
+                        when btrim("Planned_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$' then 'DD-Mon-YYYY'
+                        else 'DD-Mon-YY'
                     end
                 )
         end as planned_end_date,
@@ -115,7 +118,7 @@ with master as (
                 btrim("Actual_End_date") <> ''
                 and (
                     btrim("Actual_End_date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Actual_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                    or btrim("Actual_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
                 )
                 then to_date(
                     case
@@ -124,7 +127,8 @@ with master as (
                     end,
                     case
                         when btrim("Actual_End_date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
+                        when btrim("Actual_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$' then 'DD-Mon-YYYY'
+                        else 'DD-Mon-YY'
                     end
                 )
         end as actual_end_date,
@@ -135,7 +139,7 @@ with master as (
                 btrim("Date_of_funds_received") <> ''
                 and (
                     btrim("Date_of_funds_received") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Date_of_funds_received") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                    or btrim("Date_of_funds_received") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
                 )
                 then to_date(
                     case
@@ -144,7 +148,8 @@ with master as (
                     end,
                     case
                         when btrim("Date_of_funds_received") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
+                        when btrim("Date_of_funds_received") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$' then 'DD-Mon-YYYY'
+                        else 'DD-Mon-YY'
                     end
                 )
         end as funds_received_date,
@@ -154,7 +159,7 @@ with master as (
                 btrim("Date_of_Confirmation_from_CR_team") <> ''
                 and (
                     btrim("Date_of_Confirmation_from_CR_team") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Date_of_Confirmation_from_CR_team") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                    or btrim("Date_of_Confirmation_from_CR_team") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
                 )
                 then to_date(
                     case
@@ -163,7 +168,8 @@ with master as (
                     end,
                     case
                         when btrim("Date_of_Confirmation_from_CR_team") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
+                        when btrim("Date_of_Confirmation_from_CR_team") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$' then 'DD-Mon-YYYY'
+                        else 'DD-Mon-YY'
                     end
                 )
         end as confirmation_date,
