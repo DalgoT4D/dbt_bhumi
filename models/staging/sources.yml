@@ -99,6 +99,9 @@ sources:
       - name: Ignite__Need_Assessment_Data_25_26
         identifier: Ignite__Need_Assessment_Data
         description: This is a placeholder table Ignite Plus 25&26
+      - name: Monitored_Projects
+        identifier: Monitored_Projects
+        description: This is a placeholder table Ignite Plus 25&26
 
 
 
