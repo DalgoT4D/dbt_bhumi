@@ -3,7 +3,7 @@ with master as (
     select
         -- INTEGER
         case when btrim("Sl_No") ~ '^\d+$' then "Sl_No"::integer end as sl_no,
-        coalesce(btrim("link_"), '') as link,
+        coalesce(btrim(link_), '') as link,
         coalesce(btrim("Remarks"), '') as remarks,
 
         -- TEXT
