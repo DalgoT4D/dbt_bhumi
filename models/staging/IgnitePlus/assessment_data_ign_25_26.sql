@@ -1,6 +1,14 @@
 with cleaned as (
     select
         case
+            when btrim("S_NO") ~ '^\d+$'
+                then "S_NO"::integer
+        end as s_no,
+        nullif(btrim("NA_Link"), '') as na_link,
+        nullif(initcap(btrim("District")), '') as district,
+        nullif(initcap(btrim("Location")), '') as location,
+        nullif(btrim("Remarks_"), '') as remarks,
+        case
             when
                 btrim("Date_of_NA") <> ''
                 and (
@@ -18,33 +26,23 @@ with cleaned as (
                     end
                 )
         end as date_of_na,
-        nullif(trim("Name_of_School"), '') as name_of_school,
-        nullif(trim("School_Type"), '') as school_type,
-        nullif(trim("Location"), '') as location,
-        nullif(trim("District"), '') as district,
-        -- nullif(trim("State"), '') as state,
-        nullif(trim("Scope_of_work"), '') as scope_of_work,
-        nullif(trim("NA_Link"), '') as na_link,
-        nullif(trim("Folder_Link"), '') as folder_link,
-        nullif(trim("NA_Done_by"), '') as na_done_by,
-        case
-            when trim("Estimated_amount__Project_cost_") = '' then null
-            else regexp_replace(trim("Estimated_amount__Project_cost_"), '[^0-9\.]+', '', 'g')::numeric
-        end as estimated_amount_project_cost
+        nullif(initcap(btrim("NA_Done_by")), '') as na_done_by,
+        nullif(btrim("Folder_Link"), '') as folder_link,
+        nullif(initcap(btrim("School_Type")), '') as school_type,
+        nullif(initcap(btrim("Name_of_School")), '') as name_of_school
     from {{ source('iginteplus_25_26', 'Ignite__Need_Assessment_Data_25_26') }}
 )
 
 select 
-    date_of_na,
-    name_of_school,
-    school_type,
-    location,
-    district,
-    -- state,
-    scope_of_work,
+    s_no,
     na_link,
-    folder_link,
+    district,
+    location,
+    remarks,
+    date_of_na,
     na_done_by,
-    estimated_amount_project_cost
+    folder_link,
+    school_type,
+    name_of_school
 from cleaned
 where name_of_school is not null
