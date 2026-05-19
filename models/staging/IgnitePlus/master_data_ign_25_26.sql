@@ -3,8 +3,8 @@ with master as (
     select
         -- INTEGER
         case when btrim("Sl_No") ~ '^\d+$' then "Sl_No"::integer end as sl_no,
-        -- coalesce(initcap(btrim("Remarks")), '') as remarks,
-        -- coalesce(btrim("Folder_link_"), '') as folder_link,
+        coalesce(btrim("link_"), '') as link,
+        coalesce(btrim("Remarks"), '') as remarks,
 
         -- TEXT
         coalesce(initcap(btrim("Quarter")), '') as quarter,
@@ -16,6 +16,7 @@ with master as (
         coalesce(initcap(btrim("Financial_Year")), '') as financial_year,
         coalesce(initcap(btrim("Project_Status")), '') as project_status,
         coalesce(initcap(btrim("Name_of_CSR_Partner")), '') as csr_partner,
+        coalesce(initcap(btrim("School_Classification")), '') as school_classification,
         coalesce(initcap(btrim("Name_of_school___Location")), '') as school_name,
 
         -- NUMERIC (FLOAT / INTEGER SAFE)
@@ -46,16 +47,87 @@ with master as (
         end as total_project_budget,
 
         case
-            when btrim("Actual_Considerable_Student_count__As_per_standard_norms___thro") ~ '^\d+$'
-                then "Actual_Considerable_Student_count__As_per_standard_norms___thro"::integer
+            when btrim("Student_count") ~ '^\d+$'
+                then "Student_count"::integer
         end as student_count,
         
 
-        -- LEVELS (text fields)
-        coalesce(initcap(btrim("Starting_Level___WASH")), '') as starting_level_wash,
-        coalesce(initcap(btrim("Current_Level___WASH")), '') as current_level_wash,
-        coalesce(initcap(btrim("Starting_Level___Classroom")), '') as starting_level_classroom,
-        coalesce(initcap(btrim("Current_Level___Classroom")), '') as current_level_classroom,
+        -- LEVEL FIELDS (replacing with start/end dates)
+        case
+            when
+                btrim("Planned_Start_Date") <> ''
+                and (
+                    btrim("Planned_Start_Date") ~ '^\d{4}-\d{2}-\d{2}$'
+                    or btrim("Planned_Start_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                )
+                then to_date(
+                    case
+                        when btrim("Planned_Start_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Planned_Start_Date")
+                        else regexp_replace(btrim("Planned_Start_Date"), '\\s*-\\s*', '-', 'g')
+                    end,
+                    case
+                        when btrim("Planned_Start_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
+                        else 'DD-Mon-YYYY'
+                    end
+                )
+        end as planned_start_date,
+
+        case
+            when
+                btrim("Actual_Start_date") <> ''
+                and (
+                    btrim("Actual_Start_date") ~ '^\d{4}-\d{2}-\d{2}$'
+                    or btrim("Actual_Start_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                )
+                then to_date(
+                    case
+                        when btrim("Actual_Start_date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Actual_Start_date")
+                        else regexp_replace(btrim("Actual_Start_date"), '\\s*-\\s*', '-', 'g')
+                    end,
+                    case
+                        when btrim("Actual_Start_date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
+                        else 'DD-Mon-YYYY'
+                    end
+                )
+        end as actual_start_date,
+
+        case
+            when
+                btrim("Planned_End_date") <> ''
+                and (
+                    btrim("Planned_End_date") ~ '^\d{4}-\d{2}-\d{2}$'
+                    or btrim("Planned_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                )
+                then to_date(
+                    case
+                        when btrim("Planned_End_date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Planned_End_date")
+                        else regexp_replace(btrim("Planned_End_date"), '\\s*-\\s*', '-', 'g')
+                    end,
+                    case
+                        when btrim("Planned_End_date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
+                        else 'DD-Mon-YYYY'
+                    end
+                )
+        end as planned_end_date,
+
+        case
+            when
+                btrim("Actual_End_date") <> ''
+                and (
+                    btrim("Actual_End_date") ~ '^\d{4}-\d{2}-\d{2}$'
+                    or btrim("Actual_End_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
+                )
+                then to_date(
+                    case
+                        when btrim("Actual_End_date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Actual_End_date")
+                        else regexp_replace(btrim("Actual_End_date"), '\\s*-\\s*', '-', 'g')
+                    end,
+                    case
+                        when btrim("Actual_End_date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
+                        else 'DD-Mon-YYYY'
+                    end
+                )
+        end as actual_end_date,
 
         -- DATE CLEANING
         case
@@ -96,193 +168,7 @@ with master as (
                 )
         end as confirmation_date,
 
-        -- MILESTONE DATES
-        case
-            when
-                btrim("Milestone_1_Planned_Date") <> ''
-                and (
-                    btrim("Milestone_1_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_1_Planned_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_1_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_1_Planned_Date")
-                        else regexp_replace(btrim("Milestone_1_Planned_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_1_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m1_planned,
-        case
-            when
-                btrim("Milestone_1_Actual_Date") <> ''
-                and (
-                    btrim("Milestone_1_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_1_Actual_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_1_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_1_Actual_Date")
-                        else regexp_replace(btrim("Milestone_1_Actual_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_1_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m1_actual,
-
-        case
-            when
-                btrim("Milestone_2_Planned_Date") <> ''
-                and (
-                    btrim("Milestone_2_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_2_Planned_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_2_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_2_Planned_Date")
-                        else regexp_replace(btrim("Milestone_2_Planned_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_2_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m2_planned,
-        case
-            when
-                btrim("Milestone_2_Actual_Date") <> ''
-                and (
-                    btrim("Milestone_2_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_2_Actual_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_2_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_2_Actual_Date")
-                        else regexp_replace(btrim("Milestone_2_Actual_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_2_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m2_actual,
-
-        case
-            when
-                btrim("Milestone_3_Planned_Date") <> ''
-                and (
-                    btrim("Milestone_3_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_3_Planned_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_3_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_3_Planned_Date")
-                        else regexp_replace(btrim("Milestone_3_Planned_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_3_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m3_planned,
-        case
-            when
-                btrim("Milestone_3_Actual_Date") <> ''
-                and (
-                    btrim("Milestone_3_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_3_Actual_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_3_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_3_Actual_Date")
-                        else regexp_replace(btrim("Milestone_3_Actual_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_3_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m3_actual,
-
-        case
-            when
-                btrim("Milestone_4_Planned_Date") <> ''
-                and (
-                    btrim("Milestone_4_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_4_Planned_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_4_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_4_Planned_Date")
-                        else regexp_replace(btrim("Milestone_4_Planned_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_4_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m4_planned,
-        case
-            when
-                btrim("Milestone_4_Actual_Date") <> ''
-                and (
-                    btrim("Milestone_4_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_4_Actual_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_4_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_4_Actual_Date")
-                        else regexp_replace(btrim("Milestone_4_Actual_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_4_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m4_actual,
-
-        case
-            when
-                btrim("Milestone_5_Planned_Date") <> ''
-                and (
-                    btrim("Milestone_5_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_5_Planned_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_5_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_5_Planned_Date")
-                        else regexp_replace(btrim("Milestone_5_Planned_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_5_Planned_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m5_planned,
-        case
-            when
-                btrim("Milestone_5_Actual_Date") <> ''
-                and (
-                    btrim("Milestone_5_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$'
-                    or btrim("Milestone_5_Actual_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{4}$'
-                )
-                then to_date(
-                    case
-                        when btrim("Milestone_5_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then btrim("Milestone_5_Actual_Date")
-                        else regexp_replace(btrim("Milestone_5_Actual_Date"), '\\s*-\\s*', '-', 'g')
-                    end,
-                    case
-                        when btrim("Milestone_5_Actual_Date") ~ '^\d{4}-\d{2}-\d{2}$' then 'YYYY-MM-DD'
-                        else 'DD-Mon-YYYY'
-                    end
-                )
-        end as m5_actual,
-
-        -- PROJECT COUNTS (keep as numeric if possible)
+        -- PROJECT COUNTS AND DETAILS (keep as numeric if possible)
         case
             when btrim("No_of_Washroom_Constructred__Project_details_") ~ '^\d+$'
                 then "No_of_Washroom_Constructred__Project_details_"::integer
@@ -314,6 +200,11 @@ with master as (
         end as ro_plants,
 
         case
+            when btrim("No_of_existing_RO_Plant_AMC_extened___Project_details_") ~ '^\d+$'
+                then "No_of_existing_RO_Plant_AMC_extened___Project_details_"::integer
+        end as ro_plant_amc_extended,
+
+        case
             when btrim("No_of_Solar_panel_work_Installed___Project_details_") ~ '^\d+$'
                 then "No_of_Solar_panel_work_Installed___Project_details_"::integer
         end as solar_panels,
@@ -325,7 +216,6 @@ with master as (
 
         -- TEXT REMAINING
         coalesce(initcap(btrim("Post_completion_monitored_report_Link")), '') as monitored_report_link
-        -- coalesce(initcap(btrim("")), '') as other_details
 
     from {{ source('iginteplus_25_26', 'Ignite__Master_Data_25_26') }}
 
@@ -335,18 +225,19 @@ with_delays as (
 
     select 
         sl_no,
+        link,
+        remarks,
         financial_year,
         quarter,
-        -- remarks,
         district,
         stem_stp,
         fellowship,
         eco_champ,
         school_type,
-        -- folder_link,    
         project_status,
         school_count,
         csr_partner,
+        school_classification,
         school_name,
         project_execution_budget,
         total_project_budget,
@@ -356,58 +247,25 @@ with_delays as (
             when project_execution_budget > 5000000 then 'Large'
         end as project_scale,
         student_count,
-        starting_level_wash,
-        current_level_wash,
-        starting_level_classroom,
-        current_level_classroom,
+        planned_start_date,
+        actual_start_date,
+        planned_end_date,
+        actual_end_date,
         funds_received_date,
         confirmation_date,
-        m1_planned,
-        m1_actual,
-        m2_planned,
-        m2_actual,
-        m3_planned,
-        m3_actual,
-        m4_planned,
-        m4_actual,  
-        m5_planned,
-        m5_actual,  
         case
-            when m1_planned is null or m1_actual is null then null
-            when (m1_actual - m1_planned) = 0 then 100.0
-            when (m1_actual - m1_planned) >= 1 then 100.0 - (((m1_actual - m1_planned)::numeric / 30) * 100)
-            when (m1_actual - m1_planned) <= -1 then 100.0 + ((m1_actual - m1_planned)::numeric / 30) * 100
-        end as m1_delay_percent,
-        case
-            when m2_planned is null or m2_actual is null then null
-            when (m2_actual - m2_planned) = 0 then 100.0
-            when (m2_actual - m2_planned) >= 1 then 100.0 - (((m2_actual - m2_planned)::numeric / 30) * 100)
-            when (m2_actual - m2_planned) <= -1 then 100.0 + ((m2_actual - m2_planned)::numeric / 30) * 100
-        end as m2_delay_percent,
-        case
-            when m3_planned is null or m3_actual is null then null
-            when (m3_actual - m3_planned) = 0 then 100.0
-            when (m3_actual - m3_planned) >= 1 then 100.0 - (((m3_actual - m3_planned)::numeric / 30) * 100)
-            when (m3_actual - m3_planned) <= -1 then 100.0 + ((m3_actual - m3_planned)::numeric / 30) * 100
-        end as m3_delay_percent,
-        case
-            when m4_planned is null or m4_actual is null then null
-            when (m4_actual - m4_planned) = 0 then 100.0
-            when (m4_actual - m4_planned) >= 1 then 100.0 - (((m4_actual - m4_planned)::numeric / 30) * 100)
-            when (m4_actual - m4_planned) <= -1 then 100.0 + ((m4_actual - m4_planned)::numeric / 30) * 100
-        end as m4_delay_percent,
-        case
-            when m5_planned is null or m5_actual is null then null
-            when (m5_actual - m5_planned) = 0 then 100.0
-            when (m5_actual - m5_planned) >= 1 then 100.0 - (((m5_actual - m5_planned)::numeric / 30) * 100)
-            when (m5_actual - m5_planned) <= -1 then 100.0 + ((m5_actual - m5_planned)::numeric / 30) * 100
-        end as m5_delay_percent,
+            when planned_end_date is null or actual_end_date is null then null
+            when (actual_end_date - planned_end_date) = 0 then 100.0
+            when (actual_end_date - planned_end_date) >= 1 then 100.0 - (((actual_end_date - planned_end_date)::numeric / 30) * 100)
+            when (actual_end_date - planned_end_date) <= -1 then 100.0 + ((actual_end_date - planned_end_date)::numeric / 30) * 100
+        end as end_date_delay_percent,
         washroom_constructed,
         washroom_renovated,
         classroom_constructed,
         classroom_renovated,
         furniture_count,
         ro_plants,
+        ro_plant_amc_extended,
         solar_panels,
         monitored_report_link,
         other_project_counts
@@ -418,57 +276,38 @@ with_delays as (
 
 select 
     sl_no,
+    link,
+    remarks,
     financial_year,
     quarter,
-    -- remarks,
     district,
     stem_stp,
     fellowship,
     eco_champ,
     school_type,
-    -- folder_link,    
     project_status,
     school_count,
     csr_partner,
+    school_classification,
     school_name,
     project_execution_budget,
     total_project_budget,
     project_scale,
     student_count,
-    starting_level_wash,
-    current_level_wash,
-    starting_level_classroom,
-    current_level_classroom,
+    planned_start_date,
+    actual_start_date,
+    planned_end_date,
+    actual_end_date,
     funds_received_date,
     confirmation_date,
-    m1_planned,
-    m1_actual,
-    m2_planned,
-    m2_actual,
-    m3_planned,
-    m3_actual,
-    m4_planned,
-    m4_actual,  
-    m5_planned,
-    m5_actual,  
-    m1_delay_percent,
-    m2_delay_percent,
-    m3_delay_percent,
-    m4_delay_percent,
-    m5_delay_percent,
-    (coalesce(m1_delay_percent, 0) + coalesce(m2_delay_percent, 0) + coalesce(m3_delay_percent, 0) + coalesce(m4_delay_percent, 0) + coalesce(m5_delay_percent, 0)) / nullif(
-        (case when m1_delay_percent is not null then 1 else 0 end)
-        + (case when m2_delay_percent is not null then 1 else 0 end)
-        + (case when m3_delay_percent is not null then 1 else 0 end)
-        + (case when m4_delay_percent is not null then 1 else 0 end)
-        + (case when m5_delay_percent is not null then 1 else 0 end), 0
-    ) as avg_delay_percent,
+    end_date_delay_percent,
     washroom_constructed,
     washroom_renovated,
     classroom_constructed,
     classroom_renovated,
     furniture_count,
     ro_plants,
+    ro_plant_amc_extended,
     solar_panels,
     monitored_report_link,
     other_project_counts
