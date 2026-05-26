@@ -4,6 +4,7 @@
 ) }}
 
 SELECT 
+"Event" ->> 'ID' as event_id,
 "Event" ->> 'Event_Name' as event_name,
 "Event" ->> 'Event_Start_Date' as event_date,
 "Impact_1" ->> 'Outcome' as outcome_1,
@@ -19,7 +20,10 @@ cast(nullif("Quantity_3", '') as numeric) as quantity_3,
 "Event_Event_Status" as event_status,
 "Event_Event_Category" ->>'Event_Category' as event_category,
 cast(nullif("Total_Volunteer_Hours", '') as numeric) as total_volunteer_hours,
-cast(nullif("Acual_number_of_volunteers", '') as numeric) as number_of_volunteers
+cast(nullif("Acual_number_of_volunteers", '') as numeric) as number_of_volunteers,
+"Event_Club_City_and_Names" ->> 'ID' as club_id,
+"Event_Club_City_and_Names" ->> 'Club_Name' as club_name,
+"Event_Club_City_and_Names" ->> 'zc_display_value' as club_display_value
 
 from 
 {{ source('zc_bvms_data', 'Catalyse_Tracker_Catalyse') }}

@@ -17,3 +17,4 @@ end as city,
 "Project_Name" as project_name
 
 from {{ source('zc_bvms_data', 'Shelters_Historic_Volunteer_Report') }}
+where "Name" ->> 'first_name' is not null

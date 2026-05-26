@@ -19,8 +19,12 @@ with_academic_year as (
         school_name,
         total_mark,
         scoring_period,
-        quarter_num,
-        'Q' || quarter_num::text as quarter,
+        case quarter_num
+            when 1 then 'Q4'
+            when 2 then 'Q1'
+            when 3 then 'Q2'
+            when 4 then 'Q3'
+        end as academic_quarter,
         case
             when scoring_period != ''
                 then
@@ -36,7 +40,7 @@ with_academic_year as (
 
 select
     academic_year,
-    quarter,
+    academic_quarter,
     donor,
     district,
     school_name,
@@ -46,13 +50,13 @@ select
 from with_academic_year
 group by
     academic_year,
-    quarter,
+    academic_quarter,
     donor,
     district,
     school_name
 order by
     academic_year,
-    quarter,
+    academic_quarter,
     donor,
     district,
     school_name

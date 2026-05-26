@@ -29,10 +29,6 @@ select
     -- club start year
     extract(year from sc.stem_club_start_date)::integer as club_start_year,
 
-    -- activity year and quarter (from event_meeting_date, already a date type)
-    extract(year from ca.event_meeting_date)::integer as activity_year,
-    'Q' || extract(quarter from ca.event_meeting_date)::integer::text as activity_quarter,
-
     -- from stem_club_activities_stg
     ca.event_meeting_date,
     ca.topic_covered,

@@ -30,8 +30,8 @@ enriched as (
         -- volunteer type classification (metric 4)
         -- Open, Unmatched, Matched → Adhoc | GRL Based, Projected → Regular | {} → Probono
         case
-            when lower(btrim(source.corporate_event_type)) in ('open', 'unmatched', 'matched') then 'Adhoc'
-            when lower(btrim(source.corporate_event_type)) in ('grl based', 'projected') then 'Regular'
+            when lower(btrim(source.corporate_event_type)) in ('open', 'unmatched', 'matched') then 'Others'
+            when lower(btrim(source.corporate_event_type)) in ('grl based', 'projected') then 'Projected'
             when btrim(source.corporate_event_type) = '{}' then ''
             else nullif(btrim(source.corporate_event_type), '')
         end as volunteer_type,

@@ -15,3 +15,6 @@ lower(replace("utm_source", '"', '')) as utm_source,
 to_timestamp("Submission_Time", 'YYYY-MM-DD HH24:MI:SS')::date as submission_date
 
 from {{ source('civic_clubs', 'Submission') }}
+WHERE "Name" is not null
+and "Email" is not null
+and lower("Feedback") not like '%test%'

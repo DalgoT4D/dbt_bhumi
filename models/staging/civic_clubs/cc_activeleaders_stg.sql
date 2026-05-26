@@ -8,7 +8,7 @@ select
 "Name" as leader_name,
 "Role" as role,
 "Current_Location" as city,
-"Chapter_District" as chapter_district,
+"Chapter_District" as district,
 "Clubs" as clubs,
 "Continuing" as continuing
 

@@ -25,6 +25,7 @@ end as state,
 "Launch_Month" as launch_month,
 "Inactive_Month" as inactive_month,
 "Contact" as contact,
-'2025-26' as academic_year
+'2025-2026' as academic_year
 
 FROM {{ source('civic_clubs', 'Total_College_Partners') }}
+where "College__Club_Name_" is not null and btrim("College__Club_Name_") != ''

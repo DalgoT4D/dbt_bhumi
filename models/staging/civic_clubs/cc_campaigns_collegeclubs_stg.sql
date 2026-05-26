@@ -5,6 +5,7 @@
 
 with cleaned as (
     select
+        "Acedamic_Year" as academic_year,
         case
             when "Quarter" like 'Q1%' then 'Q1'
             when "Quarter" like 'Q2%' then 'Q2'
@@ -20,6 +21,7 @@ with cleaned as (
 
 pivoted as (
     select
+        academic_year,
         quarter,
         campaign_name,
         max(case when parameter = 'Num of Event Coordinators'  then achieved end) as num_event_coordinators,
@@ -28,7 +30,7 @@ pivoted as (
         max(case when parameter = 'Num of Volunteers Engaged'  then achieved end) as num_volunteers_engaged,
         max(case when parameter = 'Num of Events Organized'    then achieved end) as num_events_organized
     from cleaned
-    group by quarter, campaign_name
+    group by academic_year, quarter, campaign_name
 )
 
 select * from pivoted

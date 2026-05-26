@@ -715,7 +715,7 @@ sources:
         description: Midline raw data for AY 25-26 (source file/name in G-Sheet or staging area)
 
   - name: zc_bvms_data
-    schema: ZC_BVMS_raw_data
+    schema: ZC_BVMS_Raw_Data
     tables:
       - name: All_Session_Attendances
         identifier: All_Session_Attendances
@@ -741,29 +741,30 @@ sources:
       - name: Catalyse_Tracker_Catalyse
         identifier: Catalyse_Tracker_Catalyse
         description: catalyse tracker catalyse
-
       - name: Website_Registration_Admin
         identifier: Website_Registration_Admin
-        description: website registration admin data
-
+        description: volunteerswebsite registration admin data
       - name: Orientation_RSVP_Admin
         identifier: Orientation_RSVP_Admin
-        description: orientation rsvp admin data
-
+        description: volunteer orientation rsvp data
       - name: Volunteer_Event_Registration_Catalyse1
         identifier: Volunteer_Event_Registration_Catalyse1
         description: volunteer event registration data
-
       - name: All_Institute_Masters
         identifier: All_Institute_Masters
         description: All institute masters data
-      
       - name: Shelters_Historic_Volunteer_Report
         identifier: Shelters_Historic_Volunteer_Report
         description: Historic volunteer report for shelters
-
-
-        
+      - name: Club_City_and_Names_Report
+        identifier: Club_City_and_Names_Report
+        description: Club details report
+      - name: Orienation_Volunteer_Event_Registration
+        identifier: Orienation_Volunteer_Event_Registration
+        description: volunteer orientation report
+      - name: Induction_Volunteer_Event_Registration
+        identifier: Induction_Volunteer_Event_Registration
+        description: volunteer induction training report
 
   - name: Stem_gsheet_data
     schema: STEM_Gsheet_Raw_Data
@@ -846,6 +847,9 @@ sources:
       - name: Uma_club_act
         identifier: Uma_club_act
         description: part 7 of STEM club activities data
+      - name: STEM_RAG_Params
+        identifier: STEM_RAG_Params
+        description: STEM RAG params data
 
   - name: CV_Gsheet_Raw_Data
     schema: CV_Gsheet_Raw_Data
@@ -1017,6 +1021,9 @@ sources:
       - name: Submission
         identifier: Submission
         description: nps submissions
+      - name: City_Wise_Active_Club_Data
+        identifier: City_Wise_Active_Club_Data
+        description: volunteer data for college clubs' city-wise active club data
 
   - name: zc_skilled_data
     schema: ZC_SkillEd_raw_data
