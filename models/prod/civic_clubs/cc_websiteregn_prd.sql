@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "prod"]
 ) }}
 
 with base as (
@@ -9,13 +9,14 @@ with base as (
         to_char(added_date, 'Month') as month,
         case
             when extract(month from added_date) >= 4
-                then lpad((extract(year from added_date)::int % 100)::text, 2, '0')
+                then
+                    lpad((extract(year from added_date)::int % 100)::text, 2, '0')
                     || '-'
                     || lpad(((extract(year from added_date)::int + 1) % 100)::text, 2, '0')
             else
                 lpad(((extract(year from added_date)::int - 1) % 100)::text, 2, '0')
-                    || '-'
-                    || lpad((extract(year from added_date)::int % 100)::text, 2, '0')
+                || '-'
+                || lpad((extract(year from added_date)::int % 100)::text, 2, '0')
         end as academic_year,
         location,
         hr_status

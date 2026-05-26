@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "prod"]
+) }}
+
 select
     volunteer_type,
     location,

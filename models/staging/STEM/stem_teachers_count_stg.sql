@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 with teachers_count as (
     select
         case when btrim(s_no::text) ~ '^[0-9]+$' then s_no::integer end as s_no,

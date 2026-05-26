@@ -1,15 +1,15 @@
 {{ config(
   materialized='table',
-  tags=["civic_clubs"]
+  tags=["civic_clubs", "staging"]
 ) }}
 
 
 select
-"Name" as leader_name,
-"Role" as role,
-"Current_Location" as city,
-"Chapter_District" as district,
-"Clubs" as clubs,
-"Continuing" as continuing
+    "Name" as leader_name,
+    "Role" as role,
+    "Current_Location" as city,
+    "Chapter_District" as district,
+    "Clubs" as clubs,
+    "Continuing" as continuing
 
 from {{ source('civic_clubs', 'Active_Leaders') }}

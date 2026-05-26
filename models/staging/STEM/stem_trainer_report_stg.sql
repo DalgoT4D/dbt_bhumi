@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 with trainers as (
     select
         -- identifiers

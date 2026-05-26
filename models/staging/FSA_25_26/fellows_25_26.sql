@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "staging"]
+) }}
+
 with fellows as (
     select 
         NULLIF(BTRIM(id::TEXT),'') as id,

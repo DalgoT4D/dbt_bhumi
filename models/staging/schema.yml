@@ -573,3 +573,1377 @@ models:
         description: Amber threshold percentage for completion
       - name: Green_percent_comp
         description: Green threshold percentage for completion
+  # CV Staging Models
+  - name: cv_corporate_catalyse_tracker_stg
+    description: Staging model for Corporate Volunteering event tracker data
+    columns:
+      - name: id
+        description: Unique record identifier
+      - name: event_id
+        description: Event identifier
+      - name: event_name
+        description: Name of the corporate volunteering event
+      - name: event_city
+        description: City where the event was held
+      - name: event_address
+        description: Address of the event
+      - name: corporate_event_type
+        description: Type of corporate event
+      - name: corporate_partner_name
+        description: Name of the corporate partner
+      - name: corporate_partner_id
+        description: Identifier of the corporate partner
+      - name: event_closed_by_all_aspect
+        description: Whether the event was closed by all aspects
+      - name: cv_event_implementer_name
+        description: Name of the CV event implementer
+      - name: coordinator_name
+        description: Name of the event coordinator
+      - name: impact_indicator_1
+        description: First impact indicator
+      - name: impact_indicator_2
+        description: Second impact indicator
+      - name: event_type
+        description: Type of event
+      - name: event_end_time
+        description: End time of the event
+      - name: event_start_time
+        description: Start time of the event
+      - name: type_of_implementation
+        description: Mode of event implementation
+      - name: posted_on_social_media
+        description: Whether event was posted on social media
+      - name: client_coordinator_name
+        description: Name of the client coordinator
+      - name: beneficiary_details
+        description: Details about the event beneficiaries
+      - name: beneficiary_location
+        description: Location of the beneficiaries
+      - name: donor_date
+        description: Donor reporting date
+      - name: invoice_date
+        description: Invoice date
+      - name: invoice_report_date
+        description: Invoice report date
+      - name: event_end_date
+        description: End date of the event
+      - name: event_start_date
+        description: Start date of the event
+      - name: balance
+        description: Budget balance
+      - name: total_spent
+        description: Total amount spent
+      - name: actual_budget
+        description: Actual budget used
+      - name: invoice_value
+        description: Invoice value
+      - name: event_planned_budget
+        description: Planned budget for the event
+      - name: area_of_walls_painted_sqft
+        description: Area of walls painted in square feet
+      - name: dry_waste_collected_kgs
+        description: Dry waste collected in kilograms
+      - name: expense_via_advance_happay
+        description: Expense via advance on Happay
+      - name: expense_via_invoicing_happay
+        description: Expense via invoicing on Happay
+      - name: budget_sanctioned_by_corporate
+        description: Budget sanctioned by the corporate
+      - name: key_result_1
+        description: Key result metric 1
+      - name: key_result_2
+        description: Key result metric 2
+      - name: no_of_diy_kit
+        description: Number of DIY kits
+      - name: number_of_csat
+        description: Number of CSAT responses
+      - name: no_of_learning_aid
+        description: Number of learning aids
+      - name: no_of_beneficiaries
+        description: Number of beneficiaries
+      - name: actual_no_of_volunteers
+        description: Actual number of volunteers
+      - name: no_of_lives_touched
+        description: Number of lives touched
+      - name: no_of_diy_kit_assembled
+        description: Number of DIY kits assembled
+      - name: no_of_saplings_planted
+        description: Number of saplings planted
+      - name: total_volunteering_hours
+        description: Total volunteering hours engaged
+      - name: no_of_volunteers_participated
+        description: Number of volunteers who participated
+      - name: expected_no_of_volunteers
+        description: Expected number of volunteers
+      - name: total_no_of_beneficiary
+        description: Total number of beneficiaries
+      - name: csat
+        description: CSAT score
+      - name: remarks
+        description: Remarks or notes
+      - name: testimonials
+        description: Testimonials from participants
+      - name: invoice_number
+        description: Invoice number
+      - name: happay_report_id
+        description: Happay report identifier
+      - name: happay_invoice_id
+        description: Happay invoice identifier
+      - name: happay_reference_number
+        description: Happay reference number
+      - name: brief_summary
+        description: Brief summary of the event
+      - name: coordinator_added_time
+        description: Time when coordinator was added
+      - name: duration_volunteers_engaged
+        description: Duration for which volunteers were engaged
+      - name: duration_of_activity_mins
+        description: Duration of the activity in minutes
+      - name: planned_budget_actual_expense_splitup
+        description: Split-up of planned budget vs actual expense
+      - name: use_corporate_name_logo_in_social
+        description: Whether to use corporate name/logo in social media posts
+  - name: cv_csat_form_responses_stg
+    description: Staging model for Corporate Volunteering CSAT form responses
+    columns:
+      - name: submission_id
+        description: Unique submission identifier
+      - name: name
+        description: Respondent name
+      - name: company_name
+        description: Name of the company
+      - name: bhumi_spoc_name
+        description: Name of the Bhumi SPOC
+      - name: event_name
+        description: Name of the volunteering event
+      - name: event_date
+        description: Date of the event
+      - name: city
+        description: City of the respondent
+      - name: city_specified
+        description: City as specified by the respondent
+      - name: submission_date
+        description: Date the form was submitted
+      - name: overall_event_experience_score
+        description: Overall event experience score (1-10)
+      - name: orientation_usefulness_score
+        description: Score for orientation usefulness (1-10)
+      - name: next_volunteering_activity
+        description: Next volunteering activity preferred
+      - name: additional_feedback
+        description: Additional feedback from the respondent
+  - name: cv_donor_report_stg
+    description: Staging model for Corporate Volunteering donor report data
+    columns:
+      - name: id
+        description: Unique record identifier
+      - name: event_id
+        description: Event identifier
+      - name: event_name
+        description: Name of the event
+      - name: invoice_date
+        description: Invoice date
+      - name: poc_name
+        description: Name of the point of contact
+      - name: poc_email
+        description: Email of the point of contact
+  - name: cv_nps_form_responses_stg
+    description: Staging model for Corporate Volunteering NPS form responses
+    columns:
+      - name: submission_id
+        description: Unique submission identifier
+      - name: name
+        description: Respondent name
+      - name: email
+        description: Respondent email address
+      - name: corporate_name
+        description: Name of the corporate
+      - name: submission_date
+        description: Date the form was submitted
+      - name: nps_score
+        description: NPS score
+      - name: likelihood_to_continue
+        description: Likelihood to continue working with Bhumi
+      - name: rating_communication_account_management
+        description: Rating for communication and account management
+      - name: rating_project_implementation_coordination
+        description: Rating for project implementation coordination
+      - name: rating_employee_experience_engagement
+        description: Rating for employee experience and engagement
+      - name: rating_impact_reporting_documentation
+        description: Rating for impact reporting and documentation
+      - name: key_improvement_area
+        description: Key area for improvement identified by respondent
+      - name: likelihood_reason
+        description: Reason for the likelihood to continue score
+      - name: additional_comments
+        description: Additional comments from respondent
+  # FSA 2025-26 Staging Models
+  - name: fellow_school_25_26
+    description: Staging model joining fellows, schools, and program managers for AY 2025-26
+    columns:
+      - name: fellow_id
+        description: Unique fellow identifier
+      - name: grade
+        description: Grade level taught by the fellow
+      - name: no_of_students
+        description: Number of students in the fellow's class
+      - name: school_id
+        description: Unique school identifier
+      - name: school_name
+        description: Name of the school
+      - name: school_state
+        description: State where the school is located
+      - name: school_address
+        description: Address of the school
+      - name: school_district
+        description: District where the school is located
+      - name: udise_code
+        description: UDISE code of the school
+      - name: school_type
+        description: Type of school
+      - name: fellow_name
+        description: Full name of the fellow
+      - name: cohort
+        description: Fellow's cohort year
+      - name: fellow_employee_id
+        description: Employee ID of the fellow
+      - name: year_1_donor
+        description: Primary donor for the fellow
+      - name: year_2_donor
+        description: Secondary donor for the fellow
+      - name: fellow_placement_city
+        description: City where the fellow is placed
+      - name: fellow_doj
+        description: Date of joining for the fellow
+      - name: fellow_dol
+        description: Date of leaving for the fellow
+      - name: fellow_dob
+        description: Date of birth of the fellow
+      - name: pm_id
+        description: Unique program manager identifier
+      - name: pm_name
+        description: Name of the program manager
+      - name: pms_location
+        description: Location of the program manager
+  - name: fellows_25_26
+    description: Staging model for fellowship fellows data for AY 2025-26
+    columns:
+      - name: fellow_id
+        description: Unique fellow identifier
+      - name: pm_id
+        description: Program manager identifier
+      - name: cohort_year
+        description: Cohort year of the fellow
+      - name: fellow_employee_id
+        description: Employee ID of the fellow
+      - name: year_1_donor
+        description: Primary donor for the fellow
+      - name: year_2_donor
+        description: Secondary donor for the fellow
+      - name: fellow_placement_city
+        description: City where the fellow is placed
+      - name: fellow_doj
+        description: Date of joining
+      - name: fellow_dol
+        description: Date of leaving
+      - name: fellow_dob
+        description: Date of birth
+      - name: fellow_full_name
+        description: Full name of the fellow
+  - name: pms_25_26
+    description: Staging model for program managers data for AY 2025-26
+    columns:
+      - name: pm_id
+        description: Unique program manager identifier
+      - name: pm_full_name
+        description: Full name of the program manager
+      - name: pms_location
+        description: Location of the program manager
+  - name: school_data_25_26
+    description: Staging model for school master data for AY 2025-26
+    columns:
+      - name: school_id
+        description: Unique school identifier
+      - name: school_name
+        description: Name of the school
+      - name: school_state
+        description: State where the school is located
+      - name: school_address
+        description: Address of the school
+      - name: school_district
+        description: District where the school is located
+      - name: is_active
+        description: Whether the school is currently active
+      - name: udise_code
+        description: UDISE code of the school
+      - name: school_type
+        description: Type of school
+  # STEM Staging Models
+  - name: stem_adv_exposure_detail_stg
+    description: Staging model for STEM advanced exposure event details
+    columns:
+      - name: donor
+        description: Donor name
+      - name: month
+        description: Month of the exposure event
+      - name: district
+        description: District where the event was held
+      - name: school_name
+        description: Name of the school
+      - name: topic_covered
+        description: Topic covered during the exposure event
+      - name: no_of_volunteers
+        description: Number of volunteers who participated
+      - name: no_of_children_attended
+        description: Number of children who attended
+      - name: date_of_exposure
+        description: Date of the exposure event
+      - name: institution_name
+        description: Name of the institution that conducted the event
+  - name: stem_all_session_attendances_stg
+    description: Staging model for STEM session attendance records from BVMS
+    columns:
+      - name: id
+        description: Unique session attendance record identifier
+      - name: class_number
+        description: Class number (numeric)
+      - name: class_name
+        description: Class name or identifier
+      - name: donor
+        description: Donor name
+      - name: trainer_name
+        description: Name of the trainer
+      - name: trainer_id
+        description: Trainer's BVMS identifier
+      - name: added_time
+        description: Timestamp when the record was added
+      - name: class_type
+        description: Type of class
+      - name: school_name
+        description: Name of the school
+      - name: project_name
+        description: Name of the project
+      - name: session_date
+        description: Date of the session
+      - name: session_type
+        description: Type of session (e.g., experimental, theory)
+      - name: academic_year
+        description: Academic year
+      - name: total_students
+        description: Total number of students
+      - name: class_division
+        description: Class division/section
+      - name: absent_students
+        description: Number of absent students
+      - name: absent_students_count
+        description: Count of absent students from list
+      - name: volunteer_engaged_flag
+        description: Whether a volunteer was engaged
+      - name: volunteer_engaged_secondary
+        description: Secondary volunteer engagement details
+      - name: absent_students_list
+        description: List of absent students
+      - name: present_students_list
+        description: List of present students
+      - name: present_students_count
+        description: Count of present students
+      - name: was_combined_class
+        description: Whether it was a combined class
+      - name: volunteering_hours_engaged
+        description: Number of volunteering hours engaged
+  - name: stem_all_session_plannings_stg
+    description: Staging model for STEM session planning records from BVMS
+    columns:
+      - name: id
+        description: Unique session planning record identifier
+      - name: class_number
+        description: Class number (numeric)
+      - name: class_name
+        description: Class name or identifier
+      - name: donor
+        description: Donor name
+      - name: school_name
+        description: Name of the school
+      - name: project_name
+        description: Name of the project
+      - name: trainer_name
+        description: Name of the trainer
+      - name: trainer_id
+        description: Trainer's BVMS identifier
+      - name: academic_year
+        description: Academic year
+      - name: session_month
+        description: Month of the session
+      - name: session_month_number
+        description: Numeric month of the session
+      - name: class_division
+        description: Class division/section
+      - name: session_planned
+        description: Number of sessions planned
+      - name: experiment_planned
+        description: Number of experiments planned
+      - name: trainer_name_added_time
+        description: Timestamp when trainer name was added
+  - name: stem_club_activities_stg
+    description: Staging model for STEM club activity records from trainer-wise Google Sheets
+    columns:
+      - name: event_meeting_date
+        description: Date of the club meeting or event
+      - name: donor
+        description: Donor name
+      - name: trainer
+        description: Name of the trainer
+      - name: district
+        description: District where the club activity took place
+      - name: school_name
+        description: Name of the school
+      - name: topic_covered
+        description: Topic covered during the club activity
+      - name: no_of_children_attended
+        description: Number of children who attended
+  - name: stem_compass_all_students_stg
+    description: Staging model for all STEM Compass students from BVMS
+    columns:
+      - name: id
+        description: Unique student identifier
+      - name: student_name
+        description: Name of the student
+      - name: class_number
+        description: Class number
+      - name: class_division
+        description: Class division/section
+      - name: school_roll_no
+        description: Student's school roll number
+      - name: school_name
+        description: Name of the school
+      - name: state
+        description: State where the school is located
+      - name: district
+        description: District where the school is located
+      - name: donor
+        description: Donor name
+      - name: project_name_primary
+        description: Primary project name
+      - name: project_name_list
+        description: All project names as JSON array
+      - name: project_name_count
+        description: Number of projects assigned
+      - name: trainer_name
+        description: Name of the trainer
+      - name: trainer_id
+        description: Trainer's BVMS identifier
+      - name: reporting_manager_name
+        description: Name of the reporting manager
+      - name: reporting_manager_id
+        description: Reporting manager's BVMS identifier
+      - name: reporting_manager_email
+        description: Email of the reporting manager
+      - name: zonal_manager
+        description: Name of the zonal manager
+      - name: academic_year
+        description: Academic year
+      - name: status
+        description: Student enrollment status
+      - name: gender
+        description: Student's gender
+      - name: added_time
+        description: Timestamp when the record was added
+      - name: father_income
+        description: Father's income
+      - name: mother_income
+        description: Mother's income
+  - name: stem_consolidated_tcm_stg
+    description: Staging model for STEM trainer consolidated TCM assessment data
+    columns:
+      - name: sl_no
+        description: Serial number
+      - name: trainer_name
+        description: Name of the trainer
+      - name: trainer_location
+        description: Location of the trainer
+      - name: donor
+        description: Donor name
+      - name: manager
+        description: Manager name
+      - name: status
+        description: Trainer status
+      - name: q_2
+        description: Q2 assessment score
+      - name: q_3
+        description: Q3 assessment score
+      - name: q_4
+        description: Q4 assessment score
+      - name: baseline
+        description: Baseline assessment score
+      - name: improvement
+        description: Improvement score
+      - name: consolidated_rating_2025_26
+        description: Consolidated rating for 2025-26
+  - name: stem_impact_analysis_stg
+    description: Staging model for STEM impact analysis with baseline and endline scores
+    columns:
+      - name: class
+        description: Class number
+      - name: donor
+        description: Donor name
+      - name: state
+        description: State where the school is located
+      - name: bvms_id
+        description: BVMS identifier
+      - name: district
+        description: District where the school is located
+      - name: baseline_id
+        description: Baseline assessment identifier
+      - name: school_name
+        description: Name of the school
+      - name: student_name
+        description: Name of the student
+      - name: trainer_name
+        description: Name of the trainer
+      - name: tech_base
+        description: Technology score at baseline
+      - name: maths_base
+        description: Mathematics score at baseline
+      - name: science_base
+        description: Science score at baseline
+      - name: scored_base
+        description: Total scored at baseline
+      - name: knowledge_base
+        description: Knowledge score at baseline
+      - name: application_base
+        description: Application score at baseline
+      - name: total_marks_base
+        description: Total marks at baseline
+      - name: understanding_base
+        description: Understanding score at baseline
+      - name: tech_end
+        description: Technology score at endline
+      - name: maths_end
+        description: Mathematics score at endline
+      - name: science_end
+        description: Science score at endline
+      - name: scored_end
+        description: Total scored at endline
+      - name: knowledge_end
+        description: Knowledge score at endline
+      - name: application_end
+        description: Application score at endline
+      - name: total_marks_end
+        description: Total marks at endline
+      - name: understanding_end
+        description: Understanding score at endline
+  - name: stem_rag_params_stg
+    description: Staging model for STEM RAG (Red-Amber-Green) threshold parameters
+    columns:
+      - name: freq
+        description: Frequency of the parameter measurement
+      - name: parameter
+        description: Name of the RAG parameter
+      - name: description
+        description: Description of the parameter
+      - name: black_percent_comp
+        description: Black threshold percentage
+      - name: red_percent_comp
+        description: Red threshold percentage
+      - name: amber_percent_comp
+        description: Amber threshold percentage
+      - name: green_percent_comp
+        description: Green threshold percentage
+      - name: gold_percent_comp
+        description: Gold threshold percentage
+  - name: stem_scholarship_details_stg
+    description: Staging model for STEM scholarship details
+    columns:
+      - name: donor
+        description: Donor name
+      - name: district
+        description: District of the school
+      - name: school_name
+        description: Name of the school
+      - name: student_name
+        description: Name of the student
+      - name: trainer_name
+        description: Name of the trainer
+      - name: current_grade
+        description: Current grade of the student
+      - name: academic_marks
+        description: Academic marks/percentage
+      - name: any_other_remarks
+        description: Any other remarks
+      - name: scholarship_amount
+        description: Scholarship amount awarded
+      - name: parent_guardian_name
+        description: Name of parent or guardian
+      - name: grade_college_scholarship_awarded
+        description: Grade/college for which scholarship was awarded
+  - name: stem_school_clubs_stg
+    description: Staging model for STEM school club consolidation details
+    columns:
+      - name: s_no
+        description: Serial number
+      - name: donor
+        description: Donor name
+      - name: district
+        description: District where the school is located
+      - name: school
+        description: Name of the school
+      - name: manager
+        description: Manager name
+      - name: trainer
+        description: Name of the trainer
+      - name: date_orientation_trainer
+        description: Date of trainer orientation
+      - name: date_orientation_school
+        description: Date of school orientation
+      - name: stem_club_start_date
+        description: Start date of the STEM club
+  - name: stem_stp_centre_identification_stg
+    description: Staging model for STEM STP centre identification data from BVMS
+    columns:
+      - name: id
+        description: Unique centre identifier
+      - name: center_name
+        description: Name of the centre
+      - name: center_type
+        description: Type of centre (School, NGO, etc.)
+      - name: center_status
+        description: Status of the centre
+      - name: request_type
+        description: Type of request
+      - name: city
+        description: City where the centre is located
+      - name: state
+        description: State where the centre is located
+      - name: center_address
+        description: Address of the centre
+      - name: pin_code
+        description: PIN code of the centre
+      - name: chapter
+        description: Bhumi chapter
+      - name: program
+        description: Program name
+      - name: project
+        description: Project name
+      - name: stage_new
+        description: Current stage of the centre
+      - name: finalized_programs_list
+        description: List of finalized programs with Bhumi
+      - name: finalized_programs_count
+        description: Count of finalized programs
+      - name: poc_name
+        description: Name of the point of contact
+      - name: poc_designation
+        description: Designation of the point of contact
+      - name: center_email_id
+        description: Email ID of the centre
+      - name: head_of_organisation
+        description: Head of the organisation
+      - name: donor_name
+        description: Name of the donor
+      - name: children_pre_kg
+        description: Number of children in Pre-KG
+      - name: children_lkg
+        description: Number of children in LKG
+      - name: children_ukg
+        description: Number of children in UKG
+      - name: children_class_1
+        description: Number of children in Class 1
+      - name: children_class_2
+        description: Number of children in Class 2
+      - name: children_class_3
+        description: Number of children in Class 3
+      - name: children_class_4
+        description: Number of children in Class 4
+      - name: children_class_5
+        description: Number of children in Class 5
+      - name: children_class_6
+        description: Number of children in Class 6
+      - name: children_class_7
+        description: Number of children in Class 7
+      - name: children_class_8
+        description: Number of children in Class 8
+      - name: children_class_9
+        description: Number of children in Class 9
+      - name: children_class_10
+        description: Number of children in Class 10
+      - name: children_class_11
+        description: Number of children in Class 11
+      - name: children_class_12
+        description: Number of children in Class 12
+      - name: children_iti
+        description: Number of children in ITI
+      - name: children_college
+        description: Number of children in college
+      - name: children_non_formal_education
+        description: Number of children in non-formal education
+      - name: children_male
+        description: Number of male children
+      - name: children_female
+        description: Number of female children
+      - name: overall_children_count
+        description: Overall count of children
+      - name: total_count
+        description: Total count
+      - name: working_computers
+        description: Number of working computers
+      - name: rooms_provided_for_bhumi
+        description: Number of rooms provided for Bhumi
+      - name: quantity_blackboard_whiteboard
+        description: Quantity of blackboards/whiteboards
+      - name: other_available_resources
+        description: Other available resources
+      - name: rooms_sufficient_space
+        description: Whether rooms have sufficient space
+      - name: estimated_amount_rs
+        description: Estimated amount in rupees
+      - name: interested_in_bhumi
+        description: Whether the centre is interested in Bhumi
+      - name: no_maybe_reasons
+        description: Reasons for no or maybe response
+      - name: overall_attitude
+        description: Overall attitude of centre authority
+      - name: referred_day_for_classes
+        description: Day referred for Bhumi classes
+      - name: referred_time_for_classes
+        description: Time referred for Bhumi classes
+      - name: preferred_accessible_mode
+        description: Preferred accessible mode
+      - name: weekly_prayer_time
+        description: Weekly prayer time if any
+      - name: other_weekend_classes
+        description: Other weekend classes
+      - name: school_type_children_attend
+        description: Type of school most children attend
+      - name: children_after_class_12
+        description: What children do after Class 12
+      - name: children_retained_till_class
+        description: Class till which children are retained
+      - name: age_group_of_children
+        description: Age group of children at the centre
+      - name: comments
+        description: Comments
+      - name: additional_info_feedback
+        description: Additional information and feedback
+      - name: modified_time
+        description: Timestamp when the record was last modified
+  - name: stem_teacher_champion_scoring_stg
+    description: Staging model for STEM teacher champion scoring data
+    columns:
+      - name: s_no
+        description: Serial number
+      - name: donor
+        description: Donor name
+      - name: level
+        description: Teacher champion level
+      - name: district
+        description: District where the school is located
+      - name: school_name
+        description: Name of the school
+      - name: teacher_name
+        description: Name of the teacher
+      - name: teacher_identifies_as
+        description: How the teacher identifies themselves
+      - name: grades_covered
+        description: Grades covered by the teacher
+      - name: scoring_period
+        description: Period for which scoring was done
+      - name: subject_handled
+        description: Subject handled by the teacher
+      - name: total_mark
+        description: Total score
+      - name: facilitation_lesson_integration
+        description: Score for facilitation and lesson integration
+      - name: student_engagement_mentorship
+        description: Score for student engagement and mentorship
+      - name: resource_lab_ownership
+        description: Score for resource and lab ownership
+      - name: innovation_contextualization
+        description: Score for innovation and contextualization
+      - name: training_participation_knowledge_sharing
+        description: Score for training participation and knowledge sharing
+      - name: leadership_initiative
+        description: Score for leadership and initiative
+      - name: documentation_sustainability_mindset
+        description: Score for documentation and sustainability mindset
+  - name: stem_teacher_details_stg
+    description: Staging model for STEM teacher details
+    columns:
+      - name: sno
+        description: Serial number
+      - name: state
+        description: State where the school is located
+      - name: district
+        description: District where the school is located
+      - name: school_name
+        description: Name of the school
+      - name: teacher
+        description: Name of the teacher
+      - name: handling_class
+        description: Class(es) handled by the teacher
+      - name: handling_subjects
+        description: Subjects handled by the teacher
+  - name: stem_teacher_led_classes_stg
+    description: Staging model for STEM teacher-led class records from trainer-wise Google Sheets
+    columns:
+      - name: date
+        description: Date of the class
+      - name: donor
+        description: Donor name
+      - name: grade
+        description: Grade level
+      - name: section
+        description: Section/division
+      - name: subject
+        description: Subject taught
+      - name: district
+        description: District where the school is located
+      - name: school_name
+        description: Name of the school
+      - name: teacher_name
+        description: Name of the teacher
+      - name: trainer_name
+        description: Name of the trainer
+      - name: tool_kit_used
+        description: Tool kit used in the class
+      - name: topic_covered
+        description: Topic covered
+  - name: stem_teachers_count_stg
+    description: Staging model for STEM teacher counts per school
+    columns:
+      - name: s_no
+        description: Serial number
+      - name: state
+        description: State where the school is located
+      - name: district
+        description: District where the school is located
+      - name: school_name
+        description: Name of the school
+      - name: teachers_count_including_hm
+        description: Total teacher count including head master
+      - name: targeted_teacher_count
+        description: Number of targeted teachers
+      - name: assessment_completed_q2
+        description: Assessments completed in Q2
+      - name: assessment_completed_q3
+        description: Assessments completed in Q3
+      - name: assessment_completed_q4
+        description: Assessments completed in Q4
+      - name: remarks
+        description: Remarks or notes
+  - name: stem_trainer_report_stg
+    description: Staging model for STEM trainer report data from BVMS
+    columns:
+      - name: id
+        description: Unique trainer identifier
+      - name: trainer_name
+        description: Name of the trainer
+      - name: trainer_email
+        description: Email of the trainer
+      - name: state
+        description: State where the trainer is based
+      - name: chapter
+        description: Bhumi chapter
+      - name: program
+        description: Program name
+      - name: district
+        description: District where the trainer is based
+      - name: school_list
+        description: List of schools assigned to the trainer
+      - name: school_count
+        description: Number of schools assigned
+      - name: status
+        description: Trainer's active status
+      - name: phone_number
+        description: Trainer's phone number
+      - name: reporting_manager_name
+        description: Name of the reporting manager
+      - name: reporting_manager_email
+        description: Email of the reporting manager
+      - name: reporting_manager_id
+        description: BVMS identifier of the reporting manager
+      - name: added_time
+        description: Timestamp when the record was added
+  - name: stem_volunteer_count_stg
+    description: >-
+      Staging model for STEM volunteer count data combining corporate, STEM fest, and intern records
+    columns:
+      - name: volunteer_type
+        description: Type of volunteer (corporate, stem_fest, intern)
+      - name: location
+        description: Location of the volunteering activity
+      - name: corporate_name
+        description: Name of the corporate (for corporate volunteers)
+      - name: no_of_volunteers
+        description: Number of volunteers
+      - name: volunteering_month
+        description: Month of volunteering
+      - name: volunteering_year
+        description: Year of volunteering
+      - name: hours_per_volunteer
+        description: Hours per volunteer
+      - name: total_volunteering_hours
+        description: Total volunteering hours
+      - name: activity_description
+        description: Description of the volunteering activity
+      - name: category
+        description: Category of the intern/volunteer
+      - name: name_of_volunteer
+        description: Name of the individual volunteer
+      - name: institution_name
+        description: Name of the institution
+      - name: education_background
+        description: Educational background of the volunteer
+      - name: email_id
+        description: Email ID of the volunteer
+      - name: phone_number
+        description: Phone number of the volunteer
+      - name: cluster_mapped
+        description: Cluster mapped to the volunteer
+      - name: manager_mapped
+        description: Manager mapped to the volunteer
+      - name: certificate_issued
+        description: Whether certificate was issued
+      - name: start_date
+        description: Start date of the internship/volunteering
+      - name: end_date
+        description: End date of the internship/volunteering
+  # Civic Clubs Staging Models
+  - name: cc_activeleaders_stg
+    description: Staging model for Civic Clubs active leaders data
+    columns:
+      - name: leader_name
+        description: Name of the active leader
+      - name: role
+        description: Role of the leader
+      - name: city
+        description: City where the leader is based
+      - name: district
+        description: District/chapter
+      - name: clubs
+        description: Clubs the leader is associated with
+      - name: continuing
+        description: Whether the leader is continuing
+  - name: cc_allinstitutemasters_stg
+    description: Staging model for all institute masters data from BVMS
+    columns:
+      - name: id
+        description: Unique institute identifier
+      - name: city
+        description: City where the institute is located
+      - name: state
+        description: State where the institute is located
+      - name: institute
+        description: Name of the institute
+      - name: institution_kind
+        description: Kind/type of institution
+  - name: cc_beneficiaries_ecochamps_stg
+    description: Staging model for EcoChamps beneficiary and classroom session data
+    columns:
+      - name: school_id
+        description: Unique school identifier
+      - name: school
+        description: Name of the school
+      - name: chapter
+        description: Bhumi chapter
+      - name: grade
+        description: Grade level
+      - name: month
+        description: Month of the session
+      - name: climate
+        description: Climate module completion status
+      - name: endline
+        description: Endline assessment status
+      - name: baseline
+        description: Baseline assessment status
+      - name: donor_mapped
+        description: Donor mapped to the school
+      - name: student_count
+        description: Number of students in the session
+      - name: total_students_count
+        description: Total number of students
+      - name: kitchen_garden
+        description: Kitchen Garden module status
+      - name: waste_management
+        description: Waste Management module status
+      - name: water_conservation
+        description: Water Conservation module status
+      - name: lifestyle_choices
+        description: Lifestyle and Choices module status
+      - name: classroom_attendance
+        description: Classroom attendance count
+      - name: center_coordinator_1
+        description: First center coordinator
+      - name: center_coordinator_2
+        description: Second center coordinator
+      - name: session_completion_status
+        description: Session completion status
+      - name: progress_bar_q2
+        description: Progress bar for Q2 target
+  - name: cc_beneficiary_skilled_stg
+    description: Staging model for SkillEd program beneficiary details
+    columns:
+      - name: beneficiary_id
+        description: Unique beneficiary identifier
+      - name: age
+        description: Age of the beneficiary
+      - name: batch_name
+        description: Name of the training batch
+      - name: institute_name
+        description: Name of the institute
+      - name: name
+        description: Name of the beneficiary
+      - name: gender
+        description: Gender of the beneficiary
+      - name: cgpa_percentage
+        description: CGPA or percentage score
+      - name: specialization
+        description: Specialization area
+      - name: year_of_passing
+        description: Year of passing
+      - name: mode_of_training
+        description: Mode of training (online/offline)
+      - name: beneficiary_status
+        description: Current status of the beneficiary
+      - name: history_of_arrears
+        description: History of academic arrears
+  - name: cc_campaigns_collegeclubs_stg
+    description: Staging model for college clubs campaigns data
+    columns:
+      - name: academic_year
+        description: Academic year
+      - name: quarter
+        description: Academic quarter
+      - name: campaign_name
+        description: Name of the campaign
+      - name: num_event_coordinators
+        description: Number of event coordinators
+      - name: num_volunteering_hours
+        description: Number of volunteering hours
+      - name: num_colleges_engaged
+        description: Number of colleges engaged
+      - name: num_volunteers_engaged
+        description: Number of volunteers engaged
+      - name: num_events_organized
+        description: Number of events organized
+  - name: cc_catalyzetracker_stg
+    description: Staging model for Civic Clubs Catalyze event tracker data from BVMS
+    columns:
+      - name: event_id
+        description: Unique event identifier
+      - name: event_name
+        description: Name of the event
+      - name: event_date
+        description: Date of the event
+      - name: outcome_1
+        description: First outcome indicator
+      - name: outcome_2
+        description: Second outcome indicator
+      - name: outcome_3
+        description: Third outcome indicator
+      - name: quantity_1
+        description: Quantity for outcome 1
+      - name: quantity_2
+        description: Quantity for outcome 2
+      - name: quantity_3
+        description: Quantity for outcome 3
+      - name: city
+        description: City where the event was held
+      - name: cause
+        description: Cause category of the event
+      - name: event_list
+        description: Event type/list category
+      - name: event_status
+        description: Status of the event
+      - name: event_category
+        description: Category of the event
+      - name: total_volunteer_hours
+        description: Total volunteer hours for the event
+      - name: number_of_volunteers
+        description: Number of volunteers who participated
+      - name: club_id
+        description: Identifier of the associated club
+      - name: club_name
+        description: Name of the associated club
+      - name: club_display_value
+        description: Display value for the club
+  - name: cc_clubcitynames_stg
+    description: Staging model for Civic Clubs city and club name data from BVMS
+    columns:
+      - name: id
+        description: Unique club identifier
+      - name: city
+        description: City where the club is located
+      - name: status
+        description: Club status
+      - name: club_name
+        description: Name of the club
+      - name: added_time
+        description: Timestamp when the club was added
+  - name: cc_collegeclubs_stg
+    description: Staging model for college clubs partner data
+    columns:
+      - name: college_club_name
+        description: Name of the college club
+      - name: poc
+        description: Point of contact
+      - name: city
+        description: City where the college club is located
+      - name: state
+        description: State where the college club is located
+      - name: status
+        description: Status of the college club
+      - name: launch_month
+        description: Month when the club was launched
+      - name: inactive_month
+        description: Month when the club became inactive
+      - name: contact
+        description: Contact information
+      - name: academic_year
+        description: Academic year
+  - name: cc_collegeclubs_trees_stg
+    description: Staging model for college clubs tree plantation data
+    columns:
+      - name: quarter
+        description: Academic quarter
+      - name: academic_year
+        description: Academic year
+      - name: plant_survival_rate
+        description: Rate of plant survival (0-1)
+      - name: trees_planted
+        description: Number of trees planted
+  - name: cc_nps_stg
+    description: Staging model for Civic Clubs NPS survey responses
+    columns:
+      - name: name
+        description: Name of the respondent
+      - name: email
+        description: Email of the respondent
+      - name: rating
+        description: NPS rating score
+      - name: quarter
+        description: Academic quarter
+      - name: program
+        description: Program name
+      - name: feedback
+        description: Open-ended feedback
+      - name: utm_source
+        description: UTM source for tracking
+      - name: sub_programs
+        description: Sub-programs associated
+      - name: submission_date
+        description: Date of form submission
+  - name: cc_orientationrsvp_stg
+    description: Staging model for Civic Clubs orientation RSVP data from BVMS
+    columns:
+      - name: first_name
+        description: First name of the volunteer
+      - name: added_date
+        description: Date the RSVP was added
+      - name: registration_city
+        description: City of the volunteer's registration
+      - name: event_city
+        description: City where the event is held
+      - name: event_start_date
+        description: Start date of the orientation event
+      - name: registration_status
+        description: RSVP registration status
+      - name: last_activity_date
+        description: Date of last activity
+  - name: cc_overallclubs_stg
+    description: Staging model for overall Civic Clubs activity data aggregated by month and region
+    columns:
+      - name: year
+        description: Calendar year
+      - name: month
+        description: Month name
+      - name: club_name
+        description: Name of the club
+      - name: city
+        description: City where the club is located
+      - name: leaders
+        description: Number of leaders
+      - name: edu_engaged
+        description: Number engaged in education activities
+      - name: orientation
+        description: Number in orientation
+      - name: civic_engaged
+        description: Number engaged in civic activities
+      - name: classes_taken
+        description: Number of classes taken
+      - name: shelters_mapped
+        description: Number of shelters mapped
+      - name: total_edu_vols
+        description: Total education volunteers
+      - name: civic_activities
+        description: Number of civic activities
+      - name: total_civic_vols
+        description: Total civic volunteers
+      - name: region
+        description: Geographic region (East, South, North-West)
+      - name: academic_year
+        description: Academic year
+  - name: cc_volunteers_collegeclubs_citywise_stg
+    description: Staging model for college clubs volunteer data by city
+    columns:
+      - name: academic_year
+        description: Academic year
+      - name: city
+        description: City where the college club is active
+      - name: state
+        description: State where the college club is active
+      - name: college_clubs
+        description: Number of active college clubs
+      - name: leaders
+        description: Number of leaders
+      - name: volunteers
+        description: Number of volunteers
+      - name: num_of_events
+        description: Number of events organized
+      - name: volunteering_hours
+        description: Total volunteering hours
+  - name: cc_volunteers_ecochamp_stg
+    description: Staging model for EcoChamps volunteer coordinator data
+    columns:
+      - name: volunteer_name
+        description: Name of the volunteer
+      - name: total_volunteer_hours
+        description: Total volunteer hours
+      - name: total_sessions_attended
+        description: Total sessions attended
+      - name: attendance_percentage
+        description: Attendance percentage
+      - name: school_shelter_name
+        description: Name of the mapped school or shelter
+      - name: city
+        description: City (from chapter)
+  - name: cc_volunteers_eventregn_stg
+    description: Staging model for Civic Clubs event registration volunteer data from BVMS
+    columns:
+      - name: volunteer_id
+        description: Unique volunteer registration identifier
+      - name: name
+        description: Name of the volunteer
+      - name: attendance
+        description: Attendance status
+      - name: event_name
+        description: Name of the event
+      - name: event_type
+        description: Type of event
+      - name: event_date
+        description: Date of the event
+      - name: city
+        description: City where the event was held
+      - name: state
+        description: State where the event was held
+      - name: event_duration
+        description: Duration of the event
+  - name: cc_volunteers_historicshelter_stg
+    description: Staging model for historic shelter volunteer award data from BVMS
+    columns:
+      - name: id
+        description: Unique record identifier
+      - name: city
+        description: City where the volunteer is based
+      - name: volunteer_name
+        description: Name of the volunteer
+      - name: award
+        description: Award received
+      - name: year
+        description: Year of the award
+      - name: project_code
+        description: Project code
+      - name: project_name
+        description: Name of the project
+  - name: cc_volunteers_inductionregn_stg
+    description: Staging model for Civic Clubs induction event registration data from BVMS
+    columns:
+      - name: name
+        description: Name of the volunteer
+      - name: added_date
+        description: Date the registration was added
+      - name: attendance
+        description: Attendance status
+      - name: event_name
+        description: Name of the induction event
+      - name: event_type
+        description: Type of event
+      - name: event_start_date
+        description: Start date of the event
+      - name: utm_source
+        description: UTM source for tracking
+      - name: event_name_id
+        description: Event name identifier
+      - name: city
+        description: City where the event was held
+      - name: state
+        description: State where the event was held
+  - name: cc_volunteers_orientationregn_stg
+    description: Staging model for Civic Clubs orientation event registration data from BVMS
+    columns:
+      - name: name
+        description: Name of the volunteer
+      - name: added_date
+        description: Date the registration was added
+      - name: attendance
+        description: Attendance status
+      - name: event_name
+        description: Name of the orientation event
+      - name: event_type
+        description: Type of event
+      - name: event_start_date
+        description: Start date of the event
+      - name: utm_source
+        description: UTM source for tracking
+      - name: event_name_id
+        description: Event name identifier
+      - name: city
+        description: City where the event was held
+      - name: state
+        description: State where the event was held
+  - name: cc_volunteers_skilled_stg
+    description: Staging model for SkillEd program volunteer details
+    columns:
+      - name: volunteer_name
+        description: Name of the volunteer
+      - name: college_name
+        description: Name of the college
+      - name: status
+        description: Volunteer status
+      - name: source
+        description: Source of the volunteer
+      - name: course_name
+        description: Name of the course
+      - name: activities
+        description: Activities the volunteer is engaged in
+      - name: jan_q4
+        description: Volunteering hours in January (Q4)
+      - name: dec_q3
+        description: Volunteering hours in December (Q3)
+      - name: feb_q4
+        description: Volunteering hours in February (Q4)
+      - name: nov_q3
+        description: Volunteering hours in November (Q3)
+      - name: oct_q3
+        description: Volunteering hours in October (Q3)
+      - name: march_q4
+        description: Volunteering hours in March (Q4)
+      - name: q2_volunteering_hours
+        description: Total volunteering hours in Q2
+      - name: volunteering_hours
+        description: Total volunteering hours
+      - name: volunteering_type
+        description: Type of volunteering
+      - name: volunteering_period
+        description: Period of volunteering
+  - name: cc_websiteregn_stg
+    description: Staging model for Civic Clubs website registration data from BVMS
+    columns:
+      - name: full_name
+        description: Full name of the registrant
+      - name: added_date
+        description: Date the registration was added
+      - name: location
+        description: Location of the registrant
+      - name: hr_status
+        description: HR processing status

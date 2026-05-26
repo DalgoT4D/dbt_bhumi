@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "prod"]
 ) }}
 
 with base as (
@@ -23,13 +23,14 @@ with_period as (
         to_char(event_date_parsed, 'Month') as month,
         case
             when extract(month from event_date_parsed) >= 4
-                then lpad((extract(year from event_date_parsed)::int % 100)::text, 2, '0')
+                then
+                    lpad((extract(year from event_date_parsed)::int % 100)::text, 2, '0')
                     || '-'
                     || lpad(((extract(year from event_date_parsed)::int + 1) % 100)::text, 2, '0')
             else
                 lpad(((extract(year from event_date_parsed)::int - 1) % 100)::text, 2, '0')
-                    || '-'
-                    || lpad((extract(year from event_date_parsed)::int % 100)::text, 2, '0')
+                || '-'
+                || lpad((extract(year from event_date_parsed)::int % 100)::text, 2, '0')
         end as academic_year
     from base
     where attendance = 'Present'

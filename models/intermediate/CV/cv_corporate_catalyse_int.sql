@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["cv", "int"]
+) }}
+
 with source as (
     select * from {{ ref('cv_corporate_catalyse_tracker_stg') }}
 ),

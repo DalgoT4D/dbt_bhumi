@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "prod"]
+) }}
+
 --
 
 with params as (

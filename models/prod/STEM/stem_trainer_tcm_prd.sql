@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "prod"]
+) }}
+
 select
     added_date as time_period,
     case

@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "prod"]
 ) }}
 
 select
@@ -12,4 +12,3 @@ select
 from {{ ref('cc_collegeclubs_stg') }}
 where college_club_name is not null and btrim(college_club_name) != ''
 group by city, state, status, academic_year
-

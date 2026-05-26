@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "prod"]
+) }}
+
 with planned_raw as (
     select
         donor,

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 -- pre-clean date strings for intern records before passing to validate_date
 with clean_interns as (
     select
@@ -10,16 +15,16 @@ with clean_interns as (
 corporate as (
     select
         'corporate' as volunteer_type,
-        Coalesce(Initcap(Btrim(location::text)), '') as location,
-        Coalesce(Initcap(Btrim(corporate_name::text)), '') as corporate_name,
-        case when Btrim(no_of_volunteers::text) ~ '^\d+$' then (no_of_volunteers::text)::integer end as no_of_volunteers,
-        Coalesce(Btrim(volunteering_month::text), '') as volunteering_month,
-        case when Btrim(hours_per_volunteer::text) ~ '^[0-9]+(\.[0-9]+)?$' then (hours_per_volunteer::text)::numeric end as hours_per_volunteer,
-        case when Btrim(total_volunteering_hours_d_x_e_::text) ~ '^[0-9]+(\.[0-9]+)?$' then (total_volunteering_hours_d_x_e_::text)::numeric end as total_volunteering_hours,
-        Coalesce(Btrim(brief_description_about_the_activity::text), '') as activity_description,
+        coalesce(initcap(btrim(location::text)), '') as location,
+        coalesce(initcap(btrim(corporate_name::text)), '') as corporate_name,
+        case when btrim(no_of_volunteers::text) ~ '^\d+$' then (no_of_volunteers::text)::integer end as no_of_volunteers,
+        coalesce(btrim(volunteering_month::text), '') as volunteering_month,
+        case when btrim(hours_per_volunteer::text) ~ '^[0-9]+(\.[0-9]+)?$' then (hours_per_volunteer::text)::numeric end as hours_per_volunteer,
+        case when btrim(total_volunteering_hours_d_x_e_::text) ~ '^[0-9]+(\.[0-9]+)?$' then (total_volunteering_hours_d_x_e_::text)::numeric end as total_volunteering_hours,
+        coalesce(btrim(brief_description_about_the_activity::text), '') as activity_description,
         case
-            when Btrim(volunteer_year::text) ~ '\d{4}'
-                then regexp_replace(Btrim(volunteer_year::text), '.*(\d{4}).*', '\1')
+            when btrim(volunteer_year::text) ~ '\d{4}'
+                then regexp_replace(btrim(volunteer_year::text), '.*(\d{4}).*', '\1')
         end as volunteering_year,
         null::varchar as category,
         null::varchar as name_of_volunteer,
@@ -38,16 +43,16 @@ corporate as (
 stem_fest as (
     select
         'stem_fest' as volunteer_type,
-        Coalesce(Initcap(Btrim(stem_fest_location::text)), '') as location,
+        coalesce(initcap(btrim(stem_fest_location::text)), '') as location,
         null::varchar as corporate_name,
-        case when Btrim(no_of_volunteers::text) ~ '^\d+$' then (no_of_volunteers::text)::integer end as no_of_volunteers,
-        Coalesce(Btrim(volunteering_month::text), '') as volunteering_month,
-        case when Btrim(hours_per_volunteer::text) ~ '^[0-9]+(\.[0-9]+)?$' then (hours_per_volunteer::text)::numeric end as hours_per_volunteer,
-        case when Btrim(total_volunteering_hours_cx_d_::text) ~ '^[0-9]+(\.[0-9]+)?$' then (total_volunteering_hours_cx_d_::text)::numeric end as total_volunteering_hours,
+        case when btrim(no_of_volunteers::text) ~ '^\d+$' then (no_of_volunteers::text)::integer end as no_of_volunteers,
+        coalesce(btrim(volunteering_month::text), '') as volunteering_month,
+        case when btrim(hours_per_volunteer::text) ~ '^[0-9]+(\.[0-9]+)?$' then (hours_per_volunteer::text)::numeric end as hours_per_volunteer,
+        case when btrim(total_volunteering_hours_cx_d_::text) ~ '^[0-9]+(\.[0-9]+)?$' then (total_volunteering_hours_cx_d_::text)::numeric end as total_volunteering_hours,
         null::varchar as activity_description,
         case
-            when Btrim(volunteering_year::text) ~ '\d{4}'
-                then regexp_replace(Btrim(volunteering_year::text), '.*(\d{4}).*', '\1')
+            when btrim(volunteering_year::text) ~ '\d{4}'
+                then regexp_replace(btrim(volunteering_year::text), '.*(\d{4}).*', '\1')
         end as volunteering_year,
         null::varchar as category,
         null::varchar as name_of_volunteer,
@@ -66,27 +71,27 @@ stem_fest as (
 interns as (
     select
         'intern' as volunteer_type,
-        Coalesce(Initcap(Btrim(cluster_mapped::text)), '') as location,
+        coalesce(initcap(btrim(cluster_mapped::text)), '') as location,
         null::varchar as corporate_name,
         null::integer as no_of_volunteers,
-        Coalesce(Btrim(intern_volunteer_month::text), '') as volunteering_month,
+        coalesce(btrim(intern_volunteer_month::text), '') as volunteering_month,
         null::numeric as hours_per_volunteer,
-        case when Btrim(total_intern_hours::text) ~ '^[0-9]+(\.[0-9]+)?$' then (total_intern_hours::text)::numeric end as total_volunteering_hours,
-        Coalesce(Btrim(activities_engaged_in::text), '') as activity_description,
+        case when btrim(total_intern_hours::text) ~ '^[0-9]+(\.[0-9]+)?$' then (total_intern_hours::text)::numeric end as total_volunteering_hours,
+        coalesce(btrim(activities_engaged_in::text), '') as activity_description,
         case
-            when Btrim(volunteer_year::text) ~ '\d{4}'
-                then regexp_replace(Btrim(volunteer_year::text), '.*(\d{4}).*', '\1')
+            when btrim(volunteer_year::text) ~ '\d{4}'
+                then regexp_replace(btrim(volunteer_year::text), '.*(\d{4}).*', '\1')
         end as volunteering_year,
-        Coalesce(Btrim(category::text), '') as category,
-        Coalesce(Initcap(Btrim(name_of_the_intern_volunteer::text)), '') as name_of_volunteer,
-        Coalesce(Initcap(Btrim(name_institution_name_::text)), '') as institution_name,
-        Coalesce(Btrim(education_background_course_enrlolled_in::text), '') as education_background,
-        Coalesce(Btrim(email_id_::text), '') as email_id,
-        Coalesce(Btrim(phone_number::text), '') as phone_number,
-        Coalesce(Btrim(cluster_mapped::text), '') as cluster_mapped,
-        Coalesce(Btrim(manager_mapped::text), '') as manager_mapped,
-        Coalesce(Btrim(certificate_issued::text), '') as certificate_issued,
-        {{ validate_date('start_date_clean') }} as start_date,
+        coalesce(btrim(category::text), '') as category,
+        coalesce(initcap(btrim(name_of_the_intern_volunteer::text)), '') as name_of_volunteer,
+        coalesce(initcap(btrim(name_institution_name_::text)), '') as institution_name,
+        coalesce(btrim(education_background_course_enrlolled_in::text), '') as education_background,
+        coalesce(btrim(email_id_::text), '') as email_id,
+        coalesce(btrim(phone_number::text), '') as phone_number,
+        coalesce(btrim(cluster_mapped::text), '') as cluster_mapped,
+        coalesce(btrim(manager_mapped::text), '') as manager_mapped,
+        coalesce(btrim(certificate_issued::text), '') as certificate_issued,
+        {{ validate_date('start_date_clean') }} as start_date, -- noqa: LT02
         {{ validate_date('end_date_clean') }} as end_date
     from clean_interns
 ),

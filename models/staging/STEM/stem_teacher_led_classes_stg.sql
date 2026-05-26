@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 with akshay as (
     select
         date,
@@ -132,21 +137,21 @@ cleaned as (
         regexp_replace(date::text, '[^0-9./\-]', '', 'g') as date_clean,
 
         -- identifiers
-        Coalesce(Initcap(Btrim(donor::text)), '') as donor,
-        Coalesce(Btrim(grade::text), '') as grade,
-        Coalesce(Btrim(section::text), '') as section,
-        Coalesce(Btrim(subject::text), '') as subject,
-        Coalesce(Initcap(Btrim(district::text)), '') as district,
-        Coalesce(Initcap(Btrim(school_name::text)), '') as school_name,
-        Coalesce(Initcap(Btrim(teacher_name::text)), '') as teacher_name,
-        Coalesce(Initcap(Btrim(trainer_name::text)), '') as trainer_name,
-        Coalesce(Btrim(tool_kit_used::text), '') as tool_kit_used,
-        Coalesce(Btrim(topic_covered::text), '') as topic_covered
+        coalesce(initcap(btrim(donor::text)), '') as donor,
+        coalesce(btrim(grade::text), '') as grade,
+        coalesce(btrim(section::text), '') as section,
+        coalesce(btrim(subject::text), '') as subject,
+        coalesce(initcap(btrim(district::text)), '') as district,
+        coalesce(initcap(btrim(school_name::text)), '') as school_name,
+        coalesce(initcap(btrim(teacher_name::text)), '') as teacher_name,
+        coalesce(initcap(btrim(trainer_name::text)), '') as trainer_name,
+        coalesce(btrim(tool_kit_used::text), '') as tool_kit_used,
+        coalesce(btrim(topic_covered::text), '') as topic_covered
     from unified
 )
 
 select distinct
-    {{ validate_date('date_clean') }} as date,
+    {{ validate_date('date_clean') }} as date, -- noqa: LT02
     donor,
     grade,
     section,

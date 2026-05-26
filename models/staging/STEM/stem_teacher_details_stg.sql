@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 with teachers as (
     select
         case when btrim(sno::text) ~ '^[0-9]+$' then sno::integer end as sno,

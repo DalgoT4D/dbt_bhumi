@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "prod"]
+) }}
+
 select
     donor,
     district,

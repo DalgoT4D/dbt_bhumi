@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "int"]
+) }}
+
 WITH class_updates AS (
     SELECT 
         COALESCE(BTRIM(cu.id::TEXT), '') AS id,

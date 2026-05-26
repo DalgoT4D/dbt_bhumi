@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "staging"]
+) }}
+
 WITH data_tracker_clean AS (
     SELECT DISTINCT
         COALESCE(BTRIM("School"::TEXT), '') AS "School",

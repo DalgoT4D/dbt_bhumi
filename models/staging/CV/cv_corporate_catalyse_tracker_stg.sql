@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["cv", "staging"]
+) }}
+
 -- strips non-date characters before passing into validate_date
 with clean_dates as (
     select
@@ -44,7 +49,7 @@ corporate as (
         coalesce(btrim("Event_Beneficiary_Location"::text), '') as beneficiary_location,
 
         -- dates
-        {{ validate_date('donor_clean') }} as donor_date,
+        {{ validate_date('donor_clean') }} as donor_date, -- noqa: LT02
         {{ validate_date('invoice_date_clean') }} as invoice_date,
         {{ validate_date('invoice_report_date_clean') }} as invoice_report_date,
         {{ validate_date('event_end_date_clean') }} as event_end_date,

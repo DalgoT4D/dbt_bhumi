@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "staging"]
+) }}
+
 select 
     NULLIF(BTRIM(id::TEXT),'') as school_id,
     NULLIF(BTRIM(name::TEXT),'') as school_name,

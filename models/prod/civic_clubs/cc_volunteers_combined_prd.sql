@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "prod"]
 ) }}
 
 select
@@ -60,4 +60,3 @@ select
     num_volunteers_engaged as active_volunteer_count,
     num_volunteering_hours as total_volunteer_hours
 from {{ ref('cc_volunteers_collegeclubs_citywise_prd') }}
-

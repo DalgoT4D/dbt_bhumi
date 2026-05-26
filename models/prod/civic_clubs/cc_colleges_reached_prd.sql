@@ -1,15 +1,21 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "prod"]
 ) }}
 
 with combined as (
-    select city, state, college_club_name as institution_name
+    select
+        city,
+        state,
+        college_club_name as institution_name
     from {{ ref('cc_collegeclubs_stg') }}
 
     union
 
-    select city, state, institute as institution_name
+    select
+        city,
+        state,
+        institute as institution_name
     from {{ ref('cc_allinstitutemasters_stg') }}
 )
 

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 -- strips non-date characters (invisible chars, carriage returns, tabs, non-breaking spaces)
 -- keeping only digits and separators (. / -) before passing into validate_date
 with clean_dates as (
@@ -16,7 +21,7 @@ adv_exposure as (
         coalesce(btrim(topic_covered::text), '') as topic_covered,
         case when btrim(no_of_volunteers_::text) ~ '^[0-9]+$' then no_of_volunteers_::integer end as no_of_volunteers,
         case when btrim(no_of_children_attended::text) ~ '^[0-9]+$' then no_of_children_attended::integer end as no_of_children_attended,
-        {{ validate_date('date_exposure_clean') }} as date_of_exposure,
+        {{ validate_date('date_exposure_clean') }} as date_of_exposure, -- noqa: LT02
         coalesce(btrim(institution_that_conducted_the_exposure_event::text), '') as institution_name
 
     from clean_dates

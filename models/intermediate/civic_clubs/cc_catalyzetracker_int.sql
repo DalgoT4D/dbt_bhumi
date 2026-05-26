@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "int"]
 ) }}
 
 with joined as (
@@ -30,13 +30,14 @@ select
     to_char(event_date, 'Month') as month,
     case
         when extract(month from event_date) >= 4
-            then lpad((extract(year from event_date)::int % 100)::text, 2, '0')
+            then
+                lpad((extract(year from event_date)::int % 100)::text, 2, '0')
                 || '-'
                 || lpad(((extract(year from event_date)::int + 1) % 100)::text, 2, '0')
         else
             lpad(((extract(year from event_date)::int - 1) % 100)::text, 2, '0')
-                || '-'
-                || lpad((extract(year from event_date)::int % 100)::text, 2, '0')
+            || '-'
+            || lpad((extract(year from event_date)::int % 100)::text, 2, '0')
     end as academic_year,
     event_category,
     event_cause,

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_24_25", "prod"]
+) }}
+
 with math_analysis_baseline as (
     select
         d.city_base as city,

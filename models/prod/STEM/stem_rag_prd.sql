@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "prod"]
+) }}
+
 -- pull thresholds for each RAG parameter
 with rag_thresholds as (
     select
@@ -55,7 +60,7 @@ school_sessions_rag as (
             else 'Gold'
         end as sessions_rag_category
     from school_sessions_pct as sp
-    join rag_thresholds as r
+    inner join rag_thresholds as r
         on r.parameter = 'Planned classes conducted'
 ),
 
@@ -108,7 +113,7 @@ school_experiment_rag as (
             else 'Gold'
         end as experiment_rag_category
     from school_experiment_pct as sp
-    join rag_thresholds as r
+    inner join rag_thresholds as r
         on r.parameter = 'Lesson Plans with Experiment/model Integration'
 ),
 
@@ -157,7 +162,7 @@ school_teacher_classes_rag as (
             else 'Gold'
         end as teacher_class_rag_category
     from school_teacher_classes_pct as sp
-    join rag_thresholds as r
+    inner join rag_thresholds as r
         on r.parameter = 'Teacher led STEM Classes'
 ),
 
@@ -202,7 +207,7 @@ school_teacher_champion_rag as (
             else 'Gold'
         end as teacher_champion_rag_category
     from school_teacher_champion_pct as sp
-    join rag_thresholds as r
+    inner join rag_thresholds as r
         on r.parameter = '% of Teachers in Level.3 on Teacher champion rubrics'
 ),
 
@@ -232,7 +237,7 @@ trainer_tcm_rag as (
             else 'Gold'
         end as trainer_tcm_rag_category
     from trainer_tcm as tr
-    join rag_thresholds as r
+    inner join rag_thresholds as r
         on r.parameter = 'No of Trainers in Level.3 on Rubrics'
 ),
 
@@ -281,7 +286,7 @@ school_clubs_rag as (
             else 'Gold'
         end as club_activity_rag_category
     from school_clubs_pct as sp
-    join rag_thresholds as r
+    inner join rag_thresholds as r
         on r.parameter = 'Active STEM Clubs'
 )
 

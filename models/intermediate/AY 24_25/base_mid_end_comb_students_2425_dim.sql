@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_24_25", "int"]
+) }}
+
 with all_student_id as (
     (
         select distinct  student_id_base as student_id

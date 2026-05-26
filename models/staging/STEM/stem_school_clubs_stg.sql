@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 -- strips non-date characters (invisible chars, carriage returns, tabs, non-breaking spaces)
 -- keeping only digits and separators (. / -) before passing into validate_date
 with clean_dates as (
@@ -20,7 +25,7 @@ schools as (
         coalesce(initcap(btrim(trainer::text)), '') as trainer,
 
         -- dates (passed through cleaned columns)
-        {{ validate_date('date_trainer_clean') }} as date_orientation_trainer,
+        {{ validate_date('date_trainer_clean') }} as date_orientation_trainer, -- noqa: LT02
         {{ validate_date('date_school_clean') }} as date_orientation_school,
         {{ validate_date('stem_club_date_clean') }} as stem_club_start_date
 

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["cv", "staging"]
+) }}
+
 with source as (
     select * from {{ source('CV_Gsheet_Raw_Data', 'Form_responses') }}
 ),

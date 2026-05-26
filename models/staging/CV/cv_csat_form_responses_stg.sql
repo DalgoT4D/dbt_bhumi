@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["cv", "staging"]
+) }}
+
 with clean_dates as (
     select
         *,
@@ -17,7 +22,7 @@ csat_responses as (
 
         -- event info
         nullif(btrim(event_name::text), '') as event_name,
-        {{ validate_date('event_date_clean') }} as event_date,
+        {{ validate_date('event_date_clean') }} as event_date, -- noqa: LT02
 
         -- location
         coalesce(btrim(city::text), '') as city,

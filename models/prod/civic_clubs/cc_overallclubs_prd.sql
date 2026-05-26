@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "prod"]
 ) }}
 
 with stg as (
@@ -20,13 +20,14 @@ with_calculated_fields as (
         month,
         case
             when month_num >= 4
-                then lpad(((year::int % 100))::text, 2, '0')
+                then
+                    lpad(((year::int % 100))::text, 2, '0')
                     || '-'
                     || lpad((((year::int + 1) % 100))::text, 2, '0')
             else
                 lpad((((year::int - 1) % 100))::text, 2, '0')
-                    || '-'
-                    || lpad(((year::int % 100))::text, 2, '0')
+                || '-'
+                || lpad(((year::int % 100))::text, 2, '0')
         end as academic_year,
         club_name,
         city,

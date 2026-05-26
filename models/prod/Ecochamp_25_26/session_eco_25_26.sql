@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "prod"]
+) }}
+
 -- Convert session columns into rows
 -- Each student will have 7 rows (one per session type)
 

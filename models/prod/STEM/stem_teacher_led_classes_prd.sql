@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "prod"]
+) }}
+
 with classes_raw as (
     select
         extract(year from date)::integer as year,

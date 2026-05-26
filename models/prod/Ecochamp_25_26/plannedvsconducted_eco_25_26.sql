@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "prod"]
+) }}
+
 select
     "School"::text as school,
     "School ID"::text as school_id,

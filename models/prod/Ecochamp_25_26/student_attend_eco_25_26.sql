@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "prod"]
+) }}
+
 -- Student Attendance RAG Dashboard
 -- Groups by School and Student Name, calculates attendance percentage and assigns RAG status
 

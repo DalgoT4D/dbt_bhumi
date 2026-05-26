@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["cv", "prod"]
+) }}
+
 -- Event-level fact table for Corporate Volunteering dashboard.
 -- Supports all 17 metrics via BI-tool aggregation:
 --   1.  Total Volunteers           → sum(actual_no_of_volunteers)

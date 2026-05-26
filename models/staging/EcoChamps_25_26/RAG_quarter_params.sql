@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "staging"]
+) }}
+
 WITH RAG_QUARTER_PARAMS_RAW AS (
     SELECT DISTINCT
         COALESCE(BTRIM("Year"::TEXT), '') AS "Year",

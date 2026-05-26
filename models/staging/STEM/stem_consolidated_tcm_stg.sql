@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 with source as (
     select * from {{ source('Stem_gsheet_data', 'Consolidated_TCM') }}
 ),

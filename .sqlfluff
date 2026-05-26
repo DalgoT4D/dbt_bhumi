@@ -6,6 +6,7 @@
 dialect = postgres
 templater = jinja
 
+
 # Note: dbt templater disabled due to Python 3.14 compatibility issues
 # To use dbt templater, upgrade to Python 3.12 or 3.13
 # templater = dbt
@@ -13,3 +14,7 @@ templater = jinja
 # Comma separated list of rules to exclude, or None
 exclude_rules = L001,L029,RF05, LT05, ST06, RF02, ST10
 #max_line_length = 120
+
+[sqlfluff:templater:jinja:macros]
+# Stub for custom dbt macro — lets jinja templater parse call sites without inlining the real macro
+validate_date = "{% macro validate_date(field_name) %}NULL::date{% endmacro %}"

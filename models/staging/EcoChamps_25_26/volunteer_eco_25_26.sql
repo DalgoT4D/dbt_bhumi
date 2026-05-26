@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "staging"]
+) }}
+
 WITH center_raw AS (
     SELECT DISTINCT
         COALESCE(BTRIM("Chapter"::TEXT), '') AS "Chapter",

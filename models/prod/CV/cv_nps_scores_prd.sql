@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["cv", "prod"]
+) }}
+
 with source as (
     select * from {{ ref('cv_nps_form_responses_stg') }}
 )

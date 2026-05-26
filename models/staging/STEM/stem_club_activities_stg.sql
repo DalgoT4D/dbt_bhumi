@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "staging"]
+) }}
+
 with akshay as (
     select
         donor,
@@ -104,20 +109,20 @@ cleaned as (
         regexp_replace(event_meeting_date::text, '[^0-9./\-]', '', 'g') as date_clean,
 
         -- identifiers
-        Coalesce(Initcap(Btrim(donor::text)), '') as donor,
-        Coalesce(Initcap(Btrim(trainer::text)), '') as trainer,
-        Coalesce(Initcap(Btrim(district::text)), '') as district,
-        Coalesce(Initcap(Btrim(school_name::text)), '') as school_name,
-        Coalesce(Btrim(topic_covered::text), '') as topic_covered,
+        coalesce(initcap(btrim(donor::text)), '') as donor,
+        coalesce(initcap(btrim(trainer::text)), '') as trainer,
+        coalesce(initcap(btrim(district::text)), '') as district,
+        coalesce(initcap(btrim(school_name::text)), '') as school_name,
+        coalesce(btrim(topic_covered::text), '') as topic_covered,
         case
-            when Btrim(no_of_children_attended::text) ~ '^\d+$'
+            when btrim(no_of_children_attended::text) ~ '^\d+$'
                 then (no_of_children_attended::text)::integer
         end as no_of_children_attended
     from unified
 )
 
 select distinct
-    {{ validate_date('date_clean') }} as event_meeting_date,
+    {{ validate_date('date_clean') }} as event_meeting_date, -- noqa: LT02
     donor,
     trainer,
     district,

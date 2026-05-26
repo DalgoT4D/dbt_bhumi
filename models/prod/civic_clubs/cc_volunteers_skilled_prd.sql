@@ -1,20 +1,44 @@
 {{ config(
     materialized='table',
-    tags=["civic_clubs"]
+    tags=["civic_clubs", "prod"]
 ) }}
 
 with unpivoted as (
-    select 'October'  as month, volunteer_name, oct_q3  as hours from {{ ref('cc_volunteers_skilled_stg') }}
+    select
+        'October'  as month,
+        volunteer_name,
+        oct_q3  as hours
+    from {{ ref('cc_volunteers_skilled_stg') }}
     union all
-    select 'November' as month, volunteer_name, nov_q3  as hours from {{ ref('cc_volunteers_skilled_stg') }}
+    select
+        'November' as month,
+        volunteer_name,
+        nov_q3  as hours
+    from {{ ref('cc_volunteers_skilled_stg') }}
     union all
-    select 'December' as month, volunteer_name, dec_q3  as hours from {{ ref('cc_volunteers_skilled_stg') }}
+    select
+        'December' as month,
+        volunteer_name,
+        dec_q3  as hours
+    from {{ ref('cc_volunteers_skilled_stg') }}
     union all
-    select 'January'  as month, volunteer_name, jan_q4  as hours from {{ ref('cc_volunteers_skilled_stg') }}
+    select
+        'January'  as month,
+        volunteer_name,
+        jan_q4  as hours
+    from {{ ref('cc_volunteers_skilled_stg') }}
     union all
-    select 'February' as month, volunteer_name, feb_q4  as hours from {{ ref('cc_volunteers_skilled_stg') }}
+    select
+        'February' as month,
+        volunteer_name,
+        feb_q4  as hours
+    from {{ ref('cc_volunteers_skilled_stg') }}
     union all
-    select 'March'    as month, volunteer_name, march_q4 as hours from {{ ref('cc_volunteers_skilled_stg') }}
+    select
+        'March'    as month,
+        volunteer_name,
+        march_q4 as hours
+    from {{ ref('cc_volunteers_skilled_stg') }}
 )
 
 select

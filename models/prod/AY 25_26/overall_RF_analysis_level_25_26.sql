@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_25_26", "prod"]
+) }}
+
 with RF_ANALYSIS_BASELINE as (
     select
         D.CITY_BASE as CITY,

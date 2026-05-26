@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["cv", "staging"]
+) }}
+
 -- strips non-date characters while preserving month abbreviation letters (dd-mon-yyyy)
 with clean_dates as (
     select
@@ -15,7 +20,7 @@ donor_report as (
         coalesce(("Event"::jsonb)->>'zc_display_value', btrim("Event"::text), '') as event_name,
 
         -- date
-        {{ validate_date('invoice_date_clean') }} as invoice_date,
+        {{ validate_date('invoice_date_clean') }} as invoice_date, -- noqa: LT02
 
         -- POC details
         coalesce(initcap(btrim("Name_to_the_POC"::text)), '') as poc_name,

@@ -1,29 +1,29 @@
 {{ config(
   materialized='table',
-  tags=["civic_clubs"]
+  tags=["civic_clubs", "staging"]
 ) }}
 
 SELECT 
-"Event" ->> 'ID' as event_id,
-"Event" ->> 'Event_Name' as event_name,
-"Event" ->> 'Event_Start_Date' as event_date,
-"Impact_1" ->> 'Outcome' as outcome_1,
-"Impact_2" ->> 'Outcome' as outcome_2,
-"Impact_3" ->> 'Outcome' as outcome_3,
-cast(nullif("Quantity_1", '') as numeric) as quantity_1,
-cast(nullif("Quantity_2", '') as numeric) as quantity_2,
-cast(nullif("Quantity_3", '') as numeric) as quantity_3,
+    "Event" ->> 'ID' AS event_id,
+    "Event" ->> 'Event_Name' AS event_name,
+    "Event" ->> 'Event_Start_Date' AS event_date,
+    "Impact_1" ->> 'Outcome' AS outcome_1,
+    "Impact_2" ->> 'Outcome' AS outcome_2,
+    "Impact_3" ->> 'Outcome' AS outcome_3,
+    cast(nullif("Quantity_1", '') AS numeric) AS quantity_1,
+    cast(nullif("Quantity_2", '') AS numeric) AS quantity_2,
+    cast(nullif("Quantity_3", '') AS numeric) AS quantity_3,
 
-"Event_City" ->> 'City' as city,
-"Event_Cause1" ->> 'Cause' as cause,
-"Event_Event_For" ->> 'Event_List' as event_list,
-"Event_Event_Status" as event_status,
-"Event_Event_Category" ->>'Event_Category' as event_category,
-cast(nullif("Total_Volunteer_Hours", '') as numeric) as total_volunteer_hours,
-cast(nullif("Acual_number_of_volunteers", '') as numeric) as number_of_volunteers,
-"Event_Club_City_and_Names" ->> 'ID' as club_id,
-"Event_Club_City_and_Names" ->> 'Club_Name' as club_name,
-"Event_Club_City_and_Names" ->> 'zc_display_value' as club_display_value
+    "Event_City" ->> 'City' AS city,
+    "Event_Cause1" ->> 'Cause' AS cause,
+    "Event_Event_For" ->> 'Event_List' AS event_list,
+    "Event_Event_Status" AS event_status,
+    "Event_Event_Category" ->>'Event_Category' AS event_category,
+    cast(nullif("Total_Volunteer_Hours", '') AS numeric) AS total_volunteer_hours,
+    cast(nullif("Acual_number_of_volunteers", '') AS numeric) AS number_of_volunteers,
+    "Event_Club_City_and_Names" ->> 'ID' AS club_id,
+    "Event_Club_City_and_Names" ->> 'Club_Name' AS club_name,
+    "Event_Club_City_and_Names" ->> 'zc_display_value' AS club_display_value
 
-from 
-{{ source('zc_bvms_data', 'Catalyse_Tracker_Catalyse') }}
+FROM 
+    {{ source('zc_bvms_data', 'Catalyse_Tracker_Catalyse') }}

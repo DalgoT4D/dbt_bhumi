@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["stem", "int"]
+) }}
+
 with school_clubs as (
     select
         *,

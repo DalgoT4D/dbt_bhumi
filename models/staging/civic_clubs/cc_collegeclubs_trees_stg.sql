@@ -1,6 +1,6 @@
 {{ config(
   materialized='table',
-  tags=["civic_clubs"]
+  tags=["civic_clubs", "staging"]
 ) }}
 
 
