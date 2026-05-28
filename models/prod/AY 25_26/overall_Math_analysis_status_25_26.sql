@@ -60,7 +60,6 @@ math_analysis_endline as (
     group by d.city_end, d.student_grade_end, d.donor_end, d.pm_name_end, d.fellow_name_end, f.math_learning_level_status_endline_end
 ),
 
-
 all_combinations as (
     select distinct
         city,
