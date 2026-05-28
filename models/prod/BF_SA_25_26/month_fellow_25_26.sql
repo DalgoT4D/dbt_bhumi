@@ -1,8 +1,3 @@
-{{ config(
-  materialized='table',
-  tags=["bf_sa_25_26", "prod"]
-) }}
-
 with grouped_checkins as (
     select
         fellow_id,
@@ -20,7 +15,7 @@ with grouped_checkins as (
         school_type,
         grade,
         grade_section,
-        quarter,
+        month_year,
         SUM(checkin_count) as checkin_count
     from {{ ref('fellow_checkin_25_26') }}
     group by
@@ -39,7 +34,7 @@ with grouped_checkins as (
         school_type,
         grade,
         grade_section,
-        quarter
+        month_year
 ),
 
 grouped_odc as (
@@ -59,7 +54,7 @@ grouped_odc as (
         school_type,
         grade,
         grade_section,
-        quarter,
+        month_year,
         SUM(odc_count) as odc_count 
     from {{ ref('fellow_odc_25_26') }}
     group by
@@ -78,46 +73,7 @@ grouped_odc as (
         school_type,
         grade,
         grade_section,
-        quarter
-),
-
-grouped_fcm as (
-    select
-        fellow_id,
-        fellow_name,
-        cohort,
-        pm_id,
-        pm_name,
-        year_1_donor,
-        year_2_donor,
-        school_id,
-        school_name,
-        school_state,
-        school_district,
-        udise_code,
-        school_type,
-        grade,
-        grade_section,
-        quarter,
-        AVG(avg_fcm_percentage) as avg_fcm_percentage
-    from {{ ref('fcm_agg_25_26') }}
-    group by
-        fellow_id,
-        fellow_name,
-        cohort,
-        pm_id,
-        pm_name,
-        year_1_donor,
-        year_2_donor,
-        school_id,
-        school_name,
-        school_state,
-        school_district,
-        udise_code,
-        school_type,
-        grade,
-        grade_section,
-        quarter
+        month_year
 ),
 
 base as (
@@ -137,19 +93,14 @@ base as (
         fc.school_type,
         fc.grade,
         fc.grade_section,
-        fc.quarter,
+        fc.month_year,
         fc.checkin_count,
-        fo.odc_count,
-        ff.avg_fcm_percentage
+        fo.odc_count
     from grouped_checkins as fc
     inner join grouped_odc as fo
         on
             fc.fellow_id = fo.fellow_id
-            and fc.quarter = fo.quarter
-    inner join grouped_fcm as ff
-        on
-            fc.fellow_id = ff.fellow_id
-            and fc.quarter = ff.quarter
+            and fc.month_year = fo.month_year
 ),
 
 checkin_brag as (
@@ -169,12 +120,12 @@ checkin_brag as (
         school_type,
         grade,
         grade_section,
-        quarter,
+        month_year,
         'Check-in' as parameters,
         case when checkin_count is null then 1 else 0 end as black,
-        case when checkin_count <= 2 then 1 else 0 end as red,
-        case when checkin_count >= 3 and checkin_count <= 5 then 1 else 0 end as amber,
-        case when checkin_count >= 6 then 1 else 0 end as green
+        case when checkin_count = 0 then 1 else 0 end as red,
+        case when checkin_count = 1 then 1 else 0 end as amber,
+        case when checkin_count >= 2 then 1 else 0 end as green
     from base
 ),
 
@@ -195,43 +146,15 @@ odc_brag as (
         school_type,
         grade,
         grade_section,
-        quarter,
+        month_year,
         'ODC' as parameters,
         case when odc_count is null then 1 else 0 end as black,
         case when odc_count = 0 then 1 else 0 end as red,
-        case when odc_count = 1 then 1 else 0 end as amber,
-        case when odc_count >= 2 then 1 else 0 end as green
-    from base
-),
-
-fcm_brag as (
-    select
-        fellow_id,
-        fellow_name,
-        cohort,
-        pm_id,
-        pm_name,
-        year_1_donor,
-        year_2_donor,
-        school_id,
-        school_name,
-        school_state,
-        school_district,
-        udise_code,
-        school_type,
-        grade,
-        grade_section,
-        quarter,
-        'FCM%' as parameters,
-        case when avg_fcm_percentage is null then 1 else 0 end as black,
-        case when avg_fcm_percentage <= 49 then 1 else 0 end as red,
-        case when avg_fcm_percentage >= 50 and avg_fcm_percentage <= 74 then 1 else 0 end as amber,
-        case when avg_fcm_percentage >= 75 then 1 else 0 end as green
+        0 as amber,
+        case when odc_count >= 1 then 1 else 0 end as green
     from base
 )
 
 select * from checkin_brag
 union all
 select * from odc_brag
-union all
-select * from fcm_brag
