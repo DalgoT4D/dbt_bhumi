@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "int"]
+) }}
+
 WITH base AS (
     SELECT
         "Roll No",

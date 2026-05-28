@@ -1077,3 +1077,969 @@ models:
           Tracks student attendance during EcoChamps program sessions for the academic year 2025-26.
       - name: rag_status
         description: Indicates the student's risk assessment status within the EcoChamps program.
+
+  - name: BRAG_sch_25_26
+    description: School-level BRAG (Black/Red/Amber/Green) parameter scores aggregated by quarter for AY 25-26.
+    columns:
+      - name: school_id
+        description: Unique identifier for the school.
+      - name: school_name
+        description: Name of the school.
+      - name: school_state
+        description: State where the school is located.
+      - name: school_district
+        description: District where the school is located.
+      - name: udise_code
+        description: UDISE code for the school.
+      - name: school_type
+        description: Type of school.
+      - name: quarter
+        description: Academic quarter.
+      - name: parameters
+        description: BRAG parameter name.
+      - name: black
+        description: Count of black (lowest) ratings for the parameter.
+      - name: red
+        description: Count of red ratings for the parameter.
+      - name: amber
+        description: Count of amber ratings for the parameter.
+      - name: green
+        description: Count of green (highest) ratings for the parameter.
+
+  - name: fellow_odc_25_26
+    description: Fellow-level ODC (Observation and Development Conversation) metrics aggregated by quarter for AY 25-26.
+    columns:
+      - name: fellow_id
+        description: Unique identifier for the fellow.
+      - name: fellow_name
+        description: Name of the fellow.
+      - name: cohort
+        description: Fellow cohort.
+      - name: pm_id
+        description: Unique identifier for the programme manager.
+      - name: pm_name
+        description: Name of the programme manager.
+      - name: year_1_donor
+        description: Year 1 donor name.
+      - name: year_2_donor
+        description: Year 2 donor name.
+      - name: school_id
+        description: Unique identifier for the school.
+      - name: school_name
+        description: Name of the school.
+      - name: school_state
+        description: State where the school is located.
+      - name: school_district
+        description: District where the school is located.
+      - name: udise_code
+        description: UDISE code for the school.
+      - name: school_type
+        description: Type of school.
+      - name: quarter
+        description: Academic quarter.
+      - name: total_students
+        description: Total number of students.
+      - name: avg_student_engagement
+        description: Average student engagement score from ODC observations.
+      - name: no_of_students
+        description: Number of students observed.
+      - name: odc_count
+        description: Count of ODC sessions conducted.
+
+  - name: school_para_25_26
+    description: School-level parental and community engagement metrics aggregated by quarter for AY 25-26.
+    columns:
+      - name: school_id
+        description: Unique identifier for the school.
+      - name: school_name
+        description: Name of the school.
+      - name: school_state
+        description: State where the school is located.
+      - name: school_district
+        description: District where the school is located.
+      - name: udise_code
+        description: UDISE code for the school.
+      - name: school_type
+        description: Type of school.
+      - name: quarter
+        description: Academic quarter.
+      - name: ptms_sum
+        description: Total parent-teacher meetings conducted.
+      - name: homes_visited_sum
+        description: Total home visits conducted.
+      - name: total_students_sum
+        description: Sum of total students across check-ins.
+      - name: teacher_circles_sum
+        description: Total teacher circle sessions conducted.
+      - name: school_leader_checkins_sum
+        description: Total school leader check-ins conducted.
+
+  - name: fellow_brag_25_26
+    description: Fellow-level BRAG parameter scores aggregated by quarter for AY 25-26.
+    columns:
+      - name: fellow_id
+        description: Unique identifier for the fellow.
+      - name: fellow_name
+        description: Name of the fellow.
+      - name: cohort
+        description: Fellow cohort.
+      - name: pm_id
+        description: Unique identifier for the programme manager.
+      - name: pm_name
+        description: Name of the programme manager.
+      - name: year_1_donor
+        description: Year 1 donor name.
+      - name: year_2_donor
+        description: Year 2 donor name.
+      - name: school_id
+        description: Unique identifier for the school.
+      - name: school_name
+        description: Name of the school.
+      - name: school_state
+        description: State where the school is located.
+      - name: school_district
+        description: District where the school is located.
+      - name: udise_code
+        description: UDISE code for the school.
+      - name: school_type
+        description: Type of school.
+      - name: quarter
+        description: Academic quarter.
+      - name: parameters
+        description: BRAG parameter name.
+      - name: black
+        description: Count of black (lowest) ratings for the parameter.
+      - name: red
+        description: Count of red ratings for the parameter.
+      - name: amber
+        description: Count of amber ratings for the parameter.
+      - name: green
+        description: Count of green (highest) ratings for the parameter.
+
+  - name: fellow_checkin_25_26
+    description: Fellow-level check-in metrics aggregated by quarter for AY 25-26.
+    columns:
+      - name: fellow_id
+        description: Unique identifier for the fellow.
+      - name: fellow_name
+        description: Name of the fellow.
+      - name: cohort
+        description: Fellow cohort.
+      - name: pm_id
+        description: Unique identifier for the programme manager.
+      - name: pm_name
+        description: Name of the programme manager.
+      - name: year_1_donor
+        description: Year 1 donor name.
+      - name: year_2_donor
+        description: Year 2 donor name.
+      - name: school_id
+        description: Unique identifier for the school.
+      - name: school_name
+        description: Name of the school.
+      - name: school_state
+        description: State where the school is located.
+      - name: school_district
+        description: District where the school is located.
+      - name: udise_code
+        description: UDISE code for the school.
+      - name: school_type
+        description: Type of school.
+      - name: quarter
+        description: Academic quarter.
+      - name: total_students
+        description: Total number of students.
+      - name: avg_student_engagement
+        description: Average student engagement score from check-in observations.
+      - name: no_of_students
+        description: Number of students observed.
+      - name: checkin_count
+        description: Count of check-in sessions conducted.
+
+  - name: cc_activeleaders_prd
+    description: Active civic club leaders summarized by city and district with status.
+    columns:
+      - name: city
+        description: City name.
+      - name: district
+        description: District name.
+      - name: status
+        description: Leader or club status.
+      - name: leader_count
+        description: Number of active leaders.
+
+  - name: cc_beneficiary_skilled_prd
+    description: Skilled beneficiary counts by batch, specialization, and status.
+    columns:
+      - name: batch_name
+        description: Name of the training batch.
+      - name: specialization
+        description: Skill specialization area.
+      - name: beneficiary_status
+        description: Status of the beneficiary.
+      - name: beneficiary_count
+        description: Number of beneficiaries.
+
+  - name: cc_campaigns_collegeclubs_prd
+    description: College club campaign metrics aggregated by academic year, quarter, month, city, state, and campaign.
+    columns:
+      - name: academic_year
+        description: Academic year.
+      - name: quarter
+        description: Academic quarter.
+      - name: month
+        description: Month of activity.
+      - name: city
+        description: City where the campaign took place.
+      - name: state
+        description: State where the campaign took place.
+      - name: campaign_name
+        description: Name of the campaign.
+      - name: num_event_coordinators
+        description: Number of event coordinators involved.
+      - name: num_volunteering_hours
+        description: Total volunteering hours for the campaign.
+      - name: num_colleges_engaged
+        description: Number of colleges engaged.
+      - name: num_volunteers_engaged
+        description: Number of volunteers engaged.
+      - name: num_events_organized
+        description: Number of events organized.
+
+  - name: cc_catalyzetracker_prd
+    description: Catalyze tracker metrics summarizing club event activity by category, cause, and month.
+    columns:
+      - name: club_id
+        description: Unique identifier for the club.
+      - name: club_name
+        description: Name of the club.
+      - name: club_city
+        description: City of the club.
+      - name: event_category
+        description: Category of the event.
+      - name: event_cause
+        description: Cause area for the event.
+      - name: academic_year
+        description: Academic year.
+      - name: month
+        description: Month of the event.
+      - name: total_volunteers
+        description: Total number of volunteers.
+      - name: total_volunteer_hours
+        description: Total volunteer hours.
+      - name: num_events
+        description: Number of events conducted.
+      - name: club_status
+        description: Status of the club.
+
+  - name: cc_collegeclubs_prd
+    description: College club counts summarized by city, state, status, and academic year.
+    columns:
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: status
+        description: Club status.
+      - name: academic_year
+        description: Academic year.
+      - name: club_count
+        description: Number of college clubs.
+
+  - name: cc_collegeclubs_trees_prd
+    description: Trees planted by college clubs with survival metrics by quarter and academic year.
+    columns:
+      - name: quarter
+        description: Academic quarter.
+      - name: academic_year
+        description: Academic year.
+      - name: trees_planted
+        description: Number of trees planted.
+      - name: trees_survival_rate
+        description: Survival rate of planted trees.
+      - name: trees_survived
+        description: Number of trees that survived.
+
+  - name: cc_colleges_reached_prd
+    description: Total institutions reached by civic clubs by city and state.
+    columns:
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: total_institutions
+        description: Total number of institutions reached.
+
+  - name: cc_nps_prd
+    description: Net Promoter Score (NPS) and volunteer rating metrics by quarter, program, and source.
+    columns:
+      - name: quarter
+        description: Academic quarter.
+      - name: academic_year
+        description: Academic year.
+      - name: program
+        description: Program name.
+      - name: sub_programs
+        description: Sub-program name.
+      - name: source
+        description: Source of the NPS data.
+      - name: volunteer_count
+        description: Number of volunteers who responded.
+      - name: avg_rating
+        description: Average NPS rating.
+
+  - name: cc_orientationrsvp_prd
+    description: Orientation RSVP counts by month, academic year, and registration city.
+    columns:
+      - name: month
+        description: Month of the orientation.
+      - name: academic_year
+        description: Academic year.
+      - name: registration_city
+        description: City where the volunteer registered.
+      - name: rsvp_count
+        description: Number of RSVPs.
+
+  - name: cc_overallclubs_prd
+    description: Overall club-level activity metrics including education and civic engagement by month.
+    columns:
+      - name: year
+        description: Calendar year.
+      - name: month
+        description: Month of activity.
+      - name: academic_year
+        description: Academic year.
+      - name: club_name
+        description: Name of the club.
+      - name: city
+        description: City of the club.
+      - name: region
+        description: Region of the club.
+      - name: leaders
+        description: Number of leaders.
+      - name: edu_engaged
+        description: Number of education-engaged volunteers.
+      - name: orientation
+        description: Number of orientation participants.
+      - name: civic_engaged
+        description: Number of civic-engaged volunteers.
+      - name: classes_taken
+        description: Number of classes taken.
+      - name: shelters_mapped
+        description: Number of shelters mapped.
+      - name: total_edu_vols
+        description: Total education volunteers.
+      - name: civic_activities
+        description: Number of civic activities.
+      - name: total_civic_vols
+        description: Total civic volunteers.
+      - name: club_status
+        description: Status of the club.
+
+  - name: cc_volunteers_collegeclubs_citywise_prd
+    description: College club volunteer metrics aggregated by academic year, city, state, and month.
+    columns:
+      - name: academic_year
+        description: Academic year.
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: month
+        description: Month of activity.
+      - name: total_leaders
+        description: Total number of leaders.
+      - name: total_volunteers
+        description: Total number of volunteers.
+      - name: total_events
+        description: Total number of events.
+      - name: total_volunteering_hours
+        description: Total volunteering hours.
+
+  - name: cc_volunteers_combined_prd
+    description: Combined volunteer metrics across programs by month, academic year, city, and state.
+    columns:
+      - name: program_name
+        description: Name of the program.
+      - name: month
+        description: Month of activity.
+      - name: academic_year
+        description: Academic year.
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: active_volunteer_count
+        description: Number of active volunteers.
+      - name: total_volunteer_hours
+        description: Total volunteering hours.
+
+  - name: cc_volunteers_ecochamp_prd
+    description: EcoChamp volunteer metrics by school/shelter, city, state, and month.
+    columns:
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: month
+        description: Month of activity.
+      - name: academic_year
+        description: Academic year.
+      - name: school_shelter_name
+        description: Name of the school or shelter.
+      - name: volunteer_count
+        description: Number of volunteers.
+      - name: total_volunteer_hours
+        description: Total volunteering hours.
+      - name: total_sessions_attended
+        description: Total sessions attended by volunteers.
+
+  - name: cc_volunteers_eventregn_prd
+    description: Event registration volunteer counts by month, academic year, city, and state.
+    columns:
+      - name: month
+        description: Month of activity.
+      - name: academic_year
+        description: Academic year.
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: active_volunteer_count
+        description: Number of active volunteers who registered.
+
+  - name: cc_volunteers_historicshelter_prd
+    description: Historic shelter volunteer awards and project details by city and year.
+    columns:
+      - name: city
+        description: City name.
+      - name: year
+        description: Calendar year.
+      - name: project_name
+        description: Name of the shelter project.
+      - name: award
+        description: Award or recognition received.
+      - name: num_awards
+        description: Number of awards received.
+
+  - name: cc_volunteers_inductionregn_prd
+    description: Induction event registration and attendance metrics by month, city, and state.
+    columns:
+      - name: month
+        description: Month of activity.
+      - name: academic_year
+        description: Academic year.
+      - name: attendance
+        description: Attendance status or count.
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: event_name
+        description: Name of the induction event.
+      - name: volunteer_count
+        description: Number of volunteers who attended.
+
+  - name: cc_volunteers_orientationregn_prd
+    description: Orientation event registration and attendance metrics by month, city, and state.
+    columns:
+      - name: month
+        description: Month of activity.
+      - name: academic_year
+        description: Academic year.
+      - name: attendance
+        description: Attendance status or count.
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: event_name
+        description: Name of the orientation event.
+      - name: volunteer_count
+        description: Number of volunteers who attended.
+
+  - name: cc_volunteers_skilled_prd
+    description: Skilled volunteer metrics by month, academic year, city, and state.
+    columns:
+      - name: month
+        description: Month of activity.
+      - name: academic_year
+        description: Academic year.
+      - name: city
+        description: City name.
+      - name: state
+        description: State name.
+      - name: total_volunteer_count
+        description: Total number of skilled volunteers.
+      - name: active_volunteer_count
+        description: Number of active skilled volunteers.
+      - name: total_volunteering_hours
+        description: Total volunteering hours.
+
+  - name: cc_websiteregn_prd
+    description: Website registration metrics by month, academic year, location, and HR status.
+    columns:
+      - name: month
+        description: Month of registration.
+      - name: academic_year
+        description: Academic year.
+      - name: location
+        description: Location of the registrant.
+      - name: hr_status
+        description: HR or employment status of the registrant.
+      - name: registrations
+        description: Number of registrations.
+
+  - name: cv_nps_scores_prd
+    description: Corporate volunteering NPS scores per submission.
+    columns:
+      - name: submission_id
+        description: Unique identifier for the NPS form submission.
+      - name: submission_date
+        description: Date the NPS form was submitted.
+      - name: nps_score
+        description: Net Promoter Score value.
+
+  - name: cv_csat_scores_prd
+    description: Corporate volunteering CSAT (Customer Satisfaction) scores per submission.
+    columns:
+      - name: submission_id
+        description: Unique identifier for the CSAT form submission.
+      - name: submission_date
+        description: Date the CSAT form was submitted.
+      - name: orientation_usefulness_score
+        description: Score rating the usefulness of the orientation.
+      - name: csat_score
+        description: Overall CSAT score.
+      - name: csat_category
+        description: Category derived from the CSAT score (e.g., Satisfied, Neutral, Dissatisfied).
+
+  - name: cv_volunteer_metrics_prd
+    description: Corporate volunteering event-level metrics with partner, volunteer, budget, and impact details.
+    columns:
+      - name: id
+        description: Unique identifier for the volunteer event record.
+      - name: event_id
+        description: Event identifier.
+      - name: event_name
+        description: Name of the volunteering event.
+      - name: project_category
+        description: Category of the project.
+      - name: event_type
+        description: Type of event.
+      - name: corporate_event_type
+        description: Corporate-specific event type classification.
+      - name: volunteer_type
+        description: Type of volunteers involved.
+      - name: partner_type
+        description: Type of corporate partner.
+      - name: corporate_partner_id
+        description: Unique identifier for the corporate partner.
+      - name: corporate_partner_name
+        description: Name of the corporate partner.
+      - name: coordinator_name
+        description: Name of the event coordinator.
+      - name: event_city
+        description: City where the event took place.
+      - name: event_start_date
+        description: Start date of the event.
+      - name: event_end_date
+        description: End date of the event.
+      - name: type_of_implementation
+        description: Implementation type for the event.
+      - name: fy
+        description: Financial year of the event.
+      - name: quarter
+        description: Quarter of the financial year.
+      - name: is_impact_report_sent
+        description: Flag indicating whether the impact report was sent.
+      - name: event_closed_by_all_aspect
+        description: Flag indicating whether the event was fully closed across all aspects.
+      - name: donor_reporting_sla_days
+        description: Number of days for donor reporting SLA.
+      - name: is_donor_sla_met
+        description: Flag indicating whether the donor SLA was met.
+      - name: actual_no_of_volunteers
+        description: Actual number of volunteers who participated.
+      - name: expected_no_of_volunteers
+        description: Expected number of volunteers.
+      - name: total_volunteering_hours
+        description: Total volunteering hours for the event.
+      - name: event_planned_budget
+        description: Planned budget for the event.
+      - name: expense_incurred
+        description: Actual expenses incurred.
+      - name: total_no_of_beneficiary
+        description: Total number of beneficiaries impacted.
+      - name: is_active_partner
+        description: Flag indicating whether the corporate partner is currently active.
+      - name: is_recurring_partner
+        description: Flag indicating whether the partner is a recurring partner.
+      - name: is_new_partner
+        description: Flag indicating whether the partner is a new partner.
+
+  - name: stem_donor_trainer_school_metrics_prd
+    description: >
+      STEM summary table at donor, trainer, school, and academic year level with student,
+      school, city, trainer, class, and session metrics.
+    columns:
+      - name: donor
+        description: Donor name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: trainer_id
+        description: Trainer identifier, where available.
+      - name: school_name
+        description: School name.
+      - name: city
+        description: City proxy populated primarily from STEM district fields.
+      - name: academic_year
+        description: Academic year in YYYY-YYYY format.
+      - name: number_of_schools
+        description: Distinct schools for the donor in the academic year.
+      - name: number_of_students
+        description: Distinct students for the donor-trainer-school in the academic year.
+      - name: number_of_cities
+        description: Distinct cities for the donor in the academic year.
+      - name: number_of_trainers
+        description: Distinct trainers for the donor in the academic year.
+      - name: classes_planned
+        description: Number of classes with planned sessions.
+      - name: classes_actual
+        description: Number of classes where sessions were conducted.
+      - name: sessions_planned
+        description: Total planned sessions.
+      - name: sessions_actual
+        description: Total conducted sessions.
+      - name: sessions_with_experiment_model_integration
+        description: Sessions tagged with experiment or model integration session types.
+
+  - name: stem_compass_students_summary_prd
+    description: STEM Compass student counts summarized by donor, state, district, school, trainer, and manager.
+    columns:
+      - name: donor
+        description: Donor name.
+      - name: state
+        description: State name.
+      - name: district
+        description: District name.
+      - name: school_name
+        description: School name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: reporting_manager_name
+        description: Reporting manager name.
+      - name: status
+        description: Student or record status.
+      - name: academic_year
+        description: Academic year.
+      - name: student_count
+        description: Number of students.
+
+  - name: stem_volunteer_summary_prd
+    description: STEM volunteer summary aggregated by volunteer type, location, category, and month.
+    columns:
+      - name: volunteer_type
+        description: Type of volunteer (corporate, intern, stem_fest).
+      - name: location
+        description: Location of volunteering activity.
+      - name: corporate_name
+        description: Corporate partner name, if applicable.
+      - name: category
+        description: Category of the volunteer or activity.
+      - name: cluster_mapped
+        description: Cluster the volunteer is mapped to.
+      - name: manager_mapped
+        description: Manager the volunteer is mapped to.
+      - name: volunteering_year
+        description: Year of volunteering activity.
+      - name: volunteering_month
+        description: Month of volunteering activity.
+      - name: total_volunteering_hours
+        description: Total volunteering hours.
+      - name: total_volunteers
+        description: Total number of volunteers.
+
+  - name: stem_stp_centre_identification_prd
+    description: STP (STEM Training Programme) centre identification details with programme and status information.
+    columns:
+      - name: id
+        description: Unique identifier for the centre record.
+      - name: school_name
+        description: School or centre name.
+      - name: donor
+        description: Donor name.
+      - name: state
+        description: State name.
+      - name: city
+        description: City name.
+      - name: chapter
+        description: Chapter name.
+      - name: program
+        description: Programme name.
+      - name: project
+        description: Project name.
+      - name: center_type
+        description: Type of centre.
+      - name: center_status
+        description: Status of the centre.
+      - name: academic_year
+        description: Academic year.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: overall_children_count
+        description: Overall number of children at the centre.
+      - name: total_count
+        description: Total count across categories.
+      - name: date_modified
+        description: Date the record was last modified.
+
+  - name: stem_trainer_tcm_prd
+    description: STEM trainer competency model (TCM) ratings by time period, academic year, and quarter.
+    columns:
+      - name: time_period
+        description: Time period label.
+      - name: academic_year
+        description: Academic year.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: donor
+        description: Donor name.
+      - name: location
+        description: Location of the trainer.
+      - name: trainer
+        description: Trainer name.
+      - name: manager
+        description: Manager name.
+      - name: status
+        description: Trainer status.
+      - name: trainer_competency_level
+        description: Trainer competency level from the TCM assessment.
+
+  - name: stem_teacher_led_classes_prd
+    description: STEM teacher-led class counts aggregated by academic year, quarter, donor, district, school, and trainer.
+    columns:
+      - name: academic_year
+        description: Academic year.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: donor
+        description: Donor name.
+      - name: district
+        description: District name.
+      - name: school_name
+        description: School name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: no_of_teachers
+        description: Number of teachers who led classes.
+      - name: no_of_classes
+        description: Number of classes conducted.
+
+  - name: stem_adv_exposure_agg_prd
+    description: STEM advanced exposure aggregated metrics by donor, district, school, and institution.
+    columns:
+      - name: donor
+        description: Donor name.
+      - name: district
+        description: District name.
+      - name: school_name
+        description: School name.
+      - name: institution_name
+        description: Institution name for the exposure visit.
+      - name: academic_year
+        description: Academic year.
+      - name: total_volunteers
+        description: Total number of volunteers involved.
+      - name: total_children_attended
+        description: Total number of children who attended.
+
+  - name: stem_session_type_prd
+    description: STEM session counts by type, donor, trainer, school, and month.
+    columns:
+      - name: donor
+        description: Donor name.
+      - name: project_name
+        description: Project name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: academic_year
+        description: Academic year.
+      - name: session_month
+        description: Month of the session.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: school_name
+        description: School name.
+      - name: class_number
+        description: Class number or grade.
+      - name: class_division
+        description: Class division or section.
+      - name: session_type
+        description: Type of session.
+      - name: session_count
+        description: Number of sessions of this type.
+
+  - name: stem_scholarship_details_prd
+    description: STEM scholarship details at the student level including marks and award amounts.
+    columns:
+      - name: donor
+        description: Donor name.
+      - name: district
+        description: District name.
+      - name: school_name
+        description: School name.
+      - name: student_name
+        description: Name of the student.
+      - name: trainer_name
+        description: Trainer name.
+      - name: current_grade
+        description: Current grade of the student.
+      - name: academic_marks
+        description: Academic marks of the student.
+      - name: scholarship_amount
+        description: Scholarship amount awarded.
+      - name: grade_college_scholarship_awarded
+        description: Grade or college for which the scholarship was awarded.
+
+  - name: stem_session_plan_conduct_prd
+    description: STEM sessions planned vs conducted by donor, trainer, school, and month.
+    columns:
+      - name: donor
+        description: Donor name.
+      - name: project_name
+        description: Project name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: academic_year
+        description: Academic year.
+      - name: session_month
+        description: Month of the session.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: school_name
+        description: School name.
+      - name: class_number
+        description: Class number or grade.
+      - name: class_division
+        description: Class division or section.
+      - name: sessions_planned
+        description: Number of sessions planned.
+      - name: sessions_conducted
+        description: Number of sessions actually conducted.
+
+  - name: stem_clubs_prd
+    description: STEM club activity metrics aggregated by academic year, quarter, donor, district, school, manager, and trainer.
+    columns:
+      - name: academic_year
+        description: Academic year.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: donor
+        description: Donor name.
+      - name: district
+        description: District name.
+      - name: school_name
+        description: School name.
+      - name: manager
+        description: Manager name.
+      - name: trainer
+        description: Trainer name.
+      - name: total_activities
+        description: Total number of club activities conducted.
+      - name: total_children_attended
+        description: Total number of children who attended club activities.
+
+  - name: stem_impact_analysis_prd
+    description: STEM impact analysis comparing baseline and endline assessment scores by class, donor, state, district, and school.
+    columns:
+      - name: class
+        description: Class or grade level.
+      - name: donor
+        description: Donor name.
+      - name: state
+        description: State name.
+      - name: district
+        description: District name.
+      - name: school_name
+        description: School name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: avg_total_marks_base
+        description: Average total marks at baseline.
+      - name: avg_total_marks_end
+        description: Average total marks at endline.
+      - name: avg_maths_base
+        description: Average maths marks at baseline.
+      - name: avg_tech_base
+        description: Average technology marks at baseline.
+      - name: avg_science_base
+        description: Average science marks at baseline.
+      - name: avg_knowledge_base
+        description: Average knowledge score at baseline.
+      - name: avg_application_base
+        description: Average application score at baseline.
+      - name: avg_understanding_base
+        description: Average understanding score at baseline.
+      - name: avg_maths_end
+        description: Average maths marks at endline.
+      - name: avg_tech_end
+        description: Average technology marks at endline.
+      - name: avg_science_end
+        description: Average science marks at endline.
+      - name: avg_knowledge_end
+        description: Average knowledge score at endline.
+      - name: avg_application_end
+        description: Average application score at endline.
+      - name: avg_understanding_end
+        description: Average understanding score at endline.
+      - name: bucket_0_10_pct
+        description: Percentage of students scoring 0-10%.
+      - name: bucket_11_20_pct
+        description: Percentage of students scoring 11-20%.
+      - name: bucket_21_35_pct
+        description: Percentage of students scoring 21-35%.
+      - name: bucket_36_50_pct
+        description: Percentage of students scoring 36-50%.
+      - name: bucket_51_70_pct
+        description: Percentage of students scoring 51-70%.
+      - name: bucket_above_70_pct
+        description: Percentage of students scoring above 70%.
+
+  - name: stem_teacher_champion_scoring_prd
+    description: STEM teacher champion scoring aggregated by academic year, quarter, donor, district, and school.
+    columns:
+      - name: academic_year
+        description: Academic year.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: donor
+        description: Donor name.
+      - name: district
+        description: District name.
+      - name: school_name
+        description: School name.
+      - name: total_teachers
+        description: Total number of teachers assessed.
+      - name: teachers_level_3_plus
+        description: Number of teachers at level 3 or above.
+      - name: avg_total_mark
+        description: Average total mark across assessed teachers.
+
+  - name: stem_rag_prd
+    description: STEM RAG (Red/Amber/Green) KPI status by academic year, quarter, school, and trainer.
+    columns:
+      - name: academic_year
+        description: Academic year.
+      - name: academic_quarter
+        description: Academic quarter.
+      - name: school_name
+        description: School name.
+      - name: trainer_name
+        description: Trainer name.
+      - name: kpi_name
+        description: Name of the KPI being assessed.
+      - name: pct_value
+        description: Percentage value for the KPI.
+      - name: rag_category
+        description: RAG category (Red, Amber, or Green) for the KPI.

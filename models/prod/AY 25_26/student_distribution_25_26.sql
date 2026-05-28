@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_25_26", "prod"]
+) }}
+
 with demographics_baseline as (
     select
         t.city_base,

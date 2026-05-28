@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_25_26", "staging"]
+) }}
+
 WITH baseline AS (
     SELECT
         COALESCE(BTRIM("Acadamic_year"::TEXT), '') AS "Acadamic year",

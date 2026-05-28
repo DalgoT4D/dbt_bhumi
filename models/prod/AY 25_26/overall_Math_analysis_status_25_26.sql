@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_25_26", "prod"]
+) }}
+
 with math_analysis_baseline as (
     select
         d.city_base as city,
@@ -54,7 +59,6 @@ math_analysis_endline as (
     where d.endline_attendence = True
     group by d.city_end, d.student_grade_end, d.donor_end, d.pm_name_end, d.fellow_name_end, f.math_learning_level_status_endline_end
 ),
-
 
 all_combinations as (
     select distinct

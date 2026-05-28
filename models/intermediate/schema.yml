@@ -217,6 +217,7 @@ models:
         description: Score for intermediate level
       - name: advanced_end
         description: Score for advanced level
+
   - name: base_mid_end_comb_students_2425_dim
     description: Dimension table for student information across all assessments AY 2024-25
     columns:
@@ -276,9 +277,10 @@ models:
         description: Cohort of the student
       - name: grade_taught_end
         description: Grade level taught in the classroom
+
   - name: base_mid_end_comb_scores_25_26_fct
     description: >-
-      Fact table combining baseline, midline, and endline assessment scores for AY 2025-26
+      Fact table combining baseline and midline assessment scores for AY 2025-26
     columns:
       - name: student_id
         description: Unique student identifier linking all assessments
@@ -418,18 +420,7 @@ models:
         description: Midline assessment score for passage 1
       - name: midline_passage_2_mid
         description: Midline assessment score for passage 2
-      - name: math_level_baseline
-        description: Mathematics proficiency level at baseline
-      - name: math_level_midline
-        description: Mathematics proficiency level at midline
-      - name: rc_level_baseline
-        description: Reading Comprehension level at baseline
-      - name: rc_level_midline
-        description: Reading Comprehension level at midline
-      - name: rf_level_baseline
-        description: Reading Fluency level at baseline
-      - name: rf_level_midline
-        description: Reading Fluency level at midline
+
   - name: base_mid_end_comb_students_25_26_dim
     description: Dimension table for student information across all assessments AY 2025-26
     columns:
@@ -475,18 +466,7 @@ models:
         description: Grade level of the student at midline
       - name: donor_mid
         description: Donor information at midline
-      - name: city_baseline
-        description: Student's city from baseline data
-      - name: pm_name_baseline
-        description: Program Manager name from baseline
-      - name: school_name_baseline
-        description: School name from baseline
-      - name: fellow_name_baseline
-        description: Fellowship fellow name from baseline
-      - name: baseline_attendance
-        description: Whether student attended baseline assessment
-      - name: midline_attendance
-        description: Whether student attended midline assessment
+
   - name: eco_base_end_25_26
     description: Intermediate table combining EcoChamps baseline and endline assessment data
     columns:
@@ -522,6 +502,7 @@ models:
         description: Number of assessments completed
       - name: Assessment Attendance %
         description: Overall assessment attendance percentage
+
   - name: eco_modules_25_26
     description: Intermediate table for EcoChamps module participation and attendance
     columns:
@@ -565,3 +546,467 @@ models:
         description: Total number of modules completed
       - name: Modules Attendance %
         description: Overall module attendance percentage
+
+  # CV Intermediate Models
+  - name: cv_corporate_catalyse_int
+    description: >-
+      Intermediate model enriching CV corporate catalyse tracker data with derived metrics:
+      project category, volunteer type, partner type, FY/quarter classification,
+      donor SLA tracking, and partner activity flags (active, recurring, new)
+    columns:
+      - name: id
+        description: Unique record identifier
+      - name: event_id
+        description: Unique event identifier
+      - name: event_name
+        description: Name of the corporate volunteering event
+      - name: event_city
+        description: City where the event was held
+      - name: event_address
+        description: Full address of the event venue
+      - name: corporate_event_type
+        description: Type classification of the corporate event
+      - name: corporate_partner_name
+        description: Name of the corporate partner organization
+      - name: corporate_partner_id
+        description: Unique identifier for the corporate partner
+      - name: event_closed_by_all_aspect
+        description: Whether the event was closed across all aspects
+      - name: cv_event_implementer_name
+        description: Name of the CV event implementer
+      - name: coordinator_name
+        description: Name of the event coordinator
+      - name: impact_indicator_1
+        description: First impact indicator for the event
+      - name: impact_indicator_2
+        description: Second impact indicator for the event
+      - name: event_type
+        description: Type of the event
+      - name: event_end_time
+        description: End time of the event
+      - name: event_start_time
+        description: Start time of the event
+      - name: type_of_implementation
+        description: Implementation type for the event
+      - name: posted_on_social_media
+        description: Whether the event was posted on social media
+      - name: client_coordinator_name
+        description: Name of the client coordinator
+      - name: beneficiary_details
+        description: Details about event beneficiaries
+      - name: beneficiary_location
+        description: Location of the beneficiaries
+      - name: donor_date
+        description: Date associated with donor record
+      - name: invoice_date
+        description: Date of invoice
+      - name: invoice_report_date
+        description: Date of invoice report
+      - name: event_end_date
+        description: End date of the event
+      - name: event_start_date
+        description: Start date of the event
+      - name: balance
+        description: Financial balance for the event
+      - name: total_spent
+        description: Total amount spent on the event
+      - name: actual_budget
+        description: Actual budget allocated
+      - name: invoice_value
+        description: Value of the invoice
+      - name: event_planned_budget
+        description: Planned budget for the event
+      - name: area_of_walls_painted_sqft
+        description: Area of walls painted in square feet
+      - name: dry_waste_collected_kgs
+        description: Amount of dry waste collected in kilograms
+      - name: expense_via_advance_happay
+        description: Expense reported via advance on Happay
+      - name: expense_via_invoicing_happay
+        description: Expense reported via invoicing on Happay
+      - name: budget_sanctioned_by_corporate
+        description: Budget sanctioned by the corporate partner
+      - name: key_result_1
+        description: First key result metric
+      - name: key_result_2
+        description: Second key result metric
+      - name: no_of_diy_kit
+        description: Number of DIY kits used
+      - name: number_of_csat
+        description: Number of CSAT responses
+      - name: no_of_learning_aid
+        description: Number of learning aids provided
+      - name: no_of_beneficiaries
+        description: Number of beneficiaries reached
+      - name: actual_no_of_volunteers
+        description: Actual number of volunteers who participated
+      - name: no_of_lives_touched
+        description: Number of lives touched through the event
+      - name: no_of_diy_kit_assembled
+        description: Number of DIY kits assembled
+      - name: no_of_saplings_planted
+        description: Number of saplings planted
+      - name: total_volunteering_hours
+        description: Total volunteering hours engaged
+      - name: no_of_volunteers_participated
+        description: Number of volunteers who participated
+      - name: expected_no_of_volunteers
+        description: Expected number of volunteers
+      - name: total_no_of_beneficiary
+        description: Total number of beneficiaries
+      - name: csat
+        description: CSAT score or status
+      - name: remarks
+        description: Additional remarks for the event
+      - name: testimonials
+        description: Testimonials collected from the event
+      - name: invoice_number
+        description: Invoice reference number
+      - name: happay_report_id
+        description: Happay report identifier
+      - name: happay_invoice_id
+        description: Happay invoice identifier
+      - name: happay_reference_number
+        description: Happay reference number
+      - name: brief_summary
+        description: Brief summary of the event
+      - name: coordinator_added_time
+        description: Timestamp when coordinator was added
+      - name: duration_volunteers_engaged
+        description: Duration for which volunteers were engaged
+      - name: duration_of_activity_mins
+        description: Duration of the activity in minutes
+      - name: planned_budget_actual_expense_splitup
+        description: Split between planned budget and actual expense
+      - name: use_corporate_name_logo_in_social
+        description: Permission to use corporate name/logo on social media
+      - name: is_impact_report_sent
+        description: Whether the impact report was sent to the donor
+      - name: donor_reporting_sla_days
+        description: Days between event end and donor invoice date (SLA metric)
+      - name: is_donor_sla_met
+        description: Whether the donor reporting SLA of 7 days was met
+      - name: project_category
+        description: >-
+          Derived project category based on event name keywords
+          (Young Scientist, STEM in Schools, Nakshatra, Skill-ed, Eco Champs, General)
+      - name: volunteer_type
+        description: >-
+          Derived volunteer type classification
+          (Others for adhoc, Projected for regular, empty for probono)
+      - name: partner_type
+        description: Partner type classification (Projected, UnMatched, Matched, CSR Partner)
+      - name: fy
+        description: Financial year (April–March cycle, e.g. 2025-2026)
+      - name: quarter
+        description: Quarter within FY (Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec, Q4=Jan-Mar)
+      - name: partner_events_so_far_in_fy
+        description: Running count of events for this partner in the current FY up to this row
+      - name: is_active_partner
+        description: Whether the partner is active (contributed at least 1 event in this FY)
+      - name: is_recurring_partner
+        description: Whether the partner had already run an event in this FY before this event
+      - name: is_new_partner
+        description: Whether this is the partner's first event in this FY
+
+  # FSA 25-26 Intermediate Models
+  - name: ODC_25_26
+    description: >-
+      Intermediate model for Observation During Classes (ODC) data for AY 2025-26,
+      joining observation records with fellow-school mapping
+    columns:
+      - name: id
+        description: Unique observation record identifier
+      - name: date
+        description: Date of the observation
+      - name: month_year
+        description: Month and year label (e.g. Jan 2026)
+      - name: school_id
+        description: Unique school identifier
+      - name: school_name
+        description: Name of the school
+      - name: cohort
+        description: Fellow cohort number
+      - name: school_state
+        description: State where the school is located
+      - name: school_district
+        description: District where the school is located
+      - name: udise_code
+        description: UDISE code for the school
+      - name: school_type
+        description: Type of school
+      - name: grade
+        description: Grade section observed
+      - name: fellow_id
+        description: Unique fellow identifier
+      - name: fellow_name
+        description: Name of the fellow observed
+      - name: year_1_donor
+        description: Year 1 donor associated with the fellow
+      - name: year_2_donor
+        description: Year 2 donor associated with the fellow
+      - name: pm_id
+        description: Programme manager identifier
+      - name: pm_name
+        description: Name of the programme manager
+      - name: grade_section
+        description: Numeric grade section extracted from raw data
+      - name: grade_observed
+        description: Numeric grade level observed
+      - name: is_completed
+        description: Whether the observation was completed
+      - name: follow_up_date
+        description: Date scheduled for follow-up
+      - name: total_students
+        description: Total number of students in the class
+      - name: no_of_students
+        description: Number of students mapped to the fellow's school
+      - name: duration_minutes
+        description: Duration of the observation in minutes
+      - name: reporting_period
+        description: Reporting period for this observation
+      - name: teaching_methods
+        description: Score for teaching methods
+      - name: content_knowledge
+        description: Score for content knowledge
+      - name: student_engagement
+        description: Score for student engagement
+      - name: classroom_management
+        description: Score for classroom management
+      - name: assessment_techniques
+        description: Score for assessment techniques
+      - name: student_engagement_percentage
+        description: Percentage of student engagement observed
+
+  - name: checkins_25_26
+    description: >-
+      Intermediate model for fellow check-in records for AY 2025-26,
+      joining check-in data with fellow-school mapping
+    columns:
+      - name: id
+        description: Unique check-in record identifier
+      - name: date
+        description: Date of the check-in
+      - name: school_id
+        description: Unique school identifier
+      - name: school_name
+        description: Name of the school
+      - name: school_state
+        description: State where the school is located
+      - name: school_district
+        description: District where the school is located
+      - name: udise_code
+        description: UDISE code for the school
+      - name: school_type
+        description: Type of school
+      - name: grade
+        description: Grade level associated with the check-in
+      - name: pm_id
+        description: Programme manager identifier
+      - name: pm_name
+        description: Name of the programme manager
+      - name: fellow_id
+        description: Unique fellow identifier
+      - name: fellow_name
+        description: Name of the fellow
+      - name: cohort
+        description: Fellow cohort number
+      - name: year_1_donor
+        description: Year 1 donor associated with the fellow
+      - name: year_2_donor
+        description: Year 2 donor associated with the fellow
+      - name: period_from
+        description: Start date of the check-in period
+      - name: month_year
+        description: Month and year label for the check-in period
+      - name: period_to
+        description: End date of the check-in period
+      - name: is_completed
+        description: Whether the check-in was completed
+      - name: total_students
+        description: Total number of students
+      - name: reporting_period
+        description: Reporting period label
+      - name: next_checkin_date
+        description: Scheduled date for the next check-in
+      - name: student_engagement
+        description: Score for student engagement
+      - name: classroom_management
+        description: Score for classroom management
+      - name: fellow_uploaded_data
+        description: Whether the fellow uploaded their data
+      - name: sel_workshop_conducted
+        description: Whether an SEL workshop was conducted
+      - name: teaching_effectiveness
+        description: Score for teaching effectiveness
+      - name: professional_development
+        description: Score for professional development
+      - name: no_of_students
+        description: Number of students mapped to the fellow's school
+
+  - name: class_upd_25_26
+    description: >-
+      Intermediate model for fellow classroom update records for AY 2025-26,
+      joining classroom updates with fellow-school mapping
+    columns:
+      - name: id
+        description: Unique classroom update record identifier
+      - name: reporting_date
+        description: Date the update was reported
+      - name: start_date
+        description: Start date of the reporting period
+      - name: month_year
+        description: Month and year label for the update period
+      - name: end_date
+        description: End date of the reporting period
+      - name: fellow_id
+        description: Unique fellow identifier
+      - name: fellow_name
+        description: Name of the fellow
+      - name: cohort
+        description: Fellow cohort identifier
+      - name: year_1_donor
+        description: Year 1 donor associated with the fellow
+      - name: year_2_donor
+        description: Year 2 donor associated with the fellow
+      - name: school_id
+        description: Unique school identifier
+      - name: school_name
+        description: Name of the school
+      - name: school_state
+        description: State where the school is located
+      - name: school_district
+        description: District where the school is located
+      - name: udise_code
+        description: UDISE code for the school
+      - name: school_type
+        description: Type of school
+      - name: grade
+        description: Grade level for the classroom update
+      - name: pm_id
+        description: Programme manager identifier
+      - name: pm_name
+        description: Name of the programme manager
+      - name: helo_circles
+        description: Number of HELO circles conducted
+      - name: ptms
+        description: Number of parent-teacher meetings conducted
+      - name: homes_visited
+        description: Number of home visits conducted
+      - name: teaching_hours
+        description: Total teaching hours logged
+      - name: total_students
+        description: Total number of students
+      - name: teacher_circles
+        description: Number of teacher circles conducted
+      - name: reporting_period
+        description: Reporting period label
+      - name: helo_lesson_names
+        description: Names of HELO lessons covered
+      - name: school_leader_checkins
+        description: Number of school leader check-ins
+      - name: mathematics_score
+        description: Mathematics score for the period
+      - name: stem_score
+        description: STEM score for the period
+      - name: reading_comprehension_score
+        description: Reading comprehension score for the period
+
+  # STEM Intermediate Models
+  - name: stem_clubs_int
+    description: >-
+      Intermediate model combining STEM school club setup data with club activity records
+    columns:
+      - name: donor
+        description: Donor associated with the STEM club
+      - name: district
+        description: District where the school is located
+      - name: school_name
+        description: Name of the school
+      - name: manager
+        description: Manager overseeing the club
+      - name: trainer
+        description: Trainer running the club
+      - name: s_no
+        description: Serial number from the school clubs list
+      - name: date_orientation_trainer
+        description: Date the trainer received orientation
+      - name: date_orientation_school
+        description: Date the school received orientation
+      - name: stem_club_start_date
+        description: Date the STEM club started
+      - name: club_start_year
+        description: Year the STEM club started
+      - name: event_meeting_date
+        description: Date of the club event or meeting
+      - name: topic_covered
+        description: Topic covered during the club meeting
+      - name: no_of_children_attended
+        description: Number of children who attended the club meeting
+
+  - name: stem_trainer_comsolidated_tcm_int
+    description: >-
+      Intermediate model consolidating STEM trainer data from the trainer report
+      and TCM (Trainer Competency Matrix) assessment
+    columns:
+      - name: trainer_name
+        description: Name of the STEM trainer
+      - name: trainer_id
+        description: Unique identifier for the trainer
+      - name: school_count
+        description: Number of schools assigned to the trainer
+      - name: manager_name
+        description: Name of the reporting manager
+      - name: manager_id
+        description: Unique identifier for the reporting manager
+      - name: added_date
+        description: Date the trainer was added to the system
+      - name: trainer_status
+        description: Current status of the trainer
+      - name: donor
+        description: Donor associated with the trainer
+      - name: trainer_location
+        description: Location of the trainer
+      - name: q_2
+        description: TCM assessment score for Q2
+      - name: q_3
+        description: TCM assessment score for Q3
+      - name: q_4
+        description: TCM assessment score for Q4
+      - name: baseline
+        description: Baseline TCM assessment score
+      - name: improvement
+        description: Improvement score between baseline and latest assessment
+      - name: consolidated_rating_2025_26
+        description: Consolidated TCM rating for AY 2025-26
+
+  # Civic Clubs Intermediate Models
+  - name: cc_catalyzetracker_int
+    description: >-
+      Intermediate model joining CatalyzeTracker event data with club city names
+      to enrich events with club metadata and derived academic year / month fields
+    columns:
+      - name: club_id
+        description: Unique club identifier
+      - name: club_name
+        description: Name of the civic club
+      - name: club_city
+        description: City where the club is based
+      - name: event_id
+        description: Unique event identifier
+      - name: event_name
+        description: Name of the event
+      - name: event_date
+        description: Date of the event
+      - name: month
+        description: Month name derived from event date
+      - name: academic_year
+        description: Academic year derived from event date (April–March cycle)
+      - name: event_category
+        description: Category of the event
+      - name: event_cause
+        description: Cause or theme the event supported
+      - name: number_of_volunteers
+        description: Number of volunteers who participated
+      - name: total_volunteer_hours
+        description: Total volunteer hours contributed at the event

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_25_26", "int"]
+) }}
+
 with all_student_id as (
     select distinct  student_id_base as student_id
     from {{ ref('baseline_25_26_stg') }}

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ecochamps_25_26", "prod"]
+) }}
+
 -- Combine fields from eco_base_end_25_26 and eco_modules_25_26
 -- Produces one row per student/roll combining baseline/endline and module attendance data
 with base as (

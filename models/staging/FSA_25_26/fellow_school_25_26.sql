@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "staging"]
+) }}
+
 with fellow_school as (
     select * from (
         select 

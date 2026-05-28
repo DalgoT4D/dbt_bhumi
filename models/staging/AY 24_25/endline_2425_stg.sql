@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_24_25", "staging"]
+) }}
+
 with endline as (
     select
         Coalesce(Initcap(Btrim("City"::text)), '') as "City",

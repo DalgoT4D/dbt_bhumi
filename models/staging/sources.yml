@@ -720,6 +720,153 @@ sources:
         identifier: Endline_raw_data
         description: Student details raw data for AY 25-26 (source file/name in G-Sheet or staging area)
 
+  - name: zc_bvms_data
+    schema: ZC_BVMS_Raw_Data
+    tables:
+      - name: All_Session_Attendances
+        identifier: All_Session_Attendances
+        description: session attendances data
+      - name: All_Session_Plannings
+        identifier: All_Session_Plannings
+        description: session planning data
+      - name: Compass_All_Students
+        identifier: Compass_All_Students
+        description: compass all students data
+      - name: STP_Centre_Identification_New_Report
+        identifier: STP_Centre_Identification_New_Report
+        description: STP centre identification new report
+      - name: Trainer_Report
+        identifier: Trainer_Report
+        description: trainer report
+      - name: Corporate_Catalyse_Tracker
+        identifier: Corporate_Catalyse_Tracker
+        description: corporate catalyse tracker
+      - name: Donor_Report_Report
+        identifier: Donor_Report_Report
+        description: donor report report
+      - name: Catalyse_Tracker_Catalyse
+        identifier: Catalyse_Tracker_Catalyse
+        description: catalyse tracker catalyse
+      - name: Website_Registration_Admin
+        identifier: Website_Registration_Admin
+        description: volunteerswebsite registration admin data
+      - name: Orientation_RSVP_Admin
+        identifier: Orientation_RSVP_Admin
+        description: volunteer orientation rsvp data
+      - name: Volunteer_Event_Registration_Catalyse1
+        identifier: Volunteer_Event_Registration_Catalyse1
+        description: volunteer event registration data
+      - name: All_Institute_Masters
+        identifier: All_Institute_Masters
+        description: All institute masters data
+      - name: Shelters_Historic_Volunteer_Report
+        identifier: Shelters_Historic_Volunteer_Report
+        description: Historic volunteer report for shelters
+      - name: Club_City_and_Names_Report
+        identifier: Club_City_and_Names_Report
+        description: Club details report
+      - name: Orienation_Volunteer_Event_Registration
+        identifier: Orienation_Volunteer_Event_Registration
+        description: volunteer orientation report
+      - name: Induction_Volunteer_Event_Registration
+        identifier: Induction_Volunteer_Event_Registration
+        description: volunteer induction training report
+
+  - name: Stem_gsheet_data
+    schema: STEM_Gsheet_Raw_Data
+    tables:
+      - name: Teacher_Details
+        identifier: Teacher_Details
+        description: teacher details data
+      - name: Teachers_Count
+        identifier: Teachers_Count
+        description: teachers count data
+      - name: STEM_Adv_Dtl
+        identifier: STEM_Adv_Dtl
+        description: STEM advanced exposure session details data
+      - name: Interns_Volunteer_Tracker
+        identifier: Interns_Volunteer_Tracker
+        description: STP schools Interns and Volunteer Tracker data
+      - name: Corporate_Volunteering_Data
+        identifier: Corporate_Volunteering_Data
+        description: STP schoolsCorporate Volunteering Data
+      - name: STEM_FEST_X_Volunteers
+        identifier: STEM_FEST_X_Volunteers
+        description: STEM FEST X Volunteers data
+      - name: Consolidated_TCM
+        identifier: Consolidated_TCM
+        description: Consolidated TCM data
+      - name: Master_Tracker_club_activities
+        identifier: Master_Tracker_club_activities
+        description: Master tracker for club activities
+      - name: Scholarship_Details
+        identifier: Scholarship_Details
+        description: Scholarship details data
+      - name: Teacher_Champion_Scoring
+        identifier: Teacher_Champion_Scoring
+        description: Teacher champion scoring data
+      - name: Master_Sheet_Impact
+        identifier: Master_Sheet_Impact
+        description: Master sheet for impact data
+      - name: Akshay_stem_class
+        identifier: Akshay_stem_class
+        description: part 1 of STEM teacher led classes data
+      - name: Rajendrababu_stem_class
+        identifier: Rajendrababu_stem_class
+        description: part 2 of STEM teacher led classes data
+      - name: Shanthi_stem_class
+        identifier: Shanthi_stem_class
+        description: part 3 of STEM teacher led classes data
+      - name: Shivangi_stem_class
+        identifier: Shivangi_stem_class
+        description: part 4 of STEM teacher led classes data
+      - name: Shivani_stem_class
+        identifier: Shivani_stem_class
+        description: part 5 of STEM teacher led classes data
+      - name: SNEHA_stem_class
+        identifier: SNEHA_stem_class
+        description: part 6 of STEM teacher led classes data
+      - name: UMA_stem_class
+        identifier: UMA_stem_class
+        description: part 7 of STEM teacher led classes data
+      - name: Consolidate_club_details
+        identifier: Consolidate_club_details
+        description: school club orientation details consolidated data
+      - name: Akshay_club_act
+        identifier: Akshay_club_act
+        description: part 1 of STEM club activities data
+      - name: Babu_club_act
+        identifier: Babu_club_act
+        description: part 2 of STEM club activities data
+      - name: Shanthi_club_act
+        identifier: Shanthi_club_act
+        description: part 3 of STEM club activities data
+      - name: Shivani_club_act
+        identifier: Shivani_club_act
+        description: part 4 of STEM club activities data
+      - name: SN_club_act
+        identifier: SN_club_act
+        description: part 5 of STEM club activities data
+      - name: Sneha_club_act
+        identifier: Sneha_club_act
+        description: part 6 of STEM club activities data
+      - name: Uma_club_act
+        identifier: Uma_club_act
+        description: part 7 of STEM club activities data
+      - name: STEM_RAG_Params
+        identifier: STEM_RAG_Params
+        description: STEM RAG params data
+
+  - name: CV_Gsheet_Raw_Data
+    schema: CV_Gsheet_Raw_Data
+    tables:
+      - name: Form_responses
+        identifier: Form_responses
+        description: NPS form data
+      - name: Form_responses_new
+        identifier: Form_responses_new
+        description: CSAT form data
+        
   - name: fellowship_school_app_25_26
     schema: school_app
     tables:
@@ -893,3 +1040,47 @@ sources:
             description: Timestamp when data was extracted by Airbyte
           - name: _airbyte_meta
             description: Metadata from Airbyte extraction
+
+
+  - name: civic_clubs
+    schema: CivicClubs
+    tables:
+      - name: north_west
+        identifier: North_West
+        description: civic clubs information for north west region
+      - name: south
+        identifier: South
+        description: civic clubs information for south region
+      - name: east
+        identifier: East
+        description: civic clubs information for east region  
+      - name: Total_College_Partners
+        identifier: Total_College_Partners
+        description: total active colleges, names of colleges and partners, dates of active and inactive
+      - name: Campaigns_Data_25_26
+        identifier: Campaigns_Data_25_26
+        description: Campaign informatin for 2025-26 with Quarter information
+
+      - name: Tree_Plantation
+        identifier: Tree_Plantation
+        description: Tree plantation data for 2025-26 with Quarter information
+      
+      - name: Volunteer_Details
+        identifier: Volunteer_Details
+        description: Skill ed volunteer information
+      - name: Active_Leaders
+        identifier: Active_Leaders
+        description:  Active leaders information for 2025-26
+      - name: Submission
+        identifier: Submission
+        description: nps submissions
+      - name: City_Wise_Active_Club_Data
+        identifier: City_Wise_Active_Club_Data
+        description: volunteer data for college clubs' city-wise active club data
+
+  - name: zc_skilled_data
+    schema: ZC_SkillEd_raw_data
+    tables:
+      - name: School_Beneficiary_Details_Report
+        identifier: School_Beneficiary_Details_Report
+        description: Beneficiary details report for schools in SkillEd program

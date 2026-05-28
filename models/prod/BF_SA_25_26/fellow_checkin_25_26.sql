@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["bf_sa_25_26", "prod"]
+) }}
+
 with recursive date_spine as (
     -- Generates one row per month from Apr 2025 through current month.
     -- Change the end condition to a fixed date (e.g. '2026-03-31') 

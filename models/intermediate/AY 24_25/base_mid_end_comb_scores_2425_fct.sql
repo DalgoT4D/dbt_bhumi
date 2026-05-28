@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_24_25", "int"]
+) }}
+
 select
     d.student_id,
     

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_24_25", "prod"]
+) }}
+
 with RC_ANALYSIS_BASELINE as (
     select
         D.CITY_BASE as CITY,

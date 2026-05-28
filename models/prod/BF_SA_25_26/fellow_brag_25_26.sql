@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["bf_sa_25_26", "prod"]
+) }}
+
 with grouped_checkins as (
     select
         fellow_id,

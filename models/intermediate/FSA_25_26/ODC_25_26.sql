@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "int"]
+) }}
+
 WITH odc AS (
     SELECT
         COALESCE(BTRIM(id::TEXT), '') AS id,

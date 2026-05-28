@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["bf_sa_25_26", "prod"]
+) }}
+
 with base as (
 
     select

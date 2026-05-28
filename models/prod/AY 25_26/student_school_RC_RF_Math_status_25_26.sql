@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_25_26", "prod"]
+) }}
+
 with student_school_baseline as (
     select distinct
         d.student_id,

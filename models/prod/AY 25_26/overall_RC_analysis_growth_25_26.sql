@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["ay_25_26", "prod"]
+) }}
+
 WITH RC_ANALYSIS_MIDLINE AS (
     SELECT
         D.CITY_MID AS CITY,
