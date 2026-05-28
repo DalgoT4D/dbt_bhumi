@@ -9,7 +9,7 @@ select
     academic_year,
     city,
     state,
-    active_volunteer_count,
+    volunteer_count as active_volunteer_count,
     total_volunteer_hours
 from {{ ref('cc_volunteers_ecochamp_prd') }}
 
@@ -21,7 +21,8 @@ select
     academic_year,
     city,
     state,
-    active_volunteer_count
+    active_volunteer_count,
+    null::int as total_volunteer_hours
     
 from {{ ref('cc_volunteers_eventregn_prd') }}
 
@@ -57,6 +58,6 @@ select
     academic_year,
     city,
     state,
-    num_volunteers_engaged as active_volunteer_count,
-    num_volunteering_hours as total_volunteer_hours
+    total_volunteers as active_volunteer_count,
+    total_volunteering_hours as total_volunteer_hours
 from {{ ref('cc_volunteers_collegeclubs_citywise_prd') }}
