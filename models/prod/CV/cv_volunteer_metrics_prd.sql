@@ -13,7 +13,7 @@
 --   6.  Events by Project          → group by project_category, count(distinct event_id)
 --   7.  Event Closure SLA          → filter/group by is_impact_report_sent, event_end_date
 --   8.  Partners by Type           → group by partner_type, count(distinct corporate_partner_id)
---   9.  Total Budget               → sum(event_planned_budget)
+--   9.  Total Budget               → sum(budget_sanctioned_by_corporate)
 --   10. Total Expenses             → sum(expense_incurred)
 --   11. Beneficiaries by Date      → group by event_start_date, sum(total_no_of_beneficiary)
 --   12. Beneficiaries by Project   → group by project_category, sum(total_no_of_beneficiary)
@@ -63,7 +63,7 @@ select
     total_volunteering_hours,
 
     -- budget & expense (metrics 9–10)
-    event_planned_budget,
+    budget_sanctioned_by_corporate,
     total_spent as expense_incurred,
 
     -- beneficiary metrics (metrics 11–12)
