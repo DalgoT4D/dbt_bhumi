@@ -22,7 +22,7 @@ tcm as (
         case when btrim(q_3::text) ~ '^[0-9.]+$' then (q_3::text)::numeric end as q_3,
         case when btrim(q_4::text) ~ '^[0-9.]+$' then (q_4::text)::numeric end as q_4,
         case when btrim(baseline::text) ~ '^[0-9.]+$' then (baseline::text)::numeric end as baseline,
-        case when btrim(improvement_::text) ~ '^[0-9.]+$' then (improvement_::text)::numeric end as improvement,
+        case when btrim(improvement_q_4_rating_baseline_::text) ~ '^[0-9.]+$' then (improvement_q_4_rating_baseline_::text)::numeric end as improvement,
         case when btrim(_2025_26_consolidated_rating_::text) ~ '^[0-9.]+$' then (_2025_26_consolidated_rating_::text)::numeric end as consolidated_rating_2025_26
 
     from source

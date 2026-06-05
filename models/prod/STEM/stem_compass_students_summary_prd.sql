@@ -11,6 +11,7 @@ select
     trainer_name,
     reporting_manager_name,
     status,
+    gender,
     academic_year,
     count(distinct id) as student_count
 from {{ ref('stem_compass_all_students_stg') }}
@@ -21,5 +22,6 @@ group by
     trainer_name,
     reporting_manager_name,
     status,
+    gender,
     academic_year,
     school_name
