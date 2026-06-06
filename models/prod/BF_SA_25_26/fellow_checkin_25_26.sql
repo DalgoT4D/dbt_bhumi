@@ -28,8 +28,8 @@ fellows as (
         cohort,
         pm_id,
         pm_name,
-        year_1_donor,
-        year_2_donor,
+        donor_id,
+        donor_name,
         school_id,
         school_name,
         school_state,
@@ -41,7 +41,7 @@ fellows as (
     from {{ ref('fellow_school_25_26') }}
     group by
         fellow_id, fellow_name, cohort, pm_id, pm_name,
-        year_1_donor, year_2_donor, school_id, school_name,
+        donor_id, donor_name, school_id, school_name,
         school_state, school_district, udise_code,
         school_type, grade, grade_section
 ),
@@ -62,8 +62,8 @@ agg_checkins as (
         cohort,
         pm_id,
         pm_name,
-        year_1_donor,
-        year_2_donor,
+        donor_id,
+        donor_name,
         school_id,
         school_name,
         school_state,
@@ -80,7 +80,7 @@ agg_checkins as (
     from {{ ref('checkins_25_26') }}
     group by
         fellow_id, fellow_name, cohort, pm_id, pm_name,
-        year_1_donor, year_2_donor, school_id, school_name,
+        donor_id, donor_name, school_id, school_name,
         school_state, school_district, udise_code,
         school_type, grade, grade_section,
         month_year, reporting_period
@@ -92,8 +92,8 @@ select
     swq.cohort,
     swq.pm_id,
     swq.pm_name,
-    swq.year_1_donor,
-    swq.year_2_donor,
+    swq.donor_id,
+    swq.donor_name,
     swq.school_id,
     swq.school_name,
     swq.school_state,

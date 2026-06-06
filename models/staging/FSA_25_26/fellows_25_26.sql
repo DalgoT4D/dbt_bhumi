@@ -4,8 +4,6 @@ with fellows as (
         NULLIF(BTRIM(pm_id::TEXT), '') as pm_id,
         NULLIF(BTRIM(cohort_year::TEXT),'') as cohort_year,
         NULLIF(BTRIM(employee_id::TEXT), '') as employee_id,
-        NULLIF(INITCAP(BTRIM(year_1_donor)),'') as year_1_donor,
-        NULLIF(INITCAP(BTRIM(year_2_donor)),'') as year_2_donor,
         NULLIF(INITCAP(LOWER(NULLIF(BTRIM(placement_city),''))),'') as placement_city,
         case
             when NULLIF(BTRIM(date_of_joining::TEXT),'') is null then null
@@ -34,6 +32,16 @@ profiles as (
         NULLIF(BTRIM(first_name || ' ' || last_name),'') as full_name,
         NULLIF(BTRIM(is_active::TEXT),'') as is_active
     from {{ source('fellowship_school_app_25_26', 'profiles_25_26') }}
+),
+
+donor As (
+    Select
+        id,
+        fellow_id,
+        donor_id,
+        donor_name,
+        funding_year
+    From {{ ref('donor_fsa') }}
 )
 
 select distinct
@@ -41,8 +49,8 @@ select distinct
     f.pm_id,
     f.cohort_year,
     f.employee_id as fellow_employee_id,
-    f.year_1_donor,
-    f.year_2_donor,
+    d.donor_id,
+    d.donor_name,
     f.placement_city as fellow_placement_city,
     f.date_of_joining as fellow_doj,
     f.date_of_leaving as fellow_dol,
@@ -51,6 +59,9 @@ select distinct
 from fellows as f
 inner join profiles as p
     on f.id = p.id
+inner join donor as d
+    on f.id = d.fellow_id
+    and f.cohort_year = d.funding_year
 where
     f.id is not null
     and p.full_name is not null

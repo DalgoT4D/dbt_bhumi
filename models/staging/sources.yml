@@ -88,6 +88,12 @@ sources:
       - name: alumni_25_26
         identifier: Mastersheet
         description: alumni from fellowship school app for AY 25-26
+      - name: donor_mapping
+        identifier: donor_mapping
+        description: donor mapping data from fellowship school app for AY 25-26
+      - name: donors
+        identifier: donors
+        description: donors data from fellowship school app for AY 25-26
 
 
   - name: iginteplus_25_26
