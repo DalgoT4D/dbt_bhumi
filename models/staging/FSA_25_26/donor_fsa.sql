@@ -6,9 +6,10 @@ with donor_mapping_cleaned as (
         NULLIF(BTRIM(notes::TEXT), '')      as notes,
         NULLIF(BTRIM(funding_year::TEXT), '')      as funding_year
     from {{ source('fellowship_school_app_25_26', 'donor_mapping') }}
-    where NULLIF(BTRIM(id::TEXT), '')        is not null
-      and NULLIF(BTRIM(donor_id::TEXT), '')  is not null
-      and NULLIF(BTRIM(fellow_id::TEXT), '') is not null
+    where
+        NULLIF(BTRIM(id::TEXT), '')        is not null
+        and NULLIF(BTRIM(donor_id::TEXT), '')  is not null
+        and NULLIF(BTRIM(fellow_id::TEXT), '') is not null
 ),
 
 donors_cleaned as (

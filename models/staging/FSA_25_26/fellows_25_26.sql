@@ -34,14 +34,14 @@ profiles as (
     from {{ source('fellowship_school_app_25_26', 'profiles_25_26') }}
 ),
 
-donor As (
-    Select
+donor as (
+    select
         id,
         fellow_id,
         donor_id,
         donor_name,
         funding_year
-    From {{ ref('donor_fsa') }}
+    from {{ ref('donor_fsa') }}
 )
 
 select distinct
@@ -60,8 +60,9 @@ from fellows as f
 inner join profiles as p
     on f.id = p.id
 inner join donor as d
-    on f.id = d.fellow_id
-    and f.cohort_year = d.funding_year
+    on
+        f.id = d.fellow_id
+        and f.cohort_year = d.funding_year
 where
     f.id is not null
     and p.full_name is not null
