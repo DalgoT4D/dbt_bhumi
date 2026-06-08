@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "int"]
+) }}
+
 With fellow_school As (
     Select
         fellow_id,

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "staging"]
+) }}
+
 with fcm_ratings as (
     select 
         NULLIF(BTRIM(id::TEXT),'') as id_fcm_rating,

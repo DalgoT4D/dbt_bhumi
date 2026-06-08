@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "prod"]
+) }}
+
 with class_updates as (
 
     select

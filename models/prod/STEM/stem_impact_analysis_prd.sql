@@ -19,7 +19,6 @@ select
     sum(case when total_marks_base is not null then 1 end) as baseline_student_attendance,
     sum(case when total_marks_end is not null then 1 end) as endline_student_attendance,
 
-
     -- average subject scores - baseline
     round(avg(maths_base), 2) as avg_maths_base,
     round(avg(tech_base), 2) as avg_tech_base,
@@ -37,7 +36,7 @@ select
     round(avg(understanding_end), 2) as avg_understanding_end,
 
     -- EAT – BAT change
-    round(avg((total_marks_end - total_marks_base) / NULLIF(total_marks_base, 0)::numeric), 2) * 100 as learning_level_pct_change,
+    round(avg((total_marks_end - total_marks_base) / nullif(total_marks_base, 0)::numeric), 2) * 100 as learning_level_pct_change,
     sum(case when(total_marks_end - total_marks_base)>0 then 1 end) as students_with_positive_learning_change,
 
     -- scored_base % buckets (student counts per group)

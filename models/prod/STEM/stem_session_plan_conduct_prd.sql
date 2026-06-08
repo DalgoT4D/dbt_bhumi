@@ -68,7 +68,7 @@ conducted_raw as (
         school_name,
         class_number,
         class_division,
-        (present_students_count / NULLIF(present_students_count + absent_students_count, 0)::numeric) as attendance_pct,
+        (present_students_count / nullif(present_students_count + absent_students_count, 0)::numeric) as attendance_pct,
         id
     from {{ ref('stem_all_session_attendances_stg') }}
 ),

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "staging"]
+) }}
+
 with alumni_raw as (
     select
         NULLIF(BTRIM("Name"::TEXT), '') as name,

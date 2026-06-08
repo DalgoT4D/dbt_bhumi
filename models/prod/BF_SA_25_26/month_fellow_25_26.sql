@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "prod"]
+) }}
+
 with grouped_checkins as (
     select
         fellow_id,

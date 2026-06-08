@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "staging"]
+) }}
+
 with donor_mapping_cleaned as (
     select
         NULLIF(BTRIM(id::TEXT), '')         as id,

@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "prod"]
+) }}
+
 with recursive date_spine as (
     select date_trunc('month', cast('2025-04-01' as date)) as month_start
     union all
