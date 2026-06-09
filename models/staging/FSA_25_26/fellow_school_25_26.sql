@@ -88,7 +88,7 @@ select distinct
     f.donor_id,
     f.donor_name,
     f.funding_year,
-    (f.funding_year::TEXT || '-' || (f.funding_year::INTEGER + 1)::TEXT) as Academic_Year,  
+    (f.funding_year::TEXT || '-' || (f.funding_year::INTEGER + 1)::TEXT) as academic_year,  
     f.fellow_placement_city,
     f.fellow_doj,
     f.fellow_dol,
