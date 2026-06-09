@@ -56,6 +56,7 @@ select distinct
     f.employee_id as fellow_employee_id,
     d.donor_id,
     d.donor_name,
+    d.funding_year,
     f.placement_city as fellow_placement_city,
     f.date_of_joining as fellow_doj,
     f.date_of_leaving as fellow_dol,
@@ -67,7 +68,6 @@ inner join profiles as p
 inner join donor as d
     on
         f.id = d.fellow_id
-        and f.cohort_year = d.funding_year
 where
     f.id is not null
     and p.full_name is not null
