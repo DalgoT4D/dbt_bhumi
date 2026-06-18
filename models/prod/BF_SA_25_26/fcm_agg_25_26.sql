@@ -32,6 +32,7 @@ fellows as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -49,6 +50,7 @@ fellows as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -77,6 +79,7 @@ agg_fcm_data as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -97,6 +100,7 @@ agg_fcm_data as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -127,6 +131,7 @@ select
     swq.month_year,
     swq.quarter,
     swq.grade_section,
+    swq.academic_year,
     afd.avg_fcm_percentage
 from school_with_quarter as swq
 left join agg_fcm_data as afd
@@ -137,3 +142,4 @@ left join agg_fcm_data as afd
         and swq.grade_section = afd.grade_section
         and swq.quarter       = afd.reporting_period
         and swq.month_year    = afd.month_year
+        and swq.academic_year = afd.academic_year

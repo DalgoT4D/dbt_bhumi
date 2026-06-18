@@ -94,3 +94,8 @@ left join competency_mappings as cm
     on fcm_r.competency_mapping_id = cm.id_competency_mapping
 left join competencies as c
     on cm.competency_id = c.id_competency
+where
+    fcm_r.id_fcm_rating is not NULL
+    and fcm_u.id_fcm_update is not NULL
+    and cm.id_competency_mapping is not NULL
+    and c.id_competency is not NULL

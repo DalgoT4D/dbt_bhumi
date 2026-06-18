@@ -18,6 +18,7 @@ With fellow_school As (
         grade_section,
         donor_id,
         donor_name,
+        academic_year,
         pm_id,
         pm_name,
         no_of_students
@@ -84,6 +85,7 @@ Select Distinct
     fs.fellow_id,
     fs.fellow_name,
     fs.cohort,
+    fs.academic_year,
     fs.pm_id,
     fs.pm_name,
     fs.donor_id,

@@ -3,7 +3,30 @@
   tags=["fsa_25_26", "prod"]
 ) }}
 
-with grouped_checkins as (
+with recursive date_spine as (
+    -- Generates one row per month from Apr 2025 through current month.
+    -- Change the end condition to a fixed date (e.g. '2026-03-31') 
+    -- if you want a fixed academic year boundary instead of "up to today".
+    select date_trunc('month', cast('2025-04-01' as date)) as month_start
+    union all
+    select month_start + interval '1 month'
+    from date_spine
+    where month_start < date_trunc('month', current_date)
+),
+
+month_quarter_map as (
+    select
+        -- to_char(month_start, 'Mon YYYY') as month_year,
+        case
+            when date_part('month', month_start) in (4, 5, 6)  then 'Apr-May-Jun'
+            when date_part('month', month_start) in (7, 8, 9)  then 'Jul-Aug-Sep'
+            when date_part('month', month_start) in (10, 11, 12) then 'Oct-Nov-Dec'
+            when date_part('month', month_start) in (1, 2, 3)  then 'Jan-Feb-Mar'
+        end as quarter
+    from date_spine
+),
+
+grouped_checkins as (
     select
         fellow_id,
         fellow_name,
@@ -12,6 +35,7 @@ with grouped_checkins as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -21,7 +45,7 @@ with grouped_checkins as (
         grade,
         grade_section,
         quarter,
-        SUM(checkin_count) as checkin_count
+        sum(checkin_count) as checkin_count
     from {{ ref('fellow_checkin_25_26') }}
     group by
         fellow_id,
@@ -31,6 +55,7 @@ with grouped_checkins as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -51,6 +76,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -60,7 +86,7 @@ grouped_odc as (
         grade,
         grade_section,
         quarter,
-        SUM(odc_count) as odc_count 
+        sum(odc_count) as odc_count 
     from {{ ref('fellow_odc_25_26') }}
     group by
         fellow_id,
@@ -70,6 +96,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -90,6 +117,7 @@ grouped_fcm as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -99,7 +127,7 @@ grouped_fcm as (
         grade,
         grade_section,
         quarter,
-        AVG(avg_fcm_percentage) as avg_fcm_percentage
+        avg(avg_fcm_percentage) as avg_fcm_percentage
     from {{ ref('fcm_agg_25_26') }}
     group by
         fellow_id,
@@ -109,6 +137,7 @@ grouped_fcm as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -120,36 +149,99 @@ grouped_fcm as (
         quarter
 ),
 
+fellows_school as (
+    select
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        donor_id,
+        donor_name,
+        academic_year,
+        school_id,
+        school_name,
+        school_state,
+        school_district,
+        udise_code,
+        school_type,
+        grade,
+        grade_section
+    from {{ ref('fellow_school_25_26') }}
+    group by
+        fellow_id,
+        fellow_name,
+        cohort,
+        pm_id,
+        pm_name,
+        donor_id,
+        donor_name,
+        academic_year,
+        school_id,
+        school_name,
+        school_state,
+        school_district,
+        udise_code,
+        school_type,
+        grade,
+        grade_section
+),
+
+school_with_quarter as (
+    select
+        fs.*,
+        m.quarter
+    from fellows_school as fs
+    cross join month_quarter_map as m
+),
+
 base as (
     select
-        fc.fellow_id,
-        fc.fellow_name,
-        fc.cohort,
-        fc.pm_id,
-        fc.pm_name,
-        fc.donor_id,
-        fc.donor_name,
-        fc.school_id,
-        fc.school_name,
-        fc.school_state,
-        fc.school_district,
-        fc.udise_code,
-        fc.school_type,
-        fc.grade,
-        fc.grade_section,
-        fc.quarter,
+        swq.fellow_id,
+        swq.fellow_name,
+        swq.cohort,
+        swq.pm_id,
+        swq.pm_name,
+        swq.donor_id,
+        swq.donor_name,
+        swq.school_id,
+        swq.school_name,
+        swq.school_state,
+        swq.school_district,
+        swq.udise_code,
+        swq.school_type,
+        swq.grade,
+        swq.grade_section,
+        swq.quarter,
+        swq.academic_year,
         fc.checkin_count,
         fo.odc_count,
         ff.avg_fcm_percentage
-    from grouped_checkins as fc
-    inner join grouped_odc as fo
+    from school_with_quarter as swq
+    left join grouped_checkins as fc
         on
-            fc.fellow_id = fo.fellow_id
-            and fc.quarter = fo.quarter
-    inner join grouped_fcm as ff
+            swq.fellow_id = fc.fellow_id
+            and swq.school_id = fc.school_id
+            and swq.grade = fc.grade
+            and swq.grade_section = fc.grade_section
+            and swq.quarter = fc.quarter
+            and swq.academic_year = fc.academic_year
+    left join grouped_odc as fo
         on
-            fc.fellow_id = ff.fellow_id
-            and fc.quarter = ff.quarter
+            swq.fellow_id = fo.fellow_id
+            and swq.school_id = fo.school_id
+            and swq.grade = fo.grade
+            and swq.grade_section = fo.grade_section
+            and swq.quarter = fo.quarter
+            and swq.academic_year = fo.academic_year
+    left join grouped_fcm as ff
+        on
+            swq.fellow_id = ff.fellow_id
+            and swq.school_id = ff.school_id
+            and swq.grade = ff.grade
+            and swq.grade_section = ff.grade_section
+            and swq.quarter = ff.quarter
+            and swq.academic_year = ff.academic_year
 ),
 
 checkin_brag as (
@@ -170,6 +262,7 @@ checkin_brag as (
         grade,
         grade_section,
         quarter,
+        academic_year,
         'Check-in' as parameters,
         case when checkin_count is null then 1 else 0 end as black,
         case when checkin_count <= 2 then 1 else 0 end as red,
@@ -196,6 +289,7 @@ odc_brag as (
         grade,
         grade_section,
         quarter,
+        academic_year,
         'ODC' as parameters,
         case when odc_count is null then 1 else 0 end as black,
         case when odc_count = 0 then 1 else 0 end as red,
@@ -222,6 +316,7 @@ fcm_brag as (
         grade,
         grade_section,
         quarter,
+        academic_year,
         'FCM%' as parameters,
         case when avg_fcm_percentage is null then 1 else 0 end as black,
         case when avg_fcm_percentage <= 49 then 1 else 0 end as red,
