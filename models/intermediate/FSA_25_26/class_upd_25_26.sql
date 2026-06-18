@@ -73,6 +73,7 @@ SELECT DISTINCT
     fs.cohort,
     fs.donor_id,
     fs.donor_name,
+    fs.academic_year,
     fs.school_id,
     fs.school_name,
     fs.school_state,
@@ -100,4 +101,4 @@ LEFT JOIN fellow_school AS fs
     ON cu.fellow_id = fs.fellow_id
 WHERE
     cu.id IS NOT NULL 
-    AND fs.fellow_id IS NOT NULL
+    -- AND fs.fellow_id IS NOT NULL

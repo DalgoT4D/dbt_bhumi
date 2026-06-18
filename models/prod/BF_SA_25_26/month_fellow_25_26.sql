@@ -12,6 +12,7 @@ with grouped_checkins as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -31,6 +32,7 @@ with grouped_checkins as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -51,6 +53,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -70,6 +73,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -90,6 +94,7 @@ base as (
         fc.pm_name,
         fc.donor_id,
         fc.donor_name,
+        fc.academic_year,
         fc.school_id,
         fc.school_name,
         fc.school_state,
@@ -105,6 +110,10 @@ base as (
     inner join grouped_odc as fo
         on
             fc.fellow_id = fo.fellow_id
+            and fc.school_id = fo.school_id
+            and fc.grade = fo.grade
+            and fc.grade_section = fo.grade_section
+            and fc.academic_year = fo.academic_year
             and fc.month_year = fo.month_year
 ),
 
@@ -117,6 +126,7 @@ checkin_brag as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -143,6 +153,7 @@ odc_brag as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,

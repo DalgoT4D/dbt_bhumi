@@ -13,6 +13,7 @@ with class_updates as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -33,6 +34,7 @@ with class_updates as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -53,6 +55,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -73,6 +76,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -91,6 +95,7 @@ base as (
         cu.cohort,
         cu.pm_id,
         cu.pm_name,
+        cu.academic_year,
         cu.donor_id,
         cu.donor_name,
         cu.school_id,
@@ -110,7 +115,11 @@ base as (
     inner join grouped_odc as fo
         on
             cu.fellow_id = fo.fellow_id
+            and cu.school_id = fo.school_id
+            and cu.grade = fo.grade
+            and cu.grade_section = fo.grade_section
             and cu.quarter = fo.quarter
+            and cu.academic_year = fo.academic_year
 ),
 
 teaching_brag as (
@@ -131,6 +140,7 @@ teaching_brag as (
         grade,
         grade_section,
         quarter,
+        academic_year,
         'Teaching Hours' as parameters,
         case when teaching_hours_sum is null then 1 else 0 end as black,
         case when teaching_hours_sum <= 108 then 1 else 0 end as red,
@@ -157,6 +167,7 @@ helo_brag as (
         grade,
         grade_section,
         quarter,
+        academic_year,
         'Helo Circles' as parameters,
         case when helo_circles_sum is null then 1 else 0 end as black,
         case when helo_circles_sum >= 0 and helo_circles_sum <=8 then 1 else 0 end as red,
@@ -183,6 +194,7 @@ engage_brag as (
         grade,
         grade_section,
         quarter,
+        academic_year,
         'Student Engagement' as parameters,
         case when avg_student_engagement is null then 1 else 0 end as black,
         case when avg_student_engagement <= 49 then 1 else 0 end as red,

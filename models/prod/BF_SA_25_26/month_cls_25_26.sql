@@ -13,6 +13,7 @@ with class_updates as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -33,6 +34,7 @@ with class_updates as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -53,6 +55,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -73,6 +76,7 @@ grouped_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -93,6 +97,7 @@ base as (
         cu.pm_name,
         cu.donor_id,
         cu.donor_name,
+        cu.academic_year,
         cu.school_id,
         cu.school_name,
         cu.school_state,
@@ -110,6 +115,10 @@ base as (
     inner join grouped_odc as fo
         on
             cu.fellow_id = fo.fellow_id
+            and cu.school_id = fo.school_id
+            and cu.grade = fo.grade
+            and cu.grade_section = fo.grade_section
+            and cu.academic_year = fo.academic_year
             and cu.month_year = fo.month_year
 ),
 
@@ -122,6 +131,7 @@ teaching_brag as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -148,6 +158,7 @@ helo_brag as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -174,6 +185,7 @@ engage_brag as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,

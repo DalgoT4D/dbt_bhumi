@@ -32,6 +32,7 @@ school as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -49,6 +50,7 @@ school as (
         pm_id,
         pm_name,
         donor_id,
+        academic_year,
         donor_name,
         school_name,
         school_state,
@@ -77,6 +79,7 @@ class_agg as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -103,6 +106,7 @@ class_agg as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -123,6 +127,7 @@ select
     s.pm_name,
     s.donor_id,
     s.donor_name,
+    s.academic_year,
     s.school_id,
     s.school_name,
     s.school_state,
@@ -149,3 +154,4 @@ left join class_agg as ca
         and s.grade_section = ca.grade_section
         and s.month_year    = ca.month_year
         and s.quarter       = ca.reporting_period
+        and s.academic_year = ca.academic_year
