@@ -45,7 +45,7 @@ grouped_checkins as (
         grade,
         grade_section,
         quarter,
-        SUM(checkin_count) as checkin_count
+        sum(checkin_count) as checkin_count
     from {{ ref('fellow_checkin_25_26') }}
     group by
         fellow_id,
@@ -86,7 +86,7 @@ grouped_odc as (
         grade,
         grade_section,
         quarter,
-        SUM(odc_count) as odc_count 
+        sum(odc_count) as odc_count 
     from {{ ref('fellow_odc_25_26') }}
     group by
         fellow_id,
@@ -127,7 +127,7 @@ grouped_fcm as (
         grade,
         grade_section,
         quarter,
-        AVG(avg_fcm_percentage) as avg_fcm_percentage
+        avg(avg_fcm_percentage) as avg_fcm_percentage
     from {{ ref('fcm_agg_25_26') }}
     group by
         fellow_id,
