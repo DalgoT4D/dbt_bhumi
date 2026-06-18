@@ -104,4 +104,4 @@ left join fellows_data as f
 left join pms_data as p
     on f.pm_id = p.pm_id
 where
-    NOT (fs.fellow_id IS NULL AND s.school_id IS NULL AND p.pm_id IS NULL)
+    not (fs.fellow_id is NULL and s.school_id is NULL and p.pm_id is NULL)
