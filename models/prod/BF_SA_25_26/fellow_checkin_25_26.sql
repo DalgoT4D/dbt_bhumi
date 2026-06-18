@@ -35,6 +35,7 @@ fellows as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -48,7 +49,7 @@ fellows as (
         fellow_id, fellow_name, cohort, pm_id, pm_name,
         donor_id, donor_name, school_id, school_name,
         school_state, school_district, udise_code,
-        school_type, grade, grade_section
+        school_type, grade, grade_section, academic_year
 ),
 
 school_with_quarter as (
@@ -69,6 +70,7 @@ agg_checkins as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -87,7 +89,7 @@ agg_checkins as (
         fellow_id, fellow_name, cohort, pm_id, pm_name,
         donor_id, donor_name, school_id, school_name,
         school_state, school_district, udise_code,
-        school_type, grade, grade_section,
+        school_type, grade, grade_section, academic_year,
         month_year, reporting_period
 )
 
@@ -109,6 +111,7 @@ select
     swq.month_year,
     swq.quarter,
     swq.grade_section,
+    swq.academic_year,
     ac.total_students,
     ac.avg_student_engagement,
     ac.checkin_count
@@ -121,3 +124,4 @@ left join agg_checkins as ac
         and swq.grade_section = ac.grade_section
         and swq.quarter       = ac.reporting_period
         and swq.month_year    = ac.month_year
+        and swq.academic_year = ac.academic_year

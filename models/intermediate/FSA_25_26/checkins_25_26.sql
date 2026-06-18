@@ -68,6 +68,7 @@ fellow_school AS (
         grade_section,
         donor_id,
         donor_name,
+        academic_year,
         pm_id,
         pm_name,
         no_of_students
@@ -84,6 +85,7 @@ SELECT DISTINCT
     fs.udise_code,
     fs.school_type,
     fs.grade,
+    fs.academic_year,
     fs.pm_id,
     fs.pm_name,
     fs.fellow_id,
@@ -111,4 +113,4 @@ LEFT JOIN fellow_school AS fs
     ON c.fellow_id = fs.fellow_id
 WHERE
     c.id IS NOT NULL
-    AND fs.fellow_id IS NOT NULL
+    -- AND fs.fellow_id IS NOT NULL

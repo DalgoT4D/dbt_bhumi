@@ -55,6 +55,7 @@ fellow_school AS (
         grade,
         donor_id,
         donor_name,
+        academic_year,
         pm_id,
         pm_name,
         no_of_students

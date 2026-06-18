@@ -64,6 +64,7 @@ fellow_school AS (
         grade,
         donor_id,
         donor_name,
+        academic_year,
         pm_id,
         pm_name,
         no_of_students
@@ -86,6 +87,7 @@ SELECT DISTINCT
     fs.fellow_name,
     fs.donor_id,
     fs.donor_name,
+    fs.academic_year,
     fs.pm_id,
     fs.pm_name,
     o.grade_section,

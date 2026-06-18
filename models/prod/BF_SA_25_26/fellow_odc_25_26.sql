@@ -32,6 +32,7 @@ fellows as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -49,6 +50,7 @@ fellows as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -77,6 +79,7 @@ agg_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -99,6 +102,7 @@ agg_odc as (
         pm_name,
         donor_id,
         donor_name,
+        academic_year,
         school_id,
         school_name,
         school_state,
@@ -129,6 +133,7 @@ select
     swq.month_year,
     swq.quarter,
     swq.grade_section,
+    swq.academic_year,
     ao.total_students,
     ao.avg_student_engagement,
     ao.odc_count
@@ -141,3 +146,4 @@ left join agg_odc as ao
         and swq.grade_section = ao.grade_section
         and swq.quarter       = ao.reporting_period
         and swq.month_year    = ao.month_year
+        and swq.academic_year = ao.academic_year
