@@ -24,7 +24,7 @@ with fellow_school as (
         from {{ source('fellowship_school_app_25_26', 'fellow_school_grade_25_26') }}
         where
             NULLIF(BTRIM(id::TEXT),'') is not NULL
-            and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
+            -- and NULLIF(BTRIM(is_active::TEXT),'') = 'true'
     ) as sub
     where rn = 1
 ),
@@ -97,12 +97,11 @@ select distinct
     p.pm_name,
     p.pms_location
 from fellow_school as fs
-full outer join schools as s
+left join schools as s
     on fs.school_id = s.school_id
-full outer join fellows_data as f
+left join fellows_data as f
     on fs.fellow_id = f.fellow_id
-full outer join pms_data as p
+left join pms_data as p
     on f.pm_id = p.pm_id
 where
-    fs.fellow_id is not NULL
-    and s.school_id is not NULL
+    not (fs.fellow_id is NULL and s.school_id is NULL and p.pm_id is NULL)
