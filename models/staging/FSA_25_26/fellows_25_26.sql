@@ -63,13 +63,13 @@ select distinct
     f.date_of_birth as fellow_dob,
     p.full_name as fellow_full_name
 from fellows as f
-inner join profiles as p
+left join profiles as p
     on f.id = p.id
-inner join donor as d
+left join donor as d
     on
         f.id = d.fellow_id
 where
     f.id is not null
     and p.full_name is not null
-    and p.is_active = 'true'      
+    -- and p.is_active = 'true'      
     and f.employee_id != 'FAKE001' 
