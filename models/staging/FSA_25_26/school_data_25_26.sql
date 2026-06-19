@@ -16,5 +16,5 @@ select
 from {{ source('fellowship_school_app_25_26', 'schools_raw_data_25_26') }}
 where
     id is not null
-    -- and is_active = 'TRUE'
+    and is_active = 'true'
     and udise_code != '123456'
