@@ -929,6 +929,9 @@ sources:
       - name: Monitored_Projects
         identifier: Monitored_Projects
         description: This is a placeholder table Ignite Plus 25&26
+      - name: Milestone_list
+        identifier: Milestone_list
+        description: This is a placeholder table Ignite Plus 25&26
 
 
 

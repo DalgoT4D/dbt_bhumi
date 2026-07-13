@@ -18,6 +18,7 @@ with master as (
         coalesce(initcap(btrim("Name_of_CSR_Partner")), '') as csr_partner,
         coalesce(initcap(btrim("School_Classification")), '') as school_classification,
         coalesce(initcap(btrim("Name_of_school___Location")), '') as school_name,
+        coalesce(btrim("Project_ID"), '') as project_id,
 
         -- NUMERIC (FLOAT / INTEGER SAFE)
         case when btrim("School_count") ~ '^\d+(\.\d+)?$' then "School_count"::numeric end as school_count,
@@ -245,6 +246,7 @@ with_delays as (
         csr_partner,
         school_classification,
         school_name,
+        project_id,
         project_execution_budget,
         total_project_budget,
         case
@@ -302,6 +304,7 @@ select
     csr_partner,
     school_classification,
     school_name,
+    project_id,
     project_execution_budget,
     total_project_budget,
     project_scale,
