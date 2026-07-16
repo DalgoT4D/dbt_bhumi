@@ -2,7 +2,12 @@ with cleaned as (
     select
         coalesce(btrim("Project_ID"), '') as project_id,
         nullif(initcap(btrim("School_Name")), '') as school_name,
-        nullif(initcap(btrim("Completion__")), '') as completion,
+        case
+            when
+                btrim("Completion__") <> ''
+                and btrim("Completion__") ~ '^\d+(\.\d+)?$'
+                then "Completion__"::numeric
+        end as completion,
         nullif(initcap(btrim("Milestone_name")), '') as milestone_name,
         case
             when btrim("Confident_Score") ~ '^\d+(\.\d+)?$'
@@ -11,7 +16,8 @@ with cleaned as (
         nullif(initcap(btrim("Detail_of_milestone")), '') as detail_of_milestone,
         nullif(initcap(btrim("Name_of_CSR_partner")), '') as csr_partner,
         case
-            when btrim("Actual_Completion_Date") <> ''
+            when
+                btrim("Actual_Completion_Date") <> ''
                 and (
                     btrim("Actual_Completion_Date") ~ '^\d{4}-\d{2}-\d{2}$'
                     or btrim("Actual_Completion_Date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'
@@ -30,7 +36,8 @@ with cleaned as (
         end as actual_completion_date,
         nullif(initcap(btrim("Status__auto_populated_")), '') as status,
         case
-            when btrim("Planned_Completion_date") <> ''
+            when
+                btrim("Planned_Completion_date") <> ''
                 and (
                     btrim("Planned_Completion_date") ~ '^\d{4}-\d{2}-\d{2}$'
                     or btrim("Planned_Completion_date") ~ '^\d{1,2}-[A-Za-z]{3}\s*-\s*\d{2,4}$'

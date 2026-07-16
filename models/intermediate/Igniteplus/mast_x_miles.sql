@@ -49,7 +49,11 @@ milestone_rows as (
 ),
 
 milestone_last as (
-    select project_id, school_name, csr_partner, status as raw_status
+    select
+        project_id,
+        school_name,
+        csr_partner,
+        status as raw_status
     from milestone_rows
     where rn = 1
 ),
@@ -77,8 +81,8 @@ milestone_projects as (
         end as status,
         a.milestone_completion,
         a.milestone_confident_score
-    from milestone_last l
-    full join milestone_agg a on l.project_id = a.project_id
+    from milestone_last as l
+    full join milestone_agg as a on l.project_id = a.project_id
 )
 
 select
@@ -104,10 +108,8 @@ select
     m.ro_plant_amc_extended,
     m.solar_panels,
     mp.status as milestone_status,
-    mp.milestone_completion as milestone_completion,
-    mp.milestone_confident_score as milestone_confident_score
-from master_metrics m
-left join milestone_projects mp
-on m.project_id = mp.project_id
-
-
+    mp.milestone_completion,
+    mp.milestone_confident_score
+from master_metrics as m
+left join milestone_projects as mp
+    on m.project_id = mp.project_id
