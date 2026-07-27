@@ -771,6 +771,9 @@ sources:
       - name: Induction_Volunteer_Event_Registration
         identifier: Induction_Volunteer_Event_Registration
         description: volunteer induction training report
+      - name: CSAT_Form_Report
+        identifier: CSAT_Form_Report
+        description: CSAT form report
 
   - name: Stem_gsheet_data
     schema: STEM_Gsheet_Raw_Data
@@ -866,7 +869,7 @@ sources:
       - name: Form_responses_new
         identifier: Form_responses_new
         description: CSAT form data
-        
+
   - name: fellowship_school_app_25_26
     schema: school_app
     tables:
