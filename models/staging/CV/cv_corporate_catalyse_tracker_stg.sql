@@ -10,8 +10,8 @@ with clean_dates as (
         regexp_replace("Donor"::text, '[^0-9./\-]', '', 'g') as donor_clean,
         regexp_replace("Invoice_date"::text, '[^0-9./\-]', '', 'g') as invoice_date_clean,
         regexp_replace("InvoiceReportDate"::text, '[^0-9./\-]', '', 'g') as invoice_report_date_clean,
-        regexp_replace("Event_Event_End_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_end_date_clean,
-        regexp_replace("Event_Event_Start_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_start_date_clean
+        regexp_replace("Event_Event_Start_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_start_date_clean,
+        regexp_replace("Event_Event_End_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_end_date_clean
     from {{ source('zc_bvms_data', 'Corporate_Catalyse_Tracker') }}
 ),
 
@@ -24,7 +24,7 @@ corporate as (
         -- event info (jsonb)
         coalesce(("Event"::jsonb)->>'zc_display_value', btrim("Event"::text), '') as event_name,
         coalesce(("Event_City"::jsonb)->>'zc_display_value', btrim("Event_City"::text), '') as event_city,
-        coalesce(("Event_Address"::jsonb)->>'zc_display_value', btrim("Event_Address"::text), '') as event_address,
+        '' as event_address,
         coalesce(("Event_Corporate_Event_Type"::jsonb)->>'zc_display_value', btrim("Event_Corporate_Event_Type"::text), '') as corporate_event_type,
         coalesce(("Event_Corporate_Partner_Name"::jsonb)->>'zc_display_value', btrim("Event_Corporate_Partner_Name"::text), '') as corporate_partner_name,
         coalesce(("Event_Corporate_Partner_Name"::jsonb)->>'ID', btrim("Event_Corporate_Partner_Name"::text), '') as corporate_partner_id,
@@ -59,28 +59,28 @@ corporate as (
         case when btrim("Balance"::text) ~ '^[0-9.]+$' then ("Balance"::text)::numeric end as balance,
         case when btrim("Total_Spent"::text) ~ '^[0-9.]+$' then ("Total_Spent"::text)::numeric end as total_spent,
         case when btrim("Actual_Budget"::text) ~ '^[0-9.]+$' then ("Actual_Budget"::text)::numeric end as actual_budget,
-        case when btrim("Invoice_Value"::text) ~ '^[0-9.]+$' then ("Invoice_Value"::text)::numeric end as invoice_value,
+        null::numeric as invoice_value,
         case when btrim("Event_Planned_Budget"::text) ~ '^[0-9.]+$' then ("Event_Planned_Budget"::text)::numeric end as event_planned_budget,
-        case when btrim("Area_of_walls_painted_in_Sq_Ft"::text) ~ '^[0-9.]+$' then ("Area_of_walls_painted_in_Sq_Ft"::text)::numeric end as area_of_walls_painted_sqft,
-        case when btrim("Amount_of_dry_waste_collected_in_Kgs"::text) ~ '^[0-9.]+$' then ("Amount_of_dry_waste_collected_in_Kgs"::text)::numeric end as dry_waste_collected_kgs,
+        null::numeric as area_of_walls_painted_sqft,
+        null::numeric as dry_waste_collected_kgs,
         case when btrim("Expense_reported_via_Advance_on_Happay"::text) ~ '^[0-9.]+$' then ("Expense_reported_via_Advance_on_Happay"::text)::numeric end as expense_via_advance_happay,
-        case when btrim("Expense_reported_via_Invoicing_on_Happay"::text) ~ '^[0-9.]+$' then ("Expense_reported_via_Invoicing_on_Happay"::text)::numeric end as expense_via_invoicing_happay,
+        null::numeric as expense_via_invoicing_happay,
         case when btrim("Event_Budget_sanctioned_by_the_Corporate_on_Email"::text) ~ '^[0-9.]+$' then ("Event_Budget_sanctioned_by_the_Corporate_on_Email"::text)::numeric end as budget_sanctioned_by_corporate,
 
         -- counts (int)
         case when btrim("Key_result_1"::text) ~ '^[0-9]+$' then ("Key_result_1"::text)::integer end as key_result_1,
         case when btrim("Key_result_2"::text) ~ '^[0-9]+$' then ("Key_result_2"::text)::integer end as key_result_2,
-        case when btrim("No_of_DIY_kit"::text) ~ '^[0-9]+$' then ("No_of_DIY_kit"::text)::integer end as no_of_diy_kit,
+        null::integer as no_of_diy_kit,
         case when btrim("Number_Of_CSAT"::text) ~ '^[0-9]+$' then ("Number_Of_CSAT"::text)::integer end as number_of_csat,
-        case when btrim("No_of_learning_aid"::text) ~ '^[0-9]+$' then ("No_of_learning_aid"::text)::integer end as no_of_learning_aid,
-        case when btrim("No_of_Beneficiaries"::text) ~ '^[0-9]+$' then ("No_of_Beneficiaries"::text)::integer end as no_of_beneficiaries,
+        null::integer as no_of_learning_aid,
+        null::integer as no_of_beneficiaries,
         case when btrim("Acual_number_of_volunteers"::text) ~ '^[0-9]+$' then ("Acual_number_of_volunteers"::text)::integer end as actual_no_of_volunteers,
-        case when btrim("No_of_lives_touched_in_Nos"::text) ~ '^[0-9]+$' then ("No_of_lives_touched_in_Nos"::text)::integer end as no_of_lives_touched,
-        case when btrim("No_of_DIY_kit_assembled_in_Nos"::text) ~ '^[0-9]+$' then ("No_of_DIY_kit_assembled_in_Nos"::text)::integer end as no_of_diy_kit_assembled,
-        case when btrim("No_of_saplings_planted_in_Units"::text) ~ '^[0-9]+$' then ("No_of_saplings_planted_in_Units"::text)::integer end as no_of_saplings_planted,
+        null::integer as no_of_lives_touched,
+        null::integer as no_of_diy_kit_assembled,
+        null::integer as no_of_saplings_planted,
         case when btrim("Total_volunteering_hours_engaged"::text) ~ '^[0-9.]+$' then ("Total_volunteering_hours_engaged"::text)::numeric end as total_volunteering_hours,
         case when btrim("Number_of_volunteers_participated"::text) ~ '^[0-9]+$' then ("Number_of_volunteers_participated"::text)::integer end as no_of_volunteers_participated,
-        case when btrim("Event_Expected_number_of_volunteers"::text) ~ '^[0-9]+$' then ("Event_Expected_number_of_volunteers"::text)::integer end as expected_no_of_volunteers,
+        null::integer as expected_no_of_volunteers,
         case when btrim("Event_Total_No_of_Beneficiary"::text) ~ '^[0-9]+$' then ("Event_Total_No_of_Beneficiary"::text)::integer end as total_no_of_beneficiary,
 
         -- other varchar fields
@@ -88,15 +88,15 @@ corporate as (
         coalesce(btrim("Remarks"::text), '') as remarks,
         coalesce(btrim("Testimonials"::text), '') as testimonials,
         coalesce(btrim("Invoice_number"::text), '') as invoice_number,
-        coalesce(btrim("Happay_Report_ID"::text), '') as happay_report_id,
-        coalesce(btrim("Happay_Invoice_ID"::text), '') as happay_invoice_id,
+        '' as happay_report_id,
+        '' as happay_invoice_id,
         coalesce(btrim("Happay_reference_number"::text), '') as happay_reference_number,
         coalesce(btrim("Brief_summary_of_event"::text), '') as brief_summary,
         coalesce(btrim("Coordinator_Added_Time"::text), '') as coordinator_added_time,
         coalesce(btrim("Duration_of_volunteers_engaged"::text), '') as duration_volunteers_engaged,
         coalesce(btrim("Duration_of_activity_in_minutes"::text), '') as duration_of_activity_mins,
         coalesce(btrim("Planned_Budget_Total_Actual_Expense_Split_up"::text), '') as planned_budget_actual_expense_splitup,
-        coalesce(btrim("Can_we_use_the_corporate_s_name_and_logo_in_social"::text), '') as use_corporate_name_logo_in_social
+        '' as use_corporate_name_logo_in_social
 
     from clean_dates
 )
