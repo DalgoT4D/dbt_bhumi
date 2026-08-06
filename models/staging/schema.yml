@@ -747,6 +747,8 @@ models:
         description: Name of the point of contact
       - name: poc_email
         description: Email of the point of contact
+      - name: tat_days
+        description: Turnaround time in days between invoice date and event end date
   - name: cv_nps_form_responses_stg
     description: Staging model for Corporate Volunteering NPS form responses
     columns:

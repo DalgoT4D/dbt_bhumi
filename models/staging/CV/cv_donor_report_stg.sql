@@ -7,7 +7,8 @@
 with clean_dates as (
     select
         *,
-        regexp_replace("Invoice_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as invoice_date_clean
+        regexp_replace("Invoice_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as invoice_date_clean,
+        regexp_replace("TAT_Days"::text, '[^0-9.]', '', 'g') as tat_days_clean
     from {{ source('zc_bvms_data', 'Donor_Report_Report') }}
 ),
 
@@ -18,9 +19,15 @@ donor_report as (
         -- event (jsonb)
         nullif(btrim(("Event"::jsonb)->>'ID'), '') as event_id,
         coalesce(("Event"::jsonb)->>'zc_display_value', btrim("Event"::text), '') as event_name,
+        
 
         -- date
         {{ validate_date('invoice_date_clean') }} as invoice_date, -- noqa: LT02
+
+        -- metrics
+        case
+            when btrim(tat_days_clean) ~ '^[0-9]+(\.[0-9]+)?$' then tat_days_clean::numeric
+        end as tat_days,
 
         -- POC details
         coalesce(initcap(btrim("Name_to_the_POC"::text)), '') as poc_name,
@@ -35,5 +42,6 @@ select distinct
     event_name,
     invoice_date,
     poc_name,
-    poc_email
+    poc_email,
+    tat_days
 from donor_report
