@@ -82,7 +82,6 @@ partner_stats as (
     select
         *,
         count(event_id) over (
-            partition by corporate_partner_id, fy
             order by event_start_date
             rows between unbounded preceding and current row
         ) as partner_events_so_far_in_fy
@@ -96,5 +95,5 @@ select
     -- recurring: at the point of this event, the partner has already run >=1 event in this FY (metric 16)
     (partner_events_so_far_in_fy > 1) as is_recurring_partner,
     -- new:       this is the partner's first event in this FY (metric 17)
-    (partner_events_so_far_in_fy = 1) as is_new_partner
+    (partner_events_so_far_in_fy = 0) as is_new_partner
 from partner_stats
