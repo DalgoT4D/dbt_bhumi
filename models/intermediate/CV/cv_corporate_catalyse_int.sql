@@ -21,6 +21,7 @@ enriched as (
         ) as is_impact_report_sent,
         (dr.invoice_date - source.event_end_date) as donor_reporting_sla_days,
         ((dr.invoice_date - source.event_end_date) <= 7) as is_donor_sla_met,
+        dr.tat_days,
 
         -- project classification (metrics 3 & 6): keyword match on event name
         case

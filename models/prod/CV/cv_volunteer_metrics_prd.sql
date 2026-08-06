@@ -49,6 +49,9 @@ select
     event_end_date,
     type_of_implementation,
 
+    -- donor reporting SLA (metrics 7)
+    tat_days,
+
     -- time dimensions (metrics 13–14)
     fy,
     quarter,
@@ -61,7 +64,7 @@ select
 
     -- volunteer metrics (metrics 1–5)
     actual_no_of_volunteers,
-    expected_no_of_volunteers,
+    -- expected_no_of_volunteers,
     total_volunteering_hours,
 
     -- budget & expense (metrics 9–10)
