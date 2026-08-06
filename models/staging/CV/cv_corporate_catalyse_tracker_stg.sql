@@ -54,6 +54,7 @@ corporate as (
         {{ validate_date('invoice_report_date_clean') }} as invoice_report_date,
         {{ validate_date('event_end_date_clean') }} as event_end_date,
         {{ validate_date('event_start_date_clean') }} as event_start_date,
+        coalesce(btrim("Photo_Video_Url"::text), '') as photo_video_url,
 
         -- financials (float)
         case when btrim("Balance"::text) ~ '^[0-9.]+$' then ("Balance"::text)::numeric end as balance,
@@ -128,6 +129,7 @@ select distinct
     invoice_report_date,
     event_end_date,
     event_start_date,
+    photo_video_url,
     balance,
     total_spent,
     actual_budget,
