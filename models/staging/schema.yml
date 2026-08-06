@@ -629,6 +629,8 @@ models:
         description: End date of the event
       - name: event_start_date
         description: Start date of the event
+      - name: photo_video_url
+        description: Photo or video URL for the event
       - name: balance
         description: Budget balance
       - name: total_spent
@@ -749,6 +751,8 @@ models:
         description: Email of the point of contact
       - name: tat_days
         description: Turnaround time in days between invoice date and event end date
+      - name: photo_video_url
+        description: Photo or video URL associated with the event
   - name: cv_nps_form_responses_stg
     description: Staging model for Corporate Volunteering NPS form responses
     columns:
