@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["igniteplus", "staging"]
+) }}
+
 with master as (
 
     select

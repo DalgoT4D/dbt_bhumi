@@ -10,8 +10,8 @@ with clean_dates as (
         regexp_replace("Donor"::text, '[^0-9./\-]', '', 'g') as donor_clean,
         regexp_replace("Invoice_date"::text, '[^0-9./\-]', '', 'g') as invoice_date_clean,
         regexp_replace("InvoiceReportDate"::text, '[^0-9./\-]', '', 'g') as invoice_report_date_clean,
-        regexp_replace("Event_Event_End_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_end_date_clean,
-        regexp_replace("Event_Event_Start_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_start_date_clean
+        regexp_replace("Event_Event_Start_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_start_date_clean,
+        regexp_replace("Event_Event_End_Date"::text, '[^0-9A-Za-z./\-]', '', 'g') as event_end_date_clean
     from {{ source('zc_bvms_data', 'Corporate_Catalyse_Tracker') }}
 ),
 
