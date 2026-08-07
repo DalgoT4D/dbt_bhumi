@@ -700,6 +700,8 @@ models:
         description: Financial year (April–March cycle, e.g. 2025-2026)
       - name: quarter
         description: Quarter within FY (Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec, Q4=Jan-Mar)
+      - name: month
+        description: Month name derived from event_start_date (e.g. April)
       - name: partner_events_so_far_in_fy
         description: Running count of events for this partner in the current FY up to this row
       - name: is_active_partner

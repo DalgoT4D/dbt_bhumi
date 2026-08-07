@@ -19,9 +19,9 @@ enriched as (
             source.event_closed_by_all_aspect is not null
             and btrim(source.event_closed_by_all_aspect) not in ('', 'false', 'null'), false
         ) as is_impact_report_sent,
-        (dr.invoice_date - source.event_end_date) as donor_reporting_sla_days,
-        ((dr.invoice_date - source.event_end_date) <= 7) as is_donor_sla_met,
-        dr.tat_days,
+        dr.tat_days as donor_reporting_sla_days,
+        ((dr.tat_days) <= 7) as is_donor_sla_met,
+        -- dr.tat_days,
 
         -- project classification (metrics 3 & 6): keyword match on event name
         case
@@ -71,7 +71,8 @@ enriched as (
             when extract(month from source.event_start_date) in (7, 8, 9) then 'Q2'
             when extract(month from source.event_start_date) in (10, 11, 12) then 'Q3'
             when extract(month from source.event_start_date) in (1, 2, 3) then 'Q4'
-        end as quarter
+        end as quarter,
+        to_char(source.event_start_date, 'Month') as month
 
     from source
     left join donor_report as dr on source.event_id = dr.event_id
@@ -83,6 +84,7 @@ partner_stats as (
     select
         *,
         count(event_id) over (
+            partition by corporate_partner_id, fy, quarter, month
             order by event_start_date
             rows between unbounded preceding and current row
         ) as partner_events_so_far_in_fy
@@ -96,5 +98,5 @@ select
     -- recurring: at the point of this event, the partner has already run >=1 event in this FY (metric 16)
     (partner_events_so_far_in_fy > 1) as is_recurring_partner,
     -- new:       this is the partner's first event in this FY (metric 17)
-    (partner_events_so_far_in_fy = 0) as is_new_partner
+    (partner_events_so_far_in_fy = 1) as is_new_partner
 from partner_stats

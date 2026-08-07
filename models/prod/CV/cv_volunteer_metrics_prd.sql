@@ -48,9 +48,11 @@ select
     event_start_date,
     event_end_date,
     type_of_implementation,
+    partner_events_so_far_in_fy,
+    month,
 
     -- donor reporting SLA (metrics 7)
-    tat_days,
+    
 
     -- time dimensions (metrics 13–14)
     fy,
