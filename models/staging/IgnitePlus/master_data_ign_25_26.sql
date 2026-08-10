@@ -6,9 +6,11 @@
 with master as (
 
     select
+        coalesce(btrim("Project_ID"), '') as project_id,
+
         -- INTEGER
         case when btrim("Sl_No") ~ '^\d+$' then "Sl_No"::integer end as sl_no,
-        coalesce(btrim(link_), '') as link,
+        coalesce(btrim("URL_Link"), '') as link,
         coalesce(btrim("Remarks"), '') as remarks,
 
         -- TEXT
@@ -29,7 +31,6 @@ with master as (
         coalesce(initcap(btrim("Name_of_CSR_Partner")), '') as csr_partner,
         coalesce(initcap(btrim("School_Classification")), '') as school_classification,
         coalesce(initcap(btrim("Name_of_school___Location")), '') as school_name,
-        coalesce(btrim("Project_ID"), '') as project_id,
 
         -- NUMERIC (FLOAT / INTEGER SAFE)
         case when btrim("School_count") ~ '^\d+(\.\d+)?$' then "School_count"::numeric end as school_count,
@@ -242,6 +243,7 @@ with master as (
 with_delays as (
 
     select 
+        project_id,
         sl_no,
         link,
         remarks,
@@ -257,7 +259,6 @@ with_delays as (
         csr_partner,
         school_classification,
         school_name,
-        project_id,
         project_execution_budget,
         total_project_budget,
         case

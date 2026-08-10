@@ -32,7 +32,7 @@ with cleaned as (
                 )
         end as date_of_na,
         nullif(initcap(btrim("NA_Done_by")), '') as na_done_by,
-        nullif(btrim("Folder_Link"), '') as folder_link,
+        nullif(btrim("Folder_URL_Link"), '') as folder_link,
         nullif(initcap(btrim("School_Type")), '') as school_type,
         nullif(initcap(btrim("Name_of_School")), '') as name_of_school
     from {{ source('iginteplus_25_26', 'Ignite__Need_Assessment_Data_25_26') }}
