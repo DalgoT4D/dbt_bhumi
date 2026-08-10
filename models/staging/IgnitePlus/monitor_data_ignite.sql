@@ -27,7 +27,7 @@ with cleaned as (
         end as intervention_year,
         
         nullif(initcap(btrim("Visited_By")), '') as visited_by,
-        nullif(btrim("Folder_Link"), '') as folder_link,
+        nullif(btrim("Folder_URL_Link"), '') as folder_link,
         case
             when
                 btrim("Date_of_Visit") <> ''
