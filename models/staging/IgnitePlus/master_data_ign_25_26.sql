@@ -18,7 +18,13 @@ with master as (
         coalesce(initcap(btrim("Fellowship")), '') as fellowship,
         coalesce(initcap(btrim("Eco_Champ")), '') as eco_champ,
         coalesce(initcap(btrim("Type_of_School")), '') as school_type,
-        coalesce(initcap(btrim("Financial_Year")), '') as financial_year,
+        case
+            when btrim("Financial_Year") ~ '^\d{2}-\d{2}$'
+                then '20' || substring(btrim("Financial_Year") from '^(\d{2})')
+                    || '-' || '20' || substring(btrim("Financial_Year") from '-(\d{2})$')
+            when btrim("Financial_Year") ~ '^\d{4}-\d{4}$'
+                then btrim("Financial_Year")
+        end as financial_year,
         coalesce(initcap(btrim("Project_Status")), '') as project_status,
         coalesce(initcap(btrim("Name_of_CSR_Partner")), '') as csr_partner,
         coalesce(initcap(btrim("School_Classification")), '') as school_classification,
