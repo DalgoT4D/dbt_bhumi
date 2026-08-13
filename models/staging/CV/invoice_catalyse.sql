@@ -85,7 +85,17 @@ tat_days as (
                     (invoice_report_date - event_date)
         end as invoice_tat_days
     from final
+),
+
+is_sla_met as (
+    select
+        *,
+        case
+            when invoice_tat_days is not null and invoice_tat_days <= 5 then true
+            else false
+        end as is_invoice_sla_met
+    from tat_days
 )
 
 select *
-from tat_days
+from is_sla_met

@@ -20,7 +20,7 @@ enriched as (
             and btrim(source.event_closed_by_all_aspect) not in ('', 'false', 'null'), false
         ) as is_impact_report_sent,
         dr.tat_days as donor_reporting_sla_days,
-        ((dr.tat_days) <= 7) as is_donor_sla_met,
+        ((dr.tat_days) <= 6) as is_donor_sla_met,
         -- dr.tat_days,
 
         -- project classification (metrics 3 & 6): keyword match on event name
