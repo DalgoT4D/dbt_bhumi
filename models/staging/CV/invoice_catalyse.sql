@@ -90,10 +90,7 @@ tat_days as (
 is_sla_met as (
     select
         *,
-        case
-            when invoice_tat_days is not null and invoice_tat_days <= 5 then true
-            else false
-        end as is_invoice_sla_met
+        ((invoice_tat_days <= 5)) as is_invoice_sla_met
     from tat_days
 )
 
