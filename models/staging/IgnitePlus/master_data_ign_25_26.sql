@@ -22,7 +22,8 @@ with master as (
         coalesce(initcap(btrim("Type_of_School")), '') as school_type,
         case
             when btrim("Financial_Year") ~ '^\d{2}-\d{2}$'
-                then '20' || substring(btrim("Financial_Year") from '^(\d{2})')
+                then
+                    '20' || substring(btrim("Financial_Year") from '^(\d{2})')
                     || '-' || '20' || substring(btrim("Financial_Year") from '-(\d{2})$')
             when btrim("Financial_Year") ~ '^\d{4}-\d{4}$'
                 then btrim("Financial_Year")

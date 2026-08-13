@@ -80,9 +80,9 @@ tat_days as (
     select
         *,
         case
-            when event_date is not null and invoice_report_date is not null then
-                (invoice_report_date - event_date)
-            else null
+            when event_date is not null and invoice_report_date is not null
+                then
+                    (invoice_report_date - event_date)
         end as invoice_tat_days
     from final
 )

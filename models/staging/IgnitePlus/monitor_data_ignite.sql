@@ -13,14 +13,16 @@ with cleaned as (
 
         case
             when btrim("Monitored_Year") ~ '^\d{2}-\d{2}$'
-                then '20' || substring(btrim("Monitored_Year") from '^(\d{2})')
+                then
+                    '20' || substring(btrim("Monitored_Year") from '^(\d{2})')
                     || '-' || '20' || substring(btrim("Monitored_Year") from '-(\d{2})$')
             when btrim("Monitored_Year") ~ '^\d{4}-\d{4}$'
                 then btrim("Monitored_Year")
         end as monitored_year,
         case
             when btrim("Intervention_Year") ~ '^\d{2}-\d{2}$'
-                then '20' || substring(btrim("Intervention_Year") from '^(\d{2})')
+                then
+                    '20' || substring(btrim("Intervention_Year") from '^(\d{2})')
                     || '-' || '20' || substring(btrim("Intervention_Year") from '-(\d{2})$')
             when btrim("Intervention_Year") ~ '^\d{4}-\d{4}$'
                 then btrim("Intervention_Year")
