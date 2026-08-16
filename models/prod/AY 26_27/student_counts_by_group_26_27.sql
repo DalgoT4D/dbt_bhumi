@@ -1,0 +1,92 @@
+{{ config(
+  materialized='table',
+  tags=["ay_26_27", "prod"]
+) }}
+
+with baseline as (
+    select
+        d.city_base as city,
+        d.school_name_base as school,
+        d.fellow_name_base as fellow,
+        d.student_grade_base as grade,
+        count(distinct d.student_id) as baseline_count
+    from {{ ref('base_mid_end_comb_students_26_27_dim') }} as d
+    where d.baseline_attendence = True
+    group by d.city_base, d.school_name_base, d.fellow_name_base, d.student_grade_base
+),
+
+-- midline as (
+--     select
+--         d.city_mid as city,
+--         d.school_name_mid as school,
+--         d.fellow_name_mid as fellow,
+--         d.student_grade_mid as grade,
+--         count(distinct d.student_id) as midline_count
+--     from {{ ref('base_mid_end_comb_students_26_27_dim') }} as d
+--     where d.midline_attendence = True
+--     group by d.city_mid, d.school_name_mid, d.fellow_name_mid, d.student_grade_mid
+-- ),
+
+-- endline as (
+--     select
+--         d.city_end as city,
+--         d.school_name_end as school,
+--         d.fellow_name_end as fellow,
+--         d.student_grade_end as grade,
+--         count(distinct d.student_id) as endline_count
+--     from {{ ref('base_mid_end_comb_students_26_27_dim') }} as d
+--     where d.endline_attendence = True
+--     group by d.city_end, d.school_name_end, d.fellow_name_end, d.student_grade_end
+-- ),
+
+all_combinations as (
+    select distinct
+        city,
+        school,
+        fellow,
+        grade
+    from baseline
+    -- union
+    -- select distinct
+    --     city,
+    --     school,
+    --     fellow,
+    --     grade
+    -- from midline
+    -- union
+    -- select distinct
+    --     city,
+    --     school,
+    --     fellow,
+    --     grade
+    -- from endline
+)
+
+select
+    ac.city,
+    ac.school,
+    ac.fellow,
+    ac.grade,
+    coalesce(b.baseline_count, 0) as baseline_count
+    -- coalesce(m.midline_count, 0) as midline_count,
+    -- coalesce(e.endline_count, 0) as endline_count
+from all_combinations as ac
+left join baseline as b
+    on
+        ac.city = b.city
+        and ac.school = b.school
+        and ac.fellow = b.fellow
+        and ac.grade = b.grade
+-- left join midline as m
+--     on
+--         ac.city = m.city
+--         and ac.school = m.school
+--         and ac.fellow = m.fellow
+--         and ac.grade = m.grade
+-- left join endline as e
+--     on
+--         ac.city = e.city
+--         and ac.school = e.school
+--         and ac.fellow = e.fellow
+--         and ac.grade = e.grade
+order by ac.city, ac.school, ac.fellow, ac.grade
