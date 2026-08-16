@@ -719,6 +719,13 @@ sources:
       - name: endline_middle_school_data_25_26
         identifier: Endline_raw_data
         description: Student details raw data for AY 25-26 (source file/name in G-Sheet or staging area)
+  - name: fellowship_26_27
+    schema: fellowship_26_27
+    tables:
+      - name: Raw_Data_Baseline_2026
+        identifier: Raw_Data
+        description: Baseline raw data for AY 26-27 (source file/name in G-Sheet or staging area)
+
 
   - name: zc_bvms_data
     schema: ZC_BVMS_Raw_Data
