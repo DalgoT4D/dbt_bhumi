@@ -11,7 +11,6 @@ with all_student_id as (
     -- Uncomment the following unions if needed
     -- union
 
-
     -- union
 
 )
@@ -55,4 +54,3 @@ select
 from all_student_id as s
 left join {{ ref('baseline_26_27_stg') }} as b 
     on s.student_id = b.student_id_base
-
