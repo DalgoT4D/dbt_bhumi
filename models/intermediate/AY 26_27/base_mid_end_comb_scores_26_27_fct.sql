@@ -148,4 +148,3 @@ select
 from {{ ref('base_mid_end_comb_students_26_27_dim') }} as d
 left join {{ ref('baseline_26_27_stg') }} as b 
     on d.student_id = b.student_id_base
-
