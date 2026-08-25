@@ -10,7 +10,7 @@ select distinct
     f.fellow_id,
     p.full_name as fellow_name,
     f.pm_id,
-    p.full_name as pm_name,
+    p1.full_name as pm_name,
     f.cohort_year as cohort,
     f.funding_year,
 
