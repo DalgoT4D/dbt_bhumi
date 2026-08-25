@@ -92,6 +92,8 @@ teaching_hours as (
         school_state,
         city,
         school_type,
+        grade,
+        grade_section,
         'Teaching Hours' as parameters,
 
         case
