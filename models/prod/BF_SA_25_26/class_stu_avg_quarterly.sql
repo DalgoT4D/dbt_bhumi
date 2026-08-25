@@ -92,6 +92,8 @@ student_engagemnt as (
         school_state,
         city,
         school_type,
+        grade,
+        grade_section,
         'Student Engagement' as parameters,
 
         case
