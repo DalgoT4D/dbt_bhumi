@@ -1,0 +1,23 @@
+{{ config(
+  materialized='table',
+  tags=["fsa_25_26", "staging"]
+) }}
+
+with school_data as (
+    select 
+        NULLIF(BTRIM(id::TEXT),'') as school_id,
+        NULLIF(BTRIM(name::TEXT),'') as school_name,
+        NULLIF(BTRIM(state::TEXT),'') as school_state,
+        -- NULLIF(BTRIM(address::TEXT),'') as school_address,
+        NULLIF(BTRIM(district::TEXT),'') as city,
+        NULLIF(BTRIM(is_active::TEXT),'') as is_active,
+        NULLIF(BTRIM(udise_code::TEXT),'') as udise_code,
+        NULLIF(BTRIM(school_type::TEXT),'') as school_type,
+        NULLIF(BTRIM(total_students::TEXT),'')::INTEGER as total_students_in_school
+    from {{ source('fellowship_school_app_25_26', 'schools_raw_data_25_26') }}
+)
+
+select distinct * from school_data
+where
+    school_id is not null
+    and udise_code != '123456'

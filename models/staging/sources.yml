@@ -883,13 +883,13 @@ sources:
   - name: fellowship_school_app_25_26
     schema: school_app
     tables:
-      - name: fellows_raw_data_25_26
+      - name: fellows_raw_data
         identifier: fellows
         description: fellows from fellowship school app for AY 25-26
       - name: pms_raw_data_25_26
         identifier: pms
         description: pms from fellowship school app for AY 25-26
-      - name: fellow_school_grade_25_26
+      - name: fellow_school_grade
         identifier: fellow_school_grade
         description: fellow_school_grade from fellowship school app for AY 25-26
       - name: schools_raw_data_25_26
