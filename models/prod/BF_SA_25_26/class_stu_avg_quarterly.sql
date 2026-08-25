@@ -41,7 +41,7 @@ classroom_quarter as (
 -- select * from school_quarter
 
 fellow_odc_int as (
-    select distinct
+    select
         academic_year,
         school_name,
         school_state,

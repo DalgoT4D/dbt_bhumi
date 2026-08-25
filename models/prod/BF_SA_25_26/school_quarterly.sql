@@ -37,7 +37,7 @@ school_quarter as (
 -- select * from school_quarter
 
 class_upd_int as (
-    select distinct
+    select
         academic_year,
         school_name,
         school_state,

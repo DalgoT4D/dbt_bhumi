@@ -51,7 +51,7 @@ fellow_data_month as (
 -- select * from school_quarter
 
 fellow_checkins as (
-    select distinct
+    select
         academic_year,
         month,
         fellow_id,
