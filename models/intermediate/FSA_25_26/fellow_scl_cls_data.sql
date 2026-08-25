@@ -5,7 +5,7 @@
 
 select distinct
 
-    (f.funding_year || ' - ' || (f.funding_year::integer + 1)::text) as academic_year,
+    f.funding_year || ' - ' || (f.funding_year::integer + 1)::text as academic_year,
 
     f.fellow_id,
     p.full_name as fellow_name,
