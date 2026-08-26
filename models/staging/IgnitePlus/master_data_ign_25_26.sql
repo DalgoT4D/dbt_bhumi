@@ -64,6 +64,16 @@ with master as (
             when btrim("Student_count") ~ '^\d+$'
                 then "Student_count"::integer
         end as student_count,
+
+        case
+            when btrim("Actual_Duration__days_") ~ '^\d+$'
+                then "Actual_Duration__days_"::integer
+        end as actual_duration_days,
+
+        case
+            when btrim("Planned_Duration__days_") ~ '^\d+$'
+                then "Planned_Duration__days_"::integer
+        end as planned_duration_days,
         
 
         -- LEVEL FIELDS (replacing with start/end dates)
@@ -106,6 +116,8 @@ with master as (
                     end
                 )
         end as actual_start_date,
+
+        
 
         case
             when
@@ -268,6 +280,8 @@ with_delays as (
             when project_execution_budget > 5000000 then 'Large'
         end as project_scale,
         student_count,
+        actual_duration_days,
+        planned_duration_days,
         planned_start_date,
         actual_start_date,
         planned_end_date,
@@ -322,6 +336,8 @@ select
     total_project_budget,
     project_scale,
     student_count,
+    actual_duration_days,
+    planned_duration_days,
     planned_start_date,
     actual_start_date,
     planned_end_date,
