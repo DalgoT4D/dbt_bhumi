@@ -30,7 +30,7 @@ enriched as (
             when lower(source.event_name) like '%nakshatra%' then 'Nakshatra'
             when lower(source.event_name) like '%skill%ed%' then 'Skill-ed'
             when lower(source.event_name) like '%eco%champs%' then 'Eco Champs'
-            else 'General'
+            else 'CV'
         end as project_category,
 
         -- volunteer type classification (metric 4)

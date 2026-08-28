@@ -3,11 +3,6 @@
   tags=["fsa_25_26", "int"]
 ) }}
 
-{{ config(
-  materialized='table',
-  tags=["fsa_25_26", "int"]
-) }}
-
 select distinct
     fu.fcm_update_id,
     fu.pm_id,
