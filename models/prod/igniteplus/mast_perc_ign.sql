@@ -39,8 +39,8 @@ one_monitor_row as (
     select
         monitor_data.*,
         row_number() over (
-            partition by project_id
-            order by date_of_visit desc nulls last, s_no desc nulls last
+            partition by monitor_data.project_id
+            order by monitor_data.date_of_visit desc nulls last, monitor_data.s_no desc nulls last
         ) as monitor_row_number
     from monitor_data
 )
@@ -54,8 +54,9 @@ select
     md.folder_link
 from completion_perc as cp
 left join one_monitor_row as md
-    on cp.project_id = md.project_id
-    and md.monitor_row_number = 1
-    -- on cp.financial_year = md.intervention_year
-    -- and cp.school_name = md.school_address
-    -- and cp.district = md.district
+    on
+        cp.project_id = md.project_id
+        and md.monitor_row_number = 1
+-- on cp.financial_year = md.intervention_year
+-- and cp.school_name = md.school_address
+-- and cp.district = md.district
