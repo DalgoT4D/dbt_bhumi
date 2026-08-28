@@ -115,9 +115,9 @@ budget_scale as (
     select
         master.*,
         case
-            when project_execution_budget <= 1000000 then 'Small'
-            when project_execution_budget <= 5000000 then 'Medium'
-            when project_execution_budget > 5000000 then 'Large'
+            when master.project_execution_budget <= 1000000 then 'Small'
+            when master.project_execution_budget <= 5000000 then 'Medium'
+            when master.project_execution_budget > 5000000 then 'Large'
         end as project_scale
     from master
 
