@@ -39,7 +39,7 @@ WITH odc AS (
         COALESCE(INITCAP(BTRIM(pm_name::TEXT)), '') AS pm_name,
         COALESCE(BTRIM(cohort::TEXT), '') AS cohort,
         COALESCE(INITCAP(BTRIM(school::TEXT)), '') AS school,
-        REGEXP_REPLACE(BTRIM(grade_observed::TEXT), '[^0-9]', '', 'g') AS grade,
+        REGEXP_REPLACE(BTRIM(grade_section::TEXT), '^.*?(\d+).*$','\1') AS grade,
         LOWER(REGEXP_REPLACE(REGEXP_REPLACE(COALESCE(BTRIM(grade_section::TEXT), ''), '-', '', 'g'), '([0-9])([a-zA-Z])', '\1 \2', 'g')) AS grade_section,
         COALESCE(BTRIM(city::TEXT), '') AS city,
         COALESCE(BTRIM(reporting_period::TEXT), '') AS reporting_period,
