@@ -37,7 +37,7 @@ odc AS (
         grade,
         grade_section,
         COALESCE(COUNT(*), 0) AS odc_count,
-        avg(student_engagement_percentage) AS student_engagement_percentage
+        AVG(student_engagement_percentage) AS student_engagement_percentage
     FROM {{ ref('odc_fsa') }}
     GROUP BY
         academic_year,
