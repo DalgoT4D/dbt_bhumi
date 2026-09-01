@@ -38,6 +38,9 @@ corporate as (
         coalesce(("Impact_Indicators_1"::jsonb)->>'zc_display_value', btrim("Impact_Indicators_1"::text), '') as impact_indicator_1,
         coalesce(("Impact_Indicators_2"::jsonb)->>'zc_display_value', btrim("Impact_Indicators_2"::text), '') as impact_indicator_2,
 
+        -- Event_Cause1 (jsonb)
+        coalesce(("Event_Cause1"::jsonb)->>'zc_display_value', btrim("Event_Cause1"::text), '') as cause,
+
         -- event details (varchar)
         coalesce(btrim("Event_Event_Type"::text), '') as event_type,
         coalesce(btrim("Event_Event_End_Time"::text), '') as event_end_time,
@@ -116,6 +119,7 @@ select distinct
     coordinator_name,
     impact_indicator_1,
     impact_indicator_2,
+    cause,
     event_type,
     event_end_time,
     event_start_time,
