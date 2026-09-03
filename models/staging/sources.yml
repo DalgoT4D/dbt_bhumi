@@ -946,6 +946,19 @@ sources:
         identifier: Milestone_list
         description: This is a placeholder table Ignite Plus 25&26
 
+  - name: finance_raw_data
+    schema: zc_beim_schema
+    tables:
+      - name: all_vouchers_new
+        identifier: All_Vouchers_New
+        description: This is a placeholder table All_Vouchers_New
+      - name: all_budget_masters
+        identifier: All_Budget_Masters
+        description: This is a placeholder table All_Budget_Masters
+      - name: all_accounts
+        identifier: All_Accounts
+        description: This is a placeholder table All_Accounts
+
 
 
   # - name: STP_25-26
