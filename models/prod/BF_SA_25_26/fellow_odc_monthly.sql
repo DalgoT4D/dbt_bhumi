@@ -48,9 +48,9 @@ fellow_data_month as (
     cross join calender_year as cy
 ),
 
--- select * from school_quarter
+-- select * from school_month
 
-fellow_checkins as (
+fellow_odc as (
     select 
         academic_year,
         month,
@@ -66,8 +66,8 @@ fellow_checkins as (
         city,
         grade,
         grade_section,
-        sum(checkin_count) as checkins_count
-    from {{ ref('fellow_checkins') }}
+        sum(odc_count) as odc_count
+    from {{ ref('fellow_odc_int') }}
     group by
         academic_year,
         month,
@@ -87,37 +87,37 @@ fellow_checkins as (
 
 join_school_year as (
     select 
-        fdm.academic_year,
-        fdm.month,
-        fdm.fellow_id,
-        fdm.fellow_name,
-        fdm.pm_name,
-        fdm.cohort,
-        fdm.funding_year,
-        fdm.donor_name,
-        fdm.school_name,
-        fdm.school_state,
-        fdm.school_type,
-        fdm.city,
-        fdm.grade,
-        fdm.grade_section,
-        fc.checkins_count
-    from fellow_data_month as fdm
-    left join fellow_checkins as fc
+        fdq.academic_year,
+        fdq.month,
+        fdq.fellow_id,
+        fdq.fellow_name,
+        fdq.pm_name,
+        fdq.cohort,
+        fdq.funding_year,
+        fdq.donor_name,
+        fdq.school_name,
+        fdq.school_state,
+        fdq.school_type,
+        fdq.city,
+        fdq.grade,
+        fdq.grade_section,
+        fo.odc_count
+    from fellow_data_month as fdq
+    left join fellow_odc as fo
         on
-            fdm.academic_year = fc.academic_year
-            and fdm.month = fc.month
-            and fdm.funding_year = fc.funding_year
-            and fdm.fellow_id = fc.fellow_id
-            and fdm.school_name = fc.school_name
-            and fdm.grade = fc.grade
-            and fdm.grade_section = fc.grade_section
+            fdq.academic_year = fo.academic_year
+            and fdq.month = fo.month
+            and fdq.funding_year = fo.funding_year
+            and fdq.fellow_id = fo.fellow_id
+            and fdq.school_name = fo.school_name
+            and fdq.grade = fo.grade
+            and fdq.grade_section = fo.grade_section
 
 ),
 
 -- select * from join_school_year
 
-checkins_count as (
+odc_count as (
     select 
         academic_year,
         month,
@@ -133,21 +133,15 @@ checkins_count as (
         city,
         grade,
         grade_section,
-        'Checkinks' as parameters,
+        'ODCs' as parameters,
 
         case
-            when checkins_count is null then 'Black'
-            when checkins_count = 0 then 'Red'
-            when checkins_count = 1 and checkins_count <= 5 then 'Amber'
-            when checkins_count >= 2 then 'Green'
+            when odc_count is null then 'Black'
+            when odc_count = 0 then 'Red'
+            when odc_count = 1 then 'Amber'
+            when odc_count >= 2 then 'Green'
         end as brag
     from join_school_year
 )
 
-select *
-from checkins_count
-
-union all
-
-select *
-from {{ ref('fellow_odc_monthly') }}
+select * from odc_count

@@ -36,7 +36,7 @@ checkins as (
         school,
         grade,
         grade_section,
-        COALESCE(COUNT(*), 0) as checkin_count
+        COUNT(*) as checkin_count
     from {{ ref('checkins_fsa') }}
     group by
         academic_year,

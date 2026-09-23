@@ -20,14 +20,14 @@ with classroom_data as (
 -- select * from school_data
 
 calender_year as (
-    select distinct quarter
+    select distinct month
     from {{ ref('calender_year') }}
 ),
 
-classroom_quarter as (
+classroom_month as (
     select
         cd.academic_year,
-        cy.quarter,
+        cy.month,
         cd.school_name,
         cd.school_state,
         cd.city,
@@ -38,7 +38,7 @@ classroom_quarter as (
     cross join calender_year as cy
 ),
 
--- select * from school_quarter
+-- select * from school_month
 
 fellow_odc_int as (
     select 
@@ -49,7 +49,7 @@ fellow_odc_int as (
         school_type,
         grade,
         grade_section,
-        quarter,
+        month,
         avg(student_engagement_percentage) as student_engagement
     from {{ ref('fellow_odc_int') }}
     group by
@@ -60,13 +60,13 @@ fellow_odc_int as (
         school_type,
         grade,
         grade_section,
-        quarter
+        month
 ),
 
 join_school_year as (
     select 
         sq.academic_year,
-        sq.quarter,
+        sq.month,
         sq.school_name,
         sq.school_state,
         sq.city,
@@ -74,11 +74,11 @@ join_school_year as (
         sq.grade,
         sq.grade_section,
         gsq.student_engagement
-    from classroom_quarter as sq
+    from classroom_month as sq
     left join fellow_odc_int as gsq
         on
             sq.academic_year = gsq.academic_year
-            and sq.quarter = gsq.quarter
+            and sq.month = gsq.month
             and sq.school_name = gsq.school_name
             and sq.grade = gsq.grade
             and sq.grade_section = gsq.grade_section
@@ -87,7 +87,7 @@ join_school_year as (
 student_engagemnt as (
     select 
         academic_year,
-        quarter,
+        month,
         school_name,
         school_state,
         city,
@@ -111,4 +111,6 @@ from student_engagemnt
 union all
 
 select *
-from {{ ref('class_teaching_quarterly') }}
+from {{ ref('class_teaching_monthly') }}
+
+

@@ -20,14 +20,14 @@ with classroom_data as (
 -- select * from school_data
 
 calender_year as (
-    select distinct quarter
+    select distinct month
     from {{ ref('calender_year') }}
 ),
 
-classroom_quarter as (
+classroom_month as (
     select
         cd.academic_year,
-        cy.quarter,
+        cy.month,
         cd.school_name,
         cd.school_state,
         cd.city,
@@ -38,9 +38,9 @@ classroom_quarter as (
     cross join calender_year as cy
 ),
 
--- select * from school_quarter
+-- select * from school_month
 
-fellow_odc_int as (
+class_upd_int as (
     select 
         academic_year,
         school_name,
@@ -49,9 +49,9 @@ fellow_odc_int as (
         school_type,
         grade,
         grade_section,
-        quarter,
-        avg(student_engagement_percentage) as student_engagement
-    from {{ ref('fellow_odc_int') }}
+        month,
+        avg(teaching_hours) as teaching_hours
+    from {{ ref('class_upd_int') }}
     group by
         academic_year,
         school_name,
@@ -60,55 +60,49 @@ fellow_odc_int as (
         school_type,
         grade,
         grade_section,
-        quarter
+        month
 ),
 
 join_school_year as (
     select 
         sq.academic_year,
-        sq.quarter,
+        sq.month,
         sq.school_name,
         sq.school_state,
         sq.city,
         sq.school_type,
         sq.grade,
         sq.grade_section,
-        gsq.student_engagement
-    from classroom_quarter as sq
-    left join fellow_odc_int as gsq
+        gsq.teaching_hours
+    from classroom_month as sq
+    left join class_upd_int as gsq
         on
             sq.academic_year = gsq.academic_year
-            and sq.quarter = gsq.quarter
+            and sq.month = gsq.month
             and sq.school_name = gsq.school_name
             and sq.grade = gsq.grade
             and sq.grade_section = gsq.grade_section
 ),
 
-student_engagemnt as (
+teaching_hours as (
     select 
         academic_year,
-        quarter,
+        month,
         school_name,
         school_state,
         city,
         school_type,
         grade,
         grade_section,
-        'Student Engagement' as parameters,
+        'Teaching Hours' as parameters,
 
         case
-            when student_engagement is null then 'Black'
-            when student_engagement <= 49 then 'Red'
-            when student_engagement >= 50 and student_engagement <= 74 then 'Amber'
-            when student_engagement >= 75 then 'Green'
+            when teaching_hours is null then 'Black'
+            when teaching_hours <= 9 then 'Red'
+            when teaching_hours >= 10 and teaching_hours <= 12 then 'Amber'
+            when teaching_hours >= 15 then 'Green'
         end as brag
     from join_school_year
 )
 
-select *
-from student_engagemnt
-
-union all
-
-select *
-from {{ ref('class_teaching_quarterly') }}
+select * from teaching_hours

@@ -144,4 +144,15 @@ checkins_count as (
     from join_school_year
 )
 
-select * from checkins_count
+select *
+from checkins_count
+
+union all
+
+select *
+from {{ ref('fellow_fcm_quarterly') }}
+
+union all
+
+select *
+from {{ ref('fellow_odc_quarterly') }}

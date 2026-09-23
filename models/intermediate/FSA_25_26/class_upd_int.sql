@@ -41,8 +41,8 @@ classroom_updates AS (
         AVG(homes_visited) AS homes_visited,
         SUM(teaching_hours) AS teaching_hours,
         SUM(teacher_circles) AS teacher_circles,
-        -- SUM(mathematics_score) AS mathematics_score,
         SUM(school_leader_checkins) AS school_leader_checkins
+        -- SUM(mathematics_score) AS mathematics_score,
         -- SUM(reading_comprehension_score) AS reading_comprehension_score
     FROM {{ ref('classroom_updates') }}
     GROUP BY
@@ -81,8 +81,8 @@ SELECT DISTINCT
     cu.homes_visited,
     cu.teaching_hours,
     cu.teacher_circles,
-    -- cu.mathematics_score,
     cu.school_leader_checkins
+    -- cu.mathematics_score,
     -- cu.reading_comprehension_score
 FROM fellow_school AS fs
 LEFT JOIN classroom_updates AS cu
