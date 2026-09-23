@@ -112,5 +112,3 @@ union all
 
 select *
 from {{ ref('class_teaching_monthly') }}
-
-
