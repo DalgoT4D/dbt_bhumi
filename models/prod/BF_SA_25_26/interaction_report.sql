@@ -21,13 +21,14 @@ select
     helo_circles_count,
     ptms_count,
     case
-      when odc_count + checkin_count = 0 then 'Likely unreported'
-      else 'Reported'
+        when odc_count + checkin_count = 0 then 'Likely unreported'
+        else 'Reported'
     end as pm_unreported,
     case
-      when school_leader_checkin_count + teacher_circle_count + community_visit_count
-        + teaching_hours_sum + helo_circles_count + ptms_count = 0
-        then 'Likely unreported'
-      else 'Reported'
+        when
+            school_leader_checkin_count + teacher_circle_count + community_visit_count
+            + teaching_hours_sum + helo_circles_count + ptms_count = 0
+            then 'Likely unreported'
+        else 'Reported'
     end as fellow_unreported
 from {{ ref('interaction_int') }} 
