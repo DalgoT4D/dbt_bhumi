@@ -38,7 +38,7 @@ classroom_updates AS (
 
         SUM(ptms) AS ptms,
         SUM(helo_circles) AS helo_circles,
-        AVG(homes_visited) AS homes_visited,
+        ROUND(AVG(homes_visited), 2) AS homes_visited,
         SUM(teaching_hours) AS teaching_hours,
         SUM(teacher_circles) AS teacher_circles,
         SUM(school_leader_checkins) AS school_leader_checkins
