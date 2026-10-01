@@ -114,6 +114,7 @@ classroom_updates as (
 )
 
 select
+    b.academic_year,
     b.fellow_name,
     b.cohort,
     b.pm,
