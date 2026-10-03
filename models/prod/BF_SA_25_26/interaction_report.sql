@@ -4,6 +4,7 @@
 ) }}
 
 select
+    academic_year,
     fellow_name,
     cohort,
     pm,
