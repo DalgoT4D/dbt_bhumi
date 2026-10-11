@@ -6,6 +6,12 @@
 with classroom_data as (
     select distinct
         academic_year,
+        fellow_id,
+        fellow_name,
+        cohort,
+        funding_year, 
+        donor_name,
+        pm_name,
         school_name,
         school_state,
         city,
@@ -28,6 +34,12 @@ classroom_quarter as (
     select
         cd.academic_year,
         cy.quarter,
+        cd.fellow_id,
+        cd.fellow_name,
+        cd.cohort,
+        cd.funding_year, 
+        cd.donor_name,
+        cd.pm_name,
         cd.school_name,
         cd.school_state,
         cd.city,
@@ -43,6 +55,12 @@ classroom_quarter as (
 class_upd_int as (
     select 
         academic_year,
+        fellow_id,
+        fellow_name,
+        cohort,
+        funding_year,
+        donor_name,
+        pm_name,
         school_name,
         school_state,
         city,
@@ -54,6 +72,12 @@ class_upd_int as (
     from {{ ref('class_upd_int') }}
     group by
         academic_year,
+        fellow_id,
+        fellow_name,
+        cohort,
+        funding_year,
+        donor_name,
+        pm_name,
         school_name,
         school_state,
         city,
@@ -67,6 +91,12 @@ join_school_year as (
     select 
         sq.academic_year,
         sq.quarter,
+        sq.fellow_id,
+        sq.fellow_name,
+        sq.cohort,
+        sq.funding_year,
+        sq.donor_name,
+        sq.pm_name,
         sq.school_name,
         sq.school_state,
         sq.city,
@@ -88,6 +118,12 @@ teaching_hours as (
     select 
         academic_year,
         quarter,
+        fellow_id,
+        fellow_name,
+        pm_name,
+        cohort,
+        funding_year,
+        donor_name,
         school_name,
         school_state,
         city,
