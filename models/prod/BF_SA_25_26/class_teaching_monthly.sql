@@ -6,11 +6,17 @@
 with classroom_data as (
     select distinct
         academic_year,
+        fellow_id,
+        fellow_name,
+        cohort,
+        funding_year, 
+        donor_name,
+        pm_name,
         school_name,
         school_state,
         city,
         school_type,
-        grade,
+        grade, 
         grade_section
     from {{ ref('fellow_scl_cls_data') }}
     where
@@ -28,11 +34,17 @@ classroom_month as (
     select
         cd.academic_year,
         cy.month,
+        cd.fellow_id,
+        cd.fellow_name,
+        cd.cohort,
+        cd.funding_year, 
+        cd.donor_name,
+        cd.pm_name,
         cd.school_name,
         cd.school_state,
         cd.city,
         cd.school_type,
-        cd.grade,
+        cd.grade, 
         cd.grade_section
     from classroom_data as cd
     cross join calender_year as cy
@@ -43,17 +55,30 @@ classroom_month as (
 class_upd_int as (
     select 
         academic_year,
+        month,
+        fellow_id,
+        fellow_name,
+        pm_name,
+        cohort,
+        funding_year,
+        donor_name,
         school_name,
         school_state,
-        city,
         school_type,
+        city,
         grade,
         grade_section,
-        month,
         avg(teaching_hours) as teaching_hours
     from {{ ref('class_upd_int') }}
     group by
         academic_year,
+        month,
+        fellow_id,
+        fellow_name,
+        pm_name,
+        cohort,
+        funding_year,
+        donor_name,
         school_name,
         school_state,
         city,
@@ -67,6 +92,12 @@ join_school_year as (
     select 
         sq.academic_year,
         sq.month,
+        sq.fellow_id,
+        sq.fellow_name,
+        sq.pm_name,
+        sq.cohort,
+        sq.funding_year,
+        sq.donor_name,
         sq.school_name,
         sq.school_state,
         sq.city,
@@ -88,6 +119,12 @@ teaching_hours as (
     select 
         academic_year,
         month,
+        fellow_id,
+        fellow_name,
+        pm_name,
+        cohort,
+        funding_year,
+        donor_name,
         school_name,
         school_state,
         city,
