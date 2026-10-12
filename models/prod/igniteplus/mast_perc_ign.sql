@@ -23,8 +23,7 @@ with completion_perc as (
     from {{ ref('mast_x_miles') }}
 )
 
-select 
-    *
+select  *
 from completion_perc
 -- on cp.financial_year = md.intervention_year
 -- and cp.school_name = md.school_address
