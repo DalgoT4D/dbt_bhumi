@@ -5,7 +5,6 @@
 
 with cleaned as (
     select
-        coalesce(btrim("S_NO"), '') as s_no,
         coalesce(btrim("Project_ID"), '') as project_id,
         case
             when btrim("Intervention_Year") ~ '^\d{2}-\d{2}$'
@@ -44,7 +43,6 @@ with cleaned as (
 )
 
 select 
-    s_no,
     project_id,
     monitored_year,
     intervention_year,
@@ -55,4 +53,4 @@ select
     visited_by,
     folder_link
 from cleaned
-where school_address is not null
+where project_id <> ''

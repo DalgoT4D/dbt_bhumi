@@ -7,7 +7,6 @@ with master as (
 
     select
         coalesce(btrim("Project_ID"), '') as project_id,
-        case when btrim("Sl_No") ~ '^\d+$' then btrim("Sl_No")::integer end as sl_no,
 
         case
             when btrim("Financial_Year") ~ '^\d{2}-\d{2}$'
@@ -125,7 +124,6 @@ budget_scale as (
 
 select 
     project_id,
-    sl_no,
     financial_year,
     quarter,
     district,
