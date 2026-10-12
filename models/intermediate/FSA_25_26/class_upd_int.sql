@@ -5,21 +5,22 @@
 
 WITH fellow_school AS (
     SELECT
+        academic_year,
+        quarter,
+        month,
         fellow_id,
         fellow_name,
-        pm_id,
-        pm_name,
         cohort,
-        funding_year,
-        academic_year,
+        funding_year, 
+        donor_name,
+        pm_name,
         school_name,
-        grade,
-        grade_section,
         school_state,
         city,
         school_type,
-        donor_name
-    FROM {{ ref('fellow_scl_cls_data') }}
+        grade, 
+        grade_section
+    FROM {{ ref('fy_fellow_sch_cls_int') }}
 ),
 
 classroom_updates AS (
@@ -59,13 +60,12 @@ classroom_updates AS (
         grade_section
 )
 
-SELECT DISTINCT
+SELECT distinct
     fs.academic_year,
-    cu.month,
-    cu.quarter,
+    fs.month,
+    fs.quarter,
     fs.fellow_id,
     fs.fellow_name,
-    fs.pm_id,
     fs.pm_name,
     fs.cohort,
     fs.funding_year,
@@ -93,3 +93,5 @@ LEFT JOIN classroom_updates AS cu
         AND fs.school_name = cu.school_name
         AND fs.grade = cu.grade
         AND fs.grade_section = cu.grade_section
+        And fs.month = cu.month
+        AND fs.quarter = cu.quarter

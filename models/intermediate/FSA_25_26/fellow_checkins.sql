@@ -6,22 +6,21 @@
 with fellow_school_class as (
     select
         academic_year,
+        quarter,
+        month,
         fellow_id,
         fellow_name,
-        pm_id,
-        pm_name,
         cohort,
-        funding_year,
-        donor_id,
+        funding_year, 
         donor_name,
-        school_id,
+        pm_name,
         school_name,
         school_state,
         city,
         school_type,
-        grade,
+        grade, 
         grade_section
-    from {{ ref('fellow_scl_cls_data') }}
+    from {{ ref('fy_fellow_sch_cls_int') }}
 ),
 
 checkins as (
@@ -52,29 +51,30 @@ checkins as (
 )
 
 select distinct
-    fsc.academic_year,
-    c.month,
-    c.quarter,
-    fsc.fellow_id,
-    fsc.fellow_name,
-    fsc.pm_id,
-    fsc.pm_name,
-    fsc.cohort,
-    fsc.funding_year,
-    fsc.school_name,
-    fsc.grade,
-    fsc.grade_section,
-    fsc.school_state,
-    fsc.city,
-    fsc.school_type,
-    fsc.donor_name,
+    fs.academic_year,
+    fs.month,
+    fs.quarter,
+    fs.fellow_id,
+    fs.fellow_name,
+    fs.pm_name,
+    fs.cohort,
+    fs.funding_year,
+    fs.donor_name,
+    fs.school_name,
+    fs.school_state,
+    fs.city,
+    fs.school_type,
+    fs.grade,
+    fs.grade_section,
     c.checkin_count
-from fellow_school_class as fsc
+from fellow_school_class as fs
 left join checkins as c
     on
-        fsc.academic_year = c.academic_year
-        and fsc.funding_year = c.year_map
-        and fsc.fellow_id = c.fellow_id
-        and fsc.school_name = c.school
-        and fsc.grade = c.grade
-        and fsc.grade_section = c.grade_section
+        fs.academic_year = c.academic_year
+        and fs.funding_year = c.year_map
+        and fs.fellow_id = c.fellow_id
+        and fs.school_name = c.school
+        and fs.grade = c.grade
+        and fs.grade_section = c.grade_section
+        and fs.month = c.month
+        and fs.quarter = c.quarter

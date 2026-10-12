@@ -3,9 +3,10 @@
   tags=["fsa_25_26", "prod"]
 ) }}
 
-with fellow_data as (
+with fellow_data_month as (
     select distinct
         academic_year,
+        month,
         fellow_id,
         fellow_name,
         cohort,
@@ -18,34 +19,7 @@ with fellow_data as (
         school_type,
         grade, 
         grade_section
-    from {{ ref('fellow_scl_cls_data') }}
-),
-
--- select * from fellow_data
-
-calender_year as (
-    select distinct month
-    from {{ ref('calender_year') }}
-),
-
-fellow_data_month as (
-    select
-        fd.academic_year,
-        cy.month,
-        fd.fellow_id,
-        fd.fellow_name,
-        fd.pm_name,
-        fd.cohort,
-        fd.funding_year, 
-        fd.donor_name,
-        fd.school_name,
-        fd.school_state,
-        fd.city,
-        fd.school_type,
-        fd.grade, 
-        fd.grade_section
-    from fellow_data as fd
-    cross join calender_year as cy
+    from {{ ref('fy_fellow_sch_cls_int') }}
 ),
 
 -- select * from school_quarter

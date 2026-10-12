@@ -3,41 +3,24 @@
   tags=["fsa_25_26", "int"]
 ) }}
 
-with fellow_school as (
-    select distinct
+WITH fellow_school AS (
+    SELECT
         academic_year,
+        quarter,
+        month,
         fellow_id,
         fellow_name,
         cohort,
+        funding_year,
+        donor_name,
         pm_name,
         school_name,
-        donor_name
-    from {{ ref('fellow_scl_cls_data') }}
-    where school_name is not null
-),
-
-periods as (
-    select
-        academic_year,
-        month,
-        quarter
-    from {{ ref('calender_year') }}
-),
-
-base as (
-    select
-        fs.academic_year,
-        p.month,
-        p.quarter,
-        fs.fellow_id,
-        fs.fellow_name,
-        fs.cohort,
-        fs.pm_name as pm,
-        fs.school_name as school,
-        fs.donor_name
-    from fellow_school as fs
-    inner join periods as p
-        on fs.academic_year = p.academic_year
+        school_state,
+        city,
+        school_type,
+        grade,
+        grade_section
+    FROM {{ ref('fy_fellow_sch_cls_int') }}
 ),
 
 odc as (
@@ -46,7 +29,13 @@ odc as (
         month,
         quarter,
         fellow_id,
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
         school_name,
+        grade,
+        grade_section,
         sum(odc_count) as odc_count
     from {{ ref('fellow_odc_int') }}
     group by
@@ -54,7 +43,13 @@ odc as (
         month,
         quarter,
         fellow_id,
-        school_name
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
+        school_name,
+        grade,
+        grade_section
 ),
 
 checkins as (
@@ -63,7 +58,13 @@ checkins as (
         month,
         quarter,
         fellow_id,
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
         school_name,
+        grade,
+        grade_section,
         sum(checkin_count) as checkin_count
     from {{ ref('fellow_checkins') }}
     group by
@@ -71,7 +72,13 @@ checkins as (
         month,
         quarter,
         fellow_id,
-        school_name
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
+        school_name,
+        grade,
+        grade_section
 ),
 
 fcm_updates as (
@@ -80,15 +87,27 @@ fcm_updates as (
         month,
         quarter,
         fellow_id,
-        school as school_name,
-        count(distinct fcm_update_id) as fcm_update_count
-    from {{ ref('fcm_group_int') }}
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
+        school_name,
+        grade,
+        grade_section,
+        sum(fcm_update_count) as fcm_update_count
+    from {{ ref('fellow_fcm_int') }}
     group by
         academic_year,
         month,
         quarter,
         fellow_id,
-        school
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
+        school_name,
+        grade,
+        grade_section
 ),
 
 classroom_updates as (
@@ -97,7 +116,13 @@ classroom_updates as (
         month,
         quarter,
         fellow_id,
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
         school_name,
+        grade,
+        grade_section,
         sum(school_leader_checkins) as school_leader_checkin_count,
         sum(teacher_circles) as teacher_circle_count,
         sum(homes_visited) as community_visit_count,
@@ -110,18 +135,31 @@ classroom_updates as (
         month,
         quarter,
         fellow_id,
-        school_name
+        fellow_name,
+        pm_name,
+        funding_year,
+        cohort,
+        school_name,
+        grade,
+        grade_section
 )
 
 select
-    b.academic_year,
-    b.fellow_name,
-    b.cohort,
-    b.pm,
-    b.school,
-    b.donor_name,
-    b.month,
-    b.quarter,
+    fs.academic_year,
+    fs.month,
+    fs.quarter,
+    fs.fellow_id,
+    fs.fellow_name,
+    fs.pm_name,
+    fs.cohort,
+    fs.funding_year,
+    fs.donor_name,
+    fs.school_name,
+    fs.school_state,
+    fs.city,
+    fs.school_type,
+    fs.grade,
+    fs.grade_section,
     o.odc_count,
     c.checkin_count,
     f.fcm_update_count,
@@ -131,32 +169,40 @@ select
     cu.teaching_hours_sum,
     cu.helo_circles_count,
     cu.ptms_count
-from base as b
+from fellow_school as fs
 left join odc as o
     on
-        b.academic_year = o.academic_year
-        and b.month = o.month
-        and b.quarter = o.quarter
-        and b.fellow_id = o.fellow_id
-        and b.school = o.school_name
+        fs.academic_year = o.academic_year
+        and fs.month = o.month
+        and fs.quarter = o.quarter
+        and fs.fellow_id = o.fellow_id
+        and fs.school_name = o.school_name
+        and fs.grade = o.grade
+        and fs.grade_section = o.grade_section
 left join checkins as c
     on
-        b.academic_year = c.academic_year
-        and b.month = c.month
-        and b.quarter = c.quarter
-        and b.fellow_id = c.fellow_id
-        and b.school = c.school_name
+        fs.academic_year = c.academic_year
+        and fs.month = c.month
+        and fs.quarter = c.quarter
+        and fs.fellow_id = c.fellow_id
+        and fs.school_name = c.school_name
+        and fs.grade = c.grade
+        and fs.grade_section = c.grade_section
 left join fcm_updates as f
     on
-        b.academic_year = f.academic_year
-        and b.month = f.month
-        and b.quarter = f.quarter
-        and b.fellow_id = f.fellow_id
-        and b.school = f.school_name
+        fs.academic_year = f.academic_year
+        and fs.month = f.month
+        and fs.quarter = f.quarter
+        and fs.fellow_id = f.fellow_id
+        and fs.school_name = f.school_name
+        and fs.grade = f.grade
+        and fs.grade_section = f.grade_section
 left join classroom_updates as cu
     on
-        b.academic_year = cu.academic_year
-        and b.month = cu.month
-        and b.quarter = cu.quarter
-        and b.fellow_id = cu.fellow_id
-        and b.school = cu.school_name
+        fs.academic_year = cu.academic_year
+        and fs.month = cu.month
+        and fs.quarter = cu.quarter
+        and fs.fellow_id = cu.fellow_id
+        and fs.school_name = cu.school_name
+        and fs.grade = cu.grade
+        and fs.grade_section = cu.grade_section
