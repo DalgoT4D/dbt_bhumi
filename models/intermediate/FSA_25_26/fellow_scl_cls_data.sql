@@ -26,8 +26,14 @@ select distinct
     s.school_name,
     s.school_state,
     s.city,
+    -- s.is_active,
+    -- s.udise_code,
     s.school_type,
-    s.total_students_in_school
+    s.male_students_in_school,
+    s.total_students_in_school,
+    s.female_students_in_school,
+    s.total_support_staff_in_school,
+    s.total_teaching_staff_in_school
 
 from {{ ref('fellows') }} as f
 
@@ -50,5 +56,7 @@ left join {{ ref('fellow_school_fsa') }} as fs
         f.fellow_id = fs.fellow_id
         and f.funding_year = fs.funding_year
 
-left join {{ ref('school_data') }} as s
-    on fs.school_id = s.school_id
+left join {{ ref('school_data_int') }} as s
+    on 
+        fs.school_id = s.school_id
+        and f.funding_year = s.funding_year

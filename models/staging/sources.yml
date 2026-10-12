@@ -895,6 +895,9 @@ sources:
       - name: schools_raw_data_25_26
         identifier: schools
         description: schools from fellowship school app for AY 25-26
+      - name: school_fy_data
+        identifier: school_fy_data
+        description: school funding-year data from fellowship school app
       - name: profiles_25_26
         identifier: profiles
         description: profiles from fellowship school app for AY 25-26
