@@ -6,22 +6,21 @@
 WITH fellow_school AS (
     SELECT
         academic_year,
+        month,
+        quarter,
         fellow_id,
         fellow_name,
-        pm_id,
-        pm_name,
         cohort,
-        funding_year,
-        donor_id,
+        funding_year, 
         donor_name,
-        school_id,
+        pm_name,
         school_name,
         school_state,
         city,
         school_type,
-        grade,
+        grade, 
         grade_section
-    FROM {{ ref('fellow_scl_cls_data') }}
+    FROM {{ ref('fy_fellow_sch_cls_int') }}
 ),
 
 odc AS (
@@ -56,11 +55,10 @@ odc AS (
 
 SELECT
     fs.academic_year,
-    odc.month,
-    odc.quarter,
+    fs.quarter,
+    fs.month,
     fs.fellow_id,
     fs.fellow_name,
-    fs.pm_id,
     fs.pm_name,
     fs.cohort,
     fs.funding_year,
@@ -68,9 +66,9 @@ SELECT
     fs.school_name,
     fs.school_state,
     fs.city,
+    fs.school_type,
     fs.grade,
     fs.grade_section,
-    fs.school_type,
     odc.odc_count,
     odc.student_engagement_percentage
 FROM fellow_school AS fs
@@ -82,3 +80,5 @@ LEFT JOIN odc AS odc
         AND fs.school_name = odc.school
         AND fs.grade = odc.grade
         AND fs.grade_section = odc.grade_section
+        AND fs.quarter = odc.quarter
+        AND fs.month = odc.month
