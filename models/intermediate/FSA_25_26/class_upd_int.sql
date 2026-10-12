@@ -60,7 +60,7 @@ classroom_updates AS (
         grade_section
 )
 
-SELECT distinct
+SELECT DISTINCT
     fs.academic_year,
     fs.month,
     fs.quarter,
@@ -93,5 +93,5 @@ LEFT JOIN classroom_updates AS cu
         AND fs.school_name = cu.school_name
         AND fs.grade = cu.grade
         AND fs.grade_section = cu.grade_section
-        And fs.month = cu.month
+        AND fs.month = cu.month
         AND fs.quarter = cu.quarter
