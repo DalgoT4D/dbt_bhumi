@@ -23,8 +23,8 @@ WITH fellow_school AS (
     FROM {{ ref('fy_fellow_sch_cls_int') }}
 ),
 
-odc as (
-    select
+odc AS (
+    SELECT
         academic_year,
         month,
         quarter,
@@ -36,9 +36,9 @@ odc as (
         school_name,
         grade,
         grade_section,
-        sum(odc_count) as odc_count
-    from {{ ref('fellow_odc_int') }}
-    group by
+        sum(odc_count) AS odc_count
+    FROM {{ ref('fellow_odc_int') }}
+    GROUP BY
         academic_year,
         month,
         quarter,
@@ -52,8 +52,8 @@ odc as (
         grade_section
 ),
 
-checkins as (
-    select
+checkins AS (
+    SELECT
         academic_year,
         month,
         quarter,
@@ -65,9 +65,9 @@ checkins as (
         school_name,
         grade,
         grade_section,
-        sum(checkin_count) as checkin_count
-    from {{ ref('fellow_checkins') }}
-    group by
+        sum(checkin_count) AS checkin_count
+    FROM {{ ref('fellow_checkins') }}
+    GROUP BY
         academic_year,
         month,
         quarter,
@@ -81,8 +81,8 @@ checkins as (
         grade_section
 ),
 
-fcm_updates as (
-    select
+fcm_updates AS (
+    SELECT
         academic_year,
         month,
         quarter,
@@ -94,9 +94,9 @@ fcm_updates as (
         school_name,
         grade,
         grade_section,
-        sum(fcm_update_count) as fcm_update_count
-    from {{ ref('fellow_fcm_int') }}
-    group by
+        sum(fcm_update_count) AS fcm_update_count
+    FROM {{ ref('fellow_fcm_int') }}
+    GROUP BY
         academic_year,
         month,
         quarter,
@@ -110,8 +110,8 @@ fcm_updates as (
         grade_section
 ),
 
-classroom_updates as (
-    select
+classroom_updates AS (
+    SELECT
         academic_year,
         month,
         quarter,
@@ -123,14 +123,14 @@ classroom_updates as (
         school_name,
         grade,
         grade_section,
-        sum(school_leader_checkins) as school_leader_checkin_count,
-        sum(teacher_circles) as teacher_circle_count,
-        sum(homes_visited) as community_visit_count,
-        sum(teaching_hours) as teaching_hours_sum,
-        sum(helo_circles) as helo_circles_count,
-        sum(ptms) as ptms_count
-    from {{ ref('class_upd_int') }}
-    group by
+        sum(school_leader_checkins) AS school_leader_checkin_count,
+        sum(teacher_circles) AS teacher_circle_count,
+        sum(homes_visited) AS community_visit_count,
+        sum(teaching_hours) AS teaching_hours_sum,
+        sum(helo_circles) AS helo_circles_count,
+        sum(ptms) AS ptms_count
+    FROM {{ ref('class_upd_int') }}
+    GROUP BY
         academic_year,
         month,
         quarter,
@@ -144,7 +144,7 @@ classroom_updates as (
         grade_section
 )
 
-select
+SELECT
     fs.academic_year,
     fs.month,
     fs.quarter,
@@ -169,40 +169,40 @@ select
     cu.teaching_hours_sum,
     cu.helo_circles_count,
     cu.ptms_count
-from fellow_school as fs
-left join odc as o
-    on
+FROM fellow_school AS fs
+LEFT JOIN odc AS o
+    ON
         fs.academic_year = o.academic_year
-        and fs.month = o.month
-        and fs.quarter = o.quarter
-        and fs.fellow_id = o.fellow_id
-        and fs.school_name = o.school_name
-        and fs.grade = o.grade
-        and fs.grade_section = o.grade_section
-left join checkins as c
-    on
+        AND fs.month = o.month
+        AND fs.quarter = o.quarter
+        AND fs.fellow_id = o.fellow_id
+        AND fs.school_name = o.school_name
+        AND fs.grade = o.grade
+        AND fs.grade_section = o.grade_section
+LEFT JOIN checkins AS c
+    ON
         fs.academic_year = c.academic_year
-        and fs.month = c.month
-        and fs.quarter = c.quarter
-        and fs.fellow_id = c.fellow_id
-        and fs.school_name = c.school_name
-        and fs.grade = c.grade
-        and fs.grade_section = c.grade_section
-left join fcm_updates as f
-    on
+        AND fs.month = c.month
+        AND fs.quarter = c.quarter
+        AND fs.fellow_id = c.fellow_id
+        AND fs.school_name = c.school_name
+        AND fs.grade = c.grade
+        AND fs.grade_section = c.grade_section
+LEFT JOIN fcm_updates AS f
+    ON
         fs.academic_year = f.academic_year
-        and fs.month = f.month
-        and fs.quarter = f.quarter
-        and fs.fellow_id = f.fellow_id
-        and fs.school_name = f.school_name
-        and fs.grade = f.grade
-        and fs.grade_section = f.grade_section
-left join classroom_updates as cu
-    on
+        AND fs.month = f.month
+        AND fs.quarter = f.quarter
+        AND fs.fellow_id = f.fellow_id
+        AND fs.school_name = f.school_name
+        AND fs.grade = f.grade
+        AND fs.grade_section = f.grade_section
+LEFT JOIN classroom_updates AS cu
+    ON
         fs.academic_year = cu.academic_year
-        and fs.month = cu.month
-        and fs.quarter = cu.quarter
-        and fs.fellow_id = cu.fellow_id
-        and fs.school_name = cu.school_name
-        and fs.grade = cu.grade
-        and fs.grade_section = cu.grade_section
+        AND fs.month = cu.month
+        AND fs.quarter = cu.quarter
+        AND fs.fellow_id = cu.fellow_id
+        AND fs.school_name = cu.school_name
+        AND fs.grade = cu.grade
+        AND fs.grade_section = cu.grade_section

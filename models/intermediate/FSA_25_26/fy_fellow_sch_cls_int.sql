@@ -24,7 +24,9 @@ with fellow_school_class_data as (
 -- select * from school_data
 
 calender_year as (
-    select distinct quarter, month
+    select distinct
+        quarter,
+        month
     from {{ ref('calender_year') }}
 ),
 
