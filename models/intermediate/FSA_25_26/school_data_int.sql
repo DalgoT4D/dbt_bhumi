@@ -18,5 +18,5 @@ select distinct
     fy.total_support_staff as total_support_staff_in_school,
     fy.total_teaching_staff as total_teaching_staff_in_school
 from {{ ref('school_fy_data') }} as fy
-left join {{ ref('school_data') }} as s
+inner join {{ ref('school_data') }} as s
     on fy.school_id = s.school_id
