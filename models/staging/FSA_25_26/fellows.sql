@@ -28,42 +28,9 @@ with fellows_base as (
         --     when BTRIM(date_of_birth::TEXT) ~ '^\\d{2}-\\d{2}-\\d{4}$' then TO_DATE(BTRIM(date_of_birth::TEXT),'DD-MM-YYYY')
         -- end as date_of_birth
     from {{ source('fellowship_school_app_25_26', 'fellows_raw_data') }}
-),
-
--- select distinct * from fellows_base
--- where
---     fellow_id is not null
---     and employee_id != 'FAKE001'
-
-max_cohort as (
-    select MAX(cohort_year::INTEGER) as max_cohort_year
-    from fellows_base
-    where cohort_year ~ '^\d{4}$'
-),
-
-fellows as (
-    select
-        fb.*,
-        funding_years.funding_year
-    from fellows_base as fb
-    cross join max_cohort as mc
-    cross join
-        lateral (
-            values
-            (fb.cohort_year),
-            (
-                case
-                    when
-                        fb.cohort_year ~ '^\d{4}$'
-                        and fb.cohort_year::INTEGER < mc.max_cohort_year
-                        then (fb.cohort_year::INTEGER + 1)::TEXT
-                end
-            )
-        ) as funding_years(funding_year)
-    where funding_years.funding_year is not null
 )
 
-select distinct * from fellows
+select distinct * from fellows_base
 where
     fellow_id is not null
     and employee_id != 'FAKE001' 
