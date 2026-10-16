@@ -75,10 +75,9 @@ FROM fellow_school AS fs
 LEFT JOIN odc AS odc 
     ON
         fs.academic_year = odc.academic_year
-        AND fs.funding_year = odc.year_map
         AND fs.fellow_id = odc.fellow_id
-        AND fs.school_name = odc.school
-        AND fs.grade = odc.grade
-        AND fs.grade_section = odc.grade_section
+        -- AND fs.school_name = odc.school
+        -- AND fs.grade = odc.grade
+        -- AND fs.grade_section = odc.grade_section
         AND fs.quarter = odc.quarter
         AND fs.month = odc.month

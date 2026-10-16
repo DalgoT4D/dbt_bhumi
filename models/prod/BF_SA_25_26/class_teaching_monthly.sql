@@ -19,23 +19,8 @@ with class_upd_int as (
         city,
         grade,
         grade_section,
-        avg(teaching_hours) as teaching_hours
+        teaching_hours
     from {{ ref('class_upd_int') }}
-    group by
-        academic_year,
-        month,
-        fellow_id,
-        fellow_name,
-        pm_name,
-        cohort,
-        funding_year,
-        donor_name,
-        school_name,
-        school_state,
-        school_type,
-        city,
-        grade,
-        grade_section
 ),
 
 teaching_hours as (

@@ -72,11 +72,10 @@ from fellow_school_class as fs
 left join fcm_updates as fcm
     on
         fs.academic_year = fcm.academic_year
-        and fs.funding_year = fcm.year_map
         and fs.fellow_id = fcm.fellow_id
         and fs.cohort = fcm.cohort
-        and fs.school_name = fcm.school
-        and fs.grade = fcm.grade
-        and fs.grade_section = fcm.grade_section
+        -- and fs.school_name = fcm.school
+        -- and fs.grade = fcm.grade
+        -- and fs.grade_section = fcm.grade_section
         and fs.month = fcm.month
         and fs.quarter = fcm.quarter

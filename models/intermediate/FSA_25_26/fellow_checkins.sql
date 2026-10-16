@@ -35,7 +35,7 @@ checkins as (
         school,
         grade,
         grade_section,
-        COUNT(*) as checkin_count
+        COUNT(*) as checkins_count
     from {{ ref('checkins_fsa') }}
     group by
         academic_year,
@@ -66,15 +66,14 @@ select distinct
     fs.school_type,
     fs.grade,
     fs.grade_section,
-    c.checkin_count
+    c.checkins_count
 from fellow_school_class as fs
 left join checkins as c
     on
         fs.academic_year = c.academic_year
-        and fs.funding_year = c.year_map
         and fs.fellow_id = c.fellow_id
-        and fs.school_name = c.school
-        and fs.grade = c.grade
-        and fs.grade_section = c.grade_section
+        -- and fs.school_name = c.school
+        -- and fs.grade = c.grade
+        -- and fs.grade_section = c.grade_section
         and fs.month = c.month
         and fs.quarter = c.quarter

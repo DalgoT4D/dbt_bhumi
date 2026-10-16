@@ -19,23 +19,8 @@ with fellow_odc as (
         city,
         grade,
         grade_section,
-        sum(odc_count) as odc_count
+        odc_count
     from {{ ref('fellow_odc_int') }}
-    group by
-        academic_year,
-        month,
-        fellow_id,
-        fellow_name,
-        pm_name,
-        cohort,
-        funding_year,
-        donor_name,
-        school_name,
-        school_state,
-        school_type,
-        city,
-        grade,
-        grade_section
 ),
 
 odc_count as (

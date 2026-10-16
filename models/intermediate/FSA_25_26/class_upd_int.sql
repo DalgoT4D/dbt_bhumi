@@ -88,10 +88,9 @@ FROM fellow_school AS fs
 LEFT JOIN classroom_updates AS cu
     ON
         fs.academic_year = cu.academic_year
-        AND fs.funding_year = cu.year_map
         AND fs.fellow_id = cu.fellow_id
-        AND fs.school_name = cu.school_name
-        AND fs.grade = cu.grade
-        AND fs.grade_section = cu.grade_section
+        -- AND fs.school_name = cu.school_name
+        -- AND fs.grade = cu.grade
+        -- AND fs.grade_section = cu.grade_section
         AND fs.month = cu.month
         AND fs.quarter = cu.quarter
