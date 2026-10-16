@@ -19,7 +19,7 @@ with fellow_checkins as (
         city,
         grade,
         grade_section,
-        sum(checkin_count) as checkins_count
+        sum(checkins_count) as checkins_count
     from {{ ref('fellow_checkins') }}
     group by
         academic_year,
