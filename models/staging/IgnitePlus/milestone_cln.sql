@@ -1,3 +1,8 @@
+{{ config(
+  materialized='table',
+  tags=["igniteplus", "staging"]
+) }}
+
 with cleaned as (
     select
         coalesce(btrim("Project_ID"), '') as project_id,
