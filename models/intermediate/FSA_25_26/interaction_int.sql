@@ -29,27 +29,27 @@ odc AS (
         month,
         quarter,
         fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section,
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section,
         sum(odc_count) AS odc_count
     FROM {{ ref('fellow_odc_int') }}
     GROUP BY
         academic_year,
         month,
         quarter,
-        fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section
+        fellow_id
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section
 ),
 
 checkins AS (
@@ -58,27 +58,27 @@ checkins AS (
         month,
         quarter,
         fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section,
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section,
         sum(checkins_count) AS checkins_count
     FROM {{ ref('fellow_checkins') }}
     GROUP BY
         academic_year,
         month,
         quarter,
-        fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section
+        fellow_id
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section
 ),
 
 fcm_updates AS (
@@ -87,27 +87,27 @@ fcm_updates AS (
         month,
         quarter,
         fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section,
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section,
         sum(fcm_update_count) AS fcm_update_count
     FROM {{ ref('fellow_fcm_int') }}
     GROUP BY
         academic_year,
         month,
         quarter,
-        fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section
+        fellow_id
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section
 ),
 
 classroom_updates AS (
@@ -116,13 +116,13 @@ classroom_updates AS (
         month,
         quarter,
         fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section,
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section,
         sum(school_leader_checkins) AS school_leader_checkins_count,
         sum(teacher_circles) AS teacher_circle_count,
         sum(homes_visited) AS community_visit_count,
@@ -134,14 +134,14 @@ classroom_updates AS (
         academic_year,
         month,
         quarter,
-        fellow_id,
-        fellow_name,
-        pm_name,
-        funding_year,
-        cohort,
-        school_name,
-        grade,
-        grade_section
+        fellow_id
+        -- fellow_name,
+        -- pm_name,
+        -- funding_year,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section
 )
 
 SELECT

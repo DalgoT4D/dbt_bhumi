@@ -45,7 +45,7 @@ checkins_count as (
         case
             when checkins_count is null then 'Black'
             when checkins_count = 0 then 'Red'
-            when checkins_count = 1 and checkins_count <= 5 then 'Amber'
+            when checkins_count = 1 then 'Amber'
             when checkins_count >= 2 then 'Green'
         end as brag
     from fellow_checkins
