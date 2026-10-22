@@ -29,12 +29,12 @@ odc AS (
         month,
         quarter,
         fellow_id,
-        fellow_name,
-        cohort,
-        year_map,
-        school,
-        grade,
-        grade_section,
+        -- fellow_name,
+        -- cohort,
+        -- year_map,
+        -- school,
+        -- grade,
+        -- grade_section,
         COUNT(*) AS odc_count,
         AVG(student_engagement_percentage) AS student_engagement_percentage
     FROM {{ ref('odc_fsa') }}
@@ -42,13 +42,13 @@ odc AS (
         academic_year,
         month,
         quarter,
-        fellow_id,
-        fellow_name,
-        cohort,
-        year_map,
-        school,
-        grade,
-        grade_section
+        fellow_id
+        -- fellow_name,
+        -- cohort,
+        -- year_map,
+        -- school,
+        -- grade,
+        -- grade_section
 )
 
 -- select * from odc

@@ -29,25 +29,25 @@ checkins as (
         month,
         quarter,
         fellow_id,
-        fellow_name,
-        cohort,
-        year_map,
-        school,
-        grade,
-        grade_section,
+        -- fellow_name,
+        -- cohort,
+        -- year_map,
+        -- school,
+        -- grade,
+        -- grade_section,
         COUNT(*) as checkins_count
     from {{ ref('checkins_fsa') }}
     group by
         academic_year,
         month,
         quarter,
-        fellow_id,
-        fellow_name,
-        cohort,
-        year_map,
-        school,
-        grade,
-        grade_section
+        fellow_id
+        -- fellow_name,
+        -- cohort,
+        -- year_map,
+        -- school,
+        -- grade,
+        -- grade_section
 )
 
 select distinct

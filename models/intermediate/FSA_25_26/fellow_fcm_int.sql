@@ -29,11 +29,11 @@ fcm_updates as (
         month,
         quarter,
         fellow_id,
-        cohort,
-        year_map,
-        school,
-        grade,
-        grade_section,
+        -- cohort,
+        -- year_map,
+        -- school,
+        -- grade,
+        -- grade_section,
         avg(fcm_avg) as fcm_avg,
         count(distinct fcm_update_id) as fcm_update_count
         
@@ -42,12 +42,12 @@ fcm_updates as (
         academic_year,
         month,
         quarter,
-        fellow_id,
-        cohort,
-        year_map,
-        school,
-        grade,
-        grade_section
+        fellow_id
+        -- cohort,
+        -- year_map,
+        -- school,
+        -- grade,
+        -- grade_section
 )
 
 select distinct
@@ -73,7 +73,7 @@ left join fcm_updates as fcm
     on
         fs.academic_year = fcm.academic_year
         and fs.fellow_id = fcm.fellow_id
-        and fs.cohort = fcm.cohort
+        -- and fs.cohort = fcm.cohort
         -- and fs.school_name = fcm.school
         -- and fs.grade = fcm.grade
         -- and fs.grade_section = fcm.grade_section

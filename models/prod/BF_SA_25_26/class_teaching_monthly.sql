@@ -45,7 +45,7 @@ teaching_hours as (
             when teaching_hours is null then 'Black'
             when teaching_hours <= 9 then 'Red'
             when teaching_hours >= 10 and teaching_hours <= 12 then 'Amber'
-            when teaching_hours >= 15 then 'Green'
+            when teaching_hours >= 13 then 'Green'
         end as brag
     from class_upd_int
 )

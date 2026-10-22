@@ -29,13 +29,13 @@ classroom_updates AS (
         month,
         quarter,
         fellow_id,
-        fellow_name,
-        pm_name,
-        year_map,
-        cohort,
-        school_name,
-        grade,
-        grade_section,
+        -- fellow_name,
+        -- pm_name,
+        -- year_map,
+        -- cohort,
+        -- school_name,
+        -- grade,
+        -- grade_section,
 
         SUM(ptms) AS ptms,
         SUM(helo_circles) AS helo_circles,
@@ -50,14 +50,14 @@ classroom_updates AS (
         academic_year,
         month,
         quarter,
-        fellow_id,
-        fellow_name,
-        pm_name,
-        year_map,
-        cohort,
-        school_name,
-        grade,
-        grade_section
+        fellow_id
+        -- fellow_name
+        -- pm_name,
+        -- year_map,
+        -- cohort
+        -- school_name,
+        -- grade,
+        -- grade_section
 )
 
 SELECT DISTINCT
