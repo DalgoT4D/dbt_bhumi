@@ -19,7 +19,7 @@ with fellow_fcm_avg as (
         city,
         grade,
         grade_section,
-        avg(fcm_avg) as fcm_avg
+        round(avg(fcm_avg)) as fcm_avg
     from {{ ref('fellow_fcm_int') }}
     group by
         academic_year,

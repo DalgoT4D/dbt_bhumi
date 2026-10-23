@@ -17,6 +17,7 @@ with fellow_school_class_data as (
         city,
         school_type,
         grade, 
+        no_of_students,
         grade_section
     from {{ ref('fellow_scl_cls_data') }}
 ),
@@ -46,6 +47,7 @@ fy_fellow_school_class_data as (
         fa.city,
         fa.school_type,
         fa.grade, 
+        fa.no_of_students,
         fa.grade_section
     from fellow_school_class_data as fa
     cross join calender_year as cy

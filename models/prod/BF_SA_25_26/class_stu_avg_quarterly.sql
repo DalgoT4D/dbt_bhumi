@@ -19,7 +19,7 @@ with fellow_odc_int as (
         city,
         grade,
         grade_section,
-        avg(student_engagement_percentage) as student_engagement
+        round(avg(student_engagement_percentage)) as student_engagement
     from {{ ref('fellow_odc_int') }}
     group by
         academic_year,

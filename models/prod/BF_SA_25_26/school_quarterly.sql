@@ -13,8 +13,8 @@ with class_upd_int as (
         school_type,
         sum(ptms) as ptms,
         -- sum(helo_circles) as helo_circles,
-        avg(homes_visited) as homes_visited,
-        sum(teaching_hours) as teaching_hours,
+        round(avg(homes_visited)) as homes_visited,
+        -- sum(teaching_hours) as teaching_hours,
         sum(teacher_circles) as teacher_circles,
         sum(school_leader_checkins) as school_leader_checkins
     from {{ ref('class_upd_int') }}
@@ -75,10 +75,10 @@ school_led_checkins_para as (
         'School Leader Check-ins' as parameters,
 
         case
-            when homes_visited is null then 'Black'
-            when homes_visited < 3 then 'Red'
-            when homes_visited = 3 then 'Amber'
-            when homes_visited >= 4 then 'Green'
+            when school_leader_checkins is null then 'Black'
+            when school_leader_checkins < 3 then 'Red'
+            when school_leader_checkins = 3 then 'Amber'
+            when school_leader_checkins >= 4 then 'Green'
         end as brag
     from class_upd_int
 ),
@@ -94,9 +94,9 @@ teacher_circles_para as (
         'Teacher Circles' as parameters,
 
         case
-            when ptms is null then 'Black'
-            when ptms = 0 then 'Red'
-            when ptms >= 1 then 'Green'
+            when teacher_circles is null then 'Black'
+            when teacher_circles = 0 then 'Red'
+            when teacher_circles >= 1 then 'Green'
         end as brag
     from class_upd_int
 )

@@ -19,6 +19,7 @@ WITH fellow_school AS (
         city,
         school_type,
         grade, 
+        no_of_students,
         grade_section
     FROM {{ ref('fy_fellow_sch_cls_int') }}
 ),
@@ -78,7 +79,7 @@ SELECT DISTINCT
     fs.grade_section,
     cu.ptms,
     cu.helo_circles,
-    cu.homes_visited,
+    (cu.homes_visited / NULLIF(fs.no_of_students, 0)) AS homes_visited,
     cu.teaching_hours,
     cu.teacher_circles,
     cu.school_leader_checkins

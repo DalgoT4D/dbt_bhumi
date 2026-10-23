@@ -28,11 +28,11 @@ csat_responses as (
 
         -- ratings (int)
         substring(trim("Overall_Event_Experience"::text) from '([0-9]+)')::int as overall_event_experience_score,
-        substring(trim("How_useful_did_you_find_the_orientation_context_setting_and_deb"::text) from '([0-9]+)')::int as orientation_usefulness_score,
+        substring(trim("How_useful_did_you_find_the_orientation_context_settin_33189303"::text) from '([0-9]+)')::int as orientation_usefulness_score,
 
         -- open-ended feedback
-        coalesce(btrim("What_type_of_volunteer_activity_would_you_like_to_participate_i"::text), '') as next_volunteering_activity,
-        coalesce(btrim("Please_share_any_feedback_or_suggestions_regarding_the_orientat"::text), '') as additional_feedback
+        coalesce(btrim("What_type_of_volunteer_activity_would_you_like_to_part_54944823"::text), '') as next_volunteering_activity,
+        coalesce(btrim("Please_share_any_feedback_or_suggestions_regarding_the_45439332"::text), '') as additional_feedback
 
     from clean_dates
 )
