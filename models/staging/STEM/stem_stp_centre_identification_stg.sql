@@ -76,7 +76,7 @@ with centre_identification as (
         case when btrim("No_of_rooms_provided_for_Bhumi"::text) ~ '^[0-9]+$' then ("No_of_rooms_provided_for_Bhumi"::text)::integer end as rooms_provided_for_bhumi,
         case when btrim("Quantity_of_Blackboard_Whiteboard"::text) ~ '^[0-9]+$' then ("Quantity_of_Blackboard_Whiteboard"::text)::integer end as quantity_blackboard_whiteboard,
         coalesce(btrim("Other_available_resources"::text), '') as other_available_resources,
-        coalesce(btrim("Are_the_rooms_provided_have_sufficient_space_furniture_and_infr"::text), '') as rooms_sufficient_space,
+        coalesce(btrim("Are_the_rooms_provided_have_sufficient_space_furniture_05108881"::text), '') as rooms_sufficient_space,
 
         -- estimated amount
         case when btrim("Estimated_Amount_in_Rs"::text) ~ '^[0-9]+(\.[0-9]+)?$' then ("Estimated_Amount_in_Rs"::text)::numeric end as estimated_amount_rs,

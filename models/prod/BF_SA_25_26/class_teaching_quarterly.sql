@@ -19,7 +19,7 @@ with class_upd_int as (
         school_type,
         grade,
         grade_section,
-        avg(teaching_hours) as teaching_hours
+        round(avg(teaching_hours)) as teaching_hours
     from {{ ref('class_upd_int') }}
     group by
         academic_year,
