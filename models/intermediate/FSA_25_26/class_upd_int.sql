@@ -40,7 +40,7 @@ classroom_updates AS (
 
         SUM(ptms) AS ptms,
         SUM(helo_circles) AS helo_circles,
-        ROUND(AVG(homes_visited), 2) AS homes_visited,
+        SUM(homes_visited) AS homes_visited,
         SUM(teaching_hours) AS teaching_hours,
         SUM(teacher_circles) AS teacher_circles,
         SUM(school_leader_checkins) AS school_leader_checkins
@@ -79,7 +79,7 @@ SELECT DISTINCT
     fs.grade_section,
     cu.ptms,
     cu.helo_circles,
-    (cu.homes_visited / NULLIF(fs.no_of_students, 0)) AS homes_visited,
+    ROUND(cu.homes_visited::NUMERIC / NULLIF(fs.no_of_students, 0) * 100) AS homes_visited,
     cu.teaching_hours,
     cu.teacher_circles,
     cu.school_leader_checkins
