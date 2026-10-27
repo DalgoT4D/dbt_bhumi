@@ -13,16 +13,16 @@ on:
 
 jobs:
   dbt_ci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       # Step 1: Checkout the code
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       # Step 2: Set up Python
       - name: Set Up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v2
         with:
           python-version: '3.9'
 
