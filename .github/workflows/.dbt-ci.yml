@@ -18,13 +18,13 @@ jobs:
     steps:
       # Step 1: Checkout the code
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Step 2: Set up Python
       - name: Set Up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9.0'
+          python-version: '3.9'
 
       #REMOVE Step 3,4,5 if your project doesn't need an SSH Tunnel
       # Step 3: Add SSH private key and configure known_hosts
