@@ -79,7 +79,7 @@ SELECT DISTINCT
     fs.grade_section,
     cu.ptms,
     cu.helo_circles,
-    ROUND(cu.homes_visited::NUMERIC / NULLIF(fs.no_of_students, 0) * 100) AS homes_visited,
+    ROUND(cu.homes_visited::NUMERIC / NULLIF(fs.no_of_students, 0) * 100, 2) AS homes_visited,
     cu.teaching_hours,
     cu.teacher_circles,
     cu.school_leader_checkins
