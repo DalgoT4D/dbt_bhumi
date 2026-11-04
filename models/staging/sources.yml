@@ -1122,3 +1122,10 @@ sources:
       - name: School_Beneficiary_Details_Report
         identifier: School_Beneficiary_Details_Report
         description: Beneficiary details report for schools in SkillEd program
+
+  - name: hr_raw_data
+    schema: hr_raw_data
+    tables:
+      - name: Age_of_Jobs
+        identifier: Age_of_Jobs
+        description: HR hiring tracker G-Sheet with open positions, owners, hiring managers, JD posted / republished dates and age of each job

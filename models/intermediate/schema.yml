@@ -552,7 +552,7 @@ models:
     description: >-
       Intermediate model enriching CV corporate catalyse tracker data with derived metrics:
       project category, volunteer type, partner type, FY/quarter classification,
-      donor SLA tracking, and partner activity flags (active, recurring, new)
+      donor SLA tracking, and partner activity flags (active, new, dormant reactivated, retained, annual)
     columns:
       - name: id
         description: Unique record identifier
@@ -704,12 +704,22 @@ models:
         description: Month name derived from event_start_date (e.g. April)
       - name: partner_events_so_far_in_fy
         description: Running count of events for this partner in the current FY up to this row
+      - name: fy_start_year
+        description: Starting calendar year of the FY (e.g. 2025 for FY 2025-2026)
+      - name: quarter_no
+        description: Quarter number within the FY (1=Apr-Jun, 2=Jul-Sep, 3=Oct-Dec, 4=Jan-Mar)
+      - name: partner_key
+        description: Lowercased, trimmed partner name used to identify a partner for partner metrics
       - name: is_active_partner
-        description: Whether the partner is active (contributed at least 1 event in this FY)
-      - name: is_recurring_partner
-        description: Whether the partner had already run an event in this FY before this event
+        description: Whether the partner has at least one activity in this FY-quarter
       - name: is_new_partner
-        description: Whether this is the partner's first event in this FY
+        description: Whether the partner has no activity record on BVMS before this FY
+      - name: is_dormant_reactivated_partner
+        description: Whether the partner's last activity before this FY is older than the previous FY
+      - name: is_retained_partner
+        description: Whether the partner's last activity before this FY is from the previous FY
+      - name: is_annual_partner
+        description: Whether the partner also had an activity in an earlier quarter of this FY
 
   # FSA 25-26 Intermediate Models
   - name: ODC_25_26

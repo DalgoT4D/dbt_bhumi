@@ -3,43 +3,24 @@
   tags=["cv", "prod"]
 ) }}
 
+-- Partner metrics per FY-quarter (partner = partner name, activity = event start date on BVMS).
+-- new + dormant reactivated + retained = active; annual overlaps with them.
+-- Counts are distinct partners per quarter, so they cannot be summed across quarters for an FY total
+-- (use cv_volunteer_metrics_prd with count(distinct partner_key) for that).
 
 with source as (
     select * from {{ ref('cv_corporate_catalyse_int') }}
-),
-
-partner_agg as (
-    select
-        corporate_partner_id,
-        fy,
-        quarter,
-        month,
-        count(distinct event_id) as event_count
-    from source
-    group by corporate_partner_id, fy, quarter, month
-),
-
-cal_partner as (
-    select
-        corporate_partner_id,
-        fy,
-        quarter,
-        month,
-        event_count,
-        sum(case when event_count >= 1 then 1 else 0 end) as active_partner_count,
-        sum(case when event_count > 1 then 1 else 0 end) as recurring_partner_count,
-        sum(case when event_count = 1 then 1 else 0 end) as new_partner_count
-    from partner_agg
-    group by corporate_partner_id, fy, quarter, month, event_count
 )
 
-select *
-from cal_partner
-where
-    corporate_partner_id is not null
-    and coalesce(trim(corporate_partner_id::text), '') <> ''
-    and coalesce(trim(corporate_partner_id::text), '') <> '{}'
-    and fy is not null
-    and quarter is not null
-    and month is not null
-order by fy, quarter, month
+select
+    fy,
+    quarter,
+    count(distinct partner_key) as active_partner_count,
+    count(distinct case when is_new_partner then partner_key end) as new_partner_count,
+    count(distinct case when is_dormant_reactivated_partner then partner_key end) as dormant_reactivated_partner_count,
+    count(distinct case when is_retained_partner then partner_key end) as retained_partner_count,
+    count(distinct case when is_annual_partner then partner_key end) as annual_partner_count
+from source
+where is_active_partner
+group by fy, quarter
+order by fy, quarter
