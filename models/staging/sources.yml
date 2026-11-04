@@ -1129,3 +1129,15 @@ sources:
       - name: Age_of_Jobs
         identifier: Age_of_Jobs
         description: HR hiring tracker G-Sheet with open positions, owners, hiring managers, JD posted / republished dates and age of each job
+      - name: Bhumi_Internal_CD_Survey_NPS
+        identifier: Bhumi_Internal_CD_Survey_NPS
+        description: Bhumi internal CD survey NPS G-Sheet with monthly head count, participation, named responses, NPS and weighted average
+      - name: CGP
+        identifier: CGP
+        description: HR CGP G-Sheet with employee designation changes (current and new designation, effective date and type)
+      - name: Events
+        identifier: Events
+        description: HR events and notifications G-Sheet with FY, date, status, expected / actual participants and CSAT
+      - name: Status_Tracker
+        identifier: Status_Tracker
+        description: HR status tracker G-Sheet with employee team, reporting manager, date of joining and IGrow status
