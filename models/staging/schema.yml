@@ -1976,3 +1976,81 @@ models:
         description: Date the job description was republished, if any
       - name: age_of_job
         description: Days the position has been open, as calculated in the sheet at sync time
+  - name: nps_hr_stg
+    description: Staging model for the Bhumi internal CD survey NPS sheet with cleaned text and typed numbers
+    columns:
+      - name: sl_no
+        description: Serial number of the row in the sheet
+      - name: fy
+        description: Financial year label of the survey (e.g. FY 25-26)
+      - name: survey_month
+        description: Month the survey was run in, formatted Mon-YYYY (e.g. Dec-2022)
+      - name: cd_head_count
+        description: Head count eligible for the survey
+      - name: participants
+        description: Number of people who took the survey
+      - name: named_responses
+        description: Number of responses where the respondent gave their name
+      - name: participation_percent
+        description: Participation percentage as shown in the sheet (e.g. 85 for 85%)
+      - name: nps
+        description: Net Promoter Score for the survey (-100 to 100)
+      - name: weighted_average
+        description: Weighted average score of the survey responses
+  - name: cgp_hr_stg
+    description: Staging model for the HR CGP sheet of employee designation changes with cleaned text and typed dates
+    columns:
+      - name: sl_no
+        description: Serial number of the row in the sheet
+      - name: employee_id
+        description: Employee ID (e.g. C00202)
+      - name: name
+        description: Employee name
+      - name: effective_date
+        description: Date the designation change takes effect
+      - name: current_designation
+        description: Designation before the change (NULL when not filled in the sheet)
+      - name: new_designation
+        description: Designation after the change
+      - name: type
+        description: Type of designation change (NULL when the sheet says N/A)
+  - name: events_hr_stg
+    description: Staging model for the HR events sheet with cleaned text, full event dates and typed numbers
+    columns:
+      - name: fy
+        description: Financial year of the event (April–March, e.g. 2026-2027)
+      - name: type
+        description: Entry type (Event or Notification)
+      - name: event_date
+        description: >-
+          Event date; the sheet has no year, so April–December take the FY's first year
+          and January–March the second (FY 2026-2027, January 5 → 2027-01-05)
+      - name: event_name
+        description: Name of the event or deadline
+      - name: description
+        description: Additional details about the event
+      - name: status
+        description: Event status (e.g. Done, No)
+      - name: no_of_expected_participants
+        description: Number of participants expected
+      - name: number_of_participants
+        description: Number of people who participated
+      - name: csat
+        description: CSAT score for the event
+  - name: status_tracker_hr_stg
+    description: Staging model for the HR status tracker sheet with cleaned text and typed dates
+    columns:
+      - name: sl_no
+        description: Serial number of the row in the sheet
+      - name: employee_id
+        description: Employee ID, uppercased (e.g. C00169, BV0012)
+      - name: name
+        description: Employee name
+      - name: team
+        description: Team the employee belongs to (e.g. Fellowship, MarComm)
+      - name: reporting_manager
+        description: Employee's reporting manager
+      - name: date_of_joining
+        description: Date the employee joined
+      - name: igrow_status
+        description: Employee's IGrow review step (e.g. Step 6 / Step 7 dropdown values)
