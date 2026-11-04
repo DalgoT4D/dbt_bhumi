@@ -1953,3 +1953,26 @@ models:
         description: Location of the registrant
       - name: hr_status
         description: HR processing status
+  - name: age_of_job_stg
+    description: Staging model for the HR hiring tracker (Age_of_Jobs G-Sheet) with cleaned text, typed dates and numbers
+    columns:
+      - name: s_no
+        description: Serial number of the row in the tracker
+      - name: quarter
+        description: Quarter the position was opened in (Q1-Q4)
+      - name: position
+        description: Job title of the open position
+      - name: category
+        description: Category of the position (e.g. Manager)
+      - name: status
+        description: Hiring status (e.g. Open Positions, Offer Released)
+      - name: owner
+        description: HR team member who owns the hiring for the position
+      - name: hiring_manager
+        description: Hiring manager for the position
+      - name: jd_posted_date
+        description: Date the job description was first posted
+      - name: republished_date
+        description: Date the job description was republished, if any
+      - name: age_of_job
+        description: Days the position has been open, as calculated in the sheet at sync time

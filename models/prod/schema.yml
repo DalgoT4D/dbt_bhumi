@@ -1671,12 +1671,36 @@ models:
         description: Actual expenses incurred.
       - name: total_no_of_beneficiary
         description: Total number of beneficiaries impacted.
+      - name: partner_key
+        description: Lowercased, trimmed partner name; count distinct of this for partner metrics.
       - name: is_active_partner
-        description: Flag indicating whether the corporate partner is currently active.
-      - name: is_recurring_partner
-        description: Flag indicating whether the partner is a recurring partner.
+        description: Flag indicating the partner has at least one activity in this FY-quarter.
       - name: is_new_partner
-        description: Flag indicating whether the partner is a new partner.
+        description: Flag indicating the partner has no activity record on BVMS before this FY.
+      - name: is_dormant_reactivated_partner
+        description: Flag indicating the partner's last activity before this FY is older than the previous FY.
+      - name: is_retained_partner
+        description: Flag indicating the partner's last activity before this FY is from the previous FY.
+      - name: is_annual_partner
+        description: Flag indicating the partner also had an activity in an earlier quarter of this FY.
+
+  - name: cv_agg_partners_prd
+    description: Partner metrics per FY-quarter (active, new, dormant reactivated, retained, annual partner counts).
+    columns:
+      - name: fy
+        description: Financial year (April–March cycle, e.g. 2025-2026).
+      - name: quarter
+        description: Quarter within FY (Q1=Apr-Jun, Q2=Jul-Sep, Q3=Oct-Dec, Q4=Jan-Mar).
+      - name: active_partner_count
+        description: Partners with at least one activity in the quarter.
+      - name: new_partner_count
+        description: Active partners with no activity record on BVMS before this FY.
+      - name: dormant_reactivated_partner_count
+        description: Active partners whose last activity before this FY is older than the previous FY.
+      - name: retained_partner_count
+        description: Active partners whose last activity before this FY is from the previous FY.
+      - name: annual_partner_count
+        description: Active partners who also had an activity in an earlier quarter of this FY.
 
   - name: stem_donor_trainer_school_metrics_prd
     description: >

@@ -4,7 +4,7 @@
 ) }}
 
 -- Event-level fact table for Corporate Volunteering dashboard.
--- Supports all 17 metrics via BI-tool aggregation:
+-- Supports all 19 metrics via BI-tool aggregation:
 --   1.  Total Volunteers           → sum(actual_no_of_volunteers)
 --   2.  Total Volunteering Hours   → sum(total_volunteering_hours)
 --   3.  Volunteers by Project      → group by project_category, sum(actual_no_of_volunteers)
@@ -21,9 +21,12 @@
 --   12. Beneficiaries by Project   → group by project_category, sum(total_no_of_beneficiary)
 --   13. FY                         → filter/group by fy
 --   14. Quarter                    → filter/group by quarter
---   15. Active Partners            → filter is_active_partner, count(distinct corporate_partner_id)
---   16. Recurring Partners         → filter is_recurring_partner, count(distinct corporate_partner_id)
---   17. New Partners               → filter is_new_partner, count(distinct corporate_partner_id)
+--   15. Active Partners              → filter is_active_partner, count(distinct partner_key)
+--   16. New Partners                 → filter is_new_partner, count(distinct partner_key)
+--   17. Dormant Partners Reactivated → filter is_dormant_reactivated_partner, count(distinct partner_key)
+--   18. Retained Partners            → filter is_retained_partner, count(distinct partner_key)
+--   19. Annual Partners              → filter is_annual_partner, count(distinct partner_key)
+--   (quarter-level counts for 15–19 are pre-aggregated in cv_agg_partners_prd)
 
 with source as (
     select * from {{ ref('cv_corporate_catalyse_int') }}
@@ -43,6 +46,7 @@ select
     partner_type,
     corporate_partner_id,
     corporate_partner_name,
+    partner_key,
     coordinator_name,
     event_city,
     event_start_date,
@@ -76,10 +80,12 @@ select
     -- beneficiary metrics (metrics 11–12)
     total_no_of_beneficiary,
 
-    -- partner flags (metrics 15–17)
+    -- partner flags (metrics 15–19)
     is_active_partner,
-    is_recurring_partner,
-    is_new_partner
+    is_new_partner,
+    is_dormant_reactivated_partner,
+    is_retained_partner,
+    is_annual_partner
 
 from source
 order by

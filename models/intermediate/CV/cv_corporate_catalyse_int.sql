@@ -72,7 +72,18 @@ enriched as (
             when extract(month from source.event_start_date) in (10, 11, 12) then 'Q3'
             when extract(month from source.event_start_date) in (1, 2, 3) then 'Q4'
         end as quarter,
-        to_char(source.event_start_date, 'Month') as month
+        to_char(source.event_start_date, 'Month') as month,
+
+        -- numeric FY / quarter for comparing periods: shifting the date back 3 months lines Apr–Mar up with Jan–Dec
+        -- (e.g. Apr 2025 → fy_start_year 2025, quarter_no 1 | Mar 2026 → fy_start_year 2025, quarter_no 4)
+        extract(year from source.event_start_date - interval '3 months')::integer as fy_start_year,
+        extract(quarter from source.event_start_date - interval '3 months')::integer as quarter_no,
+
+        -- partner identity for partner metrics (15–19): partner name, case and space insensitive
+        case
+            when btrim(source.corporate_partner_name) in ('', '{}') then null
+            else lower(btrim(source.corporate_partner_name))
+        end as partner_key
 
     from source
     left join donor_report as dr on source.event_id = dr.event_id
@@ -89,14 +100,44 @@ partner_stats as (
             rows between unbounded preceding and current row
         ) as partner_events_so_far_in_fy
     from enriched
+),
+
+-- one row per partner per FY they had an activity in, with their first active quarter of that FY
+partner_fy as (
+    select
+        partner_key,
+        fy_start_year,
+        min(quarter_no) as first_quarter_no_in_fy
+    from enriched
+    where partner_key is not null and fy_start_year is not null
+    group by partner_key, fy_start_year
+),
+
+-- most recent earlier FY the partner had an activity in (null = no activity on BVMS before this FY)
+partner_fy_history as (
+    select
+        *,
+        lag(fy_start_year) over (partition by partner_key order by fy_start_year) as last_active_fy_start_year
+    from partner_fy
 )
 
+-- partner flags are evaluated per partner per FY-quarter, so every event of a partner in a quarter carries the same flags.
+-- new / retained / dormant reactivated depend on history before this FY and are mutually exclusive;
+-- annual depends on earlier quarters of this FY and can overlap with them.
 select
-    *,
-    -- active:    this event contributes to the partner's activity in this FY (metric 15)
-    (partner_events_so_far_in_fy >= 1) as is_active_partner,
-    -- recurring: at the point of this event, the partner has already run >=1 event in this FY (metric 16)
-    (partner_events_so_far_in_fy > 1) as is_recurring_partner,
-    -- new:       this is the partner's first event in this FY (metric 17)
-    (partner_events_so_far_in_fy = 1) as is_new_partner
-from partner_stats
+    ps.*,
+    -- active:              partner has at least one activity in this FY-quarter (metric 15)
+    (pfh.partner_key is not null) as is_active_partner,
+    -- new:                 no activity record before this FY at all (metric 16)
+    coalesce(pfh.partner_key is not null and pfh.last_active_fy_start_year is null, false) as is_new_partner,
+    -- dormant reactivated: last activity before this FY is older than the previous FY (metric 17)
+    coalesce(pfh.last_active_fy_start_year < pfh.fy_start_year - 1, false) as is_dormant_reactivated_partner,
+    -- retained:            last activity before this FY is from the previous FY (metric 18)
+    coalesce(pfh.last_active_fy_start_year = pfh.fy_start_year - 1, false) as is_retained_partner,
+    -- annual:              partner also had an activity in an earlier quarter of this FY (metric 19)
+    coalesce(ps.quarter_no > pfh.first_quarter_no_in_fy, false) as is_annual_partner
+from partner_stats as ps
+left join partner_fy_history as pfh
+    on
+        ps.partner_key = pfh.partner_key
+        and ps.fy_start_year = pfh.fy_start_year
