@@ -19,11 +19,12 @@ with trimmed as (
     from {{ source('hr_raw_data', 'Events') }}
 ),
 
--- Date has no year (e.g. "January 5"), so month and day are read here and the year comes from FY
+-- Date has no year (e.g. "January 5"), so month and day are read here and the year comes from FY.
+-- FY's first year is read from 2 or 4 digits so "2026-2027" and "FY 26-27" both give 2026
 date_parts as (
     select
         *,
-        substring(fy from '[0-9]{4}')::integer as fy_start_year,
+        right('20' || substring(fy from '[0-9]{4}|[0-9]{2}'), 4)::integer as fy_start_year,
         array_position(
             array['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'],
             lower(left(substring(event_date from '[A-Za-z]+'), 3))
@@ -43,7 +44,8 @@ month_start as (
 
 events as (
     select
-        fy,
+        -- YYYY-YYYY like every HR model (FY 26-27 → 2026-2027)
+        fy_start_year::text || '-' || (fy_start_year + 1)::text as fy,
         initcap(type) as type,
         -- day is checked against the month's length so a typo like "February 30" becomes NULL instead of failing
         case
@@ -70,3 +72,4 @@ select
     number_of_participants,
     csat
 from events
+where event_name is not null

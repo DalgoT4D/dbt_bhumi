@@ -1982,7 +1982,7 @@ models:
       - name: sl_no
         description: Serial number of the row in the sheet
       - name: fy
-        description: Financial year label of the survey (e.g. FY 25-26)
+        description: Financial year of the survey, formatted YYYY-YYYY (e.g. 2025-2026)
       - name: survey_month
         description: Month the survey was run in, formatted Mon-YYYY (e.g. Dec-2022)
       - name: cd_head_count
@@ -2018,7 +2018,7 @@ models:
     description: Staging model for the HR events sheet with cleaned text, full event dates and typed numbers
     columns:
       - name: fy
-        description: Financial year of the event (April–March, e.g. 2026-2027)
+        description: Financial year of the event (April–March), formatted YYYY-YYYY (e.g. 2026-2027)
       - name: type
         description: Entry type (Event or Notification)
       - name: event_date
