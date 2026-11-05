@@ -4,7 +4,8 @@
 ) }}
 
 -- Partner metrics per FY-quarter (partner = partner name, activity = event start date on BVMS).
--- new + dormant reactivated + retained = active; annual overlaps with them.
+-- new, dormant reactivated and retained never overlap; retained and annual never overlap;
+-- new and dormant reactivated can overlap with annual in a partner's later quarters of the FY.
 -- Counts are distinct partners per quarter, so they cannot be summed across quarters for an FY total
 -- (use cv_volunteer_metrics_prd with count(distinct partner_key) for that).
 

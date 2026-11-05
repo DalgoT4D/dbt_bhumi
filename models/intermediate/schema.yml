@@ -717,7 +717,9 @@ models:
       - name: is_dormant_reactivated_partner
         description: Whether the partner's last activity before this FY is older than the previous FY
       - name: is_retained_partner
-        description: Whether the partner's last activity before this FY is from the previous FY
+        description: >-
+          Whether the partner has activity in this quarter, none in an earlier quarter of this FY,
+          and activity in the previous FY
       - name: is_annual_partner
         description: Whether the partner also had an activity in an earlier quarter of this FY
 
