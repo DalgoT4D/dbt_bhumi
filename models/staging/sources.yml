@@ -1141,3 +1141,6 @@ sources:
       - name: Status_Tracker
         identifier: Status_Tracker
         description: HR status tracker G-Sheet with employee team, reporting manager, date of joining and IGrow status
+      - name: GPTW_Trust_Index_
+        identifier: GPTW_Trust_Index_
+        description: HR Great Place to Work (GPTW) Trust Index G-Sheet with survey month, FY and trust index score
