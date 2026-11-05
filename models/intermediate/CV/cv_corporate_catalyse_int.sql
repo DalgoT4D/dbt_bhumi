@@ -122,8 +122,8 @@ partner_fy_history as (
 )
 
 -- partner flags are evaluated per partner per FY-quarter, so every event of a partner in a quarter carries the same flags.
--- new / retained / dormant reactivated depend on history before this FY and are mutually exclusive;
--- annual depends on earlier quarters of this FY and can overlap with them.
+-- new / retained / dormant reactivated are mutually exclusive; retained and annual never overlap
+-- (retained is only the first active quarter of the FY), while new and dormant reactivated can overlap with annual.
 select
     ps.*,
     -- active:              partner has at least one activity in this FY-quarter (metric 15)
@@ -132,8 +132,11 @@ select
     coalesce(pfh.partner_key is not null and pfh.last_active_fy_start_year is null, false) as is_new_partner,
     -- dormant reactivated: last activity before this FY is older than the previous FY (metric 17)
     coalesce(pfh.last_active_fy_start_year < pfh.fy_start_year - 1, false) as is_dormant_reactivated_partner,
-    -- retained:            last activity before this FY is from the previous FY (metric 18)
-    coalesce(pfh.last_active_fy_start_year = pfh.fy_start_year - 1, false) as is_retained_partner,
+    -- retained:            activity in this quarter, none in an earlier quarter of this FY, and activity in the previous FY (metric 18)
+    coalesce(
+        pfh.last_active_fy_start_year = pfh.fy_start_year - 1
+        and ps.quarter_no = pfh.first_quarter_no_in_fy, false
+    ) as is_retained_partner,
     -- annual:              partner also had an activity in an earlier quarter of this FY (metric 19)
     coalesce(ps.quarter_no > pfh.first_quarter_no_in_fy, false) as is_annual_partner
 from partner_stats as ps
