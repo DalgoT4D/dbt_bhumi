@@ -2054,3 +2054,14 @@ models:
         description: Date the employee joined
       - name: igrow_status
         description: Employee's IGrow review step (e.g. Step 6 / Step 7 dropdown values)
+  - name: gptw_trust_hr_stg
+    description: Staging model for the HR Great Place to Work (GPTW) Trust Index sheet
+    columns:
+      - name: sl_no
+        description: Serial number of the row in the sheet
+      - name: fy
+        description: Financial year of the survey, formatted YYYY-YYYY (e.g. 2025-2026)
+      - name: survey_month
+        description: Month the survey was run in, formatted Mon-YYYY (e.g. Jan-2026)
+      - name: trust_index
+        description: GPTW Trust Index score for the survey
