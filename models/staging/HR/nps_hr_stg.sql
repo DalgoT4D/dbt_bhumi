@@ -20,10 +20,12 @@ with trimmed as (
 ),
 
 -- Survey_Month mixes "Dec-22" and "August 2026"; reading the month name and year separately
--- handles both (and variants like "Sept 2026" or "Mar 24")
+-- handles both (and variants like "Sept 2026" or "Mar 24").
+-- FY's first year is read the same way so "FY 22-23" and "2022-2023" both give 2022
 survey_month_parts as (
     select
         *,
+        right('20' || substring(fy from '[0-9]{4}|[0-9]{2}'), 4)::integer as fy_start_year,
         lower(left(substring(survey_month from '^[A-Za-z]+'), 3)) as survey_month_abbr,
         substring(survey_month from '[0-9]+$') as survey_month_year
     from trimmed
@@ -32,7 +34,8 @@ survey_month_parts as (
 nps_survey as (
     select
         case when sl_no ~ '^[0-9]+$' then sl_no::integer end as sl_no,
-        upper(fy) as fy,
+        -- YYYY-YYYY like every HR model (FY 22-23 → 2022-2023)
+        fy_start_year::text || '-' || (fy_start_year + 1)::text as fy,
         -- Mon-YYYY (e.g. Dec-22 → Dec-2022, August 2026 → Aug-2026)
         case
             when
