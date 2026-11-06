@@ -19,4 +19,4 @@ with school_data as (
 select distinct * from school_data
 where
     school_id is not null
-    and udise_code != '123456'
+    and udise_code is distinct from '123456'
