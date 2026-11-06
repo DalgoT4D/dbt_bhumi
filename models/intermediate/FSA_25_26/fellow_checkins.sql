@@ -53,6 +53,12 @@ checkins as (
 select distinct
     fs.academic_year,
     fs.month,
+    MAKE_DATE(
+        SUBSTRING(fs.academic_year from '\d{4}')::INT
+        + case when EXTRACT(month from TO_DATE(fs.month, 'Mon')) < 4 then 1 else 0 end,
+        EXTRACT(month from TO_DATE(fs.month, 'Mon'))::INT,
+        1
+    ) as month_start_date,
     fs.quarter,
     fs.fellow_id,
     fs.fellow_name,

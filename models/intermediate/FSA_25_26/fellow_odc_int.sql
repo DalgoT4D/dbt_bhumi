@@ -57,6 +57,12 @@ SELECT
     fs.academic_year,
     fs.quarter,
     fs.month,
+    MAKE_DATE(
+        SUBSTRING(fs.academic_year FROM '\d{4}')::INT
+        + CASE WHEN EXTRACT(MONTH FROM TO_DATE(fs.month, 'Mon')) < 4 THEN 1 ELSE 0 END,
+        EXTRACT(MONTH FROM TO_DATE(fs.month, 'Mon'))::INT,
+        1
+    ) AS month_start_date,
     fs.fellow_id,
     fs.fellow_name,
     fs.pm_name,

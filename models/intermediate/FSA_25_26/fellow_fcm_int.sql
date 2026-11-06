@@ -53,6 +53,12 @@ fcm_updates as (
 select distinct
     fs.academic_year,
     fs.month,
+    make_date(
+        substring(fs.academic_year from '\d{4}')::INT
+        + case when extract(month from to_date(fs.month, 'Mon')) < 4 then 1 else 0 end,
+        extract(month from to_date(fs.month, 'Mon'))::INT,
+        1
+    ) as month_start_date,
     fs.quarter,
     fs.fellow_id,
     fs.fellow_name,

@@ -40,7 +40,7 @@ ptms_para as (
         'PTMS' as parameters,
 
         case
-            when ptms is null then 'Black'
+            when ptms is NULL then 'Black'
             when ptms = 0 then 'Red'
             when ptms >= 1 then 'Green'
         end as brag
@@ -58,7 +58,7 @@ home_visits_para as (
         'Home visits' as parameters,
 
         case
-            when homes_visited is null then 'Black'
+            when homes_visited is NULL then 'Black'
             when homes_visited < 30 then 'Red'
             when homes_visited >= 30 and homes_visited <=50 then 'Amber'
             when homes_visited > 50 then 'Green'
@@ -77,7 +77,7 @@ school_led_checkins_para as (
         'School Leader Check-ins' as parameters,
 
         case
-            when school_leader_checkins is null then 'Black'
+            when school_leader_checkins is NULL then 'Black'
             when school_leader_checkins < 3 then 'Red'
             when school_leader_checkins = 3 then 'Amber'
             when school_leader_checkins >= 4 then 'Green'
@@ -96,7 +96,7 @@ teacher_circles_para as (
         'Teacher Circles' as parameters,
 
         case
-            when teacher_circles is null then 'Black'
+            when teacher_circles is NULL then 'Black'
             when teacher_circles = 0 then 'Red'
             when teacher_circles >= 1 then 'Green'
         end as brag

@@ -147,6 +147,12 @@ classroom_updates AS (
 SELECT
     fs.academic_year,
     fs.month,
+    make_date(
+        substring(fs.academic_year FROM '\d{4}')::INT
+        + CASE WHEN extract(MONTH FROM to_date(fs.month, 'Mon')) < 4 THEN 1 ELSE 0 END,
+        extract(MONTH FROM to_date(fs.month, 'Mon'))::INT,
+        1
+    ) AS month_start_date,
     fs.quarter,
     fs.fellow_id,
     fs.fellow_name,

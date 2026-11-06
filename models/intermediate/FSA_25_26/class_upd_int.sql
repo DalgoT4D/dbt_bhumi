@@ -64,6 +64,13 @@ classroom_updates AS (
 SELECT DISTINCT
     fs.academic_year,
     fs.month,
+    -- 1st of the month; academic year runs Apr (start year) to Mar (start year + 1)
+    MAKE_DATE(
+        SUBSTRING(fs.academic_year FROM '\d{4}')::INT
+        + CASE WHEN EXTRACT(MONTH FROM TO_DATE(fs.month, 'Mon')) < 4 THEN 1 ELSE 0 END,
+        EXTRACT(MONTH FROM TO_DATE(fs.month, 'Mon'))::INT,
+        1
+    ) AS month_start_date,
     fs.quarter,
     fs.fellow_id,
     fs.fellow_name,
@@ -79,7 +86,7 @@ SELECT DISTINCT
     fs.grade_section,
     cu.ptms,
     cu.helo_circles,
-    ROUND(cu.homes_visited::NUMERIC / NULLIF(fs.no_of_students, 0) * 100, 2) AS homes_visited,
+    ROUND(cu.homes_visited::NUMERIC / NULLIF(fs.no_of_students, 0), 2) AS homes_visited,
     cu.teaching_hours,
     cu.teacher_circles,
     cu.school_leader_checkins
