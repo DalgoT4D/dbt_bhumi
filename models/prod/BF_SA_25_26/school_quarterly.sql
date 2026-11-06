@@ -18,6 +18,7 @@ with class_upd_int as (
         sum(teacher_circles) as teacher_circles,
         sum(school_leader_checkins) as school_leader_checkins
     from {{ ref('class_upd_int') }}
+    where school_name is not NULL
     group by
         academic_year,
         quarter,
@@ -25,6 +26,7 @@ with class_upd_int as (
         school_state,
         city,
         school_type
+    
 ),
 
 ptms_para as (
