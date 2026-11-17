@@ -39,6 +39,13 @@ select distinct
     s.school_name,
     s.school_state,
     s.city,
+    case
+        when s.city ilike '%chennai%' then 'Chennai'
+        when s.city ilike '%coimbatore%' then 'Coimbatore'
+        when s.city ilike '%anaimalai%' then 'Coimbatore'
+        when s.city ilike '%trichy%' then 'Tiruchirappalli'
+        when s.city ilike '%tiruchi%' then 'Tiruchirappalli'
+    end as district,
     -- s.is_active,
     -- s.udise_code,
     s.school_type,
