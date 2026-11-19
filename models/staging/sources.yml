@@ -954,13 +954,38 @@ sources:
     tables:
       - name: all_vouchers_new
         identifier: All_Vouchers_New
-        description: This is a placeholder table All_Vouchers_New
+        description: This is table All_Vouchers_New
       - name: all_budget_masters
         identifier: All_Budget_Masters
-        description: This is a placeholder table All_Budget_Masters
+        description: This is table All_Budget_Masters
       - name: all_accounts
         identifier: All_Accounts
-        description: This is a placeholder table All_Accounts
+        description: This is table All_Accounts
+      - name: Budget_Line_Item_Master_Report
+        identifier: Budget_Line_Item_Master_Report
+        description: This is table Budget_Line_Item_Master_Report
+      - name: Employee_Vounteer_Report
+        identifier: Employee_Vounteer_Report
+        description: This is table Employee_Vounteer_Report
+      - name: Lead_Time_Summary_Report
+        identifier: Lead_Time_Summary_Report
+        description: This is table Lead_Time_Summary_Report
+      - name: Project_Utilisation_Summary_Report
+        identifier: Project_Utilisation_Summary_Report
+        description: This is table Project_Utilisation_Summary_Report
+      - name: Employee_Bill_Line_Item_Report
+        identifier: Employee_Bill_Line_Item_Report
+        description: This is table Employee_Bill_Line_Item_Report
+      - name: All_Approved_Bills
+        identifier: All_Approved_Bills
+        description: This is table All_Approved_Bills
+      - name: All_Vendor_Advances_Finance
+        identifier: All_Vendor_Advances_Finance
+        description: This is table All_Vendor_Advances_Finance
+      - name: All_Employee_Advances_Finance
+        identifier: All_Employee_Advances_Finance
+        description: This is table All_Employee_Advances_Finance
+
 
 
 

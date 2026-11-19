@@ -2067,3 +2067,269 @@ models:
         description: Percentage value for the KPI.
       - name: rag_category
         description: RAG category (Red, Amber, or Green) for the KPI.
+
+  # Finance Production Models
+  - name: fund_utilisation_line_items_prd
+    description: >
+      Program-wise fund utilisation at budget line item grain, powering the donor-wise /
+      project-wise utilisation dashboard. One row per Zoho budget line item; the BI layer
+      aggregates to program, donor or project level.
+      IMPORTANT - total_paid is a cumulative-to-date snapshot, not period spend; this source
+      carries no spend date, so financial_year is the only period dimension available.
+      IMPORTANT - roll-ups must compute sum(total_paid) / sum(budget_amount) * 100. Never
+      average the row-level utilisation_pct: an unweighted mean of line-item percentages is
+      materially wrong when line items differ in size.
+      IMPORTANT - the model carries TWO utilisation measures on different bases. utilisation_pct
+      is cash basis (disbursed only); utilisation_pct_reported_incl_payables is Zoho's own
+      commitment basis (also counts approved-but-unpaid vouchers) and is normally higher. Pick
+      one basis per tile and label it.
+      Amounts are never coalesced to zero and no rows are filtered out, so totals tie back to
+      the finance team's own Zoho report; use is_amount_missing to quantify any gap.
+      For true date-range utilisation, voucher-level spend is needed
+      (project_utilisation_summary_report_stg).
+    columns:
+      - name: budget_line_item_id
+        description: Zoho record ID of the budget line item. Primary key of this model.
+      - name: budget_line_item_code
+        description: Human-readable line item code (Zoho Series), used by finance staff for reconciliation.
+      - name: budget_master_id
+        description: ID of the parent budget master / grant the line item belongs to.
+      - name: financial_year
+        description: Financial year label as held in Zoho. The period dimension the dashboard filters on.
+      - name: financial_year_start_year
+        description: Starting calendar year parsed from financial_year, for chronological sorting of the period filter.
+      - name: program
+        description: >
+          Program name, derived from the budget line item's Project field. Whitespace-normalised
+          only; case is preserved so acronyms such as STEM and CSR are not mangled.
+      - name: donor_name
+        description: Donor funding the line item. Whitespace-normalised, case preserved.
+      - name: donor_project_name
+        description: Donor-facing project name for the line item.
+      - name: donor_budget_line_item
+        description: Donor-facing budget line item name, for example the expense head or cost category.
+      - name: entity_name
+        description: Bhumi legal entity the budget sits under.
+      - name: donation_type
+        description: Donation type as recorded in Zoho. Free text at source.
+      - name: donation_source
+        description: Donation source as recorded in Zoho. Free text at source.
+      - name: location
+        description: Location or locations attached to the line item, comma-separated where Zoho holds multiple.
+      - name: status
+        description: >
+          Line item status as recorded in Zoho. Deliberately not filtered in the model so that
+          totals tie to the source; apply any default filter in the BI tool.
+      - name: mou_start_date
+        description: MOU start date of the parent grant.
+      - name: mou_end_date
+        description: MOU end date of the parent grant.
+      - name: budget_amount
+        description: Sanctioned budget for the line item. NULL where the source value was absent or unparseable, never zero-filled.
+      - name: total_paid
+        description: Cumulative amount disbursed against the line item as at the last data refresh, not period spend.
+      - name: unspent_amount
+        description: >
+          budget_amount less total_paid at row level. NULL-propagating, so
+          sum(budget_amount) - sum(total_paid) does not equal sum(unspent_amount) when NULLs are
+          partial. Dashboard tiles should subtract the two sums instead.
+      - name: utilisation_pct
+        description: >
+          CASH-basis utilisation percentage (0-100), recomputed as total_paid / budget_amount * 100,
+          so it is always consistent with the two amount columns on the same row. Counts only money
+          that has actually been disbursed. Canonical measure at row level only; must be recomputed
+          from summed amounts for any roll-up.
+      - name: utilisation_pct_reported_incl_payables
+        description: >
+          COMMITMENT-basis utilisation percentage as reported by Zoho, passed through unchanged.
+          Verified to equal (budget_amount - balance_with_payable) / budget_amount * 100 on 3303 of
+          3387 rows, so it also counts approved-but-unpaid vouchers and is therefore normally HIGHER
+          than utilisation_pct. The two columns are different measures and are NOT expected to
+          agree; the gap between them is the open payables pipeline, not a data quality defect.
+          Do not put both on the same dashboard tile without labelling the basis.
+      - name: is_overspent
+        description: >
+          True where total_paid exceeds budget_amount. Flat comparison with no tolerance
+          allowance, since tolerance_balance is out of scope for this model. NULL rather than
+          false where either amount is missing or the budget is not positive, so that unknown
+          does not read as within budget.
+      - name: is_amount_missing
+        description: True where budget_amount or total_paid could not be parsed from the source, for quantifying gaps against Zoho totals.
+      - name: data_as_of
+        description: >
+          Date the model was built. Answers "as of when" for the cumulative total_paid measure.
+          Reflects the dbt run rather than the Zoho extraction time.
+
+  - name: expense_approval_sla_prd
+    description: >
+      Expense approval turnaround at voucher grain, powering the "Expense approvals SLA"
+      dashboard. One row per voucher in the Zoho Lead Time Summary Report; the BI layer
+      aggregates. Two stages are measured:
+      stage 1 "Until RM approval" runs from invoice creation (added_time) to Received by
+      Finance (received_by_finance); stage 2 "Until finance final approval and payment" runs
+      from Received by Finance to the LATER of the finance associate and finance manager
+      sign-offs, so the clock stops at final finance approval rather than the first finance touch.
+      IMPORTANT - the two stages have DIFFERENT population rules, by design. Stage 1 is
+      measured on every voucher whatever its status. Stage 2 and the end-to-end total are
+      measured on VERIFIED vouchers only - status 'Bhumi Verified' or the downstream
+      'Payment Made' - so a finance turnaround is never reported on an expense that never
+      cleared verification; both are NULL on every other status, including Rejected and For
+      Correction, even where the approval timestamps exist. is_finance_sla_eligible carries
+      that gate as a column.
+      This narrows the two measures, not the grain: no rows are dropped, so voucher counts
+      still tie back to the finance team's own Zoho report.
+      IMPORTANT - durations are WORKING days (Mon-Fri) and are ELAPSED, not inclusive: a
+      same-day turnaround is 0 and Friday to Monday is 1. Public holidays are NOT excluded,
+      because this project holds no holiday calendar, so these numbers read slightly high
+      around festival weeks. macros/working_days_between.sql is the one place to fix that.
+      IMPORTANT - both stages hinge on received_by_finance, which Zoho only began capturing
+      part way through FY 2025-26. Coverage was 0% for FY 2023-24 and FY 2024-25, 51% for
+      FY 2025-26 and 70% for FY 2026-27 when the model was built, i.e. 36% of all vouchers.
+      The SLA is therefore only reportable from FY 2025-26 onward, and the three stray
+      FY 2024-25 rows that do carry the date average 223 working days on stage 1 and will
+      distort any all-time tile. Filter the dashboard to FY 2025-26 and later.
+      IMPORTANT - stage 1 carries the dashboard's "RM approval" label but actually measures
+      time to finance RECEIPT, which is what the spec defines. manager_approved_time is carried
+      on the model in case the label should instead be read literally.
+      IMPORTANT - the two stage averages are computed over different and much less comparable
+      row sets, because stage 2 is restricted to verified vouchers and a voucher can also be
+      received without being approved yet. Averaging them separately and adding the results is
+      NOT the same as the average of working_days_total_approval; use that column whenever the
+      two stages must sum to the end-to-end figure, and do not read a stage 1 versus stage 2
+      comparison as like-for-like without filtering both to is_finance_sla_eligible.
+      Use the is_awaiting_ flags to keep in-flight vouchers out of the averages.
+    columns:
+      - name: voucher_id
+        description: Zoho record ID of the expense voucher. Primary key of this model, verified unique across 24115 rows.
+      - name: voucher_series
+        description: Human-readable voucher series code such as EB/26-27/10348, used by finance staff for reconciliation.
+      - name: voucher_no
+        description: Voucher number as recorded in Zoho. Frequently blank at source.
+      - name: zb_id
+        description: Zoho Books reference ID for the voucher.
+      - name: status
+        description: >
+          Workflow status as recorded in Zoho, for example "Pending at Finance" or
+          "Pending at L1 Approver". No row is dropped on status so that counts tie to the
+          source; status instead gates the stage 2 measure through is_finance_sla_eligible.
+      - name: is_finance_sla_eligible
+        description: >
+          True where the voucher has cleared verification, i.e. status is 'Bhumi Verified' or
+          the downstream 'Payment Made'. This is the gate for the stage 2 measure and the
+          end-to-end total, both of which are NULL when it is false. 'Payment Made' is included
+          because it is the state a voucher moves to AFTER verification; excluding it would
+          drop the vouchers that ran all the way through, which are also the fastest, and bias
+          the stage 2 average upwards by roughly 4%. Matched on the exact source literals, and
+          coalesced so a missing status reads as not eligible rather than unknown.
+      - name: payment_status
+        description: Payment status as recorded in Zoho, for example open or paid.
+      - name: pending_with
+        description: Role or person the voucher is currently sitting with. The natural drill-down for a breached SLA.
+      - name: project
+        description: Project or program the expense belongs to. Passed through from staging.
+      - name: entity
+        description: Bhumi legal entity the voucher sits under.
+      - name: event
+        description: Event the expense is attached to, where one applies.
+      - name: donor_name
+        description: Donor funding the expense.
+      - name: donor_project_name
+        description: Donor-facing project name for the expense.
+      - name: donor_budget_line_item
+        description: Donor-facing budget line item the expense is booked against.
+      - name: vendor_name
+        description: Vendor or payee on the invoice.
+      - name: type_field
+        description: Voucher type as recorded in Zoho, for example reimbursement or vendor bill.
+      - name: raised_for
+        description: Bhumi staff member the voucher was raised for, from the source Bhumi_Name_Name field.
+      - name: raised_by
+        description: User who created the voucher in Zoho, from the source Added_User field.
+      - name: total_amount
+        description: Total voucher amount. Useful for weighting or for slicing the SLA by expense size.
+      - name: amount_paid
+        description: Amount actually disbursed against the voucher.
+      - name: bill_invoice_date
+        description: Date on the vendor bill or invoice. Not an SLA boundary; the clock starts at added_time.
+      - name: added_time
+        description: Timestamp the voucher was created in Zoho. Start of stage 1.
+      - name: raised_date
+        description: added_time truncated to a date. The actual stage 1 start used by the working-day calculation, since received_by_finance carries no time component.
+      - name: raised_month
+        description: First day of the month the voucher was raised in, for month-over-month trend lines.
+      - name: raised_financial_year_start_year
+        description: Starting calendar year of the Indian financial year (April to March) the voucher was raised in, for chronological sorting of the period filter.
+      - name: raised_financial_year
+        description: Indian financial year label such as "FY 2025-26", derived from added_time. Derived here rather than taken from Zoho, which holds no financial year on this report.
+      - name: received_by_finance
+        description: >
+          Date the voucher reached the finance team. End of stage 1 and start of stage 2, and
+          therefore the single field both measures depend on. A DATE with no time component at
+          source, which is why both stages are measured in whole days.
+      - name: manager_approved_time
+        description: >
+          Reporting manager approval timestamp. Not used by either measure, which follow the
+          spec and pivot on received_by_finance; carried so stage 1 can be redefined against
+          literal RM approval without a source change.
+      - name: finance_associate_approved_time
+        description: Finance associate sign-off timestamp.
+      - name: finance_manager_approved_time
+        description: Finance manager sign-off timestamp.
+      - name: finance_approved_time
+        description: >
+          The later of the finance associate and finance manager sign-offs, ignoring NULLs, so
+          it is the last finance approval where both are required and whichever one happened
+          where only one is. End of stage 2. NULL until at least one finance approval exists.
+      - name: finance_payment_time
+        description: >
+          Timestamp the payment was released. Outside both measures, which stop at approval.
+          WARNING - this column is EMPTY on every row: Finance_Payment_Time is blank on all
+          24115 rows of the Zoho source, so this is an unpopulated source field rather than a
+          parsing gap. It is carried so a disbursement stage can be added without a model
+          change if Zoho starts filling it. Until then the "Payment Made" value of status is
+          the only indication that a voucher has been paid, and no payment SLA can be built.
+      - name: working_days_until_rm_approval
+        description: >
+          Stage 1 measure. Working days (Mon-Fri) elapsed from raised_date to
+          received_by_finance, measured on ALL vouchers whatever their status. NULL where
+          either endpoint is missing, which is the common case before FY 2025-26, and NULL
+          where the sequence is out of order. Average this over its own non-null rows only.
+      - name: working_days_until_finance_approval
+        description: >
+          Stage 2 measure. Working days (Mon-Fri) elapsed from received_by_finance to the date
+          of finance_approved_time, measured on VERIFIED vouchers ONLY, meaning status
+          'Bhumi Verified' or 'Payment Made'. NULL on every other status even where both
+          approval timestamps exist, and NULL where either
+          endpoint is missing or the sequence is out of order. Its population is therefore a
+          subset of stage 1's; average it over its own non-null rows only.
+      - name: working_days_total_approval
+        description: >
+          End-to-end working days from raised_date to final finance approval. Populated only
+          where the voucher is finance SLA eligible AND both stages are measurable, so it
+          inherits the stage 2 status gate. Use this for the total tile rather than adding the two
+          stage averages, which are computed over different row sets.
+      - name: final_finance_approver
+        description: >
+          Which finance role gave the sign-off that stopped the stage 2 clock, "Finance Manager"
+          or "Finance Associate". NULL until a finance approval exists. Lets the dashboard
+          separate associate-only vouchers from ones that also needed manager sign-off.
+          Descriptive of the raw timestamps and NOT gated on is_finance_sla_eligible, so it is
+          populated on vouchers whose stage 2 measure is deliberately NULL.
+      - name: is_awaiting_finance_receipt
+        description: >
+          True where received_by_finance is empty. Covers both genuinely in-flight vouchers and
+          the large historical backlog where Zoho never captured the field, so it is a filter
+          for the dashboard, not a clean pending count on its own.
+      - name: is_awaiting_finance_approval
+        description: True where no finance associate or finance manager sign-off exists yet.
+      - name: has_invalid_timeline
+        description: >
+          True where an endpoint is stamped before the stage it ends, giving a negative
+          duration. 27 rows at the last build. Those rows have their measures set to NULL
+          rather than averaged in, since an approval dated before the stage started is bad data
+          and not a fast approval; this flag is how to find and size them. False means no
+          out-of-order pair was observed, including where the dates are simply missing.
+          A data quality flag on the raw timestamps, so it is NOT gated on is_finance_sla_eligible
+          and will flag an out-of-order stage 2 on a voucher whose stage 2 measure is NULL.
+      - name: data_as_of
+        description: Date the model was built. Reflects the dbt run rather than the Zoho extraction time.

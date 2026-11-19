@@ -1025,6 +1025,7 @@ models:
       - name: total_volunteer_hours
         description: Total volunteer hours contributed at the event
 
+<<<<<<< Updated upstream
   - name: age_of_job_hr_int
     description: HR hiring tracker with hiring SLA by category (manager level 100 days, below manager level 80 days)
     columns:
@@ -1052,3 +1053,87 @@ models:
         description: Hiring SLA in days (100 for manager level, 80 for below manager level, NULL if category is missing)
       - name: sla_status
         description: Achieved when age_of_job is within sla_days, Missed when it is over, NULL if either is missing
+=======
+  - name: expense_transactions_int
+    description: >
+      Budget Line Item Master joined to the two Zoho bill forms (All Approved Bills,
+      Employee Bill Line Item Report), so budget details and bill details sit side by side
+      on one row.
+      The join is on six fields - financial year, entity name, donor name, project, donor
+      project name, donor budget line item. Financial year is derived from the bill date,
+      since only the master stores it. Expense category is NOT a join key: the master is
+      budget-grain and has no expense head at all.
+      FULL OUTER join, so nothing from either side is lost. All 3453 budget lines and all
+      47476 bills are present, as 32353 matched rows, 18552 bill-only rows (spend with no
+      budget line) and 1638 budget-only rows (budget with no spend yet). budget_* columns
+      are null on bill-only rows and the bill columns are null on budget-only rows, so
+      never assume either side is populated.
+      IMPORTANT - the master has no unique key on these six fields, so 2285 bills match
+      more than one budget line (up to 4) and fan out into 3429 extra rows. Summing
+      transaction_amount across the whole table therefore double counts those bills.
+    columns:
+      - name: financial_year
+        description: Indian financial year (April-March), one of the six join keys. Derived from transaction_date on bill rows and taken from the master on budget-only rows, rendered in the same text format on both sides.
+      - name: entity_name
+        description: Bhumi legal entity. One of the six join keys.
+      - name: donor_name
+        description: Donor. One of the six join keys. Comes from Zoho's Customer_Details lookup on the bill forms.
+      - name: project
+        description: Program name. One of the six join keys. Whitespace-normalised, case preserved so acronyms such as STEM and CSR are not mangled.
+      - name: donor_project_name
+        description: Donor-facing project name. One of the six join keys.
+      - name: donor_budget_line_item
+        description: Donor-facing budget line item. One of the six join keys. Null on unrestricted / non-donor expense, which can never match a budget line.
+      - name: budget_line_item_id
+        description: Zoho record ID of the matched budget line item, the master's only true primary key. Null on a bill-only row.
+      - name: budget_line_item_code
+        description: Human-readable budget line item code (Zoho Series).
+      - name: budget_master_id
+        description: ID of the parent budget master / grant the line item belongs to.
+      - name: budget_line_status
+        description: Active or Dormant. Dormant includes test records such as donor 'TESTING1'.
+      - name: budget_amount
+        description: Sanctioned budget for the line item. A budget-grain attribute repeated across every bill on that line - never sum it at bill grain.
+      - name: budget_total_paid
+        description: Cumulative-to-date paid figure on the budget line. Budget-grain attribute; never sum at bill grain.
+      - name: donation_type
+        description: Donation type on the budget line.
+      - name: donation_source
+        description: Donation source on the budget line.
+      - name: budget_location
+        description: Location on the budget line.
+      - name: mou_start_date
+        description: MOU start date on the budget line.
+      - name: mou_end_date
+        description: MOU end date on the budget line.
+      - name: source_table
+        description: Which Zoho bill form the row came from - all_approved_bills or employee_bill_line_item. Null on a budget-only row.
+      - name: transaction_id
+        description: Zoho record ID of the bill. Unique within source_table; the two forms share no IDs. Null on a budget-only row.
+      - name: transaction_no
+        description: Human-readable reference - voucher no on approved bills, parent bill no on employee bill lines.
+      - name: transaction_date
+        description: Bill or invoice date. Drives financial_year.
+      - name: transaction_amount
+        description: The bill line amount. This is the figure to sum for actual spend, subject to the fan-out caveat above.
+      - name: gross_amount
+        description: Gross amount with tax applied. Approved bills only; null for employee bill lines, which do not carry one.
+      - name: tax_amount
+        description: Tax amount. Approved bills only; null for employee bill lines, which do not carry one.
+      - name: expense_category
+        description: Expense head from the Zoho chart of accounts. Present only on the bill forms - the master has no equivalent, so it cannot be a join key.
+      - name: expense_location
+        description: Location the expense was incurred at.
+      - name: vendor_name
+        description: Vendor or merchant paid.
+      - name: bhumi_name
+        description: Bhumi staff member who raised or owns the bill.
+      - name: event
+        description: Event the expense was booked against, where applicable.
+      - name: source_status
+        description: Approval status on the bill as held in Zoho. Approved bills only.
+      - name: payment_status
+        description: Payment status. Approved bills only.
+      - name: description
+        description: Free-text line description on the bill.
+>>>>>>> Stashed changes

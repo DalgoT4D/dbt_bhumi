@@ -18,3 +18,6 @@ exclude_rules = L001,L029,RF05, LT05, ST06, RF02, ST10
 [sqlfluff:templater:jinja:macros]
 # Stub for custom dbt macro — lets jinja templater parse call sites without inlining the real macro
 validate_date = "{% macro validate_date(field_name) %}NULL::date{% endmacro %}"
+working_days_between = "{% macro working_days_between(start_date, end_date) %}0{% endmacro %}"
+financial_year_start_year = "{% macro financial_year_start_year(date_expr) %}NULL::integer{% endmacro %}"
+financial_year_label = "{% macro financial_year_label(start_year_expr, format) %}NULL::text{% endmacro %}"
