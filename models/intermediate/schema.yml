@@ -1024,8 +1024,7 @@ models:
         description: Number of volunteers who participated
       - name: total_volunteer_hours
         description: Total volunteer hours contributed at the event
-
-<<<<<<< Updated upstream
+#HR models
   - name: age_of_job_hr_int
     description: HR hiring tracker with hiring SLA by category (manager level 100 days, below manager level 80 days)
     columns:
@@ -1053,7 +1052,7 @@ models:
         description: Hiring SLA in days (100 for manager level, 80 for below manager level, NULL if category is missing)
       - name: sla_status
         description: Achieved when age_of_job is within sla_days, Missed when it is over, NULL if either is missing
-=======
+  #Finance int models
   - name: expense_transactions_int
     description: >
       Budget Line Item Master joined to the two Zoho bill forms (All Approved Bills,
@@ -1136,4 +1135,3 @@ models:
         description: Payment status. Approved bills only.
       - name: description
         description: Free-text line description on the bill.
->>>>>>> Stashed changes

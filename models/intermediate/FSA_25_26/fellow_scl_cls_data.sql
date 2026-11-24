@@ -37,7 +37,6 @@ select distinct
 
     s.school_id,
     s.school_name,
-<<<<<<< Updated upstream
     s.school_state,
     s.city,
     case
@@ -47,16 +46,6 @@ select distinct
         when s.city ilike '%trichy%' then 'Tiruchirappalli'
         when s.city ilike '%tiruchi%' then 'Tiruchirappalli'
     end as district,
-=======
-    case 
-        when s.school_state is null and s.city in ('Chennai','Coimbatore', 'Trichy') then 'Tamil Nadu'
-        else s.school_state
-    end as school_state,
-    case
-        when s.city = 'Trichy' then 'Tiruchirappalli'
-        else s.city
-    end as city,
->>>>>>> Stashed changes
     -- s.is_active,
     -- s.udise_code,
     s.school_type,
